@@ -6,55 +6,111 @@ It's easy enough to browse titles in the Science and Technology category, but wh
 
 This Book Club app seeks to solve this problem by allowing users to create communities around their favourite topic, pull in books to a shared collection, and append their own specific metadata and categorization heirarchy. They can then share this with others and provide common spaces for niche communities to geek out about their favourite topics.
 
+## Defintions
+
+1. Community
+  * A group of people who jointly curate a collection of books
+2. Collection
+  * A curated list of books with community-appended meta-data
+
+## Roles
+
+1. Community Owner
+2. Comunity Moderator
+3. Community Member
+4. Authenticated Non-members / Unauthenticated Users
+
 ## Product Roadmap for Planning Purposes
 
-### MVP
+# MVP
 
-* As a community owner, I want to be able to add books to my community's collection by searching a public database of all books like Google or Amazon
-* As a community owner, I want to tag books in my collection based on custom tag choices
+* fake list of communities
+* database of books
+  * Amazon metadata
+    * Title
+    * Author
+    * Description
+    * Year Published
+    * Fiction/Non-Fiction
+    * Image URL
+  * Custom Metadata
+    * tags
+    * automatic logic to bundle tags
+* Search collection
+  * Search by string against title, author, description, tag
+  * Search by tag
+  * View all books
+* Single Book View
+  * Amazon Data
+  * Community Data
+* Community Owner Privileges
+* Community Moderator Privileges
+  * Remove a book
+* Community Member Privileges
+  * Add a book
 
-* As an unauthenticated user, I want to search a collection by title, author, description
-* As an unauthenticated user, I want to be able to filter or search a collection using the community's custom tags
-* Searching should be a live search that weights results by relevance across different fields
-* As an unauthenticated user, I want to be able to browse search results on a page
-* As an unauthenticated user, I want to be able to load full details of a title
+# Features
 
-### Release 2
+## User-specific Data
 
-* As an basic authenticated user, I want to be able to mark books as read
-* As an basic authenticated user, I want to be able to star favourites
-* As an basic authenticated user, I want to be able to mark books as "want to read"
-* As an basic authenticated user, I want to be able to view my "want to read list"
+* User Profile
+  * Shows "have read list"
+  * Shows reviews
+  * Shows favs
+* User Wish List 
+  * Which books I want to read
+* add user specific metadata to each book
+  * User rating
+  * User review
+  * Have read or not
+  * Favorites
+* Search by 
+  * all this new data in algorithm
 
-* As a community owner, I want to be able to define categorization heirarchies between tags
+## Manual Schemas
 
-### Release 3
+* Community Dashboard
+  * Accessible to Onwers/Moderators
+  * Manually merge tags
+  * View tag cloud
+  * view most read, highest rated
 
-* As an basic authenticated user, I want to be able to add my Patreon account and elevate to a Patreon authenticated user
+## Recommendations
 
-* As a Patreon authenticated user, I want to be able to add books to a community collection
-* As a Patreon authenticated user, I want to tag books in a collection based on custom tag choices
-* As a Patreon authenticated user, I want to rate books on a scale of 1-5
-* As a Patreon authenticated user, I want to write reviews of books
+* Serve users recommendations on page load
+  * Most read
+  * Highest Rated 
+  * Random book
+  * Community Favourite
+  * Newly Added
+* Community Owners/Moderators
+  * Select Book of the Month
+  * Serve this as a recommend
 
-### Release 4
+## Affiliate Links
 
-* As an unauthenticated user, I want to be able to see a random book recommended on the front page with each page load
+* Book View has affiliate links to allow owners to generate income
 
-* As a community owner, I want to be able to select a "book of the month" recommended on the front page
+## Mailing List
 
-* As a Patreon authenticated user, I want to link my Discord account and have it visible in my profile
+* Get a newsletter from the owner/moderator
+* Book of the Month, other recommends
 
-### Release 5
+## Social Sharing
 
-* As a community owner, I want each book to have an affiliate link to Amazon for users to purchase books
-* As a community owner, I want to link to any possible free epubs or pdfs for books that do not require purchase
+* Social Link Previews for Cards
 
-### Release 6
+## Book Club
 
-* As an authenticated user, I want to be able to have a public profile with name, location, profile pic, and other stats
-* As an authenticated user, I want to be able to customize email preferences to receive newsletters or not
-
-* As a community owner, I want to be able to produce email newsletters that go to my community members based on their email preferences
-
-
+* MVP
+  * community picks a book and a read-by date
+  * members can join the event
+  * reminder emails 
+  * at end, invite user to review
+  * reviews go to main book view
+  * book club instance preserves that instance reviews
+  * book club instance appears on user profiles
+* Stretch
+  * Reply to reviews for discussion
+* Stretch 2
+  * Segmented milestones
