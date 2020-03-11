@@ -5,10 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:reset": "node bin/resetdb.js"
   },
   "dependencies": {
+    "chalk": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
     "next": "9.3.0",
+    "pg-native": "^3.0.0",
     "react": "16.13.0",
     "react-dom": "16.13.0"
   }
