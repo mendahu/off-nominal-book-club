@@ -21,7 +21,6 @@
 * As a member, I want to be able to add a book to the community collection so I can make the collection better
 * As a member, I want to be able to tag books in the collection so the community can better search for data
 
-* As a community owner, I want to be able to restrict my collection to fiction or non-fiction books if I choose to curate what kind of collection it is
 * As a community owner, I want to be able to remove a book from my collection if it was added in error
 
 ## User-specific Data
