@@ -9,6 +9,7 @@
     "db:reset": "node bin/resetdb.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.5",
     "chalk": "^3.0.0",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
