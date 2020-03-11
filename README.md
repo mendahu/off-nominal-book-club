@@ -11,10 +11,7 @@ This Book Club app seeks to solve this problem by allowing users to create commu
 
 ## Team Members
 
-Book People is a final project for Lighthouse Labs Web Development Bootcamp. It is created jointly byJake Robins ([@mendahu](https://github.com/mendahu)) and Matthew Chan ([@matthew-charles-chan](https://github.com/matthew-charles-chan)).
-
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+Book People is a final project for Lighthouse Labs Web Development Bootcamp. It is created jointly by Jake Robins ([@mendahu](https://github.com/mendahu)) and Matthew Chan ([@matthew-charles-chan](https://github.com/matthew-charles-chan)).
 
 ## Dependencies
 * dotenv

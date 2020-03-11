@@ -4,6 +4,8 @@
 
 * As a user, I want to view available communities so I can join one
 
+* As a user, I want a favicon to show so I know where I am 
+
 * As a user, I want to be able to register for an account with an email address
 * As a user, I want to be able to log in to my account
 * As a user, I want to be able to log out of my account
