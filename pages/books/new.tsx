@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import BookNew from "../../src/components/BookNew";
-import SearchBar from "../../src/components/SearchBar";
+import NewBook from "../../src/components/NewBook";
 
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
@@ -36,9 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const AddBook = props => {
   return (
     <main>
-      <div>
-        <SearchBar />
-      </div>
+      <NewBook />
     </main>
   );
 };
