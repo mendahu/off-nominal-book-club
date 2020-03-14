@@ -1,5 +1,4 @@
-// require("dotenv").config();
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -38,14 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SearchGoogle(props) {
   const classes = useStyles();
-
-  //
-  // const [searchResults, setSearchResults] = useState({ items: [] });
-
-  // const [searchTerm, setSearchTerm] = useState("");
-
-  const [bookObj, setBookObj] = useState({});
-  const [authorObj, setAuthorObj] = useState({});
 
   let API_URL = `https://www.googleapis.com/books/v1/volumes`;
 
