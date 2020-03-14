@@ -2,7 +2,11 @@ const knex = require('../knex');
 
 module.exports = {
   books : {
-    add: function(bookObj, authorObj) {
+    exists: function(bookObj) {
+      return knex('books')
+        .where({title: 'Life, the Universe, and Everything'})
+    },
+    add: function(bookObj) {
 
       const bookId = knex
         .insert(bookObj)
