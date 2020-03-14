@@ -20,6 +20,7 @@ exports.seed = function(knex) {
           title: book.volumeInfo.title,
           fiction: false,
           image_url: bookInfo.imageLinks.thumbnail,
+          google_id: book.id
         }
 
         bookISBN = bookInfo.industryIdentifiers
