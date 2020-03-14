@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SearchGoogle() {
   const classes = useStyles();
 
-  const [books, setBooks] = useState({ items: [] });
+  //
+  const [searchResults, setSearchResults] = useState({ items: [] });
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -53,21 +54,25 @@ export default function SearchGoogle() {
 
   let API_URL = `https://www.googleapis.com/books/v1/volumes`;
 
-  const fetchBooks = async () => {
+  const getSearchResults = async () => {
     if (searchTerm.length % 3 === 0) {
       const searchResult = await axios.get(
         `${API_URL}?q=${searchTerm}&maxResults=3`
       );
-      setBooks(searchResult.data);
+      setSearchResults(searchResult.data);
     }
   };
 
   const onInputChange = event => {
     setSearchTerm(event.target.value);
-    fetchBooks();
+    getSearchResults();
   };
 
-  const onSubmitHandler = event => {};
+  const onSubmitHandler = event => {
+    return axios
+      .post(`localhost:3000/books/new`, { bookObj, authorObj })
+      .then(res => console.log(res));
+  };
 
   return (
     <section className={classes.root}>
@@ -85,7 +90,7 @@ export default function SearchGoogle() {
           <SearchIcon />
         </IconButton>
       </Paper>
-      {books.items.map((book, index) => {
+      {searchResults.items.map((book, index) => {
         return (
           <article key={index}>
             <Paper className={classes.paper}>
@@ -94,6 +99,7 @@ export default function SearchGoogle() {
                   <ButtonBase
                     className={classes.image}
                     onClick={event => {
+                      setSearchTerm(book.volumeInfo.title);
                       setBookObj({
                         user_id: 10,
                         title: book.volumeInfo.title,
@@ -131,7 +137,18 @@ export default function SearchGoogle() {
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Button variant='contained' color='primary' type='submit'>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        type='submit'
+                        onSubmit={event => {
+                          return axios
+                            .post(`localhost:3000/books/new`, {
+                              bookObj,
+                              authorObj
+                            })
+                            .then(res => console.log(res));
+                        }}>
                         <Typography variant='body2'>Add Book</Typography>
                       </Button>
                     </Grid>
