@@ -25,7 +25,7 @@ exports.seed = function(knex) {
       results[0].forEach((book) => {
 
         //generate a random author ID
-        authorId = Math.round(Math.random() * authorCount -1) + authorCount;
+        authorId = Math.floor(Math.random() * results[1].length) + results[1][0].id;
 
         //push a new relationship object into the container
         relationships.push({

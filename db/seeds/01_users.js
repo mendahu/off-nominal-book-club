@@ -1,8 +1,10 @@
 
 exports.seed = function(knex) {
+  
   // Deletes ALL existing entries
   return knex('users').del()
     .then(function () {
+
       // Inserts seed entries
       return knex('users').insert([
         {name: 'Matthew', email: 'm.zj.chan@gmail.com', password: "Matthew", avatar_url: "https://gravatar.com/avatar/360be8daf96cd072088f5a68ca623980?s=400&d=robohash&r=x", bio: "a very nice boi", is_mod: true, is_owner: false, gets_mail: true},
