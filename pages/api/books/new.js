@@ -1,26 +1,24 @@
 const queries = require('../../../db/queries/books')
 
-const handler = (req, res) => {
+export default (req, res) => {
   const bookObj = {
     user_id: 10,
-    title: "Life, the Universe, and Everything",
+    google_id: "d8Wl-dgSgK8C",
+    isbn13: "1234567891234",
+    title: "spACE",
     description: "A book about life, the universe, and everything",
     fiction: true,
     year: "1982",
-    image_url: "https://i.ebayimg.com/images/g/48IAAOSwXcRZb5Sr/s-l300.jpg"
-  }
-
-  const authorObj = {
+    image_url: "https://i.ebayimg.com/images/g/48IAAOSwXcRZb5Sr/s-l300.jpg",
     name: "Douglas Adams"
   }
 
   queries
     .books
-    .add(bookObj, authorObj)
-    .then(() => {
-      res.send(200)
-      console.log("Book successfully added")
+    .confirm(bookObj)
+    .then((results) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify(results))
     })
 };
-
-export default handler 

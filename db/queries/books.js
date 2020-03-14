@@ -2,19 +2,25 @@ const knex = require('../knex');
 
 module.exports = {
   books : {
-    exists: function(bookObj) {
-      return knex('books')
-        .where({title: 'Life, the Universe, and Everything'})
+
+    confirm: function(bookObj) {
+      const lowerTitle = bookObj.title.toLowerCase();
+
+      return knex.select().from('books')
+        .where("isbn13", bookObj.isbn13)
+        .orWhere("google_id", bookObj.google_id)
+        .orWhere(knex.raw('LOWER("title") LIKE ?', `%${lowerTitle}%`))
     },
+
     add: function(bookObj) {
 
       const bookId = knex
-        .insert(bookObj)
+        .insert(bookObj.book)
         .returning('id')
         .into('books');
 
       const authorId = knex
-        .insert(authorObj)
+        .insert(bookObj.author)
         .returning('id')
         .into('authors');
 
