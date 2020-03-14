@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.45",
+    "axios": "^0.19.2",
     "chalk": "^3.0.0",
+    "contentful": "^7.14.0",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
     "knex": "^0.20.11",
@@ -19,5 +23,9 @@
     "pg-native": "^3.0.0",
     "react": "16.13.0",
     "react-dom": "16.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.1",
+    "typescript": "^3.8.3"
   }
 }
