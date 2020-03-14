@@ -1,7 +1,6 @@
 import React from "react";
 import BookNew from "../../src/components/BookNew";
 import SearchGoogle from "../../src/components/SearchGoogle";
-import TestSearchGoogle from "../../src/components/TestSearchGoogle";
 
 const AddBook = props => {
   return (
@@ -111,3 +110,37 @@ export default AddBook;
 // //     );
 // //   })}
 // // </ul>
+
+//     id='asynchronous-demo'
+//     style={{ width: 300 }}
+//     open={open}
+//     onOpen={() => {
+//       setOpen(true);
+//     }}
+//     onClose={() => {
+//       setOpen(false);
+//     }}
+//     getOptionSelected={(option, value) => option.title === value.title}
+//     getOptionLabel={option => option.title}
+//     options={options}
+//     loading={loading}
+//     renderInput={params => (
+//       <TextField
+//         {...params}
+//         label='Search Async'
+//         variant='outlined'
+//         InputProps={{
+//           ...params.InputProps,
+//           endAdornment: (
+//             <React.Fragment>
+//               {loading ? (
+//                 <CircularProgress color='inherit' size={20} />
+//               ) : null}
+//               {params.InputProps.endAdornment}
+//             </React.Fragment>
+//           )
+//         }}
+//       />
+//     )}
+//   />
+// </div></div>

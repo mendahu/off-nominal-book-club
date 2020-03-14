@@ -19,6 +19,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/SearchGoogle.jsx"
+    "src/components/SearchGoogle.tsx",
+    "pages/books/new.jsx"
   ]
 }

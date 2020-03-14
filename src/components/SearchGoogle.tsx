@@ -2,11 +2,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SelectInput from "@material-ui/core/Select/SelectInput";
@@ -14,6 +9,12 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface BookType {
   title: string;
+}
+
+function sleep(delay = 0) {
+  return new Promise(resolve => {
+    setTimeout(resolve, delay);
+  });
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,14 +41,15 @@ export default function SearchGoogle() {
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<BookType[]>([]);
+  const [books, setBooks] = useState({ items: [] });
   const loading = open && options.length === 0;
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [books, setBooks] = useState({ items: [] });
   // const [apiKey, set] = useState(process.env.API_KEY);
   let API_URL = `https://www.googleapis.com/books/v1/volumes`;
 
   useEffect(() => {
+    console.log("in not loading");
     let active = true;
 
     if (!loading) {
@@ -55,43 +57,92 @@ export default function SearchGoogle() {
     }
 
     (async () => {
+      console.log(searchTerm.length);
+      console.log(searchTerm);
       const response = await axios.get(
-        `${API_URL}?q=${searchTerm}&maxResults=40`
+        `${API_URL}?q=${searchTerm}&maxResults=3`
       );
-
+      const booklist = response.data;
       if (active) {
-        setOptions(response.data.items.map(book => book.volumeInfo.title));
+        console.log(booklist.items.map(book => book.volumeInfo));
+        setOptions(booklist.items.map(book => book.volumeInfo) as BookType[]);
+        console.log(options);
       }
     })();
 
     return () => {
       active = false;
     };
-  }, [loading]);
+  }, [loading && searchTerm.length > 3]);
 
-  const fetchBooks = async () => {
-    const searchResult = await axios.get(
-      `${API_URL}?q=${searchTerm}&maxResults=10`
-    );
-    setBooks(searchResult.data);
-  };
+  // useEffect(() => {
+  //   console.log("in not Open use");
+  //   if (!open) {
+  //     setOptions([]);
+  //   }
+  // }, [open]);
+
+  // const fetchBooks = async () => {
+  //   if (searchTerm.length % 3 === 0) {
+  //     const searchResult = await axios.get(
+  //       `${API_URL}?q=${searchTerm}&maxResults=3`
+  //     );
+  //     setBooks(searchResult.data);
+  //   }
+  // };
 
   const onInputChange = event => {
-    console.log(options);
     setSearchTerm(event.target.value);
-    fetchBooks();
+    // fetchBooks();
   };
 
-  const onSubmitHandler = event => {
-    event.preventDefault();
-    fetchBooks();
-  };
   return (
     <section>
-      <div>
+      <Autocomplete
+        id='asynchronous-demo'
+        style={{ width: 300 }}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        options={options}
+        getOptionSelected={(option, value) => option.title === value.title}
+        getOptionLabel={option => option.title}
+        loading={loading}
+        renderInput={params => (
+          <TextField
+            onChange={onInputChange}
+            {...params}
+            label='Asynchronous'
+            variant='outlined'
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <React.Fragment>
+                  {loading ? (
+                    <CircularProgress color='inherit' size={20} />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </React.Fragment>
+              )
+            }}
+          />
+        )}
+      />
+      <br />
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <div style={{ width: 900 }}>
         <Autocomplete
-          id='asynchronous-demo'
-          style={{ width: 300 }}
           open={open}
           onOpen={() => {
             setOpen(true);
@@ -99,15 +150,13 @@ export default function SearchGoogle() {
           onClose={() => {
             setOpen(false);
           }}
-          getOptionSelected={(option, value) => option.title === value.title}
-          getOptionLabel={option => option.title}
-          options={options}
-          loading={loading}
+          options={books.items.map(option => option.volumeInfo.title)}
           renderInput={params => (
             <TextField
-              {...params}
               onChange={onInputChange}
-              label='Search Async'
+              {...params}
+              label='search'
+              margin='normal'
               variant='outlined'
               InputProps={{
                 ...params.InputProps,
@@ -120,21 +169,6 @@ export default function SearchGoogle() {
                   </React.Fragment>
                 )
               }}
-            />
-          )}
-        />
-      </div>
-      <div style={{ width: 900 }}>
-        <Autocomplete
-          freeSolo
-          options={books.items.map(book => book.volumeInfo.title)}
-          renderInput={params => (
-            <TextField
-              onChange={onInputChange}
-              {...params}
-              label='search'
-              margin='normal'
-              variant='outlined'
             />
           )}
         />
