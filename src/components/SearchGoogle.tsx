@@ -2,20 +2,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import SelectInput from "@material-ui/core/Select/SelectInput";
-import CircularProgress from "@material-ui/core/CircularProgress";
-
-interface BookType {
-  title: string;
-}
-
-function sleep(delay = 0) {
-  return new Promise(resolve => {
-    setTimeout(resolve, delay);
-  });
-}
+import Paper from "@material-ui/core/Paper";
+import InputBase from "@material-ui/core/InputBase";
+import IconButton from "@material-ui/core/IconButton";
+import SearchIcon from "@material-ui/icons/Search";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +27,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconButton: {
       padding: 10
+    },
+    image: {
+      width: 128,
+      height: 128
+    },
+    img: {
+      margin: "auto",
+      display: "block",
+      maxWidth: "100%",
+      maxHeight: "100%"
     }
   })
 );
@@ -39,176 +44,190 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SearchGoogle() {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState<BookType[]>([]);
   const [books, setBooks] = useState({ items: [] });
-  const loading = open && options.length === 0;
 
   const [searchTerm, setSearchTerm] = useState("");
-  // const [apiKey, set] = useState(process.env.API_KEY);
+
+  const [bookObj, setBookObj] = useState({});
+  const [authorObj, setAuthorObj] = useState({});
+
   let API_URL = `https://www.googleapis.com/books/v1/volumes`;
 
-  useEffect(() => {
-    console.log("in not loading");
-    let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    (async () => {
-      console.log(searchTerm.length);
-      console.log(searchTerm);
-      const response = await axios.get(
+  const fetchBooks = async () => {
+    if (searchTerm.length % 3 === 0) {
+      const searchResult = await axios.get(
         `${API_URL}?q=${searchTerm}&maxResults=3`
       );
-      const booklist = response.data;
-      if (active) {
-        console.log(booklist.items.map(book => book.volumeInfo));
-        setOptions(booklist.items.map(book => book.volumeInfo) as BookType[]);
-        console.log(options);
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading && searchTerm.length > 3]);
-
-  // useEffect(() => {
-  //   console.log("in not Open use");
-  //   if (!open) {
-  //     setOptions([]);
-  //   }
-  // }, [open]);
-
-  // const fetchBooks = async () => {
-  //   if (searchTerm.length % 3 === 0) {
-  //     const searchResult = await axios.get(
-  //       `${API_URL}?q=${searchTerm}&maxResults=3`
-  //     );
-  //     setBooks(searchResult.data);
-  //   }
-  // };
+      setBooks(searchResult.data);
+    }
+  };
 
   const onInputChange = event => {
     setSearchTerm(event.target.value);
-    // fetchBooks();
+    fetchBooks();
   };
 
+  const onSubmitHandler = event => {};
+
   return (
-    <section>
-      <Autocomplete
-        id='asynchronous-demo'
-        style={{ width: 300 }}
-        open={open}
-        onOpen={() => {
-          setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false);
-        }}
-        options={options}
-        getOptionSelected={(option, value) => option.title === value.title}
-        getOptionLabel={option => option.title}
-        loading={loading}
-        renderInput={params => (
-          <TextField
-            onChange={onInputChange}
-            {...params}
-            label='Asynchronous'
-            variant='outlined'
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {loading ? (
-                    <CircularProgress color='inherit' size={20} />
-                  ) : null}
-                  {params.InputProps.endAdornment}
-                </React.Fragment>
-              )
-            }}
-          />
-        )}
-      />
-      <br />
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <div style={{ width: 900 }}>
-        <Autocomplete
-          open={open}
-          onOpen={() => {
-            setOpen(true);
-          }}
-          onClose={() => {
-            setOpen(false);
-          }}
-          options={books.items.map(option => option.volumeInfo.title)}
-          renderInput={params => (
-            <TextField
-              onChange={onInputChange}
-              {...params}
-              label='search'
-              margin='normal'
-              variant='outlined'
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <React.Fragment>
-                    {loading ? (
-                      <CircularProgress color='inherit' size={20} />
-                    ) : null}
-                    {params.InputProps.endAdornment}
-                  </React.Fragment>
-                )
-              }}
-            />
-          )}
+    <section className={classes.root}>
+      <Paper component='form' className={classes.paper}>
+        <InputBase
+          className={classes.input}
+          placeholder='Search Google Books'
+          value={searchTerm}
+          onChange={onInputChange}
         />
-      </div>
+        <IconButton
+          type='submit'
+          className={classes.iconButton}
+          aria-label='search'>
+          <SearchIcon />
+        </IconButton>
+      </Paper>
+      {books.items.map((book, index) => {
+        return (
+          <article key={index}>
+            <Paper className={classes.paper}>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <ButtonBase
+                    className={classes.image}
+                    onClick={event => {
+                      setBookObj({
+                        user_id: 10,
+                        title: book.volumeInfo.title,
+                        description: book.volumeInfo.description,
+                        fiction: true,
+                        yeart: "2011",
+                        image_url: book.volumeInfo.imageLinks.thumbnail
+                      });
+
+                      setAuthorObj({
+                        name: book.volumeInfo.authors[0]
+                      });
+                      console.log(bookObj, authorObj);
+                    }}>
+                    <img
+                      className={classes.img}
+                      alt='complex'
+                      src={book.volumeInfo.imageLinks.thumbnail}
+                    />
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction='column' spacing={2}>
+                    <Grid>
+                      <Grid item xs={6}>
+                        <Typography gutterBottom variant='subtitle1'>
+                          {book.volumeInfo.title}
+                        </Typography>
+                      </Grid>
+                      <Typography variant='subtitle1' color='textSecondary'>
+                        {book.volumeInfo.authors}
+                      </Typography>
+                      <Typography variant='body2' gutterBottom>
+                        {book.volumeInfo.description.split(".")[0]}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Button variant='contained' color='primary' type='submit'>
+                        <Typography variant='body2'>Add Book</Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='subtitle1' color='textSecondary'>
+                      {book.volumeInfo.publishedDate}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+          </article>
+        );
+      })}
     </section>
   );
 }
-// <Paper
-//   component='form'
-//   className={classes.paper}
-//   onSubmit={onSubmitHandler}>
-//   <InputBase
-//     className={classes.input}
-//     placeholder='Search Google Books'
-//     value={searchTerm}
-//     onChange={onInputChange}
-//   />
-//   <IconButton
-//     type='submit'
-//     className={classes.iconButton}
-//     aria-label='search'>
-//     <SearchIcon />
-//   </IconButton>
-// </Paper>
-// <ul>
-//   {books.items.map((book, index) => {
-//     return (
-//       <li key={index}>
-//         <div>
-//           <img
-//             alt={`${book.volumeInfo.title} book`}
-//             src={`http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&source=gbs_api`}
+
+// return (
+//   <section>
+//     <Autocomplete
+//       id='asynchronous-demo'
+//       style={{ width: 300 }}
+//       open={open}
+//       onOpen={() => {
+//         setOpen(true);
+//       }}
+//       onClose={() => {
+//         setOpen(false);
+//       }}
+//       options={options}
+//       getOptionSelected={(option, value) => option.title === value.title}
+//       getOptionLabel={option => option.title}
+//       loading={loading}
+//       renderInput={params => (
+//         <TextField
+//           onChange={onInputChange}
+//           {...params}
+//           label='Asynchronous'
+//           variant='outlined'
+//           InputProps={{
+//             ...params.InputProps,
+//             endAdornment: (
+//               <React.Fragment>
+//                 {loading ? (
+//                   <CircularProgress color='inherit' size={20} />
+//                 ) : null}
+//                 {params.InputProps.endAdornment}
+//               </React.Fragment>
+//             )
+//           }}
+//         />
+//       )}
+//     />
+//     <br />
+
+//     <br />
+//     <br />
+//     <br />
+//     <br />
+//     <br />
+//     <br />
+
+//     <div style={{ width: 900 }}>
+//       <Autocomplete
+//         open={open}
+//         onOpen={() => {
+//           setOpen(true);
+//         }}
+//         onClose={() => {
+//           setOpen(false);
+//         }}
+//         options={books.items.map(option => option.volumeInfo.title)}
+//         renderInput={params => (
+//           <TextField
+//             onChange={onInputChange}
+//             {...params}
+//             label='search'
+//             margin='normal'
+//             variant='outlined'
+//             InputProps={{
+//               ...params.InputProps,
+//               endAdornment: (
+//                 <React.Fragment>
+//                   {loading ? (
+//                     <CircularProgress color='inherit' size={20} />
+//                   ) : null}
+//                   {params.InputProps.endAdornment}
+//                 </React.Fragment>
+//               )
+//             }}
 //           />
-//           <div>
-//             <h3>{book.volumeInfo.title}</h3>
-//             <p>{book.volumeInfo.authors}</p>
-//           </div>
-//         </div>
-//         <hr />
-//       </li>
-//     );
-//   })}
-// </ul>
+//         )}
+//       />
+//     </div>
+//   </section>
+//   );
+// }
