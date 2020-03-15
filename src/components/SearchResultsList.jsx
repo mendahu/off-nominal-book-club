@@ -11,6 +11,7 @@ export default function SearchResultsList(props) {
           book={book}
           setTerm={props.setTerm}
           selectBook={props.selectBook}
+          buttonText={props.buttonText}
         />
       ))}
     </section>

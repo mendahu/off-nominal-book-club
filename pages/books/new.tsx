@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import SearchBar from "../../src/components/SearchBar";
 import SearchResultsList from "../../src/components/SearchResultsList";
+import ConfirmResults from "../../src/components/ConfirmResults";
 import axios from "axios";
 
 export default function New() {
@@ -31,8 +32,6 @@ export default function New() {
     }
   });
 
-  let noResults = false;
-
   function handleSearchTerm(value) {
     setSearchTerm(value);
   }
@@ -46,14 +45,11 @@ export default function New() {
     const dbResults = await axios.get(
       `/api/books/new?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
     );
-    console.log(dbResults.data.length);
     if (dbResults.data.length > 0) {
-      console.log(mode);
       setSearchResults(dbResults.data);
     } else {
-      noResults = true;
-      console.log("no result");
       console.log(bookObj);
+      axios.post(`/api/books/new`, bookObj).then(res => console.log(res));
     }
   };
 
@@ -77,17 +73,17 @@ export default function New() {
           setTerm={handleSearchTerm}
           selectBook={selectBook}
           onSubmitHandler={onSubmitHandler}
+          buttonText={"Add Book"}
         />
       )}
-      {/* {mode === CONFIRM && (
-
-      )} */}
+      {mode === CONFIRM && <ConfirmResults />}
       {mode === CONFIRM && (
         <SearchResultsList
           results={searchResults}
           setTerm={handleSearchTerm}
           selectBook={selectBook}
           onSubmitHandler={onSubmitHandler}
+          buttonText={"Go to Book"}
         />
       )}
     </section>

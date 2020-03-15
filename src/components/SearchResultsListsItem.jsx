@@ -110,7 +110,7 @@ export default function SearchResultsListItem(props) {
                     });
                     props.onSubmit;
                   }}>
-                  <Typography variant='body2'>Add Book</Typography>
+                  <Typography variant='body2'>{props.buttonText}</Typography>
                 </Button>
               </Grid>
             </Grid>
