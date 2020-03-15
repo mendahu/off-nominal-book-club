@@ -13,11 +13,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       padding: theme.spacing(2),
-      margin: "auto"
+      margin: "auto",
+      maxWidth: "auto"
     },
     input: {
       marginLeft: theme.spacing(1),
-      flex: 1
+      flex: 1,
+      width: 900
     },
     iconButton: {
       padding: 10
@@ -45,7 +47,25 @@ export default function SearchGoogle(props) {
       const searchResult = await axios.get(
         `${API_URL}?q=${props.searchTerm}&maxResults=10`
       );
-      props.setResults(searchResult.data);
+      const formatedResults = searchResult.data.items.map(book => ({
+        title: book.volumeInfo.title,
+        author: book.volumeInfo.authors,
+        fiction: false,
+        year: book.volumeInfo.publishedDate
+          ? book.volumeInfo.publishedDate.split("-")[0]
+          : "",
+        description: book.volumeInfo.description
+          ? book.volumeInfo.description
+          : "",
+        image_url: book.volumeInfo.imageLinks
+          ? book.volumeInfo.imageLinks.thumbnail
+          : "",
+        google_id: book.id,
+        isbn13: book.volumeInfo.industryIdentifiers
+          ? book.volumeInfo.industryIdentifiers[0].identifier
+          : ""
+      }));
+      props.setResults(formatedResults);
     }
   };
 

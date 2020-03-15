@@ -5,10 +5,8 @@ import SearchResultsListItem from "./SearchResultsListsItem";
 export default function SearchResultsList(props) {
   return (
     <section>
-      {console.log(props.results)}
-      {props.results.items.map((book, index) => (
+      {props.results.map(book => (
         <SearchResultsListItem
-          key={index}
           onSubmit={props.onSubmitHandler}
           book={book}
           setTerm={props.setTerm}

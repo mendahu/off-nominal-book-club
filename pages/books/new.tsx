@@ -6,7 +6,7 @@ import SearchResultsList from "../../src/components/SearchResultsList";
 import axios from "axios";
 
 export default function New() {
-  const [searchResults, setSearchResults] = useState({ items: [] });
+  const [searchResults, setSearchResults] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -29,7 +29,6 @@ export default function New() {
   }
 
   function onSubmitHandler(event) {
-    console.log("here");
     return axios
       .post(`localhost:3000/books/new`, { bookObj })
       .then(res => console.log(res));

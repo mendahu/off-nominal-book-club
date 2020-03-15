@@ -38,36 +38,36 @@ const useStyles = makeStyles(theme =>
 export default function SearchResultsListItem(props) {
   const classes = useStyles();
 
-  const hasDescription = props.book.volumeInfo.description ? true : false;
-  const hasImage = props.book.volumeInfo.imageLinks ? true : false;
-  const hasPublishedDate = props.book.volumeInfo.publishedDate ? true : false;
+  // const hasDescription = props.book.volumeInfo.description ? true : false;
+  // const hasImage = props.book.volumeInfo.imageLinks ? true : false;
+  // const hasPublishedDate = props.book.volumeInfo.publishedDate ? true : false;
 
   return (
-    <form key={props.key} onSubmit={props.onSubmit}>
+    <form key={props.book.google_id} onSubmit={props.onSubmit}>
       <Paper className={classes.paper}>
         <Grid container spacing={2}>
           <Grid item>
             <ButtonBase
               className={classes.image}
               onClick={event => {
-                props.setTerm(props.book.volumeInfo.title);
+                props.setTerm(props.book.title);
                 props.selectBook({
                   user_id: 10,
                   title: props.book.volumeInfo.title,
                   description: props.book.volumeInfo.description,
                   fiction: true,
-                  year: props.book.volumeInfo.publishedDate.split("-")[0],
-                  image_url: props.book.volumeInfo.imageLinks.thumbnail
+                  year: props.book.year,
+                  image_url: props.book.image_url
                 });
 
                 props.selectAuthor({
-                  name: props.book.volumeInfo.authors[0]
+                  name: props.book.authors[0]
                 });
               }}>
               <img
                 className={classes.img}
-                alt={props.book.volumeInfo.title}
-                src={hasImage ? props.book.volumeInfo.imageLinks.thumbnail : ""}
+                alt={props.book.title}
+                src={props.book.image_url}
               />
             </ButtonBase>
           </Grid>
@@ -76,17 +76,14 @@ export default function SearchResultsListItem(props) {
               <Grid>
                 <Grid item xs={6}>
                   <Typography gutterBottom variant='subtitle1'>
-                    {props.book.volumeInfo.title}
+                    {props.book.title}
                   </Typography>
                 </Grid>
                 <Typography variant='subtitle1' color='textSecondary'>
-                  {props.book.volumeInfo.authors}
+                  {props.book.author}
                 </Typography>
                 <Typography variant='body2' gutterBottom>
-                  {console.log(props.book.volumeInfo)}
-                  {hasDescription
-                    ? props.book.volumeInfo.description.split(".")[0]
-                    : ""}
+                  {props.book.description.split(".")[0]}
                 </Typography>
               </Grid>
               <Grid item>
@@ -95,7 +92,6 @@ export default function SearchResultsListItem(props) {
                   color='primary'
                   type='submit'
                   onSubmit={event => {
-                    console.log("here");
                     return axios
                       .post(`localhost:3000/books/new`, {
                         bookObj,
@@ -109,9 +105,7 @@ export default function SearchResultsListItem(props) {
             </Grid>
             <Grid item>
               <Typography variant='subtitle1' color='textSecondary'>
-                {hasPublishedDate
-                  ? props.book.volumeInfo.publishedDate.split("-")[0]
-                  : ""}
+                {props.book.year}
               </Typography>
             </Grid>
           </Grid>
