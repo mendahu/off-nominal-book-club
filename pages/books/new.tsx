@@ -28,12 +28,11 @@ export default function New() {
     setAuthorObj(value);
   }
 
-  function onSubmitHandler(event) {
-    console.log("here");
-    return axios
-      .get(`localhost:3000/api/books/new`)
-      .then(res => console.log(res));
-  }
+  const onSubmitHandler = async event => {
+    event.preventDefault();
+    const confirmResults = await axios.get(`/api/books/new`);
+    setSearchResults(confirmResults.data);
+  };
   return (
     <section>
       {}
