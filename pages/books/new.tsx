@@ -10,7 +10,16 @@ export default function New() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [bookObj, setBookObj] = useState({});
+  const [bookObj, setBookObj] = useState({
+    user_id: null,
+    title: null,
+    description: null,
+    fiction: true,
+    year: null,
+    image_url: null,
+    google_id: null,
+    isbn13: null
+  });
   const [authorObj, setAuthorObj] = useState({});
 
   function handleSearchTerm(value) {
@@ -30,12 +39,11 @@ export default function New() {
 
   const onSubmitHandler = async event => {
     event.preventDefault();
-    const confirmResults = await axios.get(`/api/books/new`);
+    const confirmResults = await axios.get(`/api/books/new?googleid=${bookObj.google_id}&isbn13=${bookObj.isbn13}&title=${bookObj.title}`);
     setSearchResults(confirmResults.data);
   };
   return (
     <section>
-      {}
       <SearchBar
         results={searchResults}
         setResults={handleResults}
