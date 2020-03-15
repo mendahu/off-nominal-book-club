@@ -1,12 +1,55 @@
-import React from "react";
-import NewBook from "../../src/components/NewBook";
+import React, { useState } from "react";
+// import NewBook from "../../src/components/NewBook";
 
-const AddBook = props => {
+import SearchBar from "../../src/components/SearchBar";
+import SearchResultsList from "../../src/components/SearchResultsList";
+import axios from "axios";
+
+export default function New() {
+  const [searchResults, setSearchResults] = useState({ items: [] });
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [bookObj, setBookObj] = useState({});
+  const [authorObj, setAuthorObj] = useState({});
+
+  function handleSearchTerm(value) {
+    setSearchTerm(value);
+  }
+  function handleResults(value) {
+    setSearchResults(value);
+  }
+
+  function selectBook(value) {
+    setBookObj(value);
+  }
+
+  function selectAuthor(value) {
+    setAuthorObj(value);
+  }
+
+  function onSubmitHandler(event) {
+    console.log("here");
+    return axios
+      .post(`localhost:3000/books/new`, { bookObj })
+      .then(res => console.log(res));
+  }
   return (
-    <main>
-      <NewBook />
-    </main>
+    <section>
+      {}
+      <SearchBar
+        results={searchResults}
+        setResults={handleResults}
+        searchTerm={searchTerm}
+        setTerm={handleSearchTerm}
+      />
+      <SearchResultsList
+        results={searchResults}
+        setTerm={handleSearchTerm}
+        selectBook={selectBook}
+        selectAuthor={selectAuthor}
+        onSubmitHandler={onSubmitHandler}
+      />
+    </section>
   );
-};
-
-export default AddBook;
+}

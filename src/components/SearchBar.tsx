@@ -43,7 +43,7 @@ export default function SearchGoogle(props) {
   const getSearchResults = async () => {
     if (props.searchTerm.length % 3 === 0) {
       const searchResult = await axios.get(
-        `${API_URL}?q=${props.searchTerm}&maxResults=3`
+        `${API_URL}?q=${props.searchTerm}&maxResults=10`
       );
       props.setResults(searchResult.data);
     }

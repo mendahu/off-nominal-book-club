@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme =>
 export default function SearchResultsListItem(props) {
   const classes = useStyles();
 
+  const hasDescription = props.book.volumeInfo.description ? true : false;
+  const hasImage = props.book.volumeInfo.imageLinks ? true : false;
+  const hasPublishedDate = props.book.volumeInfo.publishedDate ? true : false;
+
   return (
     <form key={props.key} onSubmit={props.onSubmit}>
       <Paper className={classes.paper}>
@@ -52,7 +56,7 @@ export default function SearchResultsListItem(props) {
                   title: props.book.volumeInfo.title,
                   description: props.book.volumeInfo.description,
                   fiction: true,
-                  yeart: "2011",
+                  year: props.book.volumeInfo.publishedDate.split("-")[0],
                   image_url: props.book.volumeInfo.imageLinks.thumbnail
                 });
 
@@ -62,8 +66,8 @@ export default function SearchResultsListItem(props) {
               }}>
               <img
                 className={classes.img}
-                alt='complex'
-                src={props.book.volumeInfo.imageLinks.thumbnail}
+                alt={props.book.volumeInfo.title}
+                src={hasImage ? props.book.volumeInfo.imageLinks.thumbnail : ""}
               />
             </ButtonBase>
           </Grid>
@@ -79,7 +83,10 @@ export default function SearchResultsListItem(props) {
                   {props.book.volumeInfo.authors}
                 </Typography>
                 <Typography variant='body2' gutterBottom>
-                  {props.book.volumeInfo.description.split(".")[0]}
+                  {console.log(props.book.volumeInfo)}
+                  {hasDescription
+                    ? props.book.volumeInfo.description.split(".")[0]
+                    : ""}
                 </Typography>
               </Grid>
               <Grid item>
@@ -102,7 +109,9 @@ export default function SearchResultsListItem(props) {
             </Grid>
             <Grid item>
               <Typography variant='subtitle1' color='textSecondary'>
-                {props.book.volumeInfo.publishedDate}
+                {hasPublishedDate
+                  ? props.book.volumeInfo.publishedDate.split("-")[0]
+                  : ""}
               </Typography>
             </Grid>
           </Grid>
