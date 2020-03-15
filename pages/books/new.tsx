@@ -29,8 +29,9 @@ export default function New() {
   }
 
   function onSubmitHandler(event) {
+    console.log("here");
     return axios
-      .post(`localhost:3000/books/new`, { bookObj })
+      .get(`localhost:3000/api/books/new`)
       .then(res => console.log(res));
   }
   return (

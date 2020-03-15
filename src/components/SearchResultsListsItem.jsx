@@ -53,15 +53,17 @@ export default function SearchResultsListItem(props) {
                 props.setTerm(props.book.title);
                 props.selectBook({
                   user_id: 10,
-                  title: props.book.volumeInfo.title,
-                  description: props.book.volumeInfo.description,
+                  title: props.book.title,
+                  description: props.book.description,
                   fiction: true,
                   year: props.book.year,
-                  image_url: props.book.image_url
+                  image_url: props.book.image_url,
+                  google_id: props.book.google_id,
+                  isbn13: props.book.isbn13
                 });
 
                 props.selectAuthor({
-                  name: props.book.authors[0]
+                  name: props.book.author[0]
                 });
               }}>
               <img
@@ -91,14 +93,7 @@ export default function SearchResultsListItem(props) {
                   variant='contained'
                   color='primary'
                   type='submit'
-                  onSubmit={event => {
-                    return axios
-                      .post(`localhost:3000/books/new`, {
-                        bookObj,
-                        authorObj
-                      })
-                      .then(res => console.log(res));
-                  }}>
+                  onSubmit={props.onsubmit}>
                   <Typography variant='body2'>Add Book</Typography>
                 </Button>
               </Grid>
