@@ -2,15 +2,6 @@ const knex = require('../knex');
 
 module.exports = {
   books : {
-    getId: function(bookObj){
-      const lowerTitle = bookObj.title.toLowerCase();
-
-      return knex.select('id').from('books')
-        .where('title', bookObj.title)
-        .where('isbn13', bookObj.isbn13)
-        .where('google_id', bookObj.google_id)
-    },
-
     confirm: function(bookObj) {
       const lowerTitle = bookObj.title.toLowerCase();
 

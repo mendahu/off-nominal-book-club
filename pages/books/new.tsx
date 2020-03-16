@@ -34,18 +34,18 @@ export default function New() {
   // function that redirects to book/[book]
   async function redirectToBook(event) {
     event.preventDefault();
-    const bookId = await axios.get(
-      `/api/books/find?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
+    const book = await axios.get(
+      `/api/books/new?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
     );
-    console.log(bookId);
-    console.log("Redirect to Book");
-    // Router.push(`/books/${bookId}`);
+    const bookId = book.data[0].id;
+    Router.push(`/books/${bookId}`);
   }
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(event) {
-    axios.post(`/api/books/new`, bookObj).then(() => redirectToBook(event));
+    axios.post(`/api/books/new`, bookObj).then(res => console.log(res));
     console.log("ADDED New Book");
+    redirectToBook(event);
   }
 
   // sets search term to book.tile

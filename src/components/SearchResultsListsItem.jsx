@@ -73,7 +73,6 @@ export default function SearchResultsListItem(props) {
                   color='primary'
                   type='submit'
                   onClick={() => {
-                    console.log(props.book.author);
                     props.setTerm(props.book.title);
                     props.selectBook({
                       book: {
