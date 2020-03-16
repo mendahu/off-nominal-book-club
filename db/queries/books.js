@@ -12,11 +12,6 @@ module.exports = {
         .orWhere(knex.raw('LOWER("title") LIKE ?', `%${lowerTitle}%`))
     },
 
-    search: function(id) {
-      return knex.select().from('books')
-        .where("id", id)
-    },
-
     add: function(bookObj) {
 
       const bookId = knex
