@@ -3,6 +3,7 @@ import SearchBar from "../../src/components/SearchBar";
 import SearchResultsList from "../../src/components/SearchResultsList";
 import ConfirmResults from "../../src/components/ConfirmResults";
 import axios from "axios";
+import Router from "next/router";
 
 export default function New() {
   const SEARCH = "SEARCH";
@@ -31,16 +32,20 @@ export default function New() {
   });
 
   // function that redirects to book/[book]
-  function redirectToBook(event) {
+  async function redirectToBook(event) {
     event.preventDefault();
+    const bookId = await axios.get(
+      `/api/books/find?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
+    );
+    console.log(bookId);
     console.log("Redirect to Book");
+    // Router.push(`/books/${bookId}`);
   }
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(event) {
-    axios.post(`/api/books/new`, bookObj).then(res => console.log(res));
+    axios.post(`/api/books/new`, bookObj).then(() => redirectToBook(event));
     console.log("ADDED New Book");
-    redirectToBook(event);
   }
 
   // sets search term to book.tile

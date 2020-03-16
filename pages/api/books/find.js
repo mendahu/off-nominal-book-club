@@ -18,21 +18,7 @@ export default (req, res) => {
     
       queries
         .books
-        .confirm(bookObj)
-        .then((results) => {
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json')
-          res.end(JSON.stringify(results))
-        })
-      break
-    case 'POST':
-        bookObj = req.body
-
-        console.log("in POST")
-        
-      queries
-        .books
-        .add(bookObj)
+        .getId(bookObj)
         .then((results) => {
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json')
