@@ -10,6 +10,22 @@ const tagsData = require('../testdata_tags.json')
 ///////////////////////////////////////////////////////////
 
 
+//Random Selector Function
+//Used to select a random subset of a dataset, without duplicates
+const randomIdGenerator = (itemTracker, sampleSetSize, offset = 0) => {
+
+  console.log("inside randomFunc", itemTracker, sampleSetSize, offset)
+  const randomId = Math.floor(Math.random() * sampleSetSize) + offset;
+  console.log("checking", randomId)
+
+  if (itemTracker.includes(randomId)) {
+    return randomIdGenerator(itemTracker, sampleSetSize, offset)
+  } else {
+    return randomId
+  }
+
+}
+
 exports.seed = function(knex) {
 
   //begin seed simulation by pulling existing users from the db
@@ -20,9 +36,18 @@ exports.seed = function(knex) {
   const clearTags = knex("tags").del()
   const clearTagRelationships = knex("user_tag_book").del()
   const clearReads = knex("reads").del()
+  const clearFavs = knex("favourites").del()
+
+  const initPromises = [
+    users,
+    clearTags,
+    clearTagRelationships,
+    clearReads,
+    clearFavs
+  ]
 
   // wait for above operations to conclude, then begin simulation
-  return Promise.all([clearTags, clearTagRelationships, clearReads, users])   
+  return Promise.all(initPromises)   
     .then((results) =>{
 
       //containers for data inserts
@@ -30,12 +55,12 @@ exports.seed = function(knex) {
       const tags = [];
       const tagRels = [];
       let reads = [];
-
+      let favs = [];
 
 
 
       //begin simulating user data by looping through each user
-      results[3].forEach((user) => {
+      results[0].forEach((user) => {
 
         //generate a random number representing how many books they read
         const bookCount = Math.floor(Math.random() * 30) + 10
@@ -45,47 +70,44 @@ exports.seed = function(knex) {
 
         //loop an amount of times equal to book count over books
         for (let i = 0; i < bookCount; i++) {
-          //to hold bookId that we are reading
-          let bookId;
-          
-          //generate a random book id and assign it to bookId
-          const idGenerator = () => {
-            bookId = Math.floor(Math.random() * Object.keys(tagsData).length) + 1;
 
-            (readBooks.includes(bookId))
-              ? idGenerator()
-              : readBooks.push(bookId);
-          }
-          idGenerator();
+          //how many books are there?
+          bookSampleSize = Object.keys(tagsData).length
 
+          //generate a random book id and assign it to bookId, add to array of tracked books
+          const bookId = randomIdGenerator(readBooks, bookSampleSize, 1);
+          readBooks.push(bookId);
 
           //keep track of tags already selected for this book
           const tagArray = [];
 
           //for each book loop 5 times to add 5 tags
           for (let i = 0; i < 5; i++) {
+
+            //how many tags can we work with?
+            const tagSampleSize = tagsData[bookId].length
+
             //hold the tag we are working with
-            let tag;
-
             //generate a random tag and assign it to tag
-            const tagGenerator = () => {
-            tag = Math.floor(Math.random() * tagsData[bookId.toString()].length);
+            const tagId = randomIdGenerator(tagArray, tagSampleSize)
+            tagArray.push(tagId);
 
-            (readBooks.includes(tag))
-              ? tagGenerator()
-              : tagArray.push(tag);
-            }
-            tagGenerator();
-
-            tags.push(tagsData[bookId.toString()][tag].toLowerCase())
+            //Add the tag to the tags table and the tags relationship table
+            tags.push(tagsData[bookId][tagId].toLowerCase())
             tagRels.push({
-              tag_name: tagsData[bookId.toString()][tag].toLowerCase(),
+              tag_name: tagsData[bookId][tagId].toLowerCase(),
               book_id: bookId,
               user_id: user.id
             })
+
+            //catch for any tag sets that are fewer than 5 - forces it out of the loop
+            if (tagSampleSize - 1 === i) i = 5;
           }
+
+  
         }
 
+        //push each read book into the reads array as an input object
         for (const book of readBooks) {
           reads.push({ 
             book_id: book,
@@ -93,24 +115,32 @@ exports.seed = function(knex) {
           })
         }
 
+        //push a random 33% of read books into the favs array
+        for (const book of readBooks) {
+          if (Math.random() < 0.33) {
+            favs.push({ 
+              book_id: book,
+              user_id: user.id
+            })
+          }
+        }
 
       })
       const dupFilterer = (words) => words.filter((v, i) => words.indexOf(v) === i)
 
-      return [dupFilterer(tags), tagRels, reads];
+      return [dupFilterer(tags), tagRels, reads, favs];
     })
     .then((inserts) => {
 
       //maps the tags to objects which can be inserted
       const tags = inserts[0].map((tag) => { return {name: tag} } )
 
-      console.log(inserts[2])
-
-      //insert reads and tags into database
+      //insert reads, favs and tags into database
       const readInsert = knex('reads').insert(inserts[2])
+      const favsInsert = knex('favourites').insert(inserts[3])
       const tagInsert = knex('tags').insert(tags)
 
-      return Promise.all([tagInsert, readInsert])
+      return Promise.all([tagInsert, readInsert, favsInsert])
         .then(() => {
           return knex.select().from('tags')
         })
@@ -138,12 +168,6 @@ exports.seed = function(knex) {
 
           return knex('user_tag_book').insert(finalInsert)
           
-          
-
-
         })
-      //return knex('user_tag_book').insert({user_id, book_id, tag_id: tagId}) 
-
-
     });
 };
