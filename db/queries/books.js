@@ -29,11 +29,11 @@ module.exports = {
         .returning('id')
         .into('authors');
         
-      return Promise.all([JSON.parse(bookId), authorId])
+      return Promise.all([(bookId), authorId])
         .then((ids) => {
           return knex.insert({
-            book_id: ids[0],
-            author_id: ids[1]
+            book_id: JSON.parse(ids[0]),
+            author_id: JSON.parse(ids[1])
           })
           .into('books_authors')
         })

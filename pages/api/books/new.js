@@ -27,23 +27,8 @@ export default (req, res) => {
       break
     case 'POST':
         console.log(req.body)
-        // bookObj = req.body
+        bookObj = req.body
 
-        bookObj = {
-          book: {
-            user_id: 10,
-            title: "The Tipping Point",
-            description: "A book about stuff",
-            fiction: true,
-            year: "2010",
-            image_url: "http://books.google.com/books/content?id=yBDBEGBIUmgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-            google_id: "yBDBEGBIUmgC",
-            isbn13: "0759574731"
-          },
-          author: {
-            name : "Malcom"
-          }
-        }
         console.log(bookObj)
 
         console.log("in POST")
