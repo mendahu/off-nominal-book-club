@@ -44,7 +44,7 @@ export default function ConfirmResults(props) {
         <Typography>
           Are one of these books what you were looking for?
         </Typography>
-        <Button>No, Add Book</Button>
+        <Button onClick={props.onClick}>No, Add Book</Button>
       </Paper>
     </section>
   );

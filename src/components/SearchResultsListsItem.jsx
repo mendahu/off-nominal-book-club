@@ -44,26 +44,7 @@ export default function SearchResultsListItem(props) {
       <Paper className={classes.paper}>
         <Grid container spacing={2}>
           <Grid item>
-            <ButtonBase
-              className={classes.image}
-              onClick={async event => {
-                props.setTerm(props.book.title);
-                props.selectBook({
-                  book: {
-                    user_id: 10,
-                    title: props.book.title,
-                    description: props.book.description,
-                    fiction: true,
-                    year: props.book.year,
-                    image_url: props.book.image_url,
-                    google_id: props.book.google_id,
-                    isbn13: props.book.isbn13
-                  },
-                  author: {
-                    name: props.book.author[0]
-                  }
-                });
-              }}>
+            <ButtonBase className={classes.image}>
               <img
                 className={classes.img}
                 alt={props.book.title}
@@ -92,6 +73,7 @@ export default function SearchResultsListItem(props) {
                   color='primary'
                   type='submit'
                   onClick={() => {
+                    console.log(props.book.author);
                     props.setTerm(props.book.title);
                     props.selectBook({
                       book: {
@@ -105,7 +87,7 @@ export default function SearchResultsListItem(props) {
                         isbn13: props.book.isbn13
                       },
                       author: {
-                        name: props.book.author[0]
+                        name: props.book.author
                       }
                     });
                     props.onSubmit;

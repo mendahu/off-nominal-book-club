@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import NewBook from "../../src/components/NewBook";
-
 import SearchBar from "../../src/components/SearchBar";
 import SearchResultsList from "../../src/components/SearchResultsList";
 import ConfirmResults from "../../src/components/ConfirmResults";
@@ -32,29 +30,57 @@ export default function New() {
     }
   });
 
-  function handleSearchTerm(value) {
-    setSearchTerm(value);
+  // function that redirects to book/[book]
+  function redirectToBook(event) {
+    event.preventDefault();
+    console.log("Redirect to Book");
   }
+
+  // adds book to database with bookObj State and redirects to book/[book]
+  function addBook(event) {
+    axios.post(`/api/books/new`, bookObj).then(res => console.log(res));
+    console.log("ADDED New Book");
+    redirectToBook(event);
+  }
+
+  // sets search term to book.tile
+  function handleSearchTerm(title) {
+    if (mode === SEARCH) {
+      setSearchTerm(title);
+    }
+  }
+
+  // sets searchResults state
   function handleResults(value) {
     setSearchResults(value);
   }
 
   const onSubmitHandler = async event => {
-    setMode(CONFIRM);
+    // prevent page refresh
     event.preventDefault();
+
+    // makes a get request to api/books/new and returns hits found in database
     const dbResults = await axios.get(
       `/api/books/new?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
     );
+
+    // if results found, set mode to confirm and setSearchResults to db hits
     if (dbResults.data.length > 0) {
+      setMode(CONFIRM);
       setSearchResults(dbResults.data);
+
+      // if no hits, add book to database and redirect to book
     } else {
-      // console.log(bookObj);
-      axios.post(`/api/books/new`, bookObj).then(res => console.log(res));
+      addBook(event);
+      redirectToBook(event);
     }
   };
 
+  // set bookObj state
   function selectBook(value) {
-    setBookObj(value);
+    if (mode == SEARCH) {
+      setBookObj(value);
+    }
   }
 
   return (
@@ -76,13 +102,13 @@ export default function New() {
           buttonText={"Add Book"}
         />
       )}
-      {mode === CONFIRM && <ConfirmResults />}
+      {mode === CONFIRM && <ConfirmResults onClick={addBook} />}
       {mode === CONFIRM && (
         <SearchResultsList
           results={searchResults}
           setTerm={handleSearchTerm}
           selectBook={selectBook}
-          onSubmitHandler={onSubmitHandler}
+          onSubmitHandler={redirectToBook}
           buttonText={"Go to Book"}
         />
       )}
