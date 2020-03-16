@@ -5,6 +5,7 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import axios from "axios";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -38,10 +39,6 @@ const useStyles = makeStyles(theme =>
 export default function SearchResultsListItem(props) {
   const classes = useStyles();
 
-  // const hasDescription = props.book.volumeInfo.description ? true : false;
-  // const hasImage = props.book.volumeInfo.imageLinks ? true : false;
-  // const hasPublishedDate = props.book.volumeInfo.publishedDate ? true : false;
-
   return (
     <form key={props.book.google_id} onSubmit={props.onSubmit}>
       <Paper className={classes.paper}>
@@ -49,21 +46,22 @@ export default function SearchResultsListItem(props) {
           <Grid item>
             <ButtonBase
               className={classes.image}
-              onClick={event => {
+              onClick={async event => {
                 props.setTerm(props.book.title);
                 props.selectBook({
-                  user_id: 10,
-                  title: props.book.title,
-                  description: props.book.description,
-                  fiction: true,
-                  year: props.book.year,
-                  image_url: props.book.image_url,
-                  google_id: props.book.google_id,
-                  isbn13: props.book.isbn13
-                });
-
-                props.selectAuthor({
-                  name: props.book.author[0]
+                  book: {
+                    user_id: 10,
+                    title: props.book.title,
+                    description: props.book.description,
+                    fiction: true,
+                    year: props.book.year,
+                    image_url: props.book.image_url,
+                    google_id: props.book.google_id,
+                    isbn13: props.book.isbn13
+                  },
+                  author: {
+                    name: props.book.author[0]
+                  }
                 });
               }}>
               <img
@@ -93,8 +91,26 @@ export default function SearchResultsListItem(props) {
                   variant='contained'
                   color='primary'
                   type='submit'
-                  onSubmit={props.onsubmit}>
-                  <Typography variant='body2'>Add Book</Typography>
+                  onClick={() => {
+                    props.setTerm(props.book.title);
+                    props.selectBook({
+                      book: {
+                        user_id: 10,
+                        title: props.book.title,
+                        description: props.book.description,
+                        fiction: true,
+                        year: props.book.year,
+                        image_url: props.book.image_url,
+                        google_id: props.book.google_id,
+                        isbn13: props.book.isbn13
+                      },
+                      author: {
+                        name: props.book.author[0]
+                      }
+                    });
+                    props.onSubmit;
+                  }}>
+                  <Typography variant='body2'>{props.buttonText}</Typography>
                 </Button>
               </Grid>
             </Grid>
