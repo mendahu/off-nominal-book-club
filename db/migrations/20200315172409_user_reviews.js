@@ -1,0 +1,14 @@
+
+exports.up = function(knex) {
+  return knex.schema.createTable('reviews', function(table) {
+    table.increments("id");
+    table.text("review");
+    table.integer("book_id").references('id').inTable('books').notNullable().onDelete('CASCADE');
+    table.integer("user_id").references('id').inTable('users').notNullable().onDelete('CASCADE');
+    table.datetime('created_at').defaultTo(knex.fn.now());
+  })
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('reviews');
+};
