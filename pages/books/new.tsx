@@ -48,7 +48,7 @@ export default function New() {
     if (dbResults.data.length > 0) {
       setSearchResults(dbResults.data);
     } else {
-      console.log(bookObj);
+      // console.log(bookObj);
       axios.post(`/api/books/new`, bookObj).then(res => console.log(res));
     }
   };
