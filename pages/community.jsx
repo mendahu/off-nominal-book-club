@@ -19,8 +19,7 @@ export async function getServerSideProps() {
       "isbn13",
       "google_id"
     )
-    .from("books")
-    .join("tags", "book.id", "book_id");
+    .from("books");
 
   console.log(books);
   return { props: { books } };
