@@ -21,7 +21,6 @@ export async function getServerSideProps() {
     )
     .from("books");
 
-  console.log(books);
   return { props: { books } };
 }
 

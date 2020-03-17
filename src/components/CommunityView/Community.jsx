@@ -1,5 +1,4 @@
 // import BookListItem from "../CommunityView/BookListItem";
-<<<<<<< HEAD
 import BookList from "../CommunityView/BookList";
 const knex = require("../../../db/knex");
 import axios from "axios";
@@ -7,20 +6,11 @@ import axios from "axios";
 function Community({ books }) {
   return <BookList books={books} />;
 }
-=======
-// import BookList from "../CommunityView/BookList";
-const knex = require('../../../db/knex');
-
-const Community = ({ data }) => {
-  return <div>hello</div>;
-};
->>>>>>> feature/login
 
 export async function getServerSideProps() {
   // Axios.get("/books").then(res => console.log(res));
   // const books = res.data;
   // console.log(res);
-<<<<<<< HEAD
 
   const data = await knex
     .select(
@@ -38,11 +28,6 @@ export async function getServerSideProps() {
   books = data[0];
   // console.log(books);
   return { props: { books } };
-=======
-  const data = await knex.select().from('books');
-
-  return { props: { data } };
->>>>>>> feature/login
 }
 
 export default Community;
