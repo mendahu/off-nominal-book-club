@@ -1,16 +1,45 @@
-import { TextField, Paper, Button } from "@material-ui/core";
-
+import { Button } from "@material-ui/core";
+import { useState } from 'react'
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
 
 const LoginForm = (props) => {
-  return (
-    <Paper component='form'>
-      <form action="/api/users/login" method="post" noValidate autoComplete="off" name="login" encType="application/x-www-form-urlencoded">
-        <TextField required id="outlined-basic" label="E-mail" /><br />
-        <TextField required id="outlined-basic" type="password" label="Password" /><br />
-        <Button onClick={props.clickHandler} variant="contained" color="primary">Login</Button>
-      </form>
-    </Paper>
-  )
+  const [ userId, setUserId ] = useState(props.userId)
+
+
+  const logUserIn = () => {
+    setCookie(null, 'userId', 1, { maxAge: 24 * 60 * 60 })
+    setUserId(1);
+  }
+
+  const logUserOut = () => {
+    destroyCookie(null, 'userId');
+    setUserId(null);
+  }
+
+  if (!userId) {
+    return (
+      <div>
+        <Button onClick={logUserIn} variant="contained" color="primary">Login</Button>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <Button onClick={logUserOut} variant="contained" color="primary">Logout</Button>
+      </div>
+    )
+  }  
+}
+
+export async function getServerSideProps(context) {
+
+  const cookies = parseCookies(context);
+  const userId = cookies.userId || null;
+  console.log(userId)
+
+  return {
+    props: {userId: userId}, 
+  }
 }
 
 export default LoginForm

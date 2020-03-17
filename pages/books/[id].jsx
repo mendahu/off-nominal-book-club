@@ -1,4 +1,5 @@
 const knex = require('../../db/knex');
+import Layout from '../../src/components/DefaultLayout'
 import BookTitleBar from "../../src/components/Bookview/BookTitleBar";
 //import BookTagList from "../../src/components/Bookview/BookTagList";
 import BookDesc from "../../src/components/Bookview/BookDesc";
@@ -7,10 +8,10 @@ import BookDesc from "../../src/components/Bookview/BookDesc";
 const Bookview = ({ book }) => {
 
   return (
-    <>
+    <Layout>
       <BookTitleBar title={book.title} img={book.image_url} year={book.year} />
       <BookDesc desc={book.description} />
-    </>
+    </Layout>
   )
 
 }
