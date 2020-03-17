@@ -18,6 +18,8 @@
 |                                         | GET for Amazon?????                                           |
 |                                         | POST Add a book to community collection                       |
 | /api/users                              | POST add a user                                               |
+| /api/users/login                        | POST authenticate user                                        |
+| /api/users/logout                       | POST logout a user                                            |
 | /api/tags                               | POST Create a new tag                                         |
 |                                         | ????? Add a tag to a book                                     |
 |                                         | ????? Remove a tag from a book                                |
