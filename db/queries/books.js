@@ -30,6 +30,7 @@ module.exports = {
             author_id: JSON.parse(ids[1])
           })
           .into('books_authors')
+          .returning(JSON.parse(ids[0]))
         })
     }
   }

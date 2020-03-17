@@ -40,7 +40,7 @@ export default function SearchResultsListItem(props) {
   const classes = useStyles();
 
   return (
-    <form key={props.book.google_id} onSubmit={props.onSubmit}>
+    <form key={props.key} onSubmit={props.onSubmit}>
       <Paper className={classes.paper}>
         <Grid container spacing={2}>
           <Grid item>
@@ -73,23 +73,31 @@ export default function SearchResultsListItem(props) {
                   color='primary'
                   type='submit'
                   onClick={() => {
-                    props.setTerm(props.book.title);
-                    props.selectBook({
-                      book: {
-                        user_id: 10,
-                        title: props.book.title,
-                        description: props.book.description,
-                        fiction: true,
-                        year: props.book.year,
-                        image_url: props.book.image_url,
-                        google_id: props.book.google_id,
-                        isbn13: props.book.isbn13
-                      },
-                      author: {
-                        name: props.book.author
-                      }
-                    });
-                    props.onSubmit;
+                    // if in search onClick, set searchTerm and selectBook
+                    {
+                      props.mode === "SEARCH" &&
+                        props.setTerm(props.book.title);
+                      props.selectBook({
+                        book: {
+                          user_id: 10,
+                          title: props.book.title,
+                          description: props.book.description,
+                          fiction: true,
+                          year: props.book.year,
+                          image_url: props.book.image_url,
+                          google_id: props.book.google_id,
+                          isbn13: props.book.isbn13
+                        },
+                        author: {
+                          name: props.book.author
+                        }
+                      });
+                    }
+                    // if in CONFIRM, onClick, setBookId
+                    {
+                      props.mode === "CONFIRM" &&
+                        props.setBookId(props.results[props.index].id);
+                    }
                   }}>
                   <Typography variant='body2'>{props.buttonText}</Typography>
                 </Button>

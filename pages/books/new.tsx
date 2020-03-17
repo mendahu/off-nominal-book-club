@@ -13,10 +13,13 @@ export default function New() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [mode, setMode] = useState("SEARCH");
+  const [mode, setMode] = useState(SEARCH);
+
+  const [bookId, setBookId] = useState("1");
 
   const [bookObj, setBookObj] = useState({
     book: {
+      id: null,
       user_id: null,
       title: null,
       description: null,
@@ -32,20 +35,21 @@ export default function New() {
   });
 
   // function that redirects to book/[book]
-  async function redirectToBook(event) {
-    event.preventDefault();
-    const book = await axios.get(
-      `/api/books/new?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
-    );
-    const bookId = book.data[0].id;
-    Router.push(`/books/${bookId}`);
+  async function redirectToBook(id) {
+    event => {
+      event.preventDefault();
+    };
+    console.log(id);
+    Router.push(`/books/${id}`);
   }
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(event) {
-    axios.post(`/api/books/new`, bookObj).then(res => console.log(res));
+    axios
+      .post(`/api/books/new`, bookObj)
+      .then(res => redirectToBook(res.data[0]));
     console.log("ADDED New Book");
-    redirectToBook(event);
+    // redirectToBook(event);
   }
 
   // sets search term to book.tile
@@ -55,6 +59,11 @@ export default function New() {
     }
   }
 
+  // function handleSearchClick(term, book) {
+  //   handleSearchTerm(term);
+  //   setBookObj(book);
+  // }
+
   // sets searchResults state
   function handleResults(value) {
     setSearchResults(value);
@@ -63,23 +72,25 @@ export default function New() {
   const onSubmitHandler = async event => {
     // prevent page refresh
     event.preventDefault();
+    if (mode === SEARCH) {
+      const dbResults = await axios.get(
+        `/api/books/new?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
+      );
+      // if results found, set mode to confirm and setSearchResults to db hits
+      if (dbResults.data.length > 0) {
+        console.log(dbResults.data);
+        setMode(CONFIRM);
+        setSearchResults(dbResults.data);
 
-    // makes a get request to api/books/new and returns hits found in database
-    const dbResults = await axios.get(
-      `/api/books/new?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
-    );
-
-    // if results found, set mode to confirm and setSearchResults to db hits
-    if (dbResults.data.length > 0) {
-      setMode(CONFIRM);
-      setSearchResults(dbResults.data);
-
-      // if no hits, add book to database and redirect to book
+        // if no hits, add book to database and redirect to book
+      } else {
+        addBook(event);
+      }
     } else {
-      addBook(event);
-      redirectToBook(event);
+      redirectToBook(bookId);
     }
   };
+  // makes a get request to api/books/new and returns hits found in database
 
   // set bookObj state
   function selectBook(value) {
@@ -103,8 +114,10 @@ export default function New() {
           results={searchResults}
           setTerm={handleSearchTerm}
           selectBook={selectBook}
-          onSubmitHandler={onSubmitHandler}
+          onSubmit={onSubmitHandler}
+          // onClick={handleSearchClick}
           buttonText={"Add Book"}
+          mode={mode}
         />
       )}
       {mode === CONFIRM && <ConfirmResults onClick={addBook} />}
@@ -113,8 +126,10 @@ export default function New() {
           results={searchResults}
           setTerm={handleSearchTerm}
           selectBook={selectBook}
-          onSubmitHandler={redirectToBook}
+          setBookId={setBookId}
+          onSubmit={onSubmitHandler}
           buttonText={"Go to Book"}
+          mode={mode}
         />
       )}
     </section>
