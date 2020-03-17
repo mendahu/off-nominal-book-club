@@ -1,10 +1,13 @@
-import { AppBar } from "@material-ui/core";
+import { AppBar, Toolbar } from "@material-ui/core";
 import LoginForm from './Authentication/LoginForm'
 
 const Navbar = props => {
   return (
     <AppBar position="static">
-      <LoginForm />
+      <Toolbar>
+
+        <LoginForm />
+      </Toolbar>
       
     </AppBar>
   )

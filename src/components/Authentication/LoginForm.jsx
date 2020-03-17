@@ -19,13 +19,13 @@ const LoginForm = (props) => {
   if (!userId) {
     return (
       <div>
-        <Button onClick={logUserIn} variant="contained" color="primary">Login</Button>
+        <Button onClick={logUserIn} variant="contained" color="default">Login</Button>
       </div>
     )
   } else {
     return (
       <div>
-        <Button onClick={logUserOut} variant="contained" color="primary">Logout</Button>
+        <Button onClick={logUserOut} variant="contained" color="default">Logout</Button>
       </div>
     )
   }  

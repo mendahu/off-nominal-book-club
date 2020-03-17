@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "../../src/components/SearchBar";
+import Layout from "../../src/components/DefaultLayout";
 import SearchResultsList from "../../src/components/SearchResultsList";
 import ConfirmResults from "../../src/components/ConfirmResults";
 import axios from "axios";
@@ -100,7 +101,7 @@ export default function New() {
   }
 
   return (
-    <section>
+    <Layout>
       {mode === SEARCH && (
         <SearchBar
           results={searchResults}
@@ -132,6 +133,6 @@ export default function New() {
           mode={mode}
         />
       )}
-    </section>
+    </Layout>
   );
 }
