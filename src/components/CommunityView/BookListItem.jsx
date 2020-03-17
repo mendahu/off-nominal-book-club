@@ -57,65 +57,70 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function BookListItem() {
+export default function BookListItem(props) {
   const classes = useStyles();
   const theme = useTheme();
-
-  return (
-    <article>
-      <Card className={classes.root}>
-        <CardMedia className={classes.image}>
-          <img
-            className={classes}
-            src='http://books.google.com/books/content?id=kPmLDQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
-          />
-        </CardMedia>
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <CardContent className={classes.row}>
-              <Typography className={classes.title} component='h5' variant='h5'>
-                The Martian
-              </Typography>
-              <StarBorder />
-              <Typography
-                className={classes.year}
-                variant='subtitle1'
-                color='textSecondary'>
-                4.5
+  if (props.book) {
+    return (
+      <article>
+        <Card className={classes.root}>
+          <CardMedia className={classes.image}>
+            <img
+              className={classes}
+              src='http://books.google.com/books/content?id=kPmLDQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
+            />
+          </CardMedia>
+          <div className={classes.details}>
+            <CardContent className={classes.content}>
+              <CardContent className={classes.row}>
+                <Typography
+                  className={classes.title}
+                  component='h5'
+                  variant='h5'>
+                  {props.book.title}
+                </Typography>
+                <StarBorder />
+                <Typography
+                  className={classes.year}
+                  variant='subtitle1'
+                  color='textSecondary'>
+                  4.5
+                </Typography>
+              </CardContent>
+              <ButtonGroup className={classes.tags}>
+                <Button>
+                  <Typography>Mars</Typography>
+                </Button>
+                <Button>
+                  <Typography>Space</Typography>
+                </Button>
+                <Button>
+                  <Typography>Fiction</Typography>
+                </Button>
+                <Button>
+                  <Typography>Science Fiction</Typography>
+                </Button>
+              </ButtonGroup>
+              <CardContent className={classes.row}>
+                <Typography className={classes.title} variant='subtitle1'>
+                  Andy Weir
+                </Typography>
+                <Typography
+                  className={classes.year}
+                  variant='subtitle1'
+                  color='textSecondary'>
+                  2011
+                </Typography>
+              </CardContent>
+              <Typography variant='subtitle1' color='textSecondary'>
+                The Martian is a 2011 science fiction novel written by Andy
+                Weir. It was his debut novel under his own name.
               </Typography>
             </CardContent>
-            <ButtonGroup className={classes.tags}>
-              <Button>
-                <Typography>Mars</Typography>
-              </Button>
-              <Button>
-                <Typography>Space</Typography>
-              </Button>
-              <Button>
-                <Typography>Fiction</Typography>
-              </Button>
-              <Button>
-                <Typography>Science Fiction</Typography>
-              </Button>
-            </ButtonGroup>
-            <CardContent className={classes.row}>
-              <Typography className={classes.title} variant='subtitle1'>
-                Andy Weir
-              </Typography>
-              <Typography
-                className={classes.year}
-                variant='subtitle1'
-                color='textSecondary'>
-                2011
-              </Typography>
-            </CardContent>
-            <Typography variant='subtitle1' color='textSecondary'>
-              The Martian is a 2011 science fiction novel written by Andy Weir.
-              It was his debut novel under his own name.
-            </Typography>
-          </CardContent>
-        </div>
-      </Card>
-    </article>
-  );
+          </div>
+        </Card>
+      </article>
+    );
+  }
+  return <div>hello</div>;
 }
