@@ -18,9 +18,9 @@ const BookTagList = (props) => {
 
   return (
     <Paper className={classes.root}>
-        {props.tags.map((t) => (
+        {props.tags.map((t, index) => (
           <Chip
-            key={t.key}
+            key={index}
             label={t.tag_name} 
             avatar={<Avatar>{t.count}</Avatar>}
             className={classes.chip}

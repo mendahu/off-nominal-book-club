@@ -4,23 +4,24 @@ import Layout from "../../src/components/DefaultLayout";
 import BookTitleBar from "../../src/components/Bookview/BookTitleBar";
 import BookTagList from "../../src/components/Bookview/BookTagList";
 import BookDesc from "../../src/components/Bookview/BookDesc";
+import useBookData from '../../src/hooks/useBookData';
 //import BookReviewList from "../../src/components/Bookview/BookReviewList";
+
 
 const Bookview = ({ book }) => {
 
-  
+  const { state } = useBookData(book);
 
   return (
     <Layout>
       <BookTitleBar authors={book.authors} title={book.title} img={book.image_url} year={book.year} />
-      <BookTagList tags={book.tags}/>
+      <BookTagList tags={state.tags}/>
       <BookDesc desc={book.description} />
     </Layout>
   );
 };
 
 /*
- 
   <BookReviewList />
 */
 
