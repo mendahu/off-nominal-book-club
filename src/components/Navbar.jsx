@@ -6,7 +6,7 @@ const Navbar = props => {
     <AppBar position="static">
       <Toolbar>
 
-        <LoginForm />
+        <LoginForm userId={props.userId} logUserIn={props.logUserIn} logUserOut={props.logUserOut} />
       </Toolbar>
       
     </AppBar>

@@ -16,6 +16,5 @@ export default (req, res) => {
     .catch((err) => {
       res.statusCode = 500
       console.error(err)
-      res.end()
     })
 };

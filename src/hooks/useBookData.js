@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-//import reducer, { SET_DAY, SET_INTERVIEW, SET_APPLICATION_DATA } from "reducers/application";
 
 export default function useBookData(ssrBook) {
 
