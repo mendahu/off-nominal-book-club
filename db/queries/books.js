@@ -42,7 +42,6 @@ module.exports = {
     },
 
     fetch: function(bookId) {
-       
       return knex.select(
         "books.id", 
         "books.title", 
@@ -70,11 +69,21 @@ module.exports = {
             WHERE books.id = ?
             GROUP BY name
             ORDER BY count DESC
-          ) tag ) AS tags`, bookId))
+          ) tag ) AS tags`, bookId),
+        knex.raw(`
+          ( SELECT json_agg(review)
+          FROM (
+            SELECT reviews.id, reviews.user_id, users.name as name, ratings.rating, reviews.created_at as date, reviews.review as user_review
+            FROM reviews
+              JOIN users ON reviews.user_id = users.id
+              JOIN ratings ON ratings.book_id = reviews.book_id
+            WHERE reviews.book_id = ? AND ratings.user_id = reviews.user_id
+            ORDER BY date DESC
+          ) review ) AS reviews`, bookId))
         .from('books')
         .where('books.id', bookId)
-  
     },
+
     getAll: function(term) {
       const lowerTerm = term.toLowerCase();
       return knex.select(

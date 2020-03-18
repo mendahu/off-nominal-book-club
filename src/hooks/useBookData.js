@@ -7,7 +7,7 @@ export default function useBookData(ssrBook, userId) {
   const [state, setState] = useState({
     tags: ssrBook.tags,
     bookId: ssrBook.id,
-    userTags: [],
+    user_tags: [],
     read: false,
     wishlist: false,
     fav: false,
@@ -20,14 +20,14 @@ export default function useBookData(ssrBook, userId) {
     if (userId) {
       axios.get(`/api/books/userData?bookId=${state.bookId}`)
         .then((results) => {
-          const userTags = results.data[0].user_tags
-          setState({...state, userTags })
+          const {user_tags, read, wishlist, fav, rating, review} = results.data[0]
+          setState({...state, user_tags, read, wishlist, fav, rating, review })
         })
         .catch((err) => {
           console.error(err);
         });
     }
-  }, []);
+  }, [userId]);
 
   return {
     state
