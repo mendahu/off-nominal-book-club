@@ -1,12 +1,13 @@
 import Navbar from '../../src/components/Navbar'
+import { Container } from "@material-ui/core";
 
 const Layout = props => {
 
   return (
-    <div>
+    <Container maxWidth="lg">
       <Navbar></Navbar>
       {props.children}
-    </div>
+    </Container>
   )
 }
 
