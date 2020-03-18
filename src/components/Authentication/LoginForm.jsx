@@ -1,21 +1,23 @@
+import { useContext } from 'react'
 import { Button } from "@material-ui/core";
-import { useState } from 'react'
-import { parseCookies, setCookie, destroyCookie } from 'nookies'
+import UserContext from '../../UserContext'
 
-const LoginForm = (props) => {
+const LoginForm = () => {
 
-  
+  const { userId, logUserIn, logUserOut } = useContext(UserContext)
 
-  if (!props.userId) {
+  if (!userId) {
     return (
       <div>
-        <Button onClick={() => props.logUserIn(1)} variant="contained" color="default">Login</Button>
+        <Button onClick={() => logUserIn(2)} variant="contained" color="default">Login Owner</Button>
+        <Button onClick={() => logUserIn(1)} variant="contained" color="default">Login Moderator</Button>
+        <Button onClick={() => logUserIn(3)} variant="contained" color="default">Login Member</Button>
       </div>
     )
   } else {
     return (
       <div>
-        <Button onClick={() => props.logUserOut()} variant="contained" color="default">Logout</Button>
+        <Button onClick={() => logUserOut()} variant="contained" color="default">Logout User {userId}</Button>
       </div>
     )
   }  

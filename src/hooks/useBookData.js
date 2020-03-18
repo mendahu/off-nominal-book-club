@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function useBookData(ssrBook) {
+
+export default function useBookData(ssrBook, userId) {
 
   const [state, setState] = useState({
     tags: ssrBook.tags,
@@ -16,14 +17,16 @@ export default function useBookData(ssrBook) {
 
   //API calls for user data
   useEffect(() => {
-    axios.get(`/api/books/userData?bookId=${state.bookId}`)
-      .then((results) => {
-        const userTags = results.data[0].user_tags
-        setState({...state, userTags })
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (userId) {
+      axios.get(`/api/books/userData?bookId=${state.bookId}`)
+        .then((results) => {
+          const userTags = results.data[0].user_tags
+          setState({...state, userTags })
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }, []);
 
   return {
