@@ -4,10 +4,10 @@ import { Container } from "@material-ui/core";
 const Layout = props => {
 
   return (
-    <Container maxWidth="lg">
-      <Navbar></Navbar>
-      {props.children}
-    </Container>
+      <Container maxWidth="lg">
+        <Navbar></Navbar>
+        {props.children}
+      </Container>
   )
 }
 

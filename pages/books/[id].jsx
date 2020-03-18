@@ -1,4 +1,3 @@
-const knex = require("../../db/knex");
 const queries = require('../../db/queries/books')
 import Layout from "../../src/components/DefaultLayout";
 import BookTitleBar from "../../src/components/Bookview/BookTitleBar";
@@ -6,15 +5,18 @@ import BookTagList from "../../src/components/Bookview/BookTagList";
 import BookDesc from "../../src/components/Bookview/BookDesc";
 import useBookData from '../../src/hooks/useBookData';
 //import BookReviewList from "../../src/components/Bookview/BookReviewList";
-
+import UserContext from '../../src/UserContext'
+import { useContext } from 'react'
 
 const Bookview = ({ book }) => {
 
-  const { state } = useBookData(book);
+  const { userId } = useContext(UserContext)
+
+  const { state } = useBookData(book, userId);
 
   return (
     <Layout>
-      <BookTitleBar authors={book.authors} title={book.title} img={book.image_url} year={book.year} />
+      <BookTitleBar userId={userId} authors={book.authors} title={book.title} img={book.image_url} year={book.year} />
       <BookTagList tags={state.tags}/>
       <BookDesc desc={book.description} />
     </Layout>

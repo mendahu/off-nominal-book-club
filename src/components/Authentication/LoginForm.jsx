@@ -1,45 +1,26 @@
+import { useContext } from 'react'
 import { Button } from "@material-ui/core";
-import { useState } from 'react'
-import { parseCookies, setCookie, destroyCookie } from 'nookies'
+import UserContext from '../../UserContext'
 
-const LoginForm = (props) => {
-  const [ userId, setUserId ] = useState(props.userId)
+const LoginForm = () => {
 
-
-  const logUserIn = () => {
-    setCookie(null, 'userId', 1, { maxAge: 24 * 60 * 60 })
-    setUserId(1);
-  }
-
-  const logUserOut = () => {
-    destroyCookie(null, 'userId');
-    setUserId(null);
-  }
+  const { userId, logUserIn, logUserOut } = useContext(UserContext)
 
   if (!userId) {
     return (
       <div>
-        <Button onClick={logUserIn} variant="contained" color="default">Login</Button>
+        <Button onClick={() => logUserIn(2)} variant="contained" color="default">Login Owner</Button>
+        <Button onClick={() => logUserIn(1)} variant="contained" color="default">Login Moderator</Button>
+        <Button onClick={() => logUserIn(3)} variant="contained" color="default">Login Member</Button>
       </div>
     )
   } else {
     return (
       <div>
-        <Button onClick={logUserOut} variant="contained" color="default">Logout</Button>
+        <Button onClick={() => logUserOut()} variant="contained" color="default">Logout User {userId}</Button>
       </div>
     )
   }  
-}
-
-export async function getServerSideProps(context) {
-
-  const cookies = parseCookies(context);
-  const userId = cookies.userId || null;
-  console.log(userId)
-
-  return {
-    props: {userId: userId}, 
-  }
 }
 
 export default LoginForm
