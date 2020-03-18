@@ -32,6 +32,41 @@ module.exports = {
           .into('books_authors')
           .returning(JSON.parse(ids[0]))
         })
+    },
+
+    fetch: function(bookId) {
+       
+      return knex.select(
+        "books.id", 
+        "books.title", 
+        "books.fiction",
+        "books.google_id",
+        "books.isbn13",
+        "books.description", 
+        "books.year", 
+        "books.image_url", 
+        knex.raw(`
+          ( SELECT json_agg(authors) 
+          FROM (
+            SELECT name 
+            FROM authors
+              JOIN books_authors ON authors.id = books_authors.author_id
+            WHERE books_authors.book_id = ?
+          ) authors ) AS authors`, bookId), 
+        knex.raw(`
+          ( SELECT json_agg(tag)
+          FROM (
+            SELECT name AS tag_name, COUNT('user_tag_book.id') as count 
+            FROM tags
+              JOIN user_tag_book ON tags.id = user_tag_book.tag_id
+              JOIN books ON user_tag_book.book_id = books.id
+            WHERE books.id = ?
+            GROUP BY name
+            ORDER BY count DESC
+          ) tag ) AS tags`, bookId))
+        .from('books')
+        .where('books.id', bookId)
+  
     }
   }
 }
