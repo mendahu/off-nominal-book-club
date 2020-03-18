@@ -8,12 +8,12 @@ import SearchIcon from "@material-ui/icons/Search";
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
+      display: "flex",
       flexGrow: 1
     },
     paper: {
       padding: theme.spacing(2),
-      margin: "auto",
-      maxWidth: "auto"
+      margin: "auto"
     },
     input: {
       marginLeft: theme.spacing(1),
@@ -22,16 +22,6 @@ const useStyles = makeStyles(theme =>
     },
     iconButton: {
       padding: 10
-    },
-    image: {
-      width: 128,
-      height: 128
-    },
-    img: {
-      margin: "auto",
-      display: "block",
-      maxWidth: "100%",
-      maxHeight: "100%"
     }
   })
 );

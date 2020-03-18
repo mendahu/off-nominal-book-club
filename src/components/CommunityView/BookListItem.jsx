@@ -14,11 +14,16 @@ import {
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
+    flexGrow: 1,
     flexDirection: "row",
     marginTop: "5px"
   },
   imageContainer: {
-    width: "18%",
+    display: "flex",
+    width: "17%",
+    alignSelf: "flex-start"
+  },
+  image: {
     alignSelf: "flex-start"
   },
   row: {
@@ -39,24 +44,15 @@ const useStyles = makeStyles(theme => ({
   tags: {
     display: "flex",
     flexDirection: "row",
-    paddingTop: "0"
+    paddingTop: "0",
+    flexWrap: "wrap"
   },
   year: {
     width: "10%",
     alignSelf: "flex-end"
   },
-  controls: {
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  },
   chip: {
     margin: theme.spacing(0.5)
-  },
-  playIcon: {
-    height: 38,
-    width: 38
   }
 }));
 
@@ -88,6 +84,7 @@ export default function BookListItem(props) {
               </Typography>
             </CardContent>
             <div className={classes.tags}>
+              {console.log(props.book.tags)}
               {props.book.tags &&
                 props.book.tags
                   .slice(0, 4)
@@ -102,9 +99,9 @@ export default function BookListItem(props) {
             </div>
             <CardContent className={classes.row}>
               {props.book.authors &&
-                props.book.authors.map((author, index) => (
+                JSON.parse(props.book.authors).map((author, index) => (
                   <Typography className={classes.title} variant='subtitle1'>
-                    {author.name}
+                    {author}
                   </Typography>
                 ))}
               <Typography

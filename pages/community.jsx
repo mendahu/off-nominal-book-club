@@ -9,7 +9,7 @@ const queries = require("../db/queries/books");
 
 function Community({ books }) {
   const [searchResults, setSearchResults] = useState(books);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("cake");
 
   // const SetSearchTerm  = function(value) {
   //   setSearchTerm(value);
@@ -17,7 +17,6 @@ function Community({ books }) {
   async function getSearchResults(term) {
     const data = await axios.get(`/api/community?term=${term}`);
     setSearchResults(data.data);
-    console.log(data);
   }
 
   useEffect(() => {
@@ -34,9 +33,12 @@ function Community({ books }) {
   );
 }
 
-export async function getServerSideProps() {
-  const books = await queries.books.getAll("");
-  return { props: { books } };
-}
+// export async function getServerSideProps() {
+//   // const books = await axios.get(`/api/community?term=cake`);
+//   // console.log(books);
+//   const books = await queries.books.getAll("");
+//   console.log(books);
+//   // return { props: { books } };
+// }
 
 export default Community;
