@@ -14,6 +14,8 @@ export default (req, res) => {
       res.end(JSON.stringify(results))
     })
     .catch((err) => {
+      res.statusCode = 500
       console.error(err)
+      res.end()
     })
 };

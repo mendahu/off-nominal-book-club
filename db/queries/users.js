@@ -12,14 +12,14 @@ module.exports = {
           FROM tags
             JOIN user_tag_book as tagrel ON tagrel.tag_id = tags.id
           WHERE tagrel.user_id = 1 AND tagrel.book_id = books.id
-          ) as userTags`),
-        knex.raw(`(SELECT CAST(COUNT(*) AS BIT) AS read
+          ) as user_tags`),
+        knex.raw(`(SELECT reads.id AS read
           FROM reads
           WHERE reads.user_id = 1 AND reads.book_id = books.id) as read`),
-        knex.raw(`(SELECT CAST(COUNT(*) AS BIT) AS read
+        knex.raw(`(SELECT favourites.id AS favsId
           FROM favourites
           WHERE favourites.user_id = 1 AND favourites.book_id = books.id) as fav`),
-        knex.raw(`(SELECT CAST(COUNT(*) AS BIT) AS read
+        knex.raw(`(SELECT wishlist.id AS wishlistId
         FROM wishlist
         WHERE wishlist.user_id = 1 AND wishlist.book_id = books.id) as wishlist`)
         )

@@ -6,15 +6,15 @@ FROM tags
 WHERE tagrel.user_id = 1 AND tagrel.book_id = books.id
 ) as userTags,
 
-(SELECT CAST(COUNT(*) AS BIT) AS read
+(SELECT reads.id AS readId
 FROM reads
 WHERE reads.user_id = 1 AND reads.book_id = books.id) as read,
 
-(SELECT CAST(COUNT(*) AS BIT) AS read
+(SELECT favourites.id AS favsId
 FROM favourites
 WHERE favourites.user_id = 1 AND favourites.book_id = books.id) as fav,
 
-(SELECT CAST(COUNT(*) AS BIT) AS read
+(SELECT wishlist.idd AS wishlistId
 FROM wishlist
 WHERE wishlist.user_id = 1 AND wishlist.book_id = books.id) as wishlist,
 

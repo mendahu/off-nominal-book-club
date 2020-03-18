@@ -2,12 +2,13 @@ import { Button } from "@material-ui/core";
 import { useState } from 'react'
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 
-const LoginForm = (props) => {
-  const [ userId, setUserId ] = useState(props.userId)
+const LoginForm = () => {
+  const cookies = parseCookies()
+  const [ userId, setUserId ] = useState(cookies.userId)
 
 
   const logUserIn = () => {
-    setCookie(null, 'userId', 1, { maxAge: 24 * 60 * 60 })
+    setCookie(null, 'userId', 1, { maxAge: 24 * 60 * 60, path: "/" })
     setUserId(1);
   }
 
@@ -29,17 +30,6 @@ const LoginForm = (props) => {
       </div>
     )
   }  
-}
-
-export async function getServerSideProps(context) {
-
-  const cookies = parseCookies(context);
-  const userId = cookies.userId || null;
-  console.log(userId)
-
-  return {
-    props: {userId: userId}, 
-  }
 }
 
 export default LoginForm
