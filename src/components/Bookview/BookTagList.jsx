@@ -1,13 +1,32 @@
-import TagItem from "./TagItem";
+import { makeStyles } from '@material-ui/core/styles';
+import { Avatar, Chip, Paper } from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    padding: theme.spacing(0.5),
+  },
+  chip: {
+    margin: theme.spacing(0.5),
+  },
+}));
 
 const BookTagList = (props) => {
+  const classes = useStyles();
 
   return (
-    <>
-      {props.tags.map((t, index) => (
-        <TagItem key={index} tag={t.tag_name} count={t.count} />
-      ))}
-    </>
+    <Paper className={classes.root}>
+        {props.tags.map((t) => (
+          <Chip
+            key={t.key}
+            label={t.tag_name} 
+            avatar={<Avatar>{t.count}</Avatar>}
+            className={classes.chip}
+          />
+        ))}
+    </Paper>
   )
 }
 
