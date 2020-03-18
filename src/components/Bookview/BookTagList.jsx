@@ -18,16 +18,18 @@ const BookTagList = (props) => {
 
   return (
     <Paper className={classes.root}>
-        {props.tags.map((t, index) => (
+        {props.tags &&
+          props.tags.map((t, index) => (
           <Chip
             key={index}
             label={t.tag_name} 
             avatar={<Avatar>{t.count}</Avatar>}
             className={classes.chip}
+            color={props.userTags ? (props.userTags.includes(t.tag_name) ? "primary" : "default") : "default"}
           />
         ))}
     </Paper>
   )
 }
 
-export default BookTagList
+export default BookTagList;

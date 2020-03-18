@@ -8,20 +8,24 @@ module.exports = {
         "books.id",
         "rating",
         "review",
-        knex.raw(`ARRAY(SELECT name as tag_names
-          FROM tags
-            JOIN user_tag_book as tagrel ON tagrel.tag_id = tags.id
-          WHERE tagrel.user_id = 1 AND tagrel.book_id = books.id
-          ) as user_tags`),
-        knex.raw(`(SELECT reads.id AS read
-          FROM reads
-          WHERE reads.user_id = 1 AND reads.book_id = books.id) as read`),
-        knex.raw(`(SELECT favourites.id AS favsId
-          FROM favourites
-          WHERE favourites.user_id = 1 AND favourites.book_id = books.id) as fav`),
-        knex.raw(`(SELECT wishlist.id AS wishlistId
-        FROM wishlist
-        WHERE wishlist.user_id = 1 AND wishlist.book_id = books.id) as wishlist`)
+        knex.raw(`ARRAY
+          (SELECT name
+            FROM tags
+              JOIN user_tag_book as tagrel ON tagrel.tag_id = tags.id
+            WHERE tagrel.user_id = ? AND tagrel.book_id = books.id
+          ) as user_tags`, userId),
+        knex.raw(`
+          (SELECT reads.id
+            FROM reads
+            WHERE reads.user_id = ? AND reads.book_id = books.id) as read`, userId),
+        knex.raw(`
+          (SELECT favourites.id
+            FROM favourites
+            WHERE favourites.user_id = ? AND favourites.book_id = books.id) as fav`, userId),
+        knex.raw(`
+          (SELECT wishlist.id
+            FROM wishlist
+            WHERE wishlist.user_id = ? AND wishlist.book_id = books.id) as wishlist`, userId)
         )
         .from('books')
         .leftJoin('ratings', function() { 

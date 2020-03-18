@@ -4,28 +4,26 @@ import BookTitleBar from "../../src/components/Bookview/BookTitleBar";
 import BookTagList from "../../src/components/Bookview/BookTagList";
 import BookDesc from "../../src/components/Bookview/BookDesc";
 import useBookData from '../../src/hooks/useBookData';
-//import BookReviewList from "../../src/components/Bookview/BookReviewList";
+import BookReviewList from "../../src/components/Bookview/BookReviewList";
 import UserContext from '../../src/UserContext'
 import { useContext } from 'react'
 
 const Bookview = ({ book }) => {
 
   const { userId } = useContext(UserContext)
-
   const { state } = useBookData(book, userId);
+
+  console.log(book.reviews)
 
   return (
     <Layout>
-      <BookTitleBar userId={userId} authors={book.authors} title={book.title} img={book.image_url} year={book.year} />
-      <BookTagList tags={state.tags}/>
+      <BookTitleBar userId={userId} read={state.read} wishlist={state.wishlist} fav={state.fav} authors={book.authors} title={book.title} img={book.image_url} year={book.year} />
+      <BookTagList tags={state.tags} userTags={state.user_tags}/>
       <BookDesc desc={book.description} />
+      <BookReviewList reviews={book.reviews}/>
     </Layout>
   );
 };
-
-/*
-  <BookReviewList />
-*/
 
 export async function getServerSideProps(context) {
   const queryId = context.params.id;

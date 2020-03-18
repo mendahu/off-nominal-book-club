@@ -1,4 +1,4 @@
-SELECT books.id, books.title, books.description,
+SELECT books.id, books.title,
 
   ( SELECT json_agg(authors) 
   FROM (
@@ -19,7 +19,16 @@ SELECT books.id, books.title, books.description,
     WHERE books.id = 14
     GROUP BY name
     ORDER BY count DESC
-  ) tag ) AS tags
+  ) tag ) AS tags,
+
+  ( SELECT json_agg(review)
+  FROM (
+    SELECT reviews.id, reviews.user_id, users.name as name, ratings.rating
+    FROM reviews
+      JOIN users ON reviews.user_id = users.id
+      JOIN ratings ON ratings.book_id = reviews.book_id
+    WHERE reviews.book_id = 14 AND ratings.user_id = reviews.user_id
+  ) review ) AS reviews
 
 FROM books
 WHERE books.id = 14
