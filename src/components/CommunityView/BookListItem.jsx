@@ -1,13 +1,15 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import StarBorder from "@material-ui/icons/StarBorder";
-import Typography from "@material-ui/core/Typography";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Paper from "@material-ui/core/Paper";
+import {
+  Avatar,
+  Chip,
+  Paper,
+  Typography,
+  CardMedia,
+  CardContent,
+  Card
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,19 +27,11 @@ const useStyles = makeStyles(theme => ({
     padding: "0",
     justifyContent: "flex-end"
   },
-  details: {
-    display: "flex",
-    flexDirection: "column",
-    width: "75%"
-  },
   content: {
     display: "flex",
     flexDirection: "column",
     alignSelf: "flex-end",
     width: "78%"
-  },
-  cover: {
-    width: 151
   },
   title: {
     width: "90%"
@@ -57,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1)
   },
+  chip: {
+    margin: theme.spacing(0.5)
+  },
   playIcon: {
     height: 38,
     width: 38
@@ -66,6 +63,8 @@ const useStyles = makeStyles(theme => ({
 export default function BookListItem(props) {
   const classes = useStyles();
   const theme = useTheme();
+
+  const arr = ["hello", "tag", "Jake"];
   return (
     <form>
       <Paper>
@@ -88,17 +87,26 @@ export default function BookListItem(props) {
                 4
               </Typography>
             </CardContent>
-            <ButtonGroup className={classes.tags}>
-              {props.tags.map((tag, index) => (
-                <Button>
-                  <Typography>{tag}</Typography>
-                </Button>
-              ))}
-            </ButtonGroup>
+            <div className={classes.tags}>
+              {props.book.tags &&
+                props.book.tags
+                  .slice(0, 4)
+                  .map((tag, index) => (
+                    <Chip
+                      key={index}
+                      label={tag.tag_name}
+                      avatar={<Avatar>{tag.count}</Avatar>}
+                      className={classes.chip}
+                    />
+                  ))}
+            </div>
             <CardContent className={classes.row}>
-              <Typography className={classes.title} variant='subtitle1'>
-                Andy Weir
-              </Typography>
+              {props.book.authors &&
+                props.book.authors.map((author, index) => (
+                  <Typography className={classes.title} variant='subtitle1'>
+                    {author.name}
+                  </Typography>
+                ))}
               <Typography
                 className={classes.year}
                 variant='subtitle1'

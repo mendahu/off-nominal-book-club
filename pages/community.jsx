@@ -5,24 +5,29 @@ const knex = require("../db/knex");
 import React, { useState, useEffect } from "react";
 import Layout from "../src/components/DefaultLayout";
 import axios from "axios";
+const queries = require("../db/queries/books");
 
 function Community({ books }) {
   const [searchResults, setSearchResults] = useState(books);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const onChange = function(value) {
-    setSearchTerm(value);
-  };
-  async function getSearchResults() {
-    // const data = await axios.get;
+  // const SetSearchTerm  = function(value) {
+  //   setSearchTerm(value);
+  // };
+  async function getSearchResults(term) {
+    const data = await axios.get(`/api/community?term=${term}`);
+    setSearchResults(data.data);
+    console.log(data);
   }
 
-  useEffect(() => {}, [searchTerm]);
+  useEffect(() => {
+    getSearchResults(searchTerm);
+  }, [searchTerm]);
 
   return (
     <div>
       <Layout>
-        <SearchBar setSearchTerm={onChange} searchTerm={searchTerm} />
+        <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
         <BookList books={searchResults} />
       </Layout>
     </div>
@@ -30,19 +35,7 @@ function Community({ books }) {
 }
 
 export async function getServerSideProps() {
-  const books = await knex
-    .select(
-      "id",
-      "title",
-      "fiction",
-      "year",
-      "description",
-      "image_url",
-      "isbn13",
-      "google_id"
-    )
-    .from("books");
-
+  const books = await queries.books.getAll("");
   return { props: { books } };
 }
 

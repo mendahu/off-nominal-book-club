@@ -26,12 +26,10 @@ export default (req, res) => {
         })
       break
     case 'POST':
-        console.log(req.body)
+        
         bookObj = req.body
 
-        console.log(bookObj)
-
-        console.log("in POST")
+       
       queries
         .books
         .add(bookObj)
