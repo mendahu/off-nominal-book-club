@@ -10,19 +10,19 @@ function Community({ books }) {
   const [searchResults, setSearchResults] = useState(books);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const onChange = function(value) {
+    setSearchTerm(value);
+  };
   async function getSearchResults() {
     // const data = await axios.get;
   }
 
-  useEffect(() => {
-    console.log("changes search term");
-  }, [searchTerm]);
+  useEffect(() => {}, [searchTerm]);
 
-  console.log(searchResults);
   return (
     <div>
       <Layout>
-        <SearchBar />
+        <SearchBar setSearchTerm={onChange} searchTerm={searchTerm} />
         <BookList books={searchResults} />
       </Layout>
     </div>

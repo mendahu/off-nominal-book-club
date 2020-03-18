@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -36,16 +36,34 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-export default function SearchGoogle(props) {
+export default function SearchDatabase(props) {
   const classes = useStyles();
+
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    // Set debouncedValue to value (passed in) after the specified delay
+    const handler = setTimeout(() => {
+      props.setSearchTerm(input);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [input]);
+
+  const onInputChange = event => {
+    setInput(event.target.value);
+  };
 
   return (
     <section className={classes.root}>
       <Paper component='form' className={classes.paper}>
         <InputBase
           className={classes.input}
-          placeholder='Search Google Books'
-          value={props.searchTerm}
+          placeholder='Search'
+          value={input}
+          onChange={onInputChange}
         />
         <IconButton
           type='submit'
