@@ -89,18 +89,11 @@ export default function BookListItem(props) {
               </Typography>
             </CardContent>
             <ButtonGroup className={classes.tags}>
-              <Button>
-                <Typography>Mars</Typography>
-              </Button>
-              <Button>
-                <Typography>Space</Typography>
-              </Button>
-              <Button>
-                <Typography>Fiction</Typography>
-              </Button>
-              <Button>
-                <Typography>Science Fiction</Typography>
-              </Button>
+              {props.tags.map((tag, index) => (
+                <Button>
+                  <Typography>{tag}</Typography>
+                </Button>
+              ))}
             </ButtonGroup>
             <CardContent className={classes.row}>
               <Typography className={classes.title} variant='subtitle1'>

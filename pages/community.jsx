@@ -1,10 +1,32 @@
 // import BookListItem from "../CommunityView/BookListItem";
 import BookList from "../src/components/CommunityView/BookList";
+import SearchBar from "../src/components/CommunityView/SearchBar";
 const knex = require("../db/knex");
+import React, { useState, useEffect } from "react";
+import Layout from "../src/components/DefaultLayout";
 import axios from "axios";
 
 function Community({ books }) {
-  return <BookList books={books} />;
+  const [searchResults, setSearchResults] = useState(books);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  async function getSearchResults() {
+    // const data = await axios.get;
+  }
+
+  useEffect(() => {
+    console.log("changes search term");
+  }, [searchTerm]);
+
+  console.log(searchResults);
+  return (
+    <div>
+      <Layout>
+        <SearchBar />
+        <BookList books={searchResults} />
+      </Layout>
+    </div>
+  );
 }
 
 export async function getServerSideProps() {
@@ -25,22 +47,3 @@ export async function getServerSideProps() {
 }
 
 export default Community;
-
-// import BookListItem from "../CommunityView/BookListItem";
-// import BookList from "../CommunityView/BookList";
-// import axios from "axios";
-// import React, { useState, useEffect } from "react";
-
-// export default function Community() {
-//   const [books, setBooks] = useState([]);
-
-//   useEffect(() => {
-//     axios.get("/api/books").then(res => setBooks(res.data));
-//   }, []);
-
-//   return (
-//     <section>
-//       <BookList books={books} />
-//     </section>
-//   );
-// }
