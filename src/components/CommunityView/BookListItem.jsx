@@ -79,16 +79,17 @@ export default function BookListItem(props) {
               <Typography className={classes.title} component='h5' variant='h5'>
                 {props.book.title}
               </Typography>
-              <StarBorder />
+              {props.book.avg_rating && <StarBorder />}
               <Typography
                 className={classes.year}
                 variant='subtitle1'
                 color='textSecondary'>
-                4
+                {props.book.avg_rating}
               </Typography>
             </CardContent>
             <div className={classes.tags}>
-              {props.book.tags > 0 &&
+              {console.log(props.book.tags)}
+              {props.book.tags.length > 1 &&
                 props.book.tags
                   .slice(0, 4)
                   .map((tag, index) => (

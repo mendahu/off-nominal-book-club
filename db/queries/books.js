@@ -101,7 +101,11 @@ module.exports = {
           max(author_names.names_json::text) AS authors,
           json_agg(tag_counts) AS tags,
           max(tag_counts.tag_name) AS tag_string,
-          b.title
+          (SELECT ROUND(AVG(rating),1)
+          FROM reviews
+          JOIN ratings ON ratings.book_id = reviews.book_id
+          WHERE reviews.book_id = b.id
+            ) as avg_rating
         FROM books b
           LEFT JOIN (
             SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json

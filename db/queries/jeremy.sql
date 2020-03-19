@@ -230,3 +230,20 @@ from books b
 WHERE b.id = 122
   
 GROUP BY b.id
+
+
+SELECT AVG(rating)
+  FROM (
+    SELCECT
+  )
+
+
+SELECT * 
+FROM reviews
+  JOIN 
+
+
+  SELECT AVG(rating)
+            FROM reviews
+              JOIN ratings ON ratings.book_id = reviews.book_id
+              WHERE reviews.book_id = 
