@@ -97,8 +97,8 @@ module.exports = {
           b.description,
           b.year,
           b.image_url,
-          max(author_names.names) AS author_string,
-          max(author_names.names_json::text) AS author_array,
+          max(author_names.names) AS authors_string,
+          max(author_names.names_json::text) AS authors,
           max(tags_info.tags:: text) as tags,
           max(tags_info.tag_string) as tags_string
         FROM books b

@@ -28,7 +28,7 @@ export default (req, res) => {
     case 'POST':
         
         bookObj = req.body
-
+        console.log(bookObj)
        
       queries
         .books
