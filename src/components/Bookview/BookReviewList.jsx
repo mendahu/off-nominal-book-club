@@ -3,7 +3,6 @@ import BookReview from './BookReview'
 
 const BookReviewList = (props) => {
   const reviews = props.reviews;
-  console.log(reviews)
 
   return (
     <Paper>
