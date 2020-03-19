@@ -1,41 +1,5 @@
 
 
-select
-  b.id as book_id,
-  a.id as author_id,
-  a.name as author_name,
-  b.title
-from books b
-  join books_authors ba on ba.book_id = b.id
-  join authors a on ba.author_id = a.id
-where b.title
-ilike '%cake%'
-
-
-
-
-
-select
-  b.id as book_id,
-  array_agg(a.name) as author_names,
-  b.title
-from books b
-  join books_authors ba on ba.book_id = b.id
-  join authors a on ba.author_id = a.id
-  join (
-    select book_id, tag_name, count(*) as num
-  from
-    user_book_tags join tags on blahblah
-  group by book_id, tag_name
-  ) as tag_counts on tag_counts.book_id = b.id
-  JOIN user_tag_book utb ON utb.book_id = b.id
-  JOIN tags ON tags.id = utb.tag_id
-where b.title ilike '%cake%'
-  or a.name
-ilike '%an%'
-group by b.id
-
-
 
 
 
@@ -247,7 +211,7 @@ SELECT
   max(tag_counts.names) AS tag_string,
   b.title
 from books b
-  JOIN (
+  LEFT JOIN (
     SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
       FROM authors a
         JOIN books_authors ba ON a.id = ba.author_id
@@ -255,7 +219,7 @@ from books b
       GROUP BY book_id
   ) as author_names ON author_names.book_id = b.id
 
-  JOIN (
+  LEFT JOIN (
     SELECT book_id, string_agg(name::character varying, ',') AS names, name as tag_name, COUNT('user_tag_book.id') AS count
             FROM tags t
               JOIN user_tag_book utb ON t.id = utb.tag_id
@@ -263,6 +227,6 @@ from books b
             GROUP BY t.name, book_id
             ORDER BY count DESC
   ) AS tag_counts ON tag_counts.book_id = b.id
-WHERE b.id = 16
+WHERE b.id = 122
   
 GROUP BY b.id
