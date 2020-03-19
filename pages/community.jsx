@@ -6,10 +6,11 @@ import React, { useState, useEffect } from "react";
 import Layout from "../src/components/DefaultLayout";
 import axios from "axios";
 const queries = require("../db/queries/books");
+import Router from "next/router";
 
 function Community({ books }) {
   const [searchResults, setSearchResults] = useState(books);
-  const [searchTerm, setSearchTerm] = useState("cake");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // const SetSearchTerm  = function(value) {
   //   setSearchTerm(value);
@@ -17,6 +18,10 @@ function Community({ books }) {
   async function getSearchResults(term) {
     const data = await axios.get(`/api/community?term=${term}`);
     setSearchResults(data.data);
+  }
+
+  function redirectToBook(id) {
+    Router.push(`/books/${id}`);
   }
 
   useEffect(() => {
@@ -27,18 +32,10 @@ function Community({ books }) {
     <div>
       <Layout>
         <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
-        <BookList books={searchResults} />
+        <BookList books={searchResults} onClick={redirectToBook} />
       </Layout>
     </div>
   );
 }
-
-// export async function getServerSideProps() {
-//   // const books = await axios.get(`/api/community?term=cake`);
-//   // console.log(books);
-//   const books = await queries.books.getAll("");
-//   console.log(books);
-//   // return { props: { books } };
-// }
 
 export default Community;

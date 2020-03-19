@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import SearchBar from "../../src/components/SearchBar";
+import SearchBar from "../../src/components/New/SearchBar";
 import Layout from "../../src/components/DefaultLayout";
-import SearchResultsList from "../../src/components/SearchResultsList";
-import ConfirmResults from "../../src/components/ConfirmResults";
+import SearchResultsList from "../../src/components/New/SearchResultsList";
+import ConfirmResults from "../../src/components/New/ConfirmResults";
 import axios from "axios";
 import Router from "next/router";
 

@@ -230,31 +230,39 @@ tag2   -     book      -  auth2
 tag3   /               \  auth3
 
 
-select
-  b.id as book_id,
-  -- json_agg(author_names.author_name) as author_names,
-  -- string_agg(author_names.author_name::character varying, ',') as author_string,
-  max(author_names.names),
-  json_agg(author_names.names_json),
-  json_agg(tag_counts) as tags,
-  string_agg(tag_counts.tag_name::character varying, ',') as tag_string,
+-- the solution!
+SELECT
+  b.id,
+  b.title,
+  b.fiction,
+  b.google_id,
+  b.isbn13,
+  b.description,
+  b.year,
+  b.image_url,
+  max(author_names.names) AS author_string,
+  max(author_names.names_json::text) AS author_array,
+  json_agg(tag_counts) AS tags,
+  max(tag_counts.tag_name) as tags_name,
+  max(tag_counts.names) AS tag_string,
   b.title
 from books b
   JOIN (
-    SELECT book_id, string_agg(name::character varying, ',') as names, json_agg(name) as names_json
+    SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
       FROM authors a
         JOIN books_authors ba ON a.id = ba.author_id
-        JOIN books as b on ba.book_id = b.id
+        JOIN books AS b ON ba.book_id = b.id
       GROUP BY book_id
-  ) as author_names on author_names.book_id = b.id
+  ) as author_names ON author_names.book_id = b.id
 
   JOIN (
-    SELECT book_id, name AS tag_name, COUNT('user_tag_book.id') as count
+    SELECT book_id, string_agg(name::character varying, ',') AS names, name as tag_name, COUNT('user_tag_book.id') AS count
             FROM tags t
               JOIN user_tag_book utb ON t.id = utb.tag_id
-              JOIN books as b ON utb.book_id = b.id
+              JOIN books AS b ON utb.book_id = b.id
             GROUP BY t.name, book_id
             ORDER BY count DESC
-  ) as tag_counts on tag_counts.book_id = b.id
-where b.id = 9
-group by b.id, author_names.book_id
+  ) AS tag_counts ON tag_counts.book_id = b.id
+WHERE b.id = 16
+  
+GROUP BY b.id

@@ -20,6 +20,7 @@ module.exports = {
 
     add: function(bookObj) {
 
+
       const bookId = knex
         .insert(bookObj.book)
         .returning('id')
@@ -101,8 +102,8 @@ module.exports = {
           json_agg(tag_counts) AS tags,
           max(tag_counts.tag_name) AS tag_string,
           b.title
-        from books b
-          JOIN (
+        FROM books b
+          LEFT JOIN (
             SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
               FROM authors a
                 JOIN books_authors ba ON a.id = ba.author_id
@@ -110,7 +111,7 @@ module.exports = {
               GROUP BY book_id
           ) as author_names ON author_names.book_id = b.id
         
-          JOIN (
+          LEFT JOIN (
             SELECT book_id, string_agg(name::character varying, ',') AS names, name as tag_name, COUNT('user_tag_book.id') AS count
                     FROM tags t
                       JOIN user_tag_book utb ON t.id = utb.tag_id

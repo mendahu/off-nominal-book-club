@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(theme =>
   createStyles({
     root: {
       flexGrow: 1
@@ -42,36 +42,44 @@ export default function SearchGoogle(props) {
 
   let API_URL = `https://www.googleapis.com/books/v1/volumes`;
 
+  useEffect(() => {
+    // Set debouncedValue to value (passed in) after the specified delay
+    const handler = setTimeout(() => {
+      getSearchResults();
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [props.searchTerm]);
+
   const getSearchResults = async () => {
-    if (props.searchTerm.length % 3 === 0) {
-      const searchResult = await axios.get(
-        `${API_URL}?q=${props.searchTerm}&maxResults=10`
-      );
-      const formatedResults = searchResult.data.items.map(book => ({
-        title: book.volumeInfo.title,
-        author: book.volumeInfo.authors ? book.volumeInfo.authors : "",
-        fiction: false,
-        year: book.volumeInfo.publishedDate
-          ? book.volumeInfo.publishedDate.split("-")[0]
-          : "",
-        description: book.volumeInfo.description
-          ? book.volumeInfo.description
-          : "",
-        image_url: book.volumeInfo.imageLinks
-          ? book.volumeInfo.imageLinks.thumbnail
-          : "",
-        google_id: book.id,
-        isbn13: book.volumeInfo.industryIdentifiers
-          ? book.volumeInfo.industryIdentifiers[0].identifier
-          : ""
-      }));
-      props.setResults(formatedResults);
-    }
+    const searchResult = await axios.get(
+      `${API_URL}?q=${props.searchTerm}&maxResults=10`
+    );
+    const formatedResults = searchResult.data.items.map(book => ({
+      title: book.volumeInfo.title,
+      author: book.volumeInfo.authors ? book.volumeInfo.authors : "",
+      fiction: false,
+      year: book.volumeInfo.publishedDate
+        ? book.volumeInfo.publishedDate.split("-")[0]
+        : "",
+      description: book.volumeInfo.description
+        ? book.volumeInfo.description
+        : "",
+      image_url: book.volumeInfo.imageLinks
+        ? book.volumeInfo.imageLinks.thumbnail
+        : "",
+      google_id: book.id,
+      isbn13: book.volumeInfo.industryIdentifiers
+        ? book.volumeInfo.industryIdentifiers[0].identifier
+        : ""
+    }));
+    props.setResults(formatedResults);
   };
 
   const onInputChange = event => {
     props.setTerm(event.target.value);
-    getSearchResults();
   };
 
   return (

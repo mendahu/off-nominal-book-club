@@ -8,7 +8,8 @@ import {
   Typography,
   CardMedia,
   CardContent,
-  Card
+  Card,
+  Button
 } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -53,6 +54,9 @@ const useStyles = makeStyles(theme => ({
   },
   chip: {
     margin: theme.spacing(0.5)
+  },
+  buttton: {
+    height: "20px"
   }
 }));
 
@@ -84,8 +88,7 @@ export default function BookListItem(props) {
               </Typography>
             </CardContent>
             <div className={classes.tags}>
-              {console.log(props.book.tags)}
-              {props.book.tags &&
+              {props.book.tags > 0 &&
                 props.book.tags
                   .slice(0, 4)
                   .map((tag, index) => (
@@ -114,6 +117,17 @@ export default function BookListItem(props) {
             <Typography variant='subtitle1' color='textSecondary'>
               {props.book.description.split(".")[0]}
             </Typography>
+            <Button
+              className={classes.button}
+              variant='contained'
+              color='primary'
+              type='submit'
+              onClick={event => {
+                event.preventDefault();
+                props.onClick(props.book.id);
+              }}>
+              <Typography variant='body2'>{props.buttonText}</Typography>
+            </Button>
           </CardContent>
         </Card>
       </Paper>
