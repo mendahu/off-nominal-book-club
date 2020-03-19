@@ -18,7 +18,9 @@ export default function useBookData(ssrBook, userId) {
   const toggleRead = () => {
     if (state.read) {
       axios.delete(`/api/reads/${state.read}`)
-      setState({...state, read: false})
+      .then(() => {
+        setState({...state, read: false})
+      })
     } else {
       axios.post(`/api/reads/new`, {
         userId,
