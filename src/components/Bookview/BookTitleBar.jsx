@@ -23,10 +23,12 @@ const BookTitleBar = (props) => {
   const classes = useStyles();
 
   const userFlags = [
-    {active: "Mark as Unread", inactive: "Mark as Read", status: props.read, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon /> },
-    {active: "Remove from Wishlist", inactive: "Add to Wishlist", status: props.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />},
-    {active: "Unfavourite", inactive: "Add to Favs", status: props.fav, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />}
+    {active: "Mark as Unread", inactive: "Mark as Read", status: props.read, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon />, toggler: props.toggleRead},
+    {active: "Remove from Wishlist", inactive: "Add to Wishlist", status: props.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />, toggler: props.toggleRead},
+    {active: "Unfavourite", inactive: "Add to Favs", status: props.fav, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />, toggler: props.toggleRead}
   ]
+
+  console.log("toggle read function is", userFlags[0].toggler)
 
   return (
     <Paper>
@@ -37,8 +39,9 @@ const BookTitleBar = (props) => {
         {userFlags.map((f, index) => (
           <Chip
             key={index}
-            label={f.active}
-            icon={(f.status) ? f.icon_active : f.icon_inactive}
+            onClick={f.toggler}
+            label={f.status ? f.active : f.inactive}
+            icon={f.status ? f.icon_active : f.icon_inactive}
             className={classes.chip}
             color={(f.status) ? "primary" : "default"}
           />))}

@@ -15,6 +15,22 @@ export default function useBookData(ssrBook, userId) {
     review: {}
   });
 
+  const toggleRead = () => {
+    if (state.read) {
+      axios.delete(`/api/reads/${state.read}`)
+      setState({...state, read: false})
+    } else {
+      axios.post(`/api/reads/new`, {
+        userId,
+        bookId: ssrBook.id
+      })
+      .then(res => {
+        setState({...state, read: res[0]})
+      })
+    }
+    
+  }
+
   //API calls for user data
   useEffect(() => {
     if (userId) {
@@ -27,10 +43,11 @@ export default function useBookData(ssrBook, userId) {
           console.error(err);
         });
     }
-  }, [userId]);
+  }, [userId, state.read]);
 
   return {
-    state
+    state,
+    toggleRead
   };
 
 }
