@@ -227,7 +227,7 @@ from books b
             GROUP BY t.name, book_id
             ORDER BY count DESC
   ) AS tag_counts ON tag_counts.book_id = b.id
-WHERE b.id = 122
+WHERE b.id = 55
   
 GROUP BY b.id
 
@@ -247,3 +247,25 @@ FROM reviews
             FROM reviews
               JOIN ratings ON ratings.book_id = reviews.book_id
               WHERE reviews.book_id = 
+
+
+
+SELECT book_id, name AS tag_name, string_agg(tag_name)COUNT('user_tag_book.id') as count
+            FROM tags t
+              JOIN user_tag_book utb ON t.id = utb.tag_id
+              JOIN books as b ON utb.book_id = b.id
+            where book_id = 8
+            GROUP BY t.name, book_id
+            ORDER BY count DESC;
+
+
+
+    
+SELECT str_agg(tag_name::character varying, ',')
+  FROM (
+    SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
+            FROM tags t
+              JOIN user_tag_book utb ON t.id = utb.tag_id
+              JOIN books AS b ON utb.book_id = b.id
+            GROUP BY book_id, t.name
+            ORDER BY count DESC) as tag_string

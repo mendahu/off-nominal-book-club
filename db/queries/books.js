@@ -98,14 +98,9 @@ module.exports = {
           b.year,
           b.image_url,
           max(author_names.names) AS author_string,
-          max(author_names.names_json::text) AS authors,
-          json_agg(tag_counts) AS tags,
-          max(tag_counts.tag_name) AS tag_string,
-          (SELECT ROUND(AVG(rating),1)
-          FROM reviews
-          JOIN ratings ON ratings.book_id = reviews.book_id
-          WHERE reviews.book_id = b.id
-            ) as avg_rating
+          max(author_names.names_json::text) AS author_array,
+          max(tags_info.tags:: text) as tags,
+          max(tags_info.tag_string) as tags_string
         FROM books b
           LEFT JOIN (
             SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
@@ -114,19 +109,19 @@ module.exports = {
                 JOIN books AS b ON ba.book_id = b.id
               GROUP BY book_id
           ) as author_names ON author_names.book_id = b.id
-        
           LEFT JOIN (
-            SELECT book_id, string_agg(name::character varying, ',') AS names, name as tag_name, COUNT('user_tag_book.id') AS count
+            SELECT book_id, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+              FROM (
+                SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
                     FROM tags t
                       JOIN user_tag_book utb ON t.id = utb.tag_id
                       JOIN books AS b ON utb.book_id = b.id
-                    GROUP BY t.name, book_id
-                    ORDER BY count DESC
-          ) AS tag_counts ON tag_counts.book_id = b.id
+                    GROUP BY book_id, t.name
+                    ORDER BY count DESC) as tag_counts
+                    GROUP BY book_id) as tags_info on tags_info.book_id = b.id       
         WHERE b.title ILIKE '%${lowerTerm}%'
           OR author_names.names ILIKE '%${lowerTerm}%'
-          OR tag_counts.names ILIKE '%${lowerTerm}%'
-          
+          OR tags_info.tag_string ILIKE '%${lowerTerm}%'    
         GROUP BY b.id
       `)
     }

@@ -88,8 +88,8 @@ export default function BookListItem(props) {
               </Typography>
             </CardContent>
             <div className={classes.tags}>
-              {props.book.tags.length > 1 &&
-                props.book.tags
+              {props.book.tags &&
+                JSON.parse(props.book.tags)
                   .slice(0, 4)
                   .map((tag, index) => (
                     <Chip
