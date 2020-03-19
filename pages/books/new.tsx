@@ -36,12 +36,16 @@ export default function New() {
   });
 
   // function that redirects to book/[book]
-  async function redirectToBook(id) {
+  function redirectToBook(id) {
     event => {
       event.preventDefault();
     };
     console.log(id);
     Router.push(`/books/${id}`);
+  }
+
+  function redirectToCom() {
+    Router.push(`/community`);
   }
 
   // adds book to database with bookObj State and redirects to book/[book]
@@ -108,6 +112,7 @@ export default function New() {
           setResults={handleResults}
           searchTerm={searchTerm}
           setTerm={handleSearchTerm}
+          onClick={redirectToCom}
         />
       )}
       {mode === SEARCH && (

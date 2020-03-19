@@ -5,34 +5,31 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
-      flexGrow: 1
+      display: "flex",
+      flexGrow: 1,
+      maxWidth: "auto"
     },
     paper: {
+      display: "flex",
       padding: theme.spacing(2),
       margin: "auto",
-      maxWidth: "auto"
+      width: "100%"
     },
     input: {
       marginLeft: theme.spacing(1),
       flex: 1,
-      width: 900
+      width: "80%"
     },
     iconButton: {
       padding: 10
     },
-    image: {
-      width: 128,
-      height: 128
-    },
-    img: {
-      margin: "auto",
-      display: "block",
-      maxWidth: "100%",
-      maxHeight: "100%"
+    button: {
+      margin: 10
     }
   })
 );
@@ -91,12 +88,21 @@ export default function SearchGoogle(props) {
           value={props.searchTerm}
           onChange={onInputChange}
         />
-        <IconButton
+        <SearchIcon
           type='submit'
           className={classes.iconButton}
-          aria-label='search'>
-          <SearchIcon />
-        </IconButton>
+          aria-label='search'
+        />
+        <Button
+          className={classes.button}
+          variant='contained'
+          color='primary'
+          onClick={event => {
+            event.preventDefault();
+            props.onClick();
+          }}>
+          BACK
+        </Button>
       </Paper>
     </section>
   );

@@ -28,10 +28,19 @@ function Community({ books }) {
     getSearchResults(searchTerm);
   }, [searchTerm]);
 
+  function redirectToAdd() {
+    console.log("clicked");
+    Router.push(`/books/new`);
+  }
+
   return (
     <div>
       <Layout>
-        <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
+        <SearchBar
+          setSearchTerm={setSearchTerm}
+          searchTerm={searchTerm}
+          onClick={redirectToAdd}
+        />
         <BookList books={searchResults} onClick={redirectToBook} />
       </Layout>
     </div>

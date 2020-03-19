@@ -88,7 +88,6 @@ export default function BookListItem(props) {
               </Typography>
             </CardContent>
             <div className={classes.tags}>
-              {console.log(props.book.tags)}
               {props.book.tags.length > 1 &&
                 props.book.tags
                   .slice(0, 4)
