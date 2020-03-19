@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Chip, Paper } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -6,6 +7,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,21 +22,47 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const BookTitleBar = (props) => {
+
   const classes = useStyles();
+  const [state, setState ] = useState({
+    read: props.read,
+    wishlist: props.wishlist,
+    fav: props.fav
+  })
+
+  const toggleRead = () => {
+    if (state.read) {
+      console.log(state.read)
+      axios.delete(`/api/reads/${state.read}`)
+      .then(() => {
+        setState({...state, read: false})
+      })
+      .catch(err => console.log(error))
+    } else {
+      axios.post(`/api/reads/new`, {
+        bookId: props.bookId,
+        userId: props.userId,
+      })
+      .then(res => {
+        console.log("other side of API returned id", res)
+        setState({...state, read: res.data[0]})
+      })
+      .catch(err => console.log(err))
+    }
+  }
 
   const userFlags = [
-    {active: "Mark as Unread", inactive: "Mark as Read", status: props.read, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon />, toggler: props.toggleRead},
-    {active: "Remove from Wishlist", inactive: "Add to Wishlist", status: props.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />, toggler: props.toggleRead},
-    {active: "Unfavourite", inactive: "Add to Favs", status: props.fav, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />, toggler: props.toggleRead}
+    {active: "Mark as Unread", inactive: "Mark as Read", status: state.read, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon />, toggler: toggleRead},
+    {active: "Remove from Wishlist", inactive: "Add to Wishlist", status: state.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />, toggler: toggleRead},
+    {active: "Unfavourite", inactive: "Add to Favs", status: state.fav, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />, toggler: toggleRead}
   ]
-
-  console.log("toggle read function is", userFlags[0].toggler)
 
   return (
     <Paper>
       <h1>{props.title}</h1>
       <h2>Userid: {props.userId}</h2>
-      <h4>{props.authors.map((author) => author.name + " - ")} {props.year}</h4>
+      <h4>{props.authors &&
+        props.authors.map((author) => author.name + " - ")} {props.year}</h4>
       <Paper className={classes.root}>
         {userFlags.map((f, index) => (
           <Chip

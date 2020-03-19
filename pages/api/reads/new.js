@@ -4,17 +4,18 @@ export default (req, res) => {
   
   const { bookId, userId } = req.body
 
-  queries
+  return queries
     .reads
     .add(bookId, userId)
     .then((results) => {
+      console.log("returned read id", results)
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json')
-      res.end(JSON.stringify(results))
+      return res.end(JSON.stringify(results))
     })
     .catch(err => {
       console.error(err)
       res.statusCode = 500;
-      res.end(JSON.stringify({"success": false}))
+      return res.end(JSON.stringify({"success": false}))
     })
 };
