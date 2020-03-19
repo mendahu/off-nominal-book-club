@@ -20,45 +20,36 @@ module.exports = {
 
     add: function(bookObj) {
 
-      const allPromises = []
-      let bookId 
-      allPromises.push(
+      const promises = []
+      
+      promises.push(
         knex
           .insert(bookObj.book)
           .returning('id')
           .into('books')
           .catch(err => console.log(err))
       ) 
+      
+      const authorsArr = bookObj.authors.map((author) => {
+        return { name: author.name}
+      })
 
-      bookObj.authors.map((author) => {
-        allPromises.push(
-          knex.insert({name : author.name})
+      promises.push(
+        knex('authors')
+          .insert(authorsArr)
           .returning('id')
-          .into('authors')
-          .catch(err => console.log(err))
-        )
-      }) 
-      
-
-      
+      )
     
-      return Promise.all(allPromises)
-        .then((ids) => {
-          bookId = ids[0]
-          const authorsIDs = ids.slice(1)
-          console.log(bookId)
-          console.log(authorsIDs)
+      return Promise.all(promises)
+        .then(([bookID, authorsIDs]) => {
 
-          let baPromises =[]
-          authorsIDs.map((id) => {
-            baPromises.push(
-              knex.insert({
-              book_id: bookId,
-              author_id: id
-            })
-            )
+          const bookAuthors = authorsIDs.map((id) => {
+            return {author_id: Number(id), book_id: Number(bookID)}
           })
-          return bookId
+
+          return knex('books_authors').insert(bookAuthors).then(() => {
+            return bookID
+          })
         })
     },
 
@@ -149,49 +140,3 @@ module.exports = {
   }
 }
 
-// .orWhere(knex.raw('(SELECT json_agg(name) FROM (SELECT name FROM authors) AS a) LIKE ?', `%${lowerTerm}%`)) 
-// knex.raw(`
-// ( SELECT
-//     STRING_AGG (
-//       a.name::character varying, ',') as authors
-//     FROM books b
-//     INNER JOIN books_authors ba ON b.id = ba.book_id 
-//     INNER JOIN authors a ON ba.author_id = a.id
-//     WHERE b.id = books.id
-//     ) AS authorstring`),
-
-// getAll: function(term) {
-//   const lowerTerm = term.toLowerCase();
-//   return knex.select(
-//     "books.id", 
-//     "books.title", 
-//     "books.fiction",
-//     "books.google_id",
-//     "books.isbn13",
-//     "books.description", 
-//     "books.year", 
-//     "books.image_url", 
-//     knex.raw(`
-//       ( SELECT json_agg(authors) 
-//       FROM (
-//         SELECT name 
-//         FROM authors
-//           JOIN books_authors ON authors.id = books_authors.author_id
-//         WHERE books_authors.book_id = books.id
-//       ) authors ) AS authors`), 
-//     knex.raw(`
-//       ( SELECT json_agg(tag)
-//       FROM (
-//         SELECT name AS tag_name, COUNT('user_tag_book.id') as count 
-//         FROM tags
-//           JOIN user_tag_book ON tags.id = user_tag_book.tag_id
-//           JOIN books as b ON user_tag_book.book_id = books.id
-//         WHERE b.id = books.id
-//         GROUP BY name
-//         ORDER BY count DESC
-//       ) tag ) AS tags`))
-//     .from('books')
-//     .where(knex.raw('LOWER("title") LIKE ?', `%${lowerTerm}%`))
-//     .orWhere(knex.raw('LOWER("description") LIKE ?', `%${lowerTerm}%`))
-//     .orWhere(knex.raw('LOWER("year") LIKE ?', `%${lowerTerm}%`))
-// }
