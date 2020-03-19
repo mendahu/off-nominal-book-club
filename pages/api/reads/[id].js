@@ -9,7 +9,6 @@ export default (req, res) => {
     .then(() => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json')
-      res.statusMessage = `Read record ID ${id} successfully removed`
       return res.end(JSON.stringify({"success": true}))
     })
     .catch(err => {

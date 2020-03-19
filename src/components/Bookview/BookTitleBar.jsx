@@ -25,36 +25,30 @@ const BookTitleBar = (props) => {
 
   const classes = useStyles();
   const [state, setState ] = useState({
-    read: props.read,
+    reads: props.read,
     wishlist: props.wishlist,
-    fav: props.fav
+    favourites: props.fav
   })
 
-  const toggleRead = () => {
-    if (state.read) {
-      console.log(state.read)
-      axios.delete(`/api/reads/${state.read}`)
-      .then(() => {
-        setState({...state, read: false})
-      })
-      .catch(err => console.log(error))
-    } else {
-      axios.post(`/api/reads/new`, {
-        bookId: props.bookId,
-        userId: props.userId,
-      })
-      .then(res => {
-        console.log("other side of API returned id", res)
-        setState({...state, read: res.data[0]})
-      })
-      .catch(err => console.log(err))
-    }
+  const userBook = {
+    bookId: props.bookId,
+    userId: props.userId,
+  }
+
+  const toggleData = (dataType) => {
+    (state[dataType]) 
+      ? axios.delete(`/api/${dataType}/${state[dataType]}`)
+        .then(() => setState({...state, [dataType]: false}))
+        .catch(err => console.log(err))
+      : axios.post(`/api/${dataType}/new`, userBook)
+        .then(res => setState({...state, [dataType]: res.data[0]}))
+        .catch(err => console.log(err))
   }
 
   const userFlags = [
-    {active: "Mark as Unread", inactive: "Mark as Read", status: state.read, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon />, toggler: toggleRead},
-    {active: "Remove from Wishlist", inactive: "Add to Wishlist", status: state.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />, toggler: toggleRead},
-    {active: "Unfavourite", inactive: "Add to Favs", status: state.fav, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />, toggler: toggleRead}
+    {type: "reads", active: "Mark as Unread", inactive: "Mark as Read", status: state.reads, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon />, toggler: toggleData},
+    {type: "wishlist", active: "Remove from Wishlist", inactive: "Add to Wishlist", status: state.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />, toggler: toggleData},
+    {type: "favourites", active: "Unfavourite", inactive: "Add to Favs", status: state.favourites, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />, toggler: toggleData}
   ]
 
   return (
@@ -67,7 +61,7 @@ const BookTitleBar = (props) => {
         {userFlags.map((f, index) => (
           <Chip
             key={index}
-            onClick={f.toggler}
+            onClick={() => f.toggler(f.type)}
             label={f.status ? f.active : f.inactive}
             icon={f.status ? f.icon_active : f.icon_inactive}
             className={classes.chip}

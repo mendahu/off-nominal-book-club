@@ -1,16 +1,15 @@
-const queries = require('../../../db/queries/reads')
+const queries = require('../../../db/queries/favs')
 
 export default (req, res) => {
+  const { query: { id }} = req
   
-  const { bookId, userId } = req.body
-
   return queries
-    .reads
-    .add(bookId, userId)
-    .then((results) => {
+    .favourites
+    .delete(id)
+    .then(() => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json')
-      return res.end(JSON.stringify(results))
+      return res.end(JSON.stringify({"success": true}))
     })
     .catch(err => {
       console.error(err)
