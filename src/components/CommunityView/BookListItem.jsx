@@ -100,6 +100,7 @@ export default function BookListItem(props) {
                   ))}
             </div>
             <CardContent className={classes.row}>
+              {console.log(props.book.authors)}
               {props.book.authors &&
                 JSON.parse(props.book.authors).map((author, index) => (
                   <Typography className={classes.title} variant='subtitle1'>

@@ -51,10 +51,10 @@ export default function New() {
     console.log(bookObj);
 
     // ADD BOOK --
-    // axios
-    //   .post(`/api/books/new`, bookObj)
-    //   .then(res => redirectToBook(res.data[0]));
-    // console.log("ADDED New Book");
+    axios
+      .post(`/api/books/new`, bookObj)
+      .then(res => redirectToBook(res.data[0]));
+    console.log("ADDED New Book");
   }
 
   // sets search term to book.tile
@@ -95,7 +95,7 @@ export default function New() {
       console.log(bookObj);
 
       // REDIRECT TO BOOK
-      // redirectToBook(bookId);
+      redirectToBook(bookId);
     }
   };
   // makes a get request to api/books/new and returns hits found in database

@@ -20,25 +20,45 @@ module.exports = {
 
     add: function(bookObj) {
 
+      const allPromises = []
+      let bookId 
+      allPromises.push(
+        knex
+          .insert(bookObj.book)
+          .returning('id')
+          .into('books')
+          .catch(err => console.log(err))
+      ) 
 
-      const bookId = knex
-        .insert(bookObj.book)
-        .returning('id')
-        .into('books');
+      bookObj.authors.map((author) => {
+        allPromises.push(
+          knex.insert({name : author.name})
+          .returning('id')
+          .into('authors')
+          .catch(err => console.log(err))
+        )
+      }) 
+      
 
-      const authorId = knex
-        .insert(bookObj.author)
-        .returning('id')
-        .into('authors');
-        
-      return Promise.all([(bookId), authorId])
+      
+    
+      return Promise.all(allPromises)
         .then((ids) => {
-          return knex.insert({
-            book_id: JSON.parse(ids[0]),
-            author_id: JSON.parse(ids[1])
+          bookId = ids[0]
+          const authorsIDs = ids.slice(1)
+          console.log(bookId)
+          console.log(authorsIDs)
+
+          let baPromises =[]
+          authorsIDs.map((id) => {
+            baPromises.push(
+              knex.insert({
+              book_id: bookId,
+              author_id: id
+            })
+            )
           })
-          .into('books_authors')
-          .returning(JSON.parse(ids[0]))
+          return bookId
         })
     },
 
