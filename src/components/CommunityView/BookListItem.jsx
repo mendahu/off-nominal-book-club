@@ -64,7 +64,6 @@ export default function BookListItem(props) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const arr = ["hello", "tag", "Jake"];
   return (
     <form>
       <Paper>

@@ -30,9 +30,7 @@ export default function New() {
       google_id: null,
       isbn13: null
     },
-    author: {
-      name: null
-    }
+    authors: null
   });
 
   // function that redirects to book/[book]
@@ -50,11 +48,13 @@ export default function New() {
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(event) {
-    axios
-      .post(`/api/books/new`, bookObj)
-      .then(res => redirectToBook(res.data[0]));
-    console.log("ADDED New Book");
-    // redirectToBook(event);
+    console.log(bookObj);
+
+    // ADD BOOK --
+    // axios
+    //   .post(`/api/books/new`, bookObj)
+    //   .then(res => redirectToBook(res.data[0]));
+    // console.log("ADDED New Book");
   }
 
   // sets search term to book.tile
@@ -92,7 +92,10 @@ export default function New() {
         addBook(event);
       }
     } else {
-      redirectToBook(bookId);
+      console.log(bookObj);
+
+      // REDIRECT TO BOOK
+      // redirectToBook(bookId);
     }
   };
   // makes a get request to api/books/new and returns hits found in database

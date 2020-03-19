@@ -60,9 +60,12 @@ export default function SearchResultsListItem(props) {
                     {props.book.title}
                   </Typography>
                 </Grid>
-                <Typography variant='subtitle1' color='textSecondary'>
-                  {props.book.author}
-                </Typography>
+                {props.book.author &&
+                  props.book.author.map((name, index) => (
+                    <Typography variant='subtitle1' color='textSecondary'>
+                      {name}
+                    </Typography>
+                  ))}
                 <Typography variant='body2' gutterBottom>
                   {props.book.description.split(".")[0]}
                 </Typography>
@@ -77,6 +80,9 @@ export default function SearchResultsListItem(props) {
                     {
                       props.mode === "SEARCH" &&
                         props.setTerm(props.book.title);
+                      const authorsArr = props.book.author.map(a => {
+                        return { name: a };
+                      });
                       props.selectBook({
                         book: {
                           user_id: 10,
@@ -88,9 +94,7 @@ export default function SearchResultsListItem(props) {
                           google_id: props.book.google_id,
                           isbn13: props.book.isbn13
                         },
-                        author: {
-                          name: props.book.author
-                        }
+                        authors: authorsArr
                       });
                     }
                     // if in CONFIRM, onClick, setBookId
