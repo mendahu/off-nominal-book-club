@@ -1,11 +1,11 @@
-const queries = require('../../../db/queries/reads')
+const queries = require('../../../db/queries/wishlist')
 
 export default (req, res) => {
   
   const { bookId, userId } = req.body
 
   return queries
-    .reads
+    .wishlist
     .add(bookId, userId)
     .then((results) => {
       res.statusCode = 200;
