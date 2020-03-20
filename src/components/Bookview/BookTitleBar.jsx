@@ -19,6 +19,15 @@ const useStyles = makeStyles(theme => ({
   chip: {
     margin: theme.spacing(0.5),
   },
+  image: {
+    padding: "5px",
+  },
+  title: {
+    padding: "5px",
+  },
+  titleBar: {
+    display: 'flex'
+  }
 }));
 
 const BookTitleBar = (props) => {
@@ -46,29 +55,32 @@ const BookTitleBar = (props) => {
   }
 
   const userFlags = [
-    {type: "reads", active: "Mark as Unread", inactive: "Mark as Read", status: state.reads, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon />, toggler: toggleData},
-    {type: "wishlist", active: "Remove from Wishlist", inactive: "Add to Wishlist", status: state.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />, toggler: toggleData},
-    {type: "favourites", active: "Unfavourite", inactive: "Add to Favs", status: state.favourites, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />, toggler: toggleData}
+    {type: "reads", active: "Mark as Unread", inactive: "Mark as Read", status: state.reads, icon_active: <CheckCircleIcon />, icon_inactive: <CheckCircleOutlineIcon />},
+    {type: "wishlist", active: "Remove from Wishlist", inactive: "Add to Wishlist", status: state.wishlist, icon_active: <BookmarkIcon />, icon_inactive: <BookmarkBorderIcon />},
+    {type: "favourites", active: "Unfavourite", inactive: "Add to Favs", status: state.favourites, icon_active: <FavoriteIcon />, icon_inactive: <FavoriteBorderIcon />}
   ]
 
   return (
-    <Paper>
-      <h1>{props.title}</h1>
-      <h2>Userid: {props.userId}</h2>
-      <h4>{props.authors &&
-        props.authors.map((author) => author.name + " - ")} {props.year}</h4>
-      <Paper className={classes.root}>
-        {userFlags.map((f, index) => (
-          <Chip
-            key={index}
-            onClick={() => f.toggler(f.type)}
-            label={f.status ? f.active : f.inactive}
-            icon={f.status ? f.icon_active : f.icon_inactive}
-            className={classes.chip}
-            color={(f.status) ? "primary" : "default"}
-          />))}
-      </Paper>
-      <img src={props.img} />
+    <Paper className={classes.titleBar}>
+      <div className={classes.image}>
+        <img src={props.img} />
+      </div>
+      <div className={classes.title}>
+        <h1>{props.title}</h1>
+        <h4>{props.authors &&
+          props.authors.map((author) => author.name + " - ")} {props.year}</h4>
+        <Paper className={classes.root}>
+          {userFlags.map((f, index) => (
+            <Chip
+              key={index}
+              onClick={() => toggleData(f.type)}
+              label={f.status ? f.active : f.inactive}
+              icon={f.status ? f.icon_active : f.icon_inactive}
+              className={classes.chip}
+              color={(f.status) ? "primary" : "default"}
+            />))}
+        </Paper>
+      </div>
     </Paper>
   )
 }

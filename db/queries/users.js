@@ -8,12 +8,14 @@ module.exports = {
         "books.id",
         "rating",
         "review",
-        knex.raw(`ARRAY
-          (SELECT name
+        knex.raw(`
+        ( SELECT json_agg(tags) 
+          FROM (
+            SELECT tags.id as tag_id,tagrel.id as tag_rel_id, tags.name
             FROM tags
               JOIN user_tag_book as tagrel ON tagrel.tag_id = tags.id
             WHERE tagrel.user_id = ? AND tagrel.book_id = books.id
-          ) as user_tags`, userId),
+          ) tags ) as user_tags`, userId),
         knex.raw(`
           (SELECT reads.id
             FROM reads
