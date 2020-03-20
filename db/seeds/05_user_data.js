@@ -151,8 +151,24 @@ exports.seed = function(knex) {
               user_id: user.id
             })
   
+            const adjectives = [
+              "stunning",
+              "breathtaking",
+              "boring",
+              "laboured",
+              "exciting",
+              "trivial",
+              "fascinating",
+              "stuttering",
+              "forgettable",
+              "nonsensical"
+            ]
+
+            const randomAdjIndex = Math.floor(Math.random() * 10)
+
             reviews.push({
               review: `I'm baby snackwave kale chips banh mi, man bun four dollar toast drinking vinegar stumptown wolf letterpress four loko locavore shoreditch flexitarian kickstarter coloring book. Green juice beard messenger bag pabst locavore thundercats man bun asymmetrical stumptown. Farm-to-table lo-fi four loko butcher 3 wolf moon. Food truck hashtag four dollar toast, truffaut banjo tacos subway tile beard. YOLO photo booth paleo la croix ennui whatever mustache flannel. Austin four dollar toast lyft kale chips whatever letterpress mixtape photo booth art party mlkshk. Sustainable williamsburg put a bird on it 3 wolf moon cray YOLO cold-pressed flexitarian truffaut occupy selvage slow-carb. Tumblr 90's activated charcoal vaporware. Twee aesthetic actually synth sriracha austin polaroid craft beer thundercats air plant poutine post-ironic wayfarers kitsch. Coloring book la croix vexillologist tilde kickstarter scenester actually tacos listicle ugh.`,
+              summary: `A ${adjectives[randomAdjIndex]} read!`,
               book_id: book,
               user_id: user.id
             })
