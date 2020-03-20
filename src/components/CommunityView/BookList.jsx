@@ -5,7 +5,12 @@ export default function BookList(props) {
     <section>
       {props.books &&
         props.books.map((book, index) => (
-          <BookListItem key={index} book={book} onClick={props.onClick} />
+          <BookListItem
+            key={index}
+            book={book}
+            onClick={props.onClick}
+            selectTag={props.selectTag}
+          />
         ))}
     </section>
   );

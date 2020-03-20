@@ -62,7 +62,11 @@ function Community({ books }) {
         />
         {mode === LOADING && <Loading />}
         <TagList tags={tagList} onClick={selectTag} />
-        <BookList books={searchResults} onClick={redirectToBook} />
+        <BookList
+          books={searchResults}
+          onClick={redirectToBook}
+          selectTag={selectTag}
+        />
       </Layout>
     </div>
   );

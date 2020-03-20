@@ -59,13 +59,17 @@ const useStyles = makeStyles(theme => ({
     width: "10%",
     alignSelf: "flex-end"
   },
+  buttton: {
+    height: "20px"
+  },
   chip: {
     margin: ".3vh",
     height: "2vh",
     fontSize: "1.4vh"
   },
-  buttton: {
-    height: "20px"
+  chip_button: {
+    margin: 0,
+    padding: 0
   },
   chip_avatar: {
     maxHeight: "1.7vh",
@@ -113,16 +117,24 @@ export default function BookListItem(props) {
                 JSON.parse(props.book.tags)
                   .slice(0, 4)
                   .map((tag, index) => (
-                    <Chip
-                      key={index}
-                      label={tag.tag_name}
-                      avatar={
-                        <Avatar className={classes.chip_avatar}>
-                          {tag.count}
-                        </Avatar>
-                      }
-                      className={classes.chip}
-                    />
+                    <Button
+                      className={classes.chip_button}
+                      type='submit'
+                      onClick={e => {
+                        e.preventDefault();
+                        props.selectTag(tag.tag_name);
+                      }}>
+                      <Chip
+                        key={index}
+                        label={tag.tag_name}
+                        avatar={
+                          <Avatar className={classes.chip_avatar}>
+                            {tag.count}
+                          </Avatar>
+                        }
+                        className={classes.chip}
+                      />
+                    </Button>
                   ))}
             </div>
             <CardContent className={classes.row}>
