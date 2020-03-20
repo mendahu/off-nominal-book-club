@@ -90,7 +90,7 @@ module.exports = {
         knex.raw(`
           ( SELECT json_agg(review)
           FROM (
-            SELECT reviews.id, reviews.user_id, users.name as name, ratings.rating, reviews.created_at as date, reviews.review as user_review
+            SELECT reviews.id, reviews.user_id, users.name as name, ratings.rating, reviews.created_at as date, reviews.summary as summary, reviews.review as user_review
             FROM reviews
               JOIN users ON reviews.user_id = users.id
               JOIN ratings ON ratings.book_id = reviews.book_id
