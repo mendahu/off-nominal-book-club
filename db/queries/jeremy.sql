@@ -261,11 +261,172 @@ SELECT book_id, name AS tag_name, string_agg(tag_name)COUNT('user_tag_book.id') 
 
 
     
-SELECT str_agg(tag_name::character varying, ',')
+SELECT book_id, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
   FROM (
     SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
             FROM tags t
               JOIN user_tag_book utb ON t.id = utb.tag_id
               JOIN books AS b ON utb.book_id = b.id
             GROUP BY book_id, t.name
-            ORDER BY count DESC) as tag_string
+            ORDER BY count DESC) as tag_counts
+            GROUP BY book_id
+
+
+--  fixed SOLUTION (USE THIS)
+SELECT
+  b.id,
+  b.title,
+  b.fiction,
+  b.google_id,
+  b.isbn13,
+  b.description,
+  b.year,
+  b.image_url,
+  max(author_names.names) AS author_string,
+  max(author_names.names_json::text) AS author_array,
+  max(tags_info.tags:: text) as tags,
+  max(tags_info.tag_string) as tags_string
+
+from books b
+  LEFT JOIN (
+    SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
+      FROM authors a
+        JOIN books_authors ba ON a.id = ba.author_id
+        JOIN books AS b ON ba.book_id = b.id
+      GROUP BY book_id
+  ) as author_names ON author_names.book_id = b.id
+
+  LEFT JOIN (
+    SELECT book_id, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+      FROM (
+        SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
+            FROM tags t
+              JOIN user_tag_book utb ON t.id = utb.tag_id
+              JOIN books AS b ON utb.book_id = b.id
+            GROUP BY book_id, t.name
+            ORDER BY count DESC) as tag_counts
+            GROUP BY book_id) as tags_info on tags_info.book_id = b.id
+
+WHERE b.id = 55
+  
+GROUP BY b.id
+
+
+INSERT INTO books_authors (book_id, author_id)
+  VALUES (166, 257)
+
+
+-- get all tags
+SELECT 
+SELECT name as tag_name, COUNT('user_tag_book.id') AS count
+            FROM tags t
+              JOIN user_tag_book utb ON t.id = utb.tag_id
+              JOIN books AS b ON utb.book_id = b.id
+            WHERE t.name ilike '%space%'
+            GROUP BY t.name
+            ORDER BY count DESC
+
+
+
+SELECT
+        b.id,
+        b.title,
+        b.fiction,
+        b.google_id,
+        b.isbn13,
+        b.description,
+        b.year,
+        b.image_url,
+        max(author_names.names) AS authors_string,
+        max(author_names.names_json::text) AS authors,
+        max(tags_info.tags:: text) as tags,
+        max(tags_info.tag_string) as tags_string
+      FROM books b
+        LEFT JOIN (
+          SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
+            FROM authors a
+              JOIN books_authors ba ON a.id = ba.author_id
+              JOIN books AS b ON ba.book_id = b.id
+            GROUP BY book_id
+        ) as author_names ON author_names.book_id = b.id
+        LEFT JOIN (
+          SELECT book_id, tag_name, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+            FROM (
+              SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
+                  FROM tags t
+                    JOIN user_tag_book utb ON t.id = utb.tag_id
+                    JOIN books AS b ON utb.book_id = b.id
+                  GROUP BY book_id, t.name
+                  ORDER BY count DESC) as tag_counts
+                  GROUP BY book_id, tag_name) as tags_info on tags_info.book_id = b.id       
+      WHERE tags_info.tag_nam = 'space'
+      GROUP BY b.id
+
+   SELECT
+      b.id,
+      b.title,
+      b.fiction,
+      b.google_id,
+      b.isbn13,
+      b.description,
+      b.year,
+      b.image_url,
+      max(author_names.names) AS authors_string,
+      max(author_names.names_json::text) AS authors,
+      max(tags_info.tags:: text) as tags,
+      max(tags_info.tag_string) as tags_string
+    FROM books b
+      LEFT JOIN (
+        SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
+          FROM authors a
+            JOIN books_authors ba ON a.id = ba.author_id
+            JOIN books AS b ON ba.book_id = b.id
+          GROUP BY book_id
+      ) as author_names ON author_names.book_id = b.id
+      LEFT JOIN (
+        SELECT book_id, tag_name, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+          FROM (
+            SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
+                FROM tags t
+                  JOIN user_tag_book utb ON t.id = utb.tag_id
+                  JOIN books AS b ON utb.book_id = b.id
+                GROUP BY book_id, t.name
+                ORDER BY count DESC) as tag_counts
+                GROUP BY book_id, tag_name) as tags_info on tags_info.book_id = b.id       
+    WHERE tags_info.tag_name = 'space'
+    GROUP BY b.id
+
+SELECT
+  b.id,
+  b.title,
+  b.fiction,
+  b.google_id,
+  b.isbn13,
+  b.description,
+  b.year,
+  b.image_url,
+  ARRAY_AGG(tags_info.tag_name),
+  max(author_names.names) AS authors_string,
+  max(author_names.names_json::text) AS authors,
+  max(tags_info.tags:: text) as tags,
+  max(tags_info.tag_string) as tags_string
+FROM books b
+  LEFT JOIN (
+    SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
+      FROM authors a
+        JOIN books_authors ba ON a.id = ba.author_id
+        JOIN books AS b ON ba.book_id = b.id
+      GROUP BY book_id
+  ) as author_names ON author_names.book_id = b.id
+  LEFT JOIN (
+    SELECT book_id, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+      FROM (
+        SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
+            FROM tags t
+              JOIN user_tag_book utb ON t.id = utb.tag_id
+              JOIN books AS b ON utb.book_id = b.id
+            GROUP BY book_id, t.name
+            ORDER BY count DESC) as tag_counts
+            GROUP BY book_id) as tags_info on tags_info.book_id = b.id        
+GROUP BY b.id
+HAVING 'space' = ANY(ARRAY_AGG(tags_info.tag_name))

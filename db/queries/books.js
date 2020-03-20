@@ -74,12 +74,12 @@ module.exports = {
         knex.raw(`
           ( SELECT json_agg(tag)
           FROM (
-            SELECT tags.id as tag_id, name AS tag_name, COUNT('user_tag_book.id') as count 
+            SELECT name AS tag_name, COUNT('user_tag_book.id') as count 
             FROM tags
               JOIN user_tag_book ON tags.id = user_tag_book.tag_id
               JOIN books ON user_tag_book.book_id = books.id
             WHERE books.id = ?
-            GROUP BY name, tags.id
+            GROUP BY name
             ORDER BY count DESC
           ) tag ) AS tags`, bookId),
         knex.raw(`
@@ -135,6 +135,55 @@ module.exports = {
           OR tags_info.tag_string ILIKE '%${lowerTerm}%'    
         GROUP BY b.id
       `)
+    },
+    getTags: function(term) {
+      return knex.raw(`
+      SELECT name as tag_name, COUNT('user_tag_book.id') AS count
+        FROM tags t
+          JOIN user_tag_book utb ON t.id = utb.tag_id
+          JOIN books AS b ON utb.book_id = b.id
+        WHERE t.name ilike '%${term}%'
+        GROUP BY t.name
+        ORDER BY count DESC
+      `)
+    },
+    selectTag: function(tag) {
+      return knex.raw(`
+      SELECT
+      b.id,
+      b.title,
+      b.fiction,
+      b.google_id,
+      b.isbn13,
+      b.description,
+      b.year,
+      b.image_url,
+      max(tags_info.tag_array),
+      max(author_names.names) AS authors_string,
+      max(author_names.names_json::text) AS authors,
+      max(tags_info.tags:: text) as tags,
+      max(tags_info.tag_string) as tags_string
+    FROM books b
+      LEFT JOIN (
+        SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
+          FROM authors a
+            JOIN books_authors ba ON a.id = ba.author_id
+            JOIN books AS b ON ba.book_id = b.id
+          GROUP BY book_id
+      ) as author_names ON author_names.book_id = b.id
+      LEFT JOIN (
+        SELECT book_id, array_agg(tag_name) as tag_array, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+          FROM (
+            SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
+                FROM tags t
+                  JOIN user_tag_book utb ON t.id = utb.tag_id
+                  JOIN books AS b ON utb.book_id = b.id
+                GROUP BY book_id, t.name
+                ORDER BY count DESC) as tag_counts
+                GROUP BY book_id) as tags_info on tags_info.book_id = b.id        
+    GROUP BY b.id
+    HAVING '${tag}' = ANY(max(tags_info.tag_array))
+    `)
     }
     
   }

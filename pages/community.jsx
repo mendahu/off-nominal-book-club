@@ -1,6 +1,7 @@
 // import BookListItem from "../CommunityView/BookListItem";
 import BookList from "../src/components/CommunityView/BookList";
 import SearchBar from "../src/components/CommunityView/SearchBar";
+import TagList from "../src/components/CommunityView/TagList";
 const knex = require("../db/knex");
 import React, { useState, useEffect } from "react";
 import Layout from "../src/components/DefaultLayout";
@@ -11,13 +12,22 @@ import Router from "next/router";
 function Community({ books }) {
   const [searchResults, setSearchResults] = useState(books);
   const [searchTerm, setSearchTerm] = useState("");
+  const [tagList, setTagList] = useState([]);
 
   // const SetSearchTerm  = function(value) {
   //   setSearchTerm(value);
   // };
   async function getSearchResults(term) {
-    const data = await axios.get(`/api/community?term=${term}`);
-    setSearchResults(data.data);
+    const bookData = await axios.get(`/api/community?term=${term}`);
+    const tagsData = await axios.get(`/api/community/tags?term=${term}`);
+    setSearchResults(bookData.data);
+    setTagList(tagsData.data);
+  }
+
+  async function selectTag(tag) {
+    const bookData = await axios.get(`/api/community/tags/${tag}`);
+    setSearchResults(bookData.data);
+    console.log("click select");
   }
 
   function redirectToBook(id) {
@@ -29,7 +39,6 @@ function Community({ books }) {
   }, [searchTerm]);
 
   function redirectToAdd() {
-    console.log("clicked");
     Router.push(`/books/new`);
   }
 
@@ -41,6 +50,7 @@ function Community({ books }) {
           searchTerm={searchTerm}
           onClick={redirectToAdd}
         />
+        <TagList tags={tagList} onClick={selectTag} />
         <BookList books={searchResults} onClick={redirectToBook} />
       </Layout>
     </div>
