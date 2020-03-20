@@ -65,7 +65,6 @@ export async function getServerSideProps(context) {
 
   return Promise.all(promises)
     .then(values => {
-      console.log(values[0][0])
       props.book = values[0][0]
       if (userId) props.userData = values[1][0]
       return { props };
