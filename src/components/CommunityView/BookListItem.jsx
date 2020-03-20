@@ -17,16 +17,17 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexGrow: 1,
     flexDirection: "row",
-    marginTop: "5px",
-    height: "250px"
+    marginTop: "1vh",
+    height: "15vh"
   },
   imageContainer: {
     display: "flex",
     width: "17%",
-    alignSelf: "flex-start"
+    padding: 0
   },
-  image: {
-    alignSelf: "flex-start"
+  thumb_image: {
+    margin: "auto",
+    height: "13vh"
   },
   row: {
     display: "flex",
@@ -37,11 +38,16 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
+    justifyContent: "space-between",
     width: "78%"
   },
   title: {
-    width: "90%"
+    width: "90%",
+    fontSize: "2vh"
+  },
+  author: {
+    width: "90%",
+    fontSize: "1.5vh"
   },
   tags: {
     display: "flex",
@@ -54,10 +60,25 @@ const useStyles = makeStyles(theme => ({
     alignSelf: "flex-end"
   },
   chip: {
-    margin: theme.spacing(0.5)
+    margin: ".3vh",
+    height: "2vh",
+    fontSize: "1.4vh"
   },
   buttton: {
     height: "20px"
+  },
+  chip_avatar: {
+    maxHeight: "1.7vh",
+    maxWidth: "1.7vh",
+    fontSize: "1.4vh"
+  },
+  rating: {
+    width: "10%",
+    fontSize: "2vh",
+    margin: "auto"
+  },
+  star: {
+    margin: "auto"
   }
 }));
 
@@ -70,8 +91,8 @@ export default function BookListItem(props) {
       <Paper>
         <Card className={classes.root}>
           <CardContent className={classes.imageContainer}>
-            <CardMedia>
-              <img src={props.book.image_url} />
+            <CardMedia className={classes.thumb_image}>
+              <img className={classes.thumb_image} src={props.book.image_url} />
             </CardMedia>
           </CardContent>
           <CardContent className={classes.content}>
@@ -79,9 +100,9 @@ export default function BookListItem(props) {
               <Typography className={classes.title} component='h5' variant='h5'>
                 {props.book.title}
               </Typography>
-              {props.book.avg_rating && <StarBorder />}
+              {props.book.avg_rating && <StarBorder className={classes.star} />}
               <Typography
-                className={classes.year}
+                className={classes.rating}
                 variant='subtitle1'
                 color='textSecondary'>
                 {props.book.avg_rating}
@@ -95,7 +116,11 @@ export default function BookListItem(props) {
                     <Chip
                       key={index}
                       label={tag.tag_name}
-                      avatar={<Avatar>{tag.count}</Avatar>}
+                      avatar={
+                        <Avatar className={classes.chip_avatar}>
+                          {tag.count}
+                        </Avatar>
+                      }
                       className={classes.chip}
                     />
                   ))}
@@ -103,7 +128,7 @@ export default function BookListItem(props) {
             <CardContent className={classes.row}>
               {props.book.authors &&
                 JSON.parse(props.book.authors).map((author, index) => (
-                  <Typography className={classes.title} variant='subtitle1'>
+                  <Typography className={classes.author} variant='subtitle1'>
                     {author}
                   </Typography>
                 ))}
@@ -114,9 +139,6 @@ export default function BookListItem(props) {
                 {props.book.year}
               </Typography>
             </CardContent>
-            <Typography variant='subtitle1' color='textSecondary'>
-              {props.book.description.split(".")[0]}
-            </Typography>
             <Button
               className={classes.button}
               variant='contained'

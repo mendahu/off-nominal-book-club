@@ -144,13 +144,17 @@ module.exports = {
     },
     getTags: function(term) {
       return knex.raw(`
-      SELECT name as tag_name, COUNT('user_tag_book.id') AS count
-        FROM tags t
-          JOIN user_tag_book utb ON t.id = utb.tag_id
-          JOIN books AS b ON utb.book_id = b.id
-        WHERE t.name ilike '%${term}%'
-        GROUP BY t.name
-        ORDER BY count DESC
+      SELECT tags.tag_name as tag_name, count(*) as count
+        FROM (
+          SELECT name AS tag_name, book_id
+                  FROM tags t
+                    JOIN user_tag_book utb ON t.id = utb.tag_id
+                    JOIN books AS b ON utb.book_id = b.id
+                  WHERE t.name ilike '%${term}%'
+                  GROUP BY tag_name, book_id
+        ) AS tags
+      GROUP BY tag_name
+      ORDER BY count DESC
       `)
     },
     selectTag: function(tag) {
@@ -179,14 +183,15 @@ module.exports = {
           GROUP BY book_id
       ) as author_names ON author_names.book_id = b.id
       LEFT JOIN (
-        SELECT book_id, array_agg(tag_name) as tag_array, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+        SELECT book_id, array_agg(tag_name) as tag_array, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts ORDER BY tag_counts.count DESC) as tags
           FROM (
             SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
                 FROM tags t
                   JOIN user_tag_book utb ON t.id = utb.tag_id
                   JOIN books AS b ON utb.book_id = b.id
                 GROUP BY book_id, t.name
-                ORDER BY count DESC) as tag_counts
+                ORDER BY count DESC
+              ) as tag_counts
                 GROUP BY book_id) as tags_info on tags_info.book_id = b.id
       LEFT JOIN (
         SELECT ratings.book_id, AVG(rating) as avg_rating
