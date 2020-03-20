@@ -83,12 +83,12 @@ module.exports = {
         knex.raw(`
           ( SELECT json_agg(tag)
           FROM (
-            SELECT name AS tag_name, COUNT('user_tag_book.id') as count 
+            SELECT tags.id as tag_id, name AS tag_name, COUNT('user_tag_book.id') as count 
             FROM tags
               JOIN user_tag_book ON tags.id = user_tag_book.tag_id
               JOIN books ON user_tag_book.book_id = books.id
             WHERE books.id = ?
-            GROUP BY name
+            GROUP BY name, tags.id
             ORDER BY count DESC
           ) tag ) AS tags`, bookId),
         knex.raw(`
