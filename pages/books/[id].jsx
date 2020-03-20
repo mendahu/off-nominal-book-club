@@ -27,6 +27,8 @@ const Bookview = ({ book, userData }) => {
         year={book.year} 
       />
       <BookTagList 
+        userId={userId}
+        bookId={book.id}
         tags={book.tags} 
         userTags={userData.user_tags}
       />
