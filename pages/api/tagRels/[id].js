@@ -1,16 +1,16 @@
-const queries = require('../../../db/queries/tags')
+const queries = require('../../../db/queries/tagRels')
 
 export default (req, res) => {
-  
-  const { tagName } = req.body
 
+  const { query: { id }} = req
+  
   return queries
-    .tags
-    .add(tagName)
-    .then((results) => {
+    .tagRels
+    .delete(id)
+    .then(() => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json')
-      return res.end(JSON.stringify(results))
+      return res.end(JSON.stringify({"success": true}))
     })
     .catch(err => {
       console.error(err)
