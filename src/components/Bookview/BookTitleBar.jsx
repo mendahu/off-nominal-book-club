@@ -69,6 +69,7 @@ const BookTitleBar = (props) => {
         <h1>{props.title}</h1>
         <h4>{props.authors &&
           props.authors.map((author) => author.name + " - ")} {props.year}</h4>
+        <h4>{props.rating}</h4>
         <Paper className={classes.root}>
           {userFlags.map((f, index) => (
             <Chip

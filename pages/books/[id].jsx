@@ -20,7 +20,7 @@ const Bookview = ({ book, userData }) => {
         read={userData.read} 
         wishlist={userData.wishlist} 
         fav={userData.fav} 
-        rating={userData.rating} 
+        rating={book.rating} 
         authors={book.authors} 
         title={book.title} 
         img={book.image_url} 
@@ -65,6 +65,7 @@ export async function getServerSideProps(context) {
 
   return Promise.all(promises)
     .then(values => {
+      console.log(values[0][0])
       props.book = values[0][0]
       if (userId) props.userData = values[1][0]
       return { props };
