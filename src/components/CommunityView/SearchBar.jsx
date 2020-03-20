@@ -40,6 +40,7 @@ export default function SearchDatabase(props) {
   useEffect(() => {
     // Set debouncedValue to value (passed in) after the specified delay
     const handler = setTimeout(() => {
+      props.setMode("RESULTS");
       props.setSearchTerm(input);
     }, 500);
 
@@ -49,6 +50,7 @@ export default function SearchDatabase(props) {
   }, [input]);
 
   const onInputChange = event => {
+    props.setMode("LOADING");
     setInput(event.target.value);
   };
 

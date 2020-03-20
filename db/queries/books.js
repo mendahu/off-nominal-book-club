@@ -108,6 +108,7 @@ module.exports = {
           b.description,
           b.year,
           b.image_url,
+          ROUND(max(ratings.avg_rating),1) as avg_rating,
           max(author_names.names) AS authors_string,
           max(author_names.names_json::text) AS authors,
           max(tags_info.tags:: text) as tags,
@@ -129,7 +130,12 @@ module.exports = {
                       JOIN books AS b ON utb.book_id = b.id
                     GROUP BY book_id, t.name
                     ORDER BY count DESC) as tag_counts
-                    GROUP BY book_id) as tags_info on tags_info.book_id = b.id       
+                    GROUP BY book_id) as tags_info on tags_info.book_id = b.id
+            LEFT JOIN (
+              SELECT ratings.book_id, AVG(rating) as avg_rating
+                    FROM reviews
+                        JOIN ratings ON ratings.book_id = reviews.book_id
+                      GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id       
         WHERE b.title ILIKE '%${lowerTerm}%'
           OR author_names.names ILIKE '%${lowerTerm}%'
           OR tags_info.tag_string ILIKE '%${lowerTerm}%'    
@@ -158,6 +164,7 @@ module.exports = {
       b.description,
       b.year,
       b.image_url,
+      ROUND(max(ratings.avg_rating),1) as avg_rating,
       max(tags_info.tag_array),
       max(author_names.names) AS authors_string,
       max(author_names.names_json::text) AS authors,
@@ -180,7 +187,12 @@ module.exports = {
                   JOIN books AS b ON utb.book_id = b.id
                 GROUP BY book_id, t.name
                 ORDER BY count DESC) as tag_counts
-                GROUP BY book_id) as tags_info on tags_info.book_id = b.id        
+                GROUP BY book_id) as tags_info on tags_info.book_id = b.id
+      LEFT JOIN (
+        SELECT ratings.book_id, AVG(rating) as avg_rating
+              FROM reviews
+                  JOIN ratings ON ratings.book_id = reviews.book_id
+                GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id          
     GROUP BY b.id
     HAVING '${tag}' = ANY(max(tags_info.tag_array))
     `)

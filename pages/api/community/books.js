@@ -1,4 +1,4 @@
-const queries = require('../../db/queries/books')
+const queries = require('../../../db/queries/books')
 
 export default (req, res) => {
   

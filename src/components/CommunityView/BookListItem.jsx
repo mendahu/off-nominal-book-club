@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexGrow: 1,
     flexDirection: "row",
-    marginTop: "5px"
+    marginTop: "5px",
+    height: "250px"
   },
   imageContainer: {
     display: "flex",
@@ -36,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: "flex",
     flexDirection: "column",
-    alignSelf: "flex-end",
+    margin: "auto",
     width: "78%"
   },
   title: {
