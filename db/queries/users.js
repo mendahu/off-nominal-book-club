@@ -6,8 +6,20 @@ module.exports = {
     fetch: (userId, bookId) => {
       return knex.select(
         "books.id",
-        "rating",
-        "review",
+        knex.raw(`
+        ( SELECT json_agg(rating)
+          FROM (
+            SELECT ratings.id as id, ratings.rating as user_rating
+            FROM ratings
+            WHERE ratings.user_id = ? AND ratings.book_id = books.id
+          ) rating ) as rating`, userId),
+          knex.raw(`
+          ( SELECT json_agg(review)
+            FROM (
+              SELECT reviews.id as id, reviews.summary as summary, reviews.review as user_review
+              FROM reviews
+              WHERE reviews.user_id = ? AND reviews.book_id = books.id
+            ) review ) as review`, userId),
         knex.raw(`
         ( SELECT json_agg(tags) 
           FROM (
@@ -30,16 +42,6 @@ module.exports = {
             WHERE wishlist.user_id = ? AND wishlist.book_id = books.id) as wishlist`, userId)
         )
         .from('books')
-        .leftJoin('ratings', function() { 
-          this
-            .on('ratings.book_id', 'books.id')
-            .on('ratings.user_id', userId)
-        })
-        .leftJoin('reviews', function() {
-          this
-            .on('reviews.book_id', 'books.id')
-            .on('reviews.user_id', userId)
-        } )
         .where('books.id', bookId)
     }
 

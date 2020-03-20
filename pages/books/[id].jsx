@@ -34,8 +34,11 @@ const Bookview = ({ book, userData }) => {
       />
       <BookDesc desc={book.description} />
       <BookReviewList 
+        userId={userId}
+        bookId={book.id}
         reviews={book.reviews} 
         userReview={userData.review}
+        userRating={userData.rating}
       />
     </Layout>
   );
@@ -65,6 +68,7 @@ export async function getServerSideProps(context) {
 
   return Promise.all(promises)
     .then(values => {
+      console.log(values[1][0])
       props.book = values[0][0]
       if (userId) props.userData = values[1][0]
       return { props };
