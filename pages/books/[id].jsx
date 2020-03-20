@@ -20,7 +20,7 @@ const Bookview = ({ book, userData }) => {
         read={userData.read} 
         wishlist={userData.wishlist} 
         fav={userData.fav} 
-        rating={userData.rating} 
+        rating={book.rating} 
         authors={book.authors} 
         title={book.title} 
         img={book.image_url} 
