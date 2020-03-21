@@ -6,8 +6,6 @@ import Box from '@material-ui/core/Box';
 
 const BookReview = (props) => {
 
-  console.log(props)
-
   return (
     <>
     <h2>{props.review.summary}</h2>
