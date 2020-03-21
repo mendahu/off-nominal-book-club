@@ -4,8 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     diplay: "flex",
-    flexDirection: "column",
-    height: "30vh"
+    flexDirection: "column"
   },
   container: {
     height: "15vh",
@@ -18,6 +17,10 @@ const useStyles = makeStyles({
   },
   name: {
     fontSize: "3vh",
+    margin: "auto"
+  },
+  bio: {
+    fontSize: "1vh",
     margin: "auto"
   }
 });
@@ -35,6 +38,14 @@ export default function ProfileBanner(props) {
       </CardContent>
       <CardContent className={classes.container}>
         <Typography className={classes.name}>{props.user.name}</Typography>
+      </CardContent>
+      <CardContent className={classes.container}>
+        <Typography
+          className={classes.name.bio}
+          variant='subtitle1'
+          color='textSecondary'>
+          {props.user.bio}
+        </Typography>
       </CardContent>
     </Card>
   );

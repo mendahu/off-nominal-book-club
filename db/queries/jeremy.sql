@@ -360,17 +360,26 @@ ORDER BY count DESC
     HAVING '${tag}' = ANY(max(tags_info.tag_array))
 
 
-select b.id, b.title, names_array, f.user_id
+select b.id, b.title, authors, f.user_id
   FROM books b
   LEFT JOIN (
-    SELECT book_id, ARRAY_AGG(name) as names_array
-      FROM authors a
-      JOIN books_authors ba on a.id = ba.author_id
-      JOIN books as b on ba.id = b.id
-    GROUP BY book_id
+   SELECT book_id, json_agg(name) AS authors
+          FROM authors a
+            JOIN books_authors ba ON a.id = ba.author_id
+            JOIN books AS b ON ba.book_id = b.id
+          GROUP BY book_id
   ) as author_names on author_names.book_id = b.id
   JOIN favourites f on f.book_id = b.id
 where f.user_id = 2
 
 
 
+
+SELECT name, email, bio, avatar_url
+  FROM users
+  WHERE id = 2
+
+select books.id, books.title, rating
+  FROM books 
+  JOIN ratings on book_id = books.id
+  WHERE ratings.user_id = 2
