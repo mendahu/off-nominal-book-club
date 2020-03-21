@@ -17,7 +17,6 @@ const BookReviewList = (props) => {
 
   const [rating, setRating] = useState(userRating);
   const [review, setReview] = useState(userReview);
-  const [reviews, setReviews] = useState(props.reviews)
 
   const rateBook = (value) => {
     if (rating.id) {
@@ -95,15 +94,17 @@ const BookReviewList = (props) => {
             onChange={e => setReview({...review, user_review: e.target.value})}
           />
           <br />
-          <Button type ="submit" variant="contained" color="primary">Submit</Button>
+          <Button type ="submit" variant="contained" color="primary">Save</Button>
         </form>
         </Box>
       </div>
 
       </div>}
 
-      {reviews && 
-        reviews.map((review, index) => <BookReview review={review} key={index} />)}
+      {review.id && <BookReview review={review} />}
+      
+      {props.reviews && 
+        props.reviews.map((indReview, index) => <BookReview review={indReview} key={index} />)}
     </Paper>
     )
 }

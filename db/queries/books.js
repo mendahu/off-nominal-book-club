@@ -53,7 +53,12 @@ module.exports = {
         })
     },
 
-    fetch: function(bookId) {
+    fetch: function(bookId, userId = 0) {
+      const params = {
+        bookId,
+        userId
+      }
+
       return knex.select(
         "books.id", 
         "books.title", 
@@ -94,9 +99,9 @@ module.exports = {
             FROM reviews
               JOIN users ON reviews.user_id = users.id
               LEFT JOIN ratings ON ratings.book_id = reviews.book_id AND ratings.user_id = reviews.user_id
-            WHERE reviews.book_id = ? AND reviews.user_id = users.id
+            WHERE reviews.book_id = :bookId AND NOT reviews.user_id = :userId
             ORDER BY date DESC
-          ) review ) AS reviews`, bookId))
+          ) review ) AS reviews`, params))
         .from('books')
         .where('books.id', bookId)
     },
