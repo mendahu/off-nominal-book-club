@@ -12,7 +12,7 @@ const BookReview = (props) => {
     <h3>by {props.review.name} on {props.review.date}</h3>
     <aside>
       <Box component="fieldset" mb={props.review.rating} borderColor="transparent">
-        <Rating name="read-only" value={props.review.rating} readOnly />
+        <Rating name="read-only" value={props.review.rating || 0} readOnly />
       </Box>
     </aside>
     <p>{props.review.user_review}</p>
