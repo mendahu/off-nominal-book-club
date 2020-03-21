@@ -6,22 +6,25 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import axios from 'axios'
 
 const BookReviewList = (props) => {
+
   const emptyReview = {
     summary: "",
-    review: ""
+    user_review: ""
   }
 
-  const reviews = props.reviews;
-  const userRating = props.userRating ? props.userRating[0] : null
+  const userRating = props.userRating ? props.userRating[0] : {}
   const userReview = props.userReview ? props.userReview[0] : emptyReview
 
   const [rating, setRating] = useState(userRating);
   const [review, setReview] = useState(userReview);
+  const [reviews, setReviews] = useState(props.reviews)
 
   const rateBook = (value) => {
-    if (rating) {
+    if (rating.id) {
       axios.patch(`/api/ratings/${rating.id}`, { rating: value })
-      .then(() => setRating({...rating, user_rating: value}))
+      .then(() => {
+        setRating({...rating, user_rating: value})
+      })
       .catch((err) => console.error(err))
     } else {
       axios.post('/api/ratings/new', {
@@ -36,8 +39,23 @@ const BookReviewList = (props) => {
 
   const submitReview = (e) => {
     e.preventDefault();
-    console.log("form submitted")
-    setReview(emptyReview)
+    if (review.id) {
+      axios.patch(`/api/reviews/${review.id}`, {
+        summary: review.summary,
+        user_review: review.user_review
+      })
+      .then(res => setReview({...review}))
+      .catch(err => console.error(err))
+    } else {
+      axios.post(`/api/reviews/new`, {
+        bookId: props.bookId,
+        userId: props.userId,
+        summary: review.summary,
+        user_review: review.user_review
+      })
+      .then(res => setReview({...review, id: res.data[0]}))
+      .catch(err => console.error(err))
+    }
   }
 
   return (
@@ -74,7 +92,7 @@ const BookReviewList = (props) => {
             multiline
             rows="4"
             value={review.user_review}
-            onChange={e => setReview({...review, review: e.target.value})}
+            onChange={e => setReview({...review, user_review: e.target.value})}
           />
           <br />
           <Button type ="submit" variant="contained" color="primary">Submit</Button>

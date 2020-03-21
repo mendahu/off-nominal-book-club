@@ -42,10 +42,10 @@ const Bookview = ({ book, userData }) => {
       />
     </Layout>
   );
-}; 
+};
 
 export async function getServerSideProps(context) {
-  const queryId = context.params.id;
+  const queryId = context.params.id.split("-")[0];
   const cookie = context.req.headers.cookie
   const userId = (cookie) ? Number(cookie.split("=")[1]) : null
 
@@ -68,7 +68,6 @@ export async function getServerSideProps(context) {
 
   return Promise.all(promises)
     .then(values => {
-      console.log(values[1][0])
       props.book = values[0][0]
       if (userId) props.userData = values[1][0]
       return { props };
