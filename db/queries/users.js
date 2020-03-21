@@ -43,6 +43,85 @@ module.exports = {
         )
         .from('books')
         .where('books.id', bookId)
+    },
+    getUserData: (userId) => {
+
+      const promises = []
+
+      promises.push(
+        knex.raw(`
+          SELECT 
+            b.id,
+            b.title,
+            b.image_url,
+            authors,
+            f.user_id
+          FROM books b
+          LEFT JOIN (
+            SELECT book_id, json_agg(name) AS authors
+            FROM authors a
+              JOIN books_authors ba ON a.id = ba.author_id
+              JOIN books AS b ON ba.book_id = b.id
+            GROUP BY book_id
+          ) as author_names on author_names.book_id = b.id
+          JOIN favourites f on f.book_id = b.id
+          WHERE f.user_id = ?
+        `, userId)
+      )
+
+      promises.push(
+        knex.raw(`
+        SELECT 
+          b.id,
+          b.title,
+          b.image_url,
+          authors,
+          r.user_id
+        FROM books b
+        LEFT JOIN (
+          SELECT book_id, json_agg(name) AS authors
+          FROM authors a
+            JOIN books_authors ba ON a.id = ba.author_id
+            JOIN books AS b ON ba.book_id = b.id
+          GROUP BY book_id
+        ) as author_names on author_names.book_id = b.id
+        JOIN reads r on r.book_id = b.id
+        WHERE r.user_id = ?
+        `, userId)
+      )
+
+      promises.push(
+        knex.raw(`
+          SELECT 
+            b.id,
+            b.title,
+            b.image_url,
+            authors,
+            w.user_id
+          FROM books b
+          LEFT JOIN (
+            SELECT book_id, json_agg(name) AS authors
+            FROM authors a
+              JOIN books_authors ba ON a.id = ba.author_id
+              JOIN books AS b ON ba.book_id = b.id
+            GROUP BY book_id
+          ) as author_names on author_names.book_id = b.id
+          JOIN wishlist w on w.book_id = b.id
+          WHERE w.user_id = ?
+        `, userId)
+      )
+      
+      return Promise.all(promises)
+      .then(([favsData, readsData, wishlistData]) => {
+
+        
+        const userBooks = {
+          favourites: favsData.rows,
+          reads: readsData.rows,
+          wishlist: wishlistData.rows
+        }
+        return userBooks
+      })
     }
 
   }
