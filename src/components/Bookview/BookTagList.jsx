@@ -30,6 +30,8 @@ const BookTagList = (props) => {
     userTags: props.userTags || [],
     addMode: false
   })
+
+  const [ newTagInput, setNewTagInput ] = useState("")
   
   //helper function to check if tag count is too high
   const hasTooManyTags = () => (state.userTags.length >= 5)
@@ -89,25 +91,27 @@ const BookTagList = (props) => {
     }
   }
 
-  const toggleAddMode = () => {
-    state.addMode ? setState({...state, addMode: false}) : setState({...state, addMode: true})
-  }
+  const toggleAddMode = () => setState({...state, addMode: !state.addMode})
 
   const stopClick = (event) => event.stopPropagation();
 
-  const addTag = (tagName) => {
-    if (!tagName) {
+  const addTag = (e) => {
+    console.log
+    e.preventDefault();
+    if (!newTagInput) {
       toggleAddMode();
       return;
     }
     if (hasTooManyTags()) {
       alert("You can only add up to 5 tags per book.")
       toggleAddMode();
+      setNewTagInput("")
       return;
     }
-    axios.post(`/api/tags/new`, { tagName })
-        .then(res => toggleTag(tagName, res.data[0]))
+    axios.post(`/api/tags/new`, { tagName: newTagInput })
+        .then(res => toggleTag(newTagInput, res.data[0]))
         .catch(err => console.error(err))
+    setNewTagInput("")
     toggleAddMode()
   }
 
@@ -134,16 +138,24 @@ const BookTagList = (props) => {
         key={"add"}
         label={state.addMode 
           ? (
-            <form>
+            <form onSubmit={(e) => addTag(e)}>
               <span># 
-                <input type="text" id="tagInputField" className={classes.tagInput} onClick={(e) => stopClick(e)}></input>
-                <button type="submit" onSubmit={() => addTag(document.getElementById("tagInputField").value)} hidden></button>
+                <input 
+                  autoFocus
+                  type="text" 
+                  id="tagInputField" 
+                  className={classes.tagInput}
+                  value={newTagInput}
+                  onChange={(e) => setNewTagInput(e.target.value)}
+                  onClick={(e) => stopClick(e)}>
+                </input>
+                <button type="submit" hidden></button>
               </span>
             </form>
             )
           : "Add Tag"}
         icon={state.addMode ? <DoneIcon></DoneIcon> : <AddCircleIcon></AddCircleIcon>}
-        onClick={state.addMode ? () => addTag(document.getElementById("tagInputField").value) : toggleAddMode}
+        onClick={state.addMode ? (e) => addTag(e) : toggleAddMode}
         className={classes.chip}>
       </Chip>
     </Paper>
