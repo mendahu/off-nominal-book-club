@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
 import UserBookList from "../../../src/components/Users/UserBookList";
+import UserRatingList from "../../../src/components/Users/UserRatingsList";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -21,7 +22,7 @@ function TabPanel(props) {
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
       {...other}>
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box p={4}>{children}</Box>}
     </Typography>
   );
 }
@@ -42,7 +43,7 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500
+    width: "80vw"
   }
 }));
 
@@ -72,6 +73,7 @@ export default function FullWidthTabs(props) {
           <Tab label='Favourites' {...a11yProps(0)} />
           <Tab label='Wish List' {...a11yProps(1)} />
           <Tab label='Read List' {...a11yProps(2)} />
+          <Tab label='Ratings' {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -79,13 +81,16 @@ export default function FullWidthTabs(props) {
         index={value}
         onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <UserBookList books={props.userBooks.favourites} />
+          <UserBookList books={props.books.favourites} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <UserBookList books={props.userBooks.wishlist} />
+          <UserBookList books={props.books.wishlist} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <UserBookList books={props.userBooks.reads} />
+          <UserBookList books={props.books.reads} />
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          <UserRatingList books={props.books.ratings} />
         </TabPanel>
       </SwipeableViews>
     </div>

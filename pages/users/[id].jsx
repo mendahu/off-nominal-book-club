@@ -1,12 +1,12 @@
-import UserBooks from "../../src/components/Users/UserBooks";
-import axios from "axios";
 const queries = require("../../db/queries/users");
+import UserBooks from "../../src/components/Users/UserBooks";
+import ProfileBanner from "../../src/components/Users/ProfileBanner";
 
 function UserView({ userBooks }) {
   return (
     <div>
-      USER
-      <UserBooks userBooks={userBooks} />
+      <ProfileBanner user={userBooks.user[0]} />
+      <UserBooks books={userBooks.books} />
     </div>
   );
 }

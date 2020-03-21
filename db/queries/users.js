@@ -50,6 +50,14 @@ module.exports = {
 
       promises.push(
         knex.raw(`
+        SELECT name, email, bio, avatar_url
+          FROM users
+          WHERE id = ?
+        `, userId)
+      )
+
+      promises.push(
+        knex.raw(`
           SELECT 
             b.id,
             b.title,
@@ -110,15 +118,28 @@ module.exports = {
           WHERE w.user_id = ?
         `, userId)
       )
-      
+
+      promises.push(
+        knex.raw(`
+        SELECT books.id, books.title, rating
+          FROM books
+          JOIN ratings on book_id = books.id
+          WHERE ratings.user_id = ?
+        `, userId)
+      )
+
       return Promise.all(promises)
-      .then(([favsData, readsData, wishlistData]) => {
+      .then(([userData, favsData, readsData, wishlistData, ratingsData]) => {
 
         
         const userBooks = {
-          favourites: favsData.rows,
-          reads: readsData.rows,
-          wishlist: wishlistData.rows
+          user: userData.rows,
+          books: {
+            favourites: favsData.rows,
+            reads: readsData.rows,
+            wishlist: wishlistData.rows,
+            ratings: ratingsData.rows
+          }
         }
         return userBooks
       })
