@@ -6,7 +6,7 @@ export default (req, res) => {
   } = req
 
 
-  queries.users.getFavourites(id).then((results) => {
+  queries.users.getUserData(id).then((results) => {
     res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify(results))

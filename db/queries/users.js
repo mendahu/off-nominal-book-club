@@ -42,7 +42,7 @@ module.exports = {
         } )
         .where('books.id', bookId)
     },
-    getFavourites: (userId) => {
+    getUserData: (userId) => {
 
       const promises = []
 

@@ -79,13 +79,13 @@ export default function FullWidthTabs(props) {
         index={value}
         onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <UserBookList favourites={props.favourites} />
+          <UserBookList books={props.userBooks.favourites} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <UserBookList books={props.userBooks.wishlist} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          <UserBookList books={props.userBooks.reads} />
         </TabPanel>
       </SwipeableViews>
     </div>
