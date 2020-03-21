@@ -12,6 +12,8 @@ import {
   Button
 } from "@material-ui/core";
 
+import Link from "next/link";
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -27,7 +29,8 @@ const useStyles = makeStyles(theme => ({
   },
   thumb_image: {
     margin: "auto",
-    height: "13vh"
+    maxHeight: "13vh",
+    maxWidth: "10vh"
   },
   row: {
     display: "flex",
@@ -59,13 +62,13 @@ const useStyles = makeStyles(theme => ({
     width: "10%",
     alignSelf: "flex-end"
   },
-  buttton: {
-    height: "20px"
+  button: {
+    height: "3vh"
   },
   chip: {
     margin: ".3vh",
     height: "2vh",
-    fontSize: "1.4vh"
+    fontSize: "1vh"
   },
   chip_button: {
     margin: 0,
@@ -74,7 +77,7 @@ const useStyles = makeStyles(theme => ({
   chip_avatar: {
     maxHeight: "1.7vh",
     maxWidth: "1.7vh",
-    fontSize: "1.4vh"
+    fontSize: "1vh"
   },
   rating: {
     width: "10%",
@@ -125,6 +128,7 @@ export default function BookListItem(props) {
                         props.selectTag(tag.tag_name);
                       }}>
                       <Chip
+                        className={classes.chip}
                         key={index}
                         label={tag.tag_name}
                         avatar={
@@ -132,7 +136,6 @@ export default function BookListItem(props) {
                             {tag.count}
                           </Avatar>
                         }
-                        className={classes.chip}
                       />
                     </Button>
                   ))}
@@ -151,17 +154,14 @@ export default function BookListItem(props) {
                 {props.book.year}
               </Typography>
             </CardContent>
-            <Button
-              className={classes.button}
-              variant='contained'
-              color='primary'
-              type='submit'
-              onClick={event => {
-                event.preventDefault();
-                props.onClick(props.book.id);
-              }}>
-              <Typography variant='body2'>{props.buttonText}</Typography>
-            </Button>
+            <Link href={`/books/${props.book.id}`}>
+              <Button
+                className={classes.button}
+                variant='contained'
+                color='primary'>
+                <Typography variant='body2'>Go To Book</Typography>
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </Paper>

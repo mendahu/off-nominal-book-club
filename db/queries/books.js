@@ -102,7 +102,6 @@ module.exports = {
     },
 
     getAll: function(term) {
-      const lowerTerm = term.toLowerCase();
       return knex.raw(`
         SELECT
           b.id,
@@ -141,11 +140,11 @@ module.exports = {
                     FROM reviews
                         JOIN ratings ON ratings.book_id = reviews.book_id
                       GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id       
-        WHERE b.title ILIKE '%${lowerTerm}%'
-          OR author_names.names ILIKE '%${lowerTerm}%'
-          OR tags_info.tag_string ILIKE '%${lowerTerm}%'    
+        WHERE b.title ILIKE ?
+          OR author_names.names ILIKE ?
+          OR tags_info.tag_string ILIKE ? 
         GROUP BY b.id
-      `)
+      `, [`%${term}%`, `%${term}%`, `%${term}%`])
     },
     getTags: function(term) {
       return knex.raw(`
@@ -155,12 +154,12 @@ module.exports = {
                   FROM tags t
                     JOIN user_tag_book utb ON t.id = utb.tag_id
                     JOIN books AS b ON utb.book_id = b.id
-                  WHERE t.name ilike '%${term}%'
+                  WHERE t.name ilike ?
                   GROUP BY tag_name, book_id
         ) AS tags
       GROUP BY tag_name
       ORDER BY count DESC
-      `)
+      `, [`%${term}%`])
     },
     selectTag: function(tag) {
       return knex.raw(`
@@ -204,8 +203,8 @@ module.exports = {
                   JOIN ratings ON ratings.book_id = reviews.book_id
                 GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id          
     GROUP BY b.id
-    HAVING '${tag}' = ANY(max(tags_info.tag_array))
-    `)
+    HAVING ? = ANY(max(tags_info.tag_array))
+    `, tag)
     }
     
   }

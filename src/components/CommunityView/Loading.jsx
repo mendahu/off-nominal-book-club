@@ -8,7 +8,7 @@ export default function Loading() {
     },
     tags: {
       display: "flex",
-      height: "80px"
+      height: "5vh"
     },
     circle: {
       margin: "auto"

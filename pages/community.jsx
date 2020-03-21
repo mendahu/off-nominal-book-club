@@ -17,11 +17,7 @@ function Community({ books }) {
   const [searchResults, setSearchResults] = useState(books);
   const [searchTerm, setSearchTerm] = useState("");
   const [tagList, setTagList] = useState([]);
-  const [mode, setMode] = useState(LOADING);
-
-  // const SetSearchTerm  = function(value) {
-  //   setSearchTerm(value);
-  // };
+  const [mode, setMode] = useState(RESULTS);
 
   function changeMode(mode) {
     setMode(mode);
@@ -70,6 +66,12 @@ function Community({ books }) {
       </Layout>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const data = await queries.books.getAll("");
+  const books = data.rows;
+  return { props: { books } };
 }
 
 export default Community;

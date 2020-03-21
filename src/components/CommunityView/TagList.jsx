@@ -1,6 +1,9 @@
 import { Paper, Chip, Avatar, makeStyles, Button } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    height: "5vh"
+  },
   chip: {
     margin: theme.spacing(0.5)
   }
