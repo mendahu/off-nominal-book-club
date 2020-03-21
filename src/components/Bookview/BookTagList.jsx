@@ -116,7 +116,7 @@ const BookTagList = (props) => {
 
   return (
     <Paper className={classes.root}>
-      {state.tags.length &&
+      {(state.tags.length > 0) &&
         state.tags.map((t, index) => {
           if (t.count) {
             const isUserTag = state.userTags && (state.userTags.findIndex((tag) => tag.tag_id === t.tag_id) >= 0)
