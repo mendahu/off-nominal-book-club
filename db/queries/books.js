@@ -93,8 +93,8 @@ module.exports = {
             SELECT reviews.id, reviews.user_id, users.name as name, ratings.rating, reviews.created_at as date, reviews.summary as summary, reviews.review as user_review
             FROM reviews
               JOIN users ON reviews.user_id = users.id
-              JOIN ratings ON ratings.book_id = reviews.book_id
-            WHERE reviews.book_id = ? AND ratings.user_id = reviews.user_id
+              LEFT JOIN ratings ON ratings.book_id = reviews.book_id AND ratings.user_id = reviews.user_id
+            WHERE reviews.book_id = ? AND reviews.user_id = users.id
             ORDER BY date DESC
           ) review ) AS reviews`, bookId))
         .from('books')
