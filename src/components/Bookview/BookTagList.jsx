@@ -96,7 +96,6 @@ const BookTagList = (props) => {
   const stopClick = (event) => event.stopPropagation();
 
   const addTag = (e) => {
-    console.log
     e.preventDefault();
     if (!newTagInput) {
       toggleAddMode();
