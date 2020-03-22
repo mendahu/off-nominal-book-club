@@ -2,45 +2,44 @@
 
 ## MVP
 
-* As a user, I want to view available communities so I can join one
+[x] As a user, I want to view available communities so I can join one
 
-* As a user, I want a favicon to show so I know where I am 
+[x] As a user, I want a favicon to show so I know where I am 
 
-* As a user, I want to be able to register for an account with an email address
-* As a user, I want to be able to log in to my account
-* As a user, I want to be able to log out of my account
+<!-- [ ] As a user, I want to be able to register for an account with an email address -->
+[x] As a user, I want to be able to log in to my account
+[x] As a user, I want to be able to log out of my account
 
-* As a user, I want to be able to view an entire community's collection
-* [STRETCH] As a user, I want lists of books from a collection to be paginated so the performance is faster
-* As a user, I want the list of books to show tags, image, title, author, year published and description so I can quickly decide what books to view
+[x] As a user, I want to be able to view an entire community's collection
+[ ] [STRETCH] As a user, I want lists of books from a collection to be paginated so the performance is faster
+[x] As a user, I want the list of books to show tags, image, title, author, year published and ~~description~~ so I can quickly decide what books to view
 
-* As a user, I want to be able to search the collection using a string so I can narrow my results
-* As a user, I want the search function to weight my search string against different fields to better recommend books
-* As a user, I want the search function to be live so I instantly get results
-* As a user, I want the search function to recommend tags based on my search string that I can then click to view all books in that tag
-* As a user, I want to be able to filter my search to fiction or non-fiction if my community allows it so I can narrow my results
+[x] As a user, I want to be able to search the collection using a string so I can narrow my results
+[x] As a user, I want the search function to weight my search string against different fields to better recommend books
+[x] As a user, I want the search function to be live so I instantly get results
+[x] As a user, I want the search function to recommend tags based on my search string that I can then click to view all books in that tag
+[ ] As a user, I want to be able to filter my search to fiction or non-fiction if my community allows it so I can narrow my results
 
-* As a member, I want to be able to add a book to the community collection so I can make the collection better
-* As a member, I want to be able to tag books in the collection so the community can better search for data
-
-* [STRETCH] As a community owner, I want to be able to remove a book from my collection if it was added in error
+[x] As a member, I want to be able to add a book to the community collection so I can make the collection better
+[x] As a member, I want to be able to tag books in the collection so the community can better search for data
+[ ] [STRETCH] As a community owner, I want to be able to remove a book from my collection if it was added in error
 
 ## User-specific Data
 
-* As a user, I want to be able to mark books as read so I can keep track of what i have read
-* As a user, I want to be able to mark books as favourites so I can showcase my favourite reads
-* As a user, I want to be able to rate a book so others can tell how good it is
-* As a user, I want to be able to write a review so others can tell how good it is
+[x] As a user, I want to be able to mark books as read so I can keep track of what i have read
+[x] As a user, I want to be able to mark books as favourites so I can showcase my favourite reads
+[x] As a user, I want to be able to rate a book so others can tell how good it is
+[x] As a user, I want to be able to write a review so others can tell how good it is
 
-* As a user, I want to be able to have a public facing profile so I can be a social member of the community
-* As a user, I want my profile to show the books I've read so I can keep a record
-* As a user, I want my profile to show my reviews so others can see what I think of books
-* As a user, I want my profile to show my favourite books so others can see what I like
+[x] As a user, I want to be able to have a public facing profile so I can be a social member of the community
+[x] As a user, I want my profile to show the books I've read so I can keep a record
+[ ] As a user, I want my profile to show my reviews so others can see what I think of books
+[x] As a user, I want my profile to show my favourite books so others can see what I like
 
-* As a user, I want the search functionality to weight community ratings, read status and favourite count
+[ ] As a user, I want the search functionality to weight community ratings, read status and favourite count
 
-* As a user, I want search results to show community ratings
-* As a user, I want book view to show user rating, favourite count, read count, and [STRETCH] user reviews
+[x] As a user, I want search results to show community ratings
+[ ] As a user, I want book view to show user rating, favourite count, read count, and [STRETCH] user reviews
 
 ## Manual Schemas [STRETCH]
 
