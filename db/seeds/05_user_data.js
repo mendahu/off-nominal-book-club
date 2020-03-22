@@ -52,17 +52,17 @@ exports.seed = function(knex) {
 
       //containers for data inserts
       //these are the arrays that will eventually be added to the db
-      const tags            = [];
+      const tags              = [];
       let insertableTags;
-      const tagRels         = [];
-      const reads           = [];
-      const favs            = [];
-      const ratings         = [];
-      const reviews         = [];
-      const wishlist        = [];
+      const tagRels           = [];
+      const reads             = [];
+      const favs              = [];
+      const ratings           = [];
+      const reviews           = [];
+      const wishlist          = [];
 
       //begin simulating user data by looping through each user
-      users.forEach((user) => {
+      users.forEach(user => {
 
         //generate a random number representing how many books a user has read with min/max
         const bookCount = randomNumGen(10, 40)

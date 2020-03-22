@@ -49,6 +49,7 @@ export async function getServerSideProps(context) {
   const cookie = context.req.headers.cookie
   const userId = (cookie) ? Number(cookie.split("=")[1]) : 0
 
+  
   //Default user Data
   const props = {
     userData: {
@@ -65,11 +66,9 @@ export async function getServerSideProps(context) {
   const promises = [];
   promises.push(bookQueries.books.fetch(queryId, userId));
   if (userId) promises.push(userQueries.users.fetch(userId, queryId));
-
+  
   return Promise.all(promises)
     .then(values => {
-      console.log('user_data is', values[1][0])
-      console.log('book_data is', values[0][0])
       props.book = values[0][0]
       if (userId) props.userData = values[1][0]
       return { props };
