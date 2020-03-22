@@ -12,10 +12,10 @@ const BookReview = (props) => {
       <h2>{props.review.summary}</h2>
       <h3>by {props.review.name} {timeAgo}</h3>
 
-      {(props.review.rating > 0) && 
+      {(props.rating.user_rating > 0) && 
         <aside>
           <Box component="fieldset" borderColor="transparent">
-            <Rating name="read-only" value={props.review.rating} readOnly />
+            <Rating name="read-only" value={props.rating.user_rating} readOnly />
           </Box>
         </aside>
       }

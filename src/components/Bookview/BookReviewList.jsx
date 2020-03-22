@@ -12,7 +12,7 @@ const BookReviewList = (props) => {
     user_review: ""
   }
 
-  const userRating = props.userRating ? props.userRating[0] : {}
+  const userRating = props.userRating ? props.userRating[0] : {user_rating: null}
   const userReview = props.userReview ? props.userReview[0] : emptyReview
 
   const [rating, setRating] = useState(userRating);
@@ -101,10 +101,10 @@ const BookReviewList = (props) => {
 
       </div>}
 
-      {review.id && <BookReview review={review} />}
+      {review.id && <BookReview review={review} rating={rating}/>}
       
       {props.reviews && 
-        props.reviews.map((indReview, index) => <BookReview review={indReview} key={index} />)}
+        props.reviews.map((indReview, index) => <BookReview review={indReview} rating={{user_rating: indReview.rating}} key={index}/>)}
     </Paper>
     )
 }
