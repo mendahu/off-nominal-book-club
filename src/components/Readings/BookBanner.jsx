@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     flexDirection: "row",
     marginTop: "1vh",
-    height: "15vh"
+    height: "25vh"
   },
   imageContainer: {
     display: "flex",
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     padding: "0",
-    justifyContent: "flex-end"
+    justifyContent: "space-between"
   },
   content: {
     display: "flex",
@@ -86,10 +86,14 @@ const useStyles = makeStyles(theme => ({
   },
   star: {
     margin: "auto"
+  },
+  buttons: {
+    display: "flex",
+    justifyContent: "space-between"
   }
 }));
 
-export default function BookListItem(props) {
+export default function BookBanner(props) {
   console.log(props);
   const classes = useStyles();
   const theme = useTheme();
@@ -118,28 +122,18 @@ export default function BookListItem(props) {
             </CardContent>
             <div className={classes.tags}>
               {props.book.tags &&
-                JSON.parse(props.book.tags)
-                  .slice(0, 4)
-                  .map((tag, index) => (
-                    <Button
-                      className={classes.chip_button}
-                      type='submit'
-                      onClick={e => {
-                        e.preventDefault();
-                        props.selectTag(tag.tag_name);
-                      }}>
-                      <Chip
-                        className={classes.chip}
-                        key={index}
-                        label={tag.tag_name}
-                        avatar={
-                          <Avatar className={classes.chip_avatar}>
-                            {tag.count}
-                          </Avatar>
-                        }
-                      />
-                    </Button>
-                  ))}
+                JSON.parse(props.book.tags).map((tag, index) => (
+                  <Chip
+                    className={classes.chip}
+                    key={index}
+                    label={tag.tag_name}
+                    avatar={
+                      <Avatar className={classes.chip_avatar}>
+                        {tag.count}
+                      </Avatar>
+                    }
+                  />
+                ))}
             </div>
             <CardContent className={classes.row}>
               {props.book.authors &&
@@ -155,14 +149,30 @@ export default function BookListItem(props) {
                 {props.book.year}
               </Typography>
             </CardContent>
-            <Link href={`/books/${props.book.id}`}>
+            <CardContent className={classes.row}>
+              <Typography variant='subtitle1' color='textSecondary'>
+                Started On: Jan 5, 2020
+              </Typography>
+              <Typography variant='subtitle1' color='textSecondary'>
+                Ends on: April 4: 2020
+              </Typography>
+            </CardContent>
+            <CardContent className={classes.buttons}>
+              <Link href={`/books/${props.book.id}`}>
+                <Button
+                  className={classes.button}
+                  variant='contained'
+                  color='primary'>
+                  <Typography variant='body2'>Go To Book</Typography>
+                </Button>
+              </Link>
               <Button
                 className={classes.button}
                 variant='contained'
                 color='primary'>
-                <Typography variant='body2'>Go To Book</Typography>
+                <Typography variant='body2'>JOIN</Typography>
               </Button>
-            </Link>
+            </CardContent>
           </CardContent>
         </Card>
       </Paper>
