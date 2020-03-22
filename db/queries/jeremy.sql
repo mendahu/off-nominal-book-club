@@ -383,3 +383,8 @@ select books.id, books.title, rating
   FROM books 
   JOIN ratings on book_id = books.id
   WHERE ratings.user_id = 2
+
+select users.id, users.name, users.avatar_url
+  from users
+  join users_readings on user_id = users.id
+  where reading_id = 1

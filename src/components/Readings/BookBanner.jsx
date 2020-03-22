@@ -94,10 +94,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function BookBanner(props) {
-  console.log(props);
   const classes = useStyles();
   const theme = useTheme();
-
+  console.log(props);
   return (
     <form>
       <Paper>
@@ -112,32 +111,10 @@ export default function BookBanner(props) {
               <Typography className={classes.title} component='h5' variant='h5'>
                 {props.book.title}
               </Typography>
-              {props.book.avg_rating && <StarBorder className={classes.star} />}
-              <Typography
-                className={classes.rating}
-                variant='subtitle1'
-                color='textSecondary'>
-                {props.book.avg_rating}
-              </Typography>
             </CardContent>
-            <div className={classes.tags}>
-              {props.book.tags &&
-                JSON.parse(props.book.tags).map((tag, index) => (
-                  <Chip
-                    className={classes.chip}
-                    key={index}
-                    label={tag.tag_name}
-                    avatar={
-                      <Avatar className={classes.chip_avatar}>
-                        {tag.count}
-                      </Avatar>
-                    }
-                  />
-                ))}
-            </div>
             <CardContent className={classes.row}>
               {props.book.authors &&
-                JSON.parse(props.book.authors).map((author, index) => (
+                props.book.authors.map((author, index) => (
                   <Typography className={classes.author} variant='subtitle1'>
                     {author}
                   </Typography>
@@ -151,10 +128,10 @@ export default function BookBanner(props) {
             </CardContent>
             <CardContent className={classes.row}>
               <Typography variant='subtitle1' color='textSecondary'>
-                Started On: Jan 5, 2020
+                Started On: {props.book.date_started}
               </Typography>
               <Typography variant='subtitle1' color='textSecondary'>
-                Ends on: April 4: 2020
+                Ends on: {props.book.date_ended}
               </Typography>
             </CardContent>
             <CardContent className={classes.buttons}>

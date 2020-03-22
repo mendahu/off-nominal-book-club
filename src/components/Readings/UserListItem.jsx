@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
 
 import {
   Paper,
@@ -44,6 +45,9 @@ export default function UserListItem(props) {
         <Card className={classes.card}>
           <CardContent className={classes.name}>
             <Typography>{props.user.name}</Typography>
+          </CardContent>
+          <CardContent>
+            <Avatar alt={props.user.name} src={props.user.avatar_url} />
           </CardContent>
         </Card>
       </Link>
