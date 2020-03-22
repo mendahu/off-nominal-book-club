@@ -106,7 +106,7 @@ export default function UsersComments(props) {
         index={value}
         onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <UserList users={users} />
+          <UserList users={props.users} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Comments comments={comments} />

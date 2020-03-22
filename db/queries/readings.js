@@ -7,7 +7,7 @@ module.exports = {
       
       promises.push(
         knex.raw(`
-          SELECT b.id, b.title, authors, date_started, date_ended
+          SELECT b.id, b.title, authors, b.year, b.image_url, date_started, date_ended
           FROM books b
           LEFT JOIN (
             SELECT book_id, json_agg(name) AS authors
@@ -33,7 +33,15 @@ module.exports = {
       return Promise.all(promises)
       .then(([bookData, usersData]) => {
         const readingsData = {
-          book: bookData.rows,
+          book: {
+            id: bookData.rows[0].id,
+            title: bookData.rows[0].title,
+            authors: bookData.rows[0].authors,
+            year: bookData.rows[0].year,
+            image_url: bookData.rows[0].image_url,
+            date_started: JSON.stringify(bookData.rows[0].date_started),
+            date_ended: JSON.stringify(bookData.rows[0].date_ended),
+          }, 
           users: usersData.rows
         }
         return readingsData
