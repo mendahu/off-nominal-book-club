@@ -68,6 +68,9 @@ module.exports = {
         "books.description", 
         "books.year", 
         "books.image_url",
+        knex.raw(`(SELECT COUNT(reads.id) from reads where reads.book_id = books.id) as reads`),
+        knex.raw(`(SELECT count(favourites.id) from favourites where favourites.book_id = books.id) as favs`),
+        knex.raw(`(SELECT count(wishlist.id) from wishlist where wishlist.book_id = books.id) as wishes`),
         knex.raw(`
           ( SELECT ROUND(AVG(rating), 1)
             FROM ratings
@@ -104,6 +107,7 @@ module.exports = {
           ) review ) AS reviews`, params))
         .from('books')
         .where('books.id', bookId)
+        .groupBy('books.id')
     },
 
     getAll: function(term) {
@@ -214,4 +218,3 @@ module.exports = {
     
   }
 }
-
