@@ -39,22 +39,22 @@
 [ ] As a user, I want the search functionality to weight community ratings, read status and favourite count
 
 [x] As a user, I want search results to show community ratings
-[ ] As a user, I want book view to show user rating, favourite count, read count, and [STRETCH] user reviews
+[x] As a user, I want book view to show user rating, favourite count, read count, and [STRETCH] user reviews
 
 ## Manual Schemas [STRETCH]
 
-* As a community owner/moderator, I want to view a community dashboard so I can see stats on my collection
-* As a community owner/moderator, I want my dashboard to show all the tags in my collection and their tag count so I can visualize what my collection is about
-* As a community owner/moderator, I want to know what books are most read, best reviewed and most favourited so I know what my community likes
+[ ] As a community owner/moderator, I want to view a community dashboard so I can see stats on my collection
+[ ] As a community owner/moderator, I want my dashboard to show all the tags in my collection and their tag count so I can visualize what my collection is about
+[ ] As a community owner/moderator, I want to know what books are most read, best reviewed and most favourited so I know what my community likes
 
-* [STRETCH] As a community owner/moderator, I want to be able to manually link tags so teach the search engine how to interpret them in search results
-* [STRETCH] As a community/moderator, I want tag linking to be either "full" which is a like for like replacement or "partial" to maintain distinctness but improve search results
+[ ] [STRETCH] As a community owner/moderator, I want to be able to manually link tags so teach the search engine how to interpret them in search results
+[ ] [STRETCH] As a community/moderator, I want tag linking to be either "full" which is a like for like replacement or "partial" to maintain distinctness but improve search results
 
 ## Recommendations
 
-* As a user, I want the main page to serve me recommendations so that I can get ideas for new books to read
-* As a user, I want recommendations to include most read, highest rated, random book, book of the month, community favourite and newly added for the month so I can keep track of what the community likes
-* As a user, I want book of the month to be weighted in search results so I can get good recommendations
+[ ] As a user, I want the main page to serve me recommendations so that I can get ideas for new books to read
+[ ] As a user, I want recommendations to include most read, highest rated, random book, book of the month, community favourite and newly added for the month so I can keep track of what the community likes
+[ ] As a user, I want book of the month to be weighted in search results so I can get good recommendations
 
 * As a community moderator/owner, i want to be able to set a book of the month to be served to users so we can all read the same thing
 
