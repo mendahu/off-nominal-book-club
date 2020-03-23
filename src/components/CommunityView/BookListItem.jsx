@@ -90,7 +90,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function BookListItem(props) {
-  console.log(props);
   const classes = useStyles();
   const theme = useTheme();
 

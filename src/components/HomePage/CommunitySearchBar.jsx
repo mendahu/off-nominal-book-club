@@ -5,17 +5,13 @@ import {
   InputBase,
   Button 
 } from "@material-ui/core";
-import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles(theme =>
   createStyles({
-    root: {
-      display: "flex",
-      flexGrow: 1,
-      maxWidth: "auto"
-    },
     paper: {
       display: "flex",
+      marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(4),
       margin: "auto",
       width: "100%"
     },
@@ -37,13 +33,12 @@ const CommunitySearchBar = () => {
   const classes = useStyles();
 
   return (
-    <Box component="section" className={classes.root}>
-      <Paper component='form' className={classes.paper}>
+    <Box component="section">
+      <Paper component='form' className={classes.paper} elevation={3}>
         <InputBase
           className={classes.input}
-          placeholder='Search for a Community.'
+          placeholder='Find your people'
         />
-        <SearchIcon className={classes.iconButton} aria-label='search' />
         <Button
           className={classes.button}
           variant='contained'
@@ -52,7 +47,7 @@ const CommunitySearchBar = () => {
             event.preventDefault();
             props.onClick();
           }}>
-          ADD
+          Search
         </Button>
       </Paper>
     </Box>

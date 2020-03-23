@@ -67,15 +67,15 @@ const CommunityItem = (props) => {
             </Link>
           </Typography>
           <Typography className={classes.rating}>
-            <span>{data.members} members</span>
+            {data.members} members
           </Typography>
           <Typography className={classes.rating}>
-            <span>{data.books} books</span>
+            {data.books} books
           </Typography>
         </CardContent>
         <CardContent className={classes.row}>
           <Typography>
-            <p>{data.desc}</p>
+            {data.desc}
           </Typography>
         </CardContent>
           <Typography>

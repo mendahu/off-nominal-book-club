@@ -2,9 +2,11 @@ import { MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView, MDBContainer }
 "mdbreact";
 import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
+import { 
+  Container,
+  Card,
+  CardMedia,
+  CardContent } from '@material-ui/core';
 
 
 const useStyles = makeStyles({
@@ -38,33 +40,35 @@ export default function HeroCarousel(props) {
       >
         <MDBCarouselInner>
           {carouselItems.map((item, index) => (
-            <MDBCarouselItem itemId={index + 1}>
-              <MDBView>
-                <Card className={classes.root}>
-                  <Link href={`books/${item.id}`}>
-                    <a>
-                      <div className={classes.root}>
-                        <CardMedia 
-                          component="img"
-                          alt={item.title}
-                          image={item.image_url}
-                          title={item.title}
-                        />
-                        <CardContent className={classes.content}>
-                              <div
-                                className="w-100"
-                                >
-                                <h1>{item.headline}</h1>
-                                <h2>{item.title}</h2>
-                                {JSON.parse(item.authors).map(author => <h3>{author}</h3>)}
-                              </div>
-                        </CardContent>
-                      </div>
-                    </a>
-                  </Link>
-                </Card>
-              </MDBView>
-            </MDBCarouselItem>
+            <Container component="main" maxWidth={false}>
+              <MDBCarouselItem itemId={index + 1}>
+                <MDBView>
+                  <Card className={classes.root}>
+                    <Link href={`books/${item.id}`}>
+                      <a>
+                        <div className={classes.root}>
+                          <CardMedia 
+                            component="img"
+                            alt={item.title}
+                            image={item.image_url}
+                            title={item.title}
+                            />
+                          <CardContent className={classes.content}>
+                                <div
+                                  className="w-100"
+                                  >
+                                  <h1>{item.headline}</h1>
+                                  <h2>{item.title}</h2>
+                                  {JSON.parse(item.authors).map(author => <h3>{author}</h3>)}
+                                </div>
+                          </CardContent>
+                        </div>
+                      </a>
+                    </Link>
+                  </Card>
+                </MDBView>
+              </MDBCarouselItem>
+            </Container>
           ))}
         </MDBCarouselInner>
       </MDBCarousel>
