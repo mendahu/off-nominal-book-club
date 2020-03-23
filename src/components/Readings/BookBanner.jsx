@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import StarBorder from "@material-ui/icons/StarBorder";
 import {
   Avatar,
   Chip,
@@ -98,13 +97,48 @@ export default function BookBanner(props) {
   const classes = useStyles();
   const theme = useTheme();
 
-  function onSubmit(event) {
+  function addUser(event) {
     event.preventDefault();
-    console.log(props.readingId, props.userId, "clicked");
     Axios.post(`/api/readings/users`, {
       readingId: props.readingId,
       userId: props.userId
-    });
+    })
+      .then(() => {
+        return Axios.get(`/api/readings/${props.readingId}`);
+      })
+      .then(res => {
+        props.setUsers(res.data.users);
+        return res.data.users;
+      })
+      .then(res => {
+        const idArr = res.map(user => {
+          return user.id;
+        });
+        console.log(idArr);
+        props.setJoinedUsers(idArr);
+      });
+  }
+
+  function deleteUser(event) {
+    event.preventDefault();
+    Axios.patch(`/api/readings/users`, {
+      readingId: props.readingId,
+      userId: props.userId
+    })
+      .then(() => {
+        return Axios.get(`/api/readings/${props.readingId}`);
+      })
+      .then(res => {
+        props.setUsers(res.data.users);
+        return res.data.users;
+      })
+      .then(res => {
+        props.setJoinedUsers(
+          res.map(user => {
+            return user.id;
+          })
+        );
+      });
   }
 
   return (
@@ -152,11 +186,11 @@ export default function BookBanner(props) {
                 <Typography variant='body2'>Go To Book</Typography>
               </Button>
             </Link>
-            <form
-              onSubmit={event => {
-                onSubmit(event);
-              }}>
-              {!props.joinedUsers.includes(props.userId) ? (
+            {!props.joinedUsers.includes(Number(props.userId)) ? (
+              <form
+                onSubmit={event => {
+                  addUser(event);
+                }}>
                 <Button
                   className={classes.button}
                   variant='contained'
@@ -164,7 +198,12 @@ export default function BookBanner(props) {
                   type='submit'>
                   <Typography variant='body2'>JOIN</Typography>
                 </Button>
-              ) : (
+              </form>
+            ) : (
+              <form
+                onSubmit={event => {
+                  deleteUser(event);
+                }}>
                 <Button
                   className={classes.button}
                   variant='contained'
@@ -172,8 +211,8 @@ export default function BookBanner(props) {
                   type='submit'>
                   LEAVE
                 </Button>
-              )}
-            </form>
+              </form>
+            )}
           </CardContent>
         </CardContent>
       </Card>

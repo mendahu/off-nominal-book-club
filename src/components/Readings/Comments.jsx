@@ -11,7 +11,7 @@ export default function Comments(props) {
 
   return (
     <section>
-      {props.joinedUsers.includes(props.userId) && (
+      {props.joinedUsers.includes(Number(props.userId)) && (
         <NewComment
           readingId={props.readingId}
           setComments={updateComments}

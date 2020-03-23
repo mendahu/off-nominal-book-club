@@ -49,10 +49,6 @@ export default function NewComment(props) {
       })
       .then(res => props.setComments(res.data.comments));
   }
-  // function addComment(comment) {
-  //   console.log("clicked");
-  //   Axios.post(`api/readings/comments/${props.readingId}`, comment);
-  // }
 
   return (
     <form
