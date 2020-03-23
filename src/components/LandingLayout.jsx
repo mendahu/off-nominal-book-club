@@ -4,7 +4,7 @@ import { Container } from "@material-ui/core";
 const Layout = props => {
 
   return (
-    <Container maxWidth="lg" disableGutters="true">
+    <Container maxWidth="lg" disableGutters={true}>
       <Navbar></Navbar>
       {props.children}
     </Container>

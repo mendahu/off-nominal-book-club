@@ -1,11 +1,11 @@
-// import BookListItem from "../CommunityView/BookListItem";
+import  { Container } from "@material-ui/core";
 import BookList from "../src/components/CommunityView/BookList";
 import SearchBar from "../src/components/CommunityView/SearchBar";
 import TagList from "../src/components/CommunityView/TagList";
 import Loading from "../src/components/CommunityView/Loading";
 import HeroCarousel from "../src/components/CommunityView/HeroCarousel";
 import React, { useState, useEffect } from "react";
-import Layout from "../src/components/DefaultLayout";
+import Layout from "../src/components/LandingLayout";
 import axios from "axios";
 const queries = require("../db/queries/books");
 import Router from "next/router";
@@ -32,7 +32,6 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
   async function selectTag(tag) {
     const bookData = await axios.get(`/api/community/tags/${tag}`);
     setSearchResults(bookData.data);
-    console.log("click select");
   }
 
   function redirectToBook(id) {
@@ -55,19 +54,21 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
           mostFavBook={books[books.findIndex(book => book.id == mostFavId)]}
           highestRatedBook={books[books.findIndex(book => book.id == highestRatedId)]}
         />
-        <SearchBar
-          setSearchTerm={setSearchTerm}
-          searchTerm={searchTerm}
-          onClick={redirectToAdd}
-          setMode={changeMode}
-        />
-        {mode === LOADING && <Loading />}
-        <TagList tags={tagList} onClick={selectTag} />
-        <BookList
-          books={searchResults}
-          onClick={redirectToBook}
-          selectTag={selectTag}
-        />
+        <Container component="main" maxWidth={false}>
+          <SearchBar
+            setSearchTerm={setSearchTerm}
+            searchTerm={searchTerm}
+            onClick={redirectToAdd}
+            setMode={changeMode}
+            />
+          {mode === LOADING && <Loading />}
+          <TagList tags={tagList} onClick={selectTag} />
+          <BookList
+            books={searchResults}
+            onClick={redirectToBook}
+            selectTag={selectTag}
+            />
+        </Container>
       </Layout>
     </div>
   );
