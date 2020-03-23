@@ -15,6 +15,7 @@ export default function TagList(props) {
       <Paper>
         {props.tags.slice(0, 5).map((tag, index) => (
           <Button
+            key={index}
             type='submit'
             onClick={e => {
               e.preventDefault();
