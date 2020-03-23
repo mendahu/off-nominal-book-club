@@ -4,7 +4,7 @@ import CommunityItem from './CommunityItem'
 const CommunityList = (props) => { 
 
   return (
-    <Box component="main">
+    <Box component="section">
       {props.commData.map((community, index) => <CommunityItem key={index} data={community}/>)}
     </Box>
   )

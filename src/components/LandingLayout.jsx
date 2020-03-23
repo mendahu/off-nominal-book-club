@@ -6,9 +6,7 @@ const Layout = props => {
   return (
     <Container maxWidth="lg" disableGutters="true">
       <Navbar></Navbar>
-      <Container component="main" maxWidth={false}>
-        {props.children}
-      </Container>
+      {props.children}
     </Container>
   )
 }

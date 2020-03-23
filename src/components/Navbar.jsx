@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   },
   link: {
     textDecoration: "none",
-    color: `#fff`,
+    color: theme.palette.primary.constrastText,
     margin: theme.spacing(0, 1)
   }
 }))
