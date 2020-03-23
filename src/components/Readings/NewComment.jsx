@@ -1,6 +1,8 @@
 import TextField from "@material-ui/core/TextField";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { Button, makeStyles, IconButton } from "@material-ui/core";
+import { useState } from "react";
+import Axios from "axios";
 
 const useStyles = makeStyles(them => ({
   root: {
@@ -22,19 +24,53 @@ const useStyles = makeStyles(them => ({
     fontSize: "large"
   }
 }));
-export default function NewComment() {
+export default function NewComment(props) {
   const classes = useStyles();
+
+  const [input, setInput] = useState("");
+
+  function onInputChange() {
+    setInput(event.target.value);
+  }
+
+  function clearInput() {
+    setInput("");
+  }
+
+  function onSubmit(event) {
+    event.preventDefault();
+    Axios.post(`/api/readings/comments/${props.readingId}`, {
+      comment: input,
+      userId: props.userId
+    })
+      .then(() => {
+        clearInput();
+        return Axios.get(`/api/readings/${props.readingId}`);
+      })
+      .then(res => props.setComments(res.data.comments));
+  }
+  // function addComment(comment) {
+  //   console.log("clicked");
+  //   Axios.post(`api/readings/comments/${props.readingId}`, comment);
+  // }
+
   return (
-    <form className={classes.root}>
+    <form
+      className={classes.root}
+      onSubmit={event => {
+        onSubmit(event);
+      }}>
       <TextField
         className={classes.textField}
         id='outlined-textarea'
         label='Add a Comment'
         placeholder='Comment'
+        value={input}
         multiline
         variant='outlined'
+        onChange={onInputChange}
       />
-      <Button className={classes.button}>
+      <Button className={classes.button} type='submit'>
         <AddBoxIcon clasName={classes.icon} />
       </Button>
     </form>

@@ -61,32 +61,6 @@ export default function UsersComments(props) {
     setValue(index);
   };
 
-  const users = [
-    { id: 1, name: "Jake RobERDs" },
-    { id: 2, name: "Matthew Chan" },
-    { id: 3, name: "HoHo Hoang" }
-  ];
-
-  const comments = [
-    {
-      name: "Jake RobERDS",
-      avatar_url:
-        "https://gravatar.com/avatar/360be8daf96cd072088f5a68ca623980?s=400&d=robohash&r=x",
-      comment: "I love Space"
-    },
-    {
-      name: "Matthew Chan",
-      avatar_url:
-        "https://gravatar.com/avatar/360be8daf96cd072088f5a68ca623980?s=400&d=robohash&r=x",
-      comment: "I love space, too"
-    },
-    {
-      name: "HoHo Hoang",
-      avatar_url:
-        "https://gravatar.com/avatar/360be8daf96cd072088f5a68ca623980?s=400&d=robohash&r=x",
-      comment: "I like tortles"
-    }
-  ];
   return (
     <div className={classes.root}>
       <AppBar position='static' color='default'>
@@ -109,7 +83,12 @@ export default function UsersComments(props) {
           <UserList users={props.users} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Comments comments={comments} />
+          <Comments
+            comments={props.comments}
+            readingId={props.readingId}
+            userId={props.userId}
+            joinedUsers={props.joinedUsers}
+          />
         </TabPanel>
       </SwipeableViews>
     </div>

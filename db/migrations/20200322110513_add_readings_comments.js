@@ -3,7 +3,6 @@ exports.up = function(knex) {
     table.increments("id");
     table.integer("reading_id").references('id').inTable('readings').notNullable().onDelete('CASCADE');
     table.integer("user_id").references('id').inTable('users').notNullable().onDelete('CASCADE');
-    table.integer("review_id").references('id').inTable('reviews').notNullable().onDelete('CASCADE');
     table.datetime('created_at').defaultTo(knex.fn.now())
     table.text('comment').notNullable()
   })
