@@ -1,12 +1,12 @@
-import Paper from "@material-ui/core/Paper";
+import { Box } from "@material-ui/core";
 import CommunityItem from './CommunityItem'
 
 const CommunityList = (props) => { 
 
   return (
-    <section>
+    <Box component="main">
       {props.commData.map((community, index) => <CommunityItem key={index} data={community}/>)}
-    </section>
+    </Box>
   )
 }
 
