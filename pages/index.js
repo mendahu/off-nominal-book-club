@@ -2,7 +2,6 @@ import Layout from "../src/components/DefaultLayout";
 import HeroImage from "../src/components/HomePage/HeroImage";
 import CommunityList from "../src/components/HomePage/CommunityList";
 import CommunitySearchBar from "../src/components/HomePage/CommunitySearchBar";
-import { Container } from '@material-ui/core'
 
 const dates = [
   new Date('2020', '02', '11'),
@@ -62,11 +61,9 @@ const mockCommunityData = [
 
 const Home = () => (
   <Layout>
-    <Container maxWidth={false}>
-      <HeroImage />
-      <CommunitySearchBar />
-      <CommunityList commData={mockCommunityData}/>
-    </Container>
+    <HeroImage />
+    <CommunitySearchBar />
+    <CommunityList commData={mockCommunityData}/>
   </Layout>
 );
 

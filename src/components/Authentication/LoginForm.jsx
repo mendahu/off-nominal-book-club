@@ -64,7 +64,7 @@ const LoginForm = () => {
         onClose={handleClose}
       >
         {userId && <MenuItem onClick={clickProfile}>Profile</MenuItem>}
-        {userId && <MenuItem onClick={logOut}>Logout</MenuItem>}
+        {userId && <MenuItem onClick={logOut}>Logout User {userId}</MenuItem>}
         {!userId && <MenuItem onClick={() => logIn(2)}>Login Owner</MenuItem>}
         {!userId && <MenuItem onClick={() => logIn(1)}>Login Moderator</MenuItem>}
         {!userId && <MenuItem onClick={() => logIn(3)}>Login Member</MenuItem>}

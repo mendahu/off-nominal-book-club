@@ -21,12 +21,11 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          <ImportContactsIcon />
-          <Link href="/">
-            <a className={classes.link}>Bookpeople</a>
-          </Link>
-        </Typography>
+        <Link href="/">
+          <Typography variant="h6" className={classes.title}>
+            <a className={classes.link}><ImportContactsIcon /> Bookpeople</a>
+          </Typography>
+        </Link>
         <LoginForm/>
       </Toolbar>
     </AppBar>
