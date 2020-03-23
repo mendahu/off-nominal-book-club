@@ -17,3 +17,8 @@ FROM books b
   ) AS author_names ON author_names.book_id = b.id
   JOIN readings ON readings.book_id = b.id
 where readings.id = 1
+
+SELECT users.id, users.name, users.avatar_url, comment
+FROM users
+  JOIN readings_comments on user_id = users.id
+WHERE reading_id = 1;

@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 
 import Link from "next/link";
+import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -96,63 +97,86 @@ const useStyles = makeStyles(theme => ({
 export default function BookBanner(props) {
   const classes = useStyles();
   const theme = useTheme();
-  console.log(props);
+
+  function onSubmit(event) {
+    event.preventDefault();
+    console.log(props.readingId, props.userId, "clicked");
+    Axios.post(`/api/readings/users`, {
+      readingId: props.readingId,
+      userId: props.userId
+    });
+  }
+
   return (
-    <form>
-      <Paper>
-        <Card className={classes.root}>
-          <CardContent className={classes.imageContainer}>
-            <CardMedia className={classes.thumb_image}>
-              <img className={classes.thumb_image} src={props.book.image_url} />
-            </CardMedia>
+    <Paper>
+      <Card className={classes.root}>
+        <CardContent className={classes.imageContainer}>
+          <CardMedia className={classes.thumb_image}>
+            <img className={classes.thumb_image} src={props.book.image_url} />
+          </CardMedia>
+        </CardContent>
+        <CardContent className={classes.content}>
+          <CardContent className={classes.row}>
+            <Typography className={classes.title} component='h5' variant='h5'>
+              {props.book.title}
+            </Typography>
           </CardContent>
-          <CardContent className={classes.content}>
-            <CardContent className={classes.row}>
-              <Typography className={classes.title} component='h5' variant='h5'>
-                {props.book.title}
-              </Typography>
-            </CardContent>
-            <CardContent className={classes.row}>
-              {props.book.authors &&
-                props.book.authors.map((author, index) => (
-                  <Typography className={classes.author} variant='subtitle1'>
-                    {author}
-                  </Typography>
-                ))}
-              <Typography
-                className={classes.year}
-                variant='subtitle1'
-                color='textSecondary'>
-                {props.book.year}
-              </Typography>
-            </CardContent>
-            <CardContent className={classes.row}>
-              <Typography variant='subtitle1' color='textSecondary'>
-                Started On: {props.book.date_started}
-              </Typography>
-              <Typography variant='subtitle1' color='textSecondary'>
-                Ends on: {props.book.date_ended}
-              </Typography>
-            </CardContent>
-            <CardContent className={classes.buttons}>
-              <Link href={`/books/${props.book.id}`}>
-                <Button
-                  className={classes.button}
-                  variant='contained'
-                  color='primary'>
-                  <Typography variant='body2'>Go To Book</Typography>
-                </Button>
-              </Link>
+          <CardContent className={classes.row}>
+            {props.book.authors &&
+              props.book.authors.map((author, index) => (
+                <Typography className={classes.author} variant='subtitle1'>
+                  {author}
+                </Typography>
+              ))}
+            <Typography
+              className={classes.year}
+              variant='subtitle1'
+              color='textSecondary'>
+              {props.book.year}
+            </Typography>
+          </CardContent>
+          <CardContent className={classes.row}>
+            <Typography variant='subtitle1' color='textSecondary'>
+              Started On: {JSON.parse(props.book.date_started).split("T")[0]}
+            </Typography>
+            <Typography variant='subtitle1' color='textSecondary'>
+              Ends on: {JSON.parse(props.book.date_ended).split("T")[0]}
+            </Typography>
+          </CardContent>
+          <CardContent className={classes.buttons}>
+            <Link href={`/books/${props.book.id}`}>
               <Button
                 className={classes.button}
                 variant='contained'
                 color='primary'>
-                <Typography variant='body2'>JOIN</Typography>
+                <Typography variant='body2'>Go To Book</Typography>
               </Button>
-            </CardContent>
+            </Link>
+            <form
+              onSubmit={event => {
+                onSubmit(event);
+              }}>
+              {!props.joinedUsers.includes(props.userId) ? (
+                <Button
+                  className={classes.button}
+                  variant='contained'
+                  color='primary'
+                  type='submit'>
+                  <Typography variant='body2'>JOIN</Typography>
+                </Button>
+              ) : (
+                <Button
+                  className={classes.button}
+                  variant='contained'
+                  color='primary'
+                  type='submit'>
+                  LEAVE
+                </Button>
+              )}
+            </form>
           </CardContent>
-        </Card>
-      </Paper>
-    </form>
+        </CardContent>
+      </Card>
+    </Paper>
   );
 }
