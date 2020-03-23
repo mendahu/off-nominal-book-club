@@ -71,6 +71,11 @@ module.exports = {
     addUser: (readingId, userId) => {
       return knex('users_readings')
       .insert({'reading_id': readingId, 'user_id': userId, 'gets_mail': true})
+    },
+    deleteUser: (readingId, userId) => {
+      return knex('users_readings')
+      .where({'reading_id': readingId,'user_id': userId})
+      .del()
     }
   }
 }

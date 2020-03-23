@@ -1,7 +1,6 @@
 exports.seed = function(knex) {
   return knex('users_readings').select('reading_id', 'user_id')
   .then((results) => {
-    console.log(results)
     const userComments = []
     const nouns = ["tortles", 'space', 'books', 'accounting', 'cake']
 
