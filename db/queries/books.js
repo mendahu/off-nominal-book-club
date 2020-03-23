@@ -53,6 +53,26 @@ module.exports = {
         })
     },
 
+    getMostFavourite: function() {
+      return knex.select('books.id', knex.raw(`count(favourites.id) as favs`))
+        .from('books')
+        .join('favourites', 'favourites.book_id', "=", "books.id")
+        .where(knex.raw(`favourites.created_at >= current_date - interval '30' day`))
+        .groupBy('books.id')
+        .orderBy('favs', 'desc')
+        .limit('1')
+      },
+      
+      getHighestRated: function() {
+        return knex.select('books.id', knex.raw(`AVG(ratings.rating) as rating`))
+        .from('books')
+        .join('ratings', 'ratings.book_id', "=", "books.id")
+        .where(knex.raw(`ratings.created_at >= current_date - interval '30' day`))
+        .groupBy('books.id')
+        .orderBy('rating', 'desc')
+        .limit('1')
+    },
+
     fetch: function(bookId, userId = 0) {
       const params = {
         bookId,
@@ -68,6 +88,9 @@ module.exports = {
         "books.description", 
         "books.year", 
         "books.image_url",
+        knex.raw(`(SELECT COUNT(reads.id) from reads where reads.book_id = books.id) as reads`),
+        knex.raw(`(SELECT count(favourites.id) from favourites where favourites.book_id = books.id) as favs`),
+        knex.raw(`(SELECT count(wishlist.id) from wishlist where wishlist.book_id = books.id) as wishes`),
         knex.raw(`
           ( SELECT ROUND(AVG(rating), 1)
             FROM ratings
@@ -104,6 +127,7 @@ module.exports = {
           ) review ) AS reviews`, params))
         .from('books')
         .where('books.id', bookId)
+        .groupBy('books.id')
     },
 
     getAll: function(term) {
@@ -214,4 +238,3 @@ module.exports = {
     
   }
 }
-

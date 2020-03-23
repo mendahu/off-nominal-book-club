@@ -3,14 +3,14 @@ import BookList from "../src/components/CommunityView/BookList";
 import SearchBar from "../src/components/CommunityView/SearchBar";
 import TagList from "../src/components/CommunityView/TagList";
 import Loading from "../src/components/CommunityView/Loading";
-const knex = require("../db/knex");
+import HeroCarousel from "../src/components/CommunityView/HeroCarousel";
 import React, { useState, useEffect } from "react";
 import Layout from "../src/components/DefaultLayout";
 import axios from "axios";
 const queries = require("../db/queries/books");
 import Router from "next/router";
 
-function Community({ books }) {
+function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
   const LOADING = "LOADING";
   const RESULTS = "RESULTS";
 
@@ -50,6 +50,11 @@ function Community({ books }) {
   return (
     <div>
       <Layout>
+        <HeroCarousel 
+          randomBook={books[randomBookIndex]} 
+          mostFavBook={books[mostFavId]}
+          highestRatedBook={books[highestRatedId]}
+        />
         <SearchBar
           setSearchTerm={setSearchTerm}
           searchTerm={searchTerm}
@@ -69,9 +74,20 @@ function Community({ books }) {
 }
 
 export async function getServerSideProps() {
-  const data = await queries.books.getAll("");
-  const books = data.rows;
-  return { props: { books } };
+  const books = queries.books.getAll("");
+  const mostFavId = queries.books.getMostFavourite();
+  const highestRatedId = queries.books.getHighestRated();
+  
+  return Promise.all([books, mostFavId, highestRatedId])
+  .then((res) => {
+
+      const books = res[0].rows
+      const mostFavId = res[1][0].id
+      const highestRatedId = res[2][0].id
+      const randomBookIndex = Math.floor(Math.random() * books.length)
+
+      return { props: { books, mostFavId, highestRatedId, randomBookIndex } }
+    })
 }
 
 export default Community;

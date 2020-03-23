@@ -17,9 +17,15 @@ const Bookview = ({ book, userData }) => {
       <BookTitleBar 
         userId={userId} 
         bookId={book.id} 
-        read={userData.read} 
-        wishlist={userData.wishlist} 
-        fav={userData.fav} 
+
+        userRead={userData.read} 
+        userFav={userData.fav}
+        userWishlist={userData.wishlist} 
+
+        reads={book.reads}
+        favs={book.favs}
+        wishes={book.wishes}
+
         rating={book.rating} 
         authors={book.authors} 
         title={book.title} 
