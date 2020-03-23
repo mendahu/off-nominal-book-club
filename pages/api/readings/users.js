@@ -2,10 +2,10 @@ const queries = require('../../../db/queries/readings')
 
 export default (req, res) => {
   const { readingId, userId } = req.body
-
+  console.log(readingId, userId)
   return queries
   .users
-  .add(readingId, userId)
+  .addUser(readingId, userId)
   .then((results) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json')

@@ -100,7 +100,8 @@ export default function BookBanner(props) {
 
   function onSubmit(event) {
     event.preventDefault();
-    Axios.post(`/api/readings/user`, {
+    console.log(props.readingId, props.userId, "clicked");
+    Axios.post(`/api/readings/users`, {
       readingId: props.readingId,
       userId: props.userId
     });
@@ -152,7 +153,7 @@ export default function BookBanner(props) {
               </Button>
             </Link>
             <form
-              onSumbit={event => {
+              onSubmit={event => {
                 onSubmit(event);
               }}>
               {!props.joinedUsers.includes(props.userId) ? (

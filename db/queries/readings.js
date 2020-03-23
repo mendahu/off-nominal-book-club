@@ -70,7 +70,7 @@ module.exports = {
   users: {
     addUser: (readingId, userId) => {
       return knex('users_readings')
-      .then({'reading_id': readingId, 'user_id': userId, 'gets_mail': true})
+      .insert({'reading_id': readingId, 'user_id': userId, 'gets_mail': true})
     }
   }
 }
