@@ -66,6 +66,57 @@ module.exports = {
         return readingsData
       })
     },
+    getUsersReadings: (userId) => {
+      const promises = []
+
+      promises.push(
+        knex.raw(`
+        SELECT readings.id, max(books.title) as title, max(books.image_url) as image_url, max(readings.user_count) as user_count
+        FROM books
+          JOIN (
+          SELECT readings.id as id, readings.book_id as book_id, COUNT(*) as user_count
+          FROM readings
+            JOIN users_readings on readings.id = users_readings.reading_id
+          GROUP BY readings.id) as readings on readings.book_id = books.id
+          JOIN (
+          SELECT reading_id, array_agg(user_id) as users_array
+          from users_readings
+          GROUP BY reading_id
+        ) as users on readings.id = users.reading_id
+        WHERE (? = ANY(users.users_array)
+        )
+        GROUP BY readings.id
+        `, userId)
+      )
+
+      promises.push(
+        knex.raw(`
+        SELECT readings.id, max(books.title) as title, max(books.image_url) as image_url, max(readings.user_count) as user_count
+        FROM books
+          JOIN (
+          SELECT readings.id as id, readings.book_id as book_id, COUNT(*) as user_count
+          FROM readings
+            JOIN users_readings on readings.id = users_readings.reading_id
+          GROUP BY readings.id) as readings on readings.book_id = books.id
+          JOIN (
+          SELECT reading_id, array_agg(user_id) as users_array
+          from users_readings
+          GROUP BY reading_id
+        ) as users on readings.id = users.reading_id
+        WHERE NOT (? = ANY(users.users_array)
+        )
+        GROUP BY readings.id
+        `, userId)
+      )
+      return Promise.all(promises)
+      .then(([joined, notJoined]) => {
+        const readings = {
+          joined: joined.rows,
+          notJoined: notJoined.rows
+        }
+        return readings
+      })
+    },
     getBookData: (bookId) => {
       return knex.raw(`
       SELECT books.id, books.title, authors, books.year, books.image_url

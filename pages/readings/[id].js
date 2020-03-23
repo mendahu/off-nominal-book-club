@@ -3,7 +3,7 @@ import BookBanner from "../../src/components/Readings/BookBanner"
 import UsersComments from "../../src/components/Readings/UsersComments"
 import queries from "../../db/queries/readings"
 import UserContext from "../../src/UserContext"
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState } from "react"
 
 function ReadingView( {readingData, readingId} ) {
   const { userId } = useContext(UserContext)
