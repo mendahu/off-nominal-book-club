@@ -52,8 +52,8 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
       <Layout>
         <HeroCarousel 
           randomBook={books[randomBookIndex]} 
-          mostFavBook={books[mostFavId]}
-          highestRatedBook={books[highestRatedId]}
+          mostFavBook={books[books.findIndex(book => book.id == mostFavId)]}
+          highestRatedBook={books[books.findIndex(book => book.id == highestRatedId)]}
         />
         <SearchBar
           setSearchTerm={setSearchTerm}
