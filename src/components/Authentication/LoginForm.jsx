@@ -1,26 +1,76 @@
-import { useContext } from 'react'
-import { Button } from "@material-ui/core";
+import { useContext, useState } from 'react'
+import { 
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import UserContext from '../../UserContext'
+import Router from 'next/router'
+
 
 const LoginForm = () => {
 
   const { userId, logUserIn, logUserOut } = useContext(UserContext)
+  const [ anchorEl, setAnchorEl ] = useState(null)
+  const open = Boolean(anchorEl);
 
-  if (!userId) {
-    return (
-      <div>
-        <Button onClick={() => logUserIn(2)} variant="contained" color="default">Login Owner</Button>
-        <Button onClick={() => logUserIn(1)} variant="contained" color="default">Login Moderator</Button>
-        <Button onClick={() => logUserIn(3)} variant="contained" color="default">Login Member</Button>
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        <Button onClick={() => logUserOut()} variant="contained" color="default">Logout User {userId}</Button>
-      </div>
-    )
-  }  
+  const handleMenu = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const clickProfile = () => {
+    handleClose();
+    Router.push(`/users/${userId}`);
+  }
+
+  const logOut = () => {
+    handleClose();
+    logUserOut();
+    Router.push(window.location.pathname)
+  }
+  
+  const logIn = (userId) => {
+    handleClose();
+    logUserIn(userId)
+    Router.push(window.location.pathname)
+  }
+
+  return (
+    <div>
+      <IconButton
+        onClick={handleMenu}
+        color="inherit"
+      >
+        <AccountCircle />
+      </IconButton>
+      <Menu
+        id="menu-appbar"
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={open}
+        onClose={handleClose}
+      >
+        {userId && <MenuItem onClick={clickProfile}>Profile</MenuItem>}
+        {userId && <MenuItem onClick={logOut}>Logout User {userId}</MenuItem>}
+        {!userId && <MenuItem onClick={() => logIn(2)}>Login Owner</MenuItem>}
+        {!userId && <MenuItem onClick={() => logIn(1)}>Login Moderator</MenuItem>}
+        {!userId && <MenuItem onClick={() => logIn(3)}>Login Member</MenuItem>}
+      </Menu>
+    </div>
+  )
 }
 
 export default LoginForm

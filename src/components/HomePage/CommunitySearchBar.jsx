@@ -1,9 +1,11 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
-import Button from "@material-ui/core/Button";
+import {
+  Box,
+  Paper, 
+  InputBase,
+  Button 
+} from "@material-ui/core";
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -35,7 +37,7 @@ const CommunitySearchBar = () => {
   const classes = useStyles();
 
   return (
-    <section className={classes.root}>
+    <Box component="section" className={classes.root}>
       <Paper component='form' className={classes.paper}>
         <InputBase
           className={classes.input}
@@ -53,7 +55,7 @@ const CommunitySearchBar = () => {
           ADD
         </Button>
       </Paper>
-    </section>
+    </Box>
   )
 }
 
