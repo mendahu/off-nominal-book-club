@@ -22,3 +22,15 @@ SELECT users.id, users.name, users.avatar_url, comment
 FROM users
   JOIN readings_comments on user_id = users.id
 WHERE reading_id = 1;
+
+-- GET new book info 
+
+SELECT books.id, books.title, authors, books.year, books.image_url
+FROM books
+  LEFT JOIN (
+            SELECT book_id, json_agg(name) AS authors
+  FROM authors a
+    JOIN books_authors ba ON a.id = ba.author_id
+  GROUP BY book_id
+            ) AS author_names ON author_names.book_id = books.id
+WHERE books.id = 55;

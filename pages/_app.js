@@ -1,6 +1,7 @@
 import App from 'next/app'
 import useCookie from '../src/hooks/useCookie'
 import { UserProvider } from '../src/UserContext'
+import "react-datepicker/dist/react-datepicker.css";
 
 function MyApp({ Component, pageProps }) {
 

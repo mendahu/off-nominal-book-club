@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "row",
     padding: "0",
-    justifyContent: "flex-end"
+    justifyContent: "space-between"
   },
   content: {
     display: "flex",
@@ -90,7 +90,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function BookListItem(props) {
-  console.log(props);
   const classes = useStyles();
   const theme = useTheme();
 
@@ -155,14 +154,24 @@ export default function BookListItem(props) {
                 {props.book.year}
               </Typography>
             </CardContent>
-            <Link href={`/books/${props.book.id}`}>
-              <Button
-                className={classes.button}
-                variant='contained'
-                color='primary'>
-                <Typography variant='body2'>Go To Book</Typography>
-              </Button>
-            </Link>
+            <CardContent className={classes.row}>
+              <Link href={`/readings/new/${props.book.id}`}>
+                <Button
+                  className={classes.button}
+                  variant='contained'
+                  color='primary'>
+                  <Typography variant='body2'>Create Reading</Typography>
+                </Button>
+              </Link>
+              <Link href={`/books/${props.book.id}`}>
+                <Button
+                  className={classes.button}
+                  variant='contained'
+                  color='primary'>
+                  <Typography variant='body2'>Go To Book</Typography>
+                </Button>
+              </Link>
+            </CardContent>
           </CardContent>
         </Card>
       </Paper>

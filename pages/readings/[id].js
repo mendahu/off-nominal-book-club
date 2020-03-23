@@ -16,6 +16,7 @@ function ReadingView( {readingData, readingId} ) {
 
   return (
     <Layout>
+      {console.log(readingData.book)}
       <BookBanner 
         userId={userId}
         readingId={readingId}

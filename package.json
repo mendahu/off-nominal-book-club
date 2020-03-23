@@ -25,6 +25,7 @@
     "pg-native": "^3.0.0",
     "prop-types": "^15.7.2",
     "react": "16.13.0",
+    "react-datepicker": "^2.14.1",
     "react-dom": "16.13.0",
     "react-swipeable-views": "^0.13.9"
   },
