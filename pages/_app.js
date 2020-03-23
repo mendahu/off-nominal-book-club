@@ -3,12 +3,9 @@ import Head from 'next/head'
 import useCookie from '../src/hooks/useCookie'
 import { UserProvider } from '../src/UserContext'
 import CssBaseline from '@material-ui/core/CssBaseline'
-<<<<<<< HEAD
 import "react-datepicker/dist/react-datepicker.css";
-=======
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
->>>>>>> styling/landing
 function MyApp({ Component, pageProps }) {
 
   const userFuncs = useCookie() 
