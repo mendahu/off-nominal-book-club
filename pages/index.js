@@ -1,8 +1,8 @@
 import Layout from "../src/components/LandingLayout";
 import HeroImage from "../src/components/HomePage/HeroImage";
 import CommunityList from "../src/components/HomePage/CommunityList";
-import CommunitySearchBar from "../src/components/HomePage/CommunitySearchBar";
-import { Box, Container } from '@material-ui/core'
+import SearchBar from "../src/components/SearchBar";
+import { Container } from '@material-ui/core'
 
 const dates = [
   new Date('2020', '02', '11'),
@@ -75,7 +75,7 @@ const Home = () => (
     <HeroImage />
     
     <Container component="main" maxWidth={false}>
-      <CommunitySearchBar />
+      <SearchBar placeholderText={'Find your people'} buttonText={'Search'}/>
       <CommunityList commData={mockCommunityData}/>
     </Container>
   </Layout>

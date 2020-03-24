@@ -1,34 +1,51 @@
-import { Paper, Chip, Avatar, makeStyles, Button } from "@material-ui/core";
+import { 
+  Box,
+  Paper, 
+  Chip, 
+  Avatar, 
+  makeStyles,
+  GridList,
+  GridListTile } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: "5vh"
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
   },
   chip: {
-    margin: theme.spacing(0.5)
+    margin: theme.spacing(1)
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  listItem: {
+    height: '100%!important',
+    width: 'auto!important'
   }
 }));
+
 export default function TagList(props) {
   const classes = useStyles();
   return (
-    <section>
-      <Paper>
-        {props.tags.slice(0, 5).map((tag, index) => (
-          <Button
-            key={index}
-            type='submit'
-            onClick={e => {
-              e.preventDefault();
-              props.onClick(tag.tag_name);
-            }}>
-            <Chip
-              label={tag.tag_name}
-              avatar={<Avatar>{tag.count}</Avatar>}
-              className={classes.chip}
-            />
-          </Button>
-        ))}
+    <Box component='section'>
+      <Paper className={classes.root}>
+        <GridList className={classes.gridList}>
+          {props.tags.slice(0, 10).map((tag, index) => (
+            <GridListTile key={index} classes={{root: classes.listItem}}>
+              <Chip
+                onClick={() => props.onClick(tag.tag_name)}
+                label={tag.tag_name}
+                avatar={<Avatar>{tag.count}</Avatar>}
+                className={classes.chip}
+              />
+            </GridListTile>
+          ))}
+        </GridList>
       </Paper>
-    </section>
+    </Box>
   );
 }

@@ -1,10 +1,9 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import {
-  Box,
-  Paper, 
+import { 
   InputBase,
-  Button 
-} from "@material-ui/core";
+  Paper,
+  Button,
+  Box } from "@material-ui/core";
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -22,36 +21,30 @@ const useStyles = makeStyles(theme =>
     },
     button: {
       margin: 10
-    },
-    iconButton: {
-      padding: 10
     }
   })
 );
 
-const CommunitySearchBar = () => { 
+export default function SearchBar(props) {
   const classes = useStyles();
 
   return (
-    <Box component="section">
-      <Paper component='form' className={classes.paper} elevation={3}>
+    <Box component='section'>
+      <Paper component='form' className={classes.paper}>
         <InputBase
           className={classes.input}
-          placeholder='Find your people'
+          placeholder={props.placeholderText}
+          value={props.input}
+          onChange={props.onChange}
         />
         <Button
           className={classes.button}
           variant='contained'
           color='primary'
-          onClick={event => {
-            event.preventDefault();
-            props.onClick();
-          }}>
-          Search
+          onClick={props.onClick}>
+          {props.buttonText}
         </Button>
       </Paper>
     </Box>
-  )
+  );
 }
-
-export default CommunitySearchBar;
