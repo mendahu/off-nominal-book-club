@@ -1,6 +1,5 @@
 import Layout from "../../src/components/DefaultLayout"
 import BookBanner from "../../src/components/Readings/BookBanner"
-import UsersComments from "../../src/components/Readings/UsersComments"
 import queries from "../../db/queries/readings"
 import UserContext from "../../src/UserContext"
 import TabPanel from "../../src/components/General/TabPanel"
@@ -19,6 +18,8 @@ function ReadingView( {readingData, readingId} ) {
     image: "avatar_url",
     title: "name",
   };
+
+  const link = '/users'
   
 
   return (
@@ -39,6 +40,7 @@ function ReadingView( {readingData, readingId} ) {
         joinedUsers={usersIdArray}
         userId={userId}
         readingId={readingId}
+        link={link}
       />
     </Layout>
   );

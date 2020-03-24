@@ -42,7 +42,7 @@ export default function UserBookListItem(props) {
 
   return (
     <Button className={classes.root}>
-      <Link href={`/books/${props.item.id}`}>
+      <Link href={`${props.link}/${props.item.id}`}>
         <Card className={classes.card}>
           <CardContent>
             <Avatar

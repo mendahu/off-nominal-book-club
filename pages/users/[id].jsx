@@ -9,6 +9,8 @@ function UserView({ userBooks }) {
     secondary: "author"
   };
 
+  const link = "/books";
+
   return (
     <div>
       <ProfileBanner user={userBooks.user[0]} />
@@ -22,6 +24,7 @@ function UserView({ userBooks }) {
           { ratings: userBooks.books.ratings }
         ]}
         displayData={displayData}
+        link={link}
       />
     </div>
   );

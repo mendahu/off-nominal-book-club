@@ -84,6 +84,7 @@ export default function FullWidthTabs(props) {
               <List
                 list={list[Object.keys(list)[0]]}
                 displayData={props.displayData}
+                link={props.link}
               />
             </TabPanel>
           ) : (

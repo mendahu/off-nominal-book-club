@@ -11,6 +11,8 @@ function Readings({ readings, userId }) {
     secondary: "user_count"
   };
 
+  const link = "/readings";
+
   return (
     <Layout>
       {userId !== 0 ? (
@@ -21,12 +23,14 @@ function Readings({ readings, userId }) {
             { notJoined: readings.notJoined }
           ]}
           displayData={displayData}
+          link={link}
         />
       ) : (
         <TabPanel
           tabs={["All"]}
           lists={[readings.notJoined]}
           displayData={displayData}
+          link={link}
         />
       )}
     </Layout>
