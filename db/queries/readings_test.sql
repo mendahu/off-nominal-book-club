@@ -34,3 +34,44 @@ FROM books
   GROUP BY book_id
             ) AS author_names ON author_names.book_id = books.id
 WHERE books.id = 55;
+
+
+-- GET all readings where not user
+SELECT readings.id, max(books.title) as title, max(books.image_url), max(readings.user_count)
+FROM books
+  JOIN (
+  SELECT readings.id as id, readings.book_id as book_id, COUNT(*) as user_count
+  FROM readings
+    JOIN users_readings on readings.id = users_readings.reading_id
+  GROUP BY readings.id) as readings on readings.book_id = books.id
+  JOIN (
+  SELECT reading_id, array_agg(user_id) as users_array
+  from users_readings
+  GROUP BY reading_id
+) as users on readings.id = users.reading_id
+WHERE NOT (2 = ANY(users.users_array)
+)
+GROUP BY readings.id
+
+-- GET all readings where user
+
+SELECT readings.id, max(books.title), max(books.image_url), max(readings.user_count)
+FROM books
+  JOIN (
+  SELECT readings.id as id, readings.book_id as book_id, COUNT(*) as user_count
+  FROM readings
+    JOIN users_readings on readings.id = users_readings.reading_id
+  GROUP BY readings.id) as readings on readings.book_id = books.id
+  JOIN (
+  SELECT reading_id, array_agg(user_id) as users_array
+  from users_readings
+  GROUP BY reading_id
+) as users on readings.id = users.reading_id
+WHERE (2 = ANY(users.users_array)
+)
+GROUP BY readings.id
+
+
+
+
+

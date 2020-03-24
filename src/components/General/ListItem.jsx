@@ -7,7 +7,8 @@ import {
   CardContent,
   Card,
   Typography,
-  Button
+  Button,
+  Avatar
 } from "@material-ui/core";
 import Link from "next/link";
 
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     alignSelf: "flex-start",
     margin: "auto"
   },
-  author: {
+  secondary: {
     width: "auto",
     alignSelf: "flex-end",
     margin: "auto"
@@ -41,14 +42,29 @@ export default function UserBookListItem(props) {
 
   return (
     <Button className={classes.root}>
-      <Link href={`/books/${props.book.id}`}>
+      <Link href={`${props.link}/${props.item.id}`}>
         <Card className={classes.card}>
+          <CardContent>
+            <Avatar
+              alt={props.item[props.displayData.title]}
+              src={props.item[props.displayData.image]}
+            />
+          </CardContent>
           <CardContent className={classes.title}>
-            <Typography>{props.book.title}</Typography>
+            <Typography>{props.item[props.displayData.title]}</Typography>
           </CardContent>
-          <CardContent className={classes.author}>
-            <Rating name='read-only' value={props.book.rating} readOnly />
-          </CardContent>
+          {props.displayData.secondary && (
+            <CardContent className={classes.secondary}>
+              <Typography variant='subtitle1' color='textSecondary'>
+                {props.item[props.displayData.secondary]}
+              </Typography>
+            </CardContent>
+          )}
+          {props.item.rating && (
+            <CardContent className={classes.secondary}>
+              <Rating name='read-only' value={props.item.rating} readOnly />
+            </CardContent>
+          )}
         </Card>
       </Link>
     </Button>

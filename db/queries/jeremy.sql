@@ -388,3 +388,31 @@ select users.id, users.name, users.avatar_url
   from users
   join users_readings on user_id = users.id
   where reading_id = 1
+
+
+           SELECT 
+            b.id,
+            b.title,
+            b.image_url,
+            author,
+            w.user_id
+          FROM books b
+          LEFT JOIN (
+            SELECT book_id, max(name) AS author
+            FROM authors a
+              JOIN books_authors ba ON a.id = ba.author_id
+              JOIN books AS b ON ba.book_id = b.id
+            GROUP BY book_id
+          ) as author_names on author_names.book_id = b.id
+          JOIN wishlist w on w.book_id = b.id
+          WHERE w.user_id = 
+
+          SELECT name 
+          FROM authors a
+          JOIN (
+            SELECT author_id
+            FROM books_authors
+            GROUP BY book_id
+          ) as ba on ba.author_id = a.id
+      
+          
