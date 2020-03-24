@@ -11,25 +11,31 @@ import {
   Grid,
   Button,
   Typography } from '@material-ui/core';
+import { spacing } from '@material-ui/system';
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: theme.spacing(6, 0)
+    padding: theme.spacing(6, 3, 6, 0),
+    height: '350px',
+    backgroundColor: theme.palette.grey['900'],
+    backgroundImage: "url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')",
+  },
+  coverContainer: {
+    position: 'absolute',
+    left: '0',
+    height: '100%',
+    zIndex: '-1'
   },
   cover: {
     transform: "rotate(-7deg)",
-    margin: theme.spacing(3, 3, 3, 6)
+    margin: theme.spacing(3, 3, 3, 6),
   },
-  carouselTextContainer : {
-    position: 'absolute',
-    height: '100%',
-    marginRight: theme.spacing(6),
-    right: '0',
-    display: 'flex',
-    flexDirection: 'column',
-    textAlign: 'right',
-    justifyContent: 'space-around'
+  carouselTextContainer: {
+    height: '100%'
   }
 }));
 
@@ -51,6 +57,7 @@ export default function HeroCarousel(props) {
         showControls={false}
         showIndicators={false}
         className="z-depth-1"
+        className={classes.carouselTextContainer}
       >
         <MDBCarouselInner>
 
@@ -58,14 +65,21 @@ export default function HeroCarousel(props) {
             <MDBCarouselItem itemId={index + 1} key={index}>
               <MDBView>
 
-            <Grid container>
-              <Grid>
-                <img src={item.image_url} alt={item.title} className={classes.cover}/>
+            <Grid className={classes.coverContainer} container>
+
+              <Grid className={classes.coverContainer} alignItems='center' container>
+                <Grid item>
+                  <img src={item.image_url} alt={item.title} className={classes.cover}/>
+                </Grid>
               </Grid>
-              <Grid>
-                <Box className={classes.carouselTextContainer}>
-                  <Typography variant='h4' componet="h1">{item.headline}</Typography>
-                  <Typography variant='h6' componet="h2">{item.subline}</Typography>
+
+            <ThemeProvider theme={theme}>
+              <Grid className={classes.carouselTextContainer} justify='space-around' alignItems='flex-end' direction='column' container mr={2}>
+                <Grid item>
+                  <Typography align="right" variant='h4' componet="h1">{item.headline}</Typography>
+                  <Typography gutterBottom={true} align="right"  variant='h6' componet="h2">{item.subline}</Typography>
+                </Grid>
+                <Grid item>
                   <Button 
                     size='large' 
                     href={`/books/${item.id}`} 
@@ -73,10 +87,14 @@ export default function HeroCarousel(props) {
                     color="secondary">
                       Check it Out
                   </Button>
-                  <Typography variant='h5' componet="h2">{item.title}</Typography>
-                  {JSON.parse(item.authors).map((author, index) => <Typography variant='overline' component='h3' key={index}>{author}</Typography>)}
-                </Box>
+                </Grid>
+                <Grid item>
+                  <Typography align="right"  variant='h5' componet="h2">{item.title}</Typography>
+                  {JSON.parse(item.authors).map((author, index) => <Typography align="right"  variant='overline' component='h3' key={index}>{author}</Typography>)}
+                </Grid>
               </Grid>
+            </ThemeProvider>
+
             </Grid>
 
               </MDBView>
