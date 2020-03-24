@@ -1,15 +1,31 @@
 import Layout from "../src/components/DefaultLayout";
 // import Banner from "../src/components/Banner";
 import List from "../src/components/General/List";
+import TabPanel from "../src/components/General/TabPanel";
 const queries = require("../db/queries/readings");
 
-function Readings({ readings }) {
-  console.log(readings);
+function Readings({ readings, userId }) {
+  const displayData = {
+    image: "image_url",
+    title: "title",
+    secondary: "user_count"
+  };
+
   return (
     <Layout>
-      HELLO
-      {/* <Banner /> */}
-      <List list={readings.joined} />
+      {userId !== 0 ? (
+        <TabPanel
+          tabs={["Joined", "Not Joined"]}
+          lists={[readings.joined, readings.notJoined]}
+          displayData={displayData}
+        />
+      ) : (
+        <TabPanel
+          tabs={["All"]}
+          lists={[readings.notJoined]}
+          displayData={displayData}
+        />
+      )}
     </Layout>
   );
 }
@@ -20,7 +36,7 @@ export async function getServerSideProps(context) {
 
   const readings = await queries.readings.getUsersReadings(userId);
 
-  return { props: { readings } };
+  return { props: { readings, userId } };
 }
 
 export default Readings;

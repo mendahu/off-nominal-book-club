@@ -67,11 +67,11 @@ module.exports = {
             b.id,
             b.title,
             b.image_url,
-            authors,
+            author,
             f.user_id
           FROM books b
           LEFT JOIN (
-            SELECT book_id, json_agg(name) AS authors
+            SELECT book_id, max(name) AS author
             FROM authors a
               JOIN books_authors ba ON a.id = ba.author_id
               JOIN books AS b ON ba.book_id = b.id
@@ -88,11 +88,11 @@ module.exports = {
           b.id,
           b.title,
           b.image_url,
-          authors,
+          author,
           r.user_id
         FROM books b
         LEFT JOIN (
-          SELECT book_id, json_agg(name) AS authors
+          SELECT book_id, max(name) AS author
           FROM authors a
             JOIN books_authors ba ON a.id = ba.author_id
             JOIN books AS b ON ba.book_id = b.id
@@ -109,11 +109,11 @@ module.exports = {
             b.id,
             b.title,
             b.image_url,
-            authors,
+            author,
             w.user_id
           FROM books b
           LEFT JOIN (
-            SELECT book_id, json_agg(name) AS authors
+            SELECT book_id, max(name) AS author
             FROM authors a
               JOIN books_authors ba ON a.id = ba.author_id
               JOIN books AS b ON ba.book_id = b.id
@@ -126,7 +126,7 @@ module.exports = {
 
       promises.push(
         knex.raw(`
-        SELECT books.id, books.title, rating
+        SELECT books.id, books.title, books.image_url, rating
           FROM books
           JOIN ratings on book_id = books.id
           WHERE ratings.user_id = ?

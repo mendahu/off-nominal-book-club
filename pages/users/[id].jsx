@@ -1,12 +1,28 @@
 const queries = require("../../db/queries/users");
-import UserBooks from "../../src/components/Users/UserBooks";
 import ProfileBanner from "../../src/components/Users/ProfileBanner";
+import TabPanel from "../../src/components/General/TabPanel";
 
 function UserView({ userBooks }) {
+  const displayData = {
+    image: "image_url",
+    title: "title",
+    secondary: "author"
+  };
+
   return (
     <div>
       <ProfileBanner user={userBooks.user[0]} />
-      <UserBooks books={userBooks.books} />
+      {console.log(userBooks.books)}
+      <TabPanel
+        tabs={["Favorites", "Read List", "Wish List", "Reviews"]}
+        lists={[
+          userBooks.books.favourites,
+          userBooks.books.reads,
+          userBooks.books.wishlist,
+          userBooks.books.ratings
+        ]}
+        displayData={displayData}
+      />
     </div>
   );
 }

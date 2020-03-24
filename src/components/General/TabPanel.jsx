@@ -7,9 +7,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-
-import UserBookList from "../../../src/components/Users/UserBookList";
-import UserRatingList from "../../../src/components/Users/UserRatingsList";
+import List from "./List";
+import Comments from "../Readings/Comments";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,29 +69,49 @@ export default function FullWidthTabs(props) {
           textColor='primary'
           variant='fullWidth'
           aria-label='UserBooks'>
-          <Tab label='Favourites' {...a11yProps(0)} />
-          <Tab label='Wish List' {...a11yProps(1)} />
-          <Tab label='Read List' {...a11yProps(2)} />
-          <Tab label='Ratings' {...a11yProps(3)} />
+          {props.tabs.map((tab, index) => (
+            <Tab label={tab} {...a11yProps(index)} />
+          ))}
         </Tabs>
       </AppBar>
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}>
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          <UserBookList books={props.books.favourites} />
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <UserBookList books={props.books.wishlist} />
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          <UserBookList books={props.books.reads} />
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          <UserRatingList books={props.books.ratings} />
-        </TabPanel>
+        {props.lists.map((list, index) =>
+          Object.keys(list)[0] !== "Comments" ? (
+            <TabPanel value={value} index={index} dir={theme.direction}>
+              <List
+                list={list[Object.keys(list)[0]]}
+                displayData={props.displayData}
+              />
+            </TabPanel>
+          ) : (
+            <TabPanel value={value} index={1} dir={theme.direction}>
+              <Comments
+                comments={props.comments}
+                readingId={props.readingId}
+                userId={props.userId}
+                joinedUsers={props.joinedUsers}
+              />
+            </TabPanel>
+          )
+        )}
       </SwipeableViews>
     </div>
   );
 }
+
+// list !== readingData.comments ? (
+//   <TabPanel value={value} index={index} dir={theme.direction}>
+//     <List list={list} displayData={props.displayData} />
+//   </TabPanel>
+// ) : (
+<TabPanel value={value} index={1} dir={theme.direction}>
+  <Comments
+    comments={props.comments}
+    readingId={props.readingId}
+    userId={props.userId}
+    joinedUsers={props.joinedUsers}
+  />
+</TabPanel>;

@@ -3,6 +3,7 @@ import BookBanner from "../../src/components/Readings/BookBanner"
 import UsersComments from "../../src/components/Readings/UsersComments"
 import queries from "../../db/queries/readings"
 import UserContext from "../../src/UserContext"
+import TabPanel from "../../src/components/General/TabPanel"
 import { useContext, useState } from "react"
 
 function ReadingView( {readingData, readingId} ) {
@@ -14,9 +15,15 @@ function ReadingView( {readingData, readingId} ) {
     return user.id;
   }))
 
+  const displayData = {
+    image: "avatar_url",
+    title: "name",
+  };
+  
+
   return (
     <Layout>
-      {console.log(readingData.book)}
+      {console.log(readingData)}
       <BookBanner 
         userId={userId}
         readingId={readingId}
@@ -25,7 +32,14 @@ function ReadingView( {readingData, readingId} ) {
         setUsers={setUsers}
         setJoinedUsers={setUsersIdArray}
       />
-      <UsersComments joinedUsers={usersIdArray} users={users} comments={readingData.comments} readingId={readingId} userId={userId}/>
+      <TabPanel 
+        tabs={["Users", "Comments"]}
+        lists={[{users: readingData.users}, {comments: readingData.comments}]}
+        displayData={displayData}
+        joinedUsers={usersIdArray}
+        userId={userId}
+        readingId={readingId}
+      />
     </Layout>
   );
 };
