@@ -2,11 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { Typography, Tabs, Tab, AppBar, Box } from "@material-ui/core";
 import List from "./List";
 import Comments from "../Readings/Comments";
 
@@ -102,18 +98,3 @@ export default function FullWidthTabs(props) {
     </div>
   );
 }
-
-// list !== readingData.comments ? (
-//   <TabPanel value={value} index={index} dir={theme.direction}>
-//     <List list={list} displayData={props.displayData} />
-//   </TabPanel>
-// ) : (
-
-/* <TabPanel value={value} index={1} dir={theme.direction}>
-  <Comments
-    comments={props.comments}
-    readingId={props.readingId}
-    userId={props.userId}
-    joinedUsers={props.joinedUsers}
-  />
-</TabPanel>; */

@@ -1,6 +1,11 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider
+} from "@material-ui/core/styles";
 
 import {
   Paper,
@@ -12,6 +17,9 @@ import {
 } from "@material-ui/core";
 import Link from "next/link";
 
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -20,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   card: {
     display: "flex",
     width: "100%",
-    height: "6vh",
+    height: "10vh",
     flexDirection: "row",
     justifyContent: "space-between"
   },

@@ -1,62 +1,75 @@
-import {
-  Card,
-  CardContent,
-  Typography,
-  Avatar,
-  CardMedia
-} from "@material-ui/core";
+import { Grid, Typography, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider
+} from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
+const useStyles = makeStyles(theme => ({
   root: {
-    diplay: "flex",
-    flexDirection: "row"
-  },
-  container: {
-    height: "10vh",
+    backgroundColor: theme.palette.grey["900"],
+    backgroundImage:
+      "url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')",
     display: "flex",
-    flexDirection: "column",
-    width: "75%"
+    flexDirection: "row",
+    height: "15vh"
   },
   avatar: {
     width: "10vh",
     height: "10vh",
     margin: "auto"
+    // padding: theme.spacing(3, 3, 3, 3)
   },
   name: {
-    fontSize: "3vh",
-    margin: "auto"
+    fontSize: "3vh"
   },
   bio: {
     fontSize: "1vh",
     margin: "auto"
   },
-  image_container: {
+  imageContainer: {
+    postion: "absolute",
+    alignSelf: "flex-start",
     display: "flex",
+    height: "100%",
     width: "25%"
+  },
+  profileTextContainer: {
+    height: "100%",
+    width: "75%",
+    alignSelf: "flex-end",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
   }
-});
+}));
 export default function ProfileBanner(props) {
   console.log(props);
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
-      <CardMedia className={classes.image_container}>
+    <Grid className={classes.root}>
+      <Grid item className={classes.imageContainer}>
         <Avatar
           className={classes.avatar}
           alt={props.user.name}
           src={props.user.avatar_url}
         />
-      </CardMedia>
-      <CardContent className={classes.container}>
-        <Typography className={classes.name}>{props.user.name}</Typography>
-        <Typography
-          className={classes.name.bio}
-          variant='subtitle1'
-          color='textSecondary'>
-          {props.user.bio}
-        </Typography>
-      </CardContent>
-    </Card>
+      </Grid>
+      <ThemeProvider theme={theme}>
+        <Grid item className={classes.profileTextContainer}>
+          <Typography className={classes.name}>{props.user.name}</Typography>
+          <Typography
+            className={classes.name.bio}
+            variant='h6'
+            color='textSecondary'>
+            {props.user.bio}
+          </Typography>
+        </Grid>
+      </ThemeProvider>
+    </Grid>
   );
 }
