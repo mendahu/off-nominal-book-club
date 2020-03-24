@@ -1,34 +1,38 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
-import LoginForm from './Authentication/LoginForm'
+import AccountMenu from './Authentication/AccountMenu'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Link from 'next/link'
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
   title: {
     flexGrow: 1,
   },
   link: {
-    textDecoration: "none",
-    color: theme.palette.primary.constrastText,
-    margin: theme.spacing(0, 1)
+    color: theme.palette.text.primary,
+    textDecoration: 'none'
   }
-}))
+}));
 
-const Navbar = () => {
-  const classes = useStyles(); 
+const Navbar = () => { 
+  const classes = useStyles();
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Link href="/">
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <a className={classes.link}><ImportContactsIcon /> Bookpeople</a>
+            <Link href="/">
+              <a className={classes.link}><ImportContactsIcon /> Bookpeople</a>
+            </Link>
           </Typography>
-        </Link>
-        <LoginForm/>
-      </Toolbar>
-    </AppBar>
+          <AccountMenu/>
+        </Toolbar>
+      </AppBar>
+    </div>
   )
 }
 

@@ -4,10 +4,10 @@ export default (req, res) => {
   
   const term = req.query.term
 
-  queries.books.getTags(term).then((results) => {
+  return queries.books.getTags(term).then((results) => {
     res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json')
-          res.end(JSON.stringify(results.rows))
+      res.setHeader('Content-Type', 'application/json')
+      return res.end(JSON.stringify(results.rows))
   })
 }
 

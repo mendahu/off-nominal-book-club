@@ -11,8 +11,7 @@ import {
 import Head from 'next/head'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
-const useStyles = makeStyles(theme =>
-  createStyles({
+const useStyles = makeStyles(theme => ({
     root: {
       backgroundColor: theme.palette.grey['900'],
       backgroundImage: "url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')",

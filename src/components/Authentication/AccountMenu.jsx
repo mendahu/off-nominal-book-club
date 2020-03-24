@@ -9,7 +9,7 @@ import UserContext from '../../UserContext'
 import Router from 'next/router'
 
 
-const LoginForm = () => {
+const AccountMenu = () => {
 
   const { userId, logUserIn, logUserOut } = useContext(UserContext)
   const [ anchorEl, setAnchorEl ] = useState(null)
@@ -73,4 +73,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default AccountMenu

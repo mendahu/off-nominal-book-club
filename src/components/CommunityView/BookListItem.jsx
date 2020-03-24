@@ -121,6 +121,7 @@ export default function BookListItem(props) {
                   .slice(0, 4)
                   .map((tag, index) => (
                     <Button
+                      key={index}
                       className={classes.chip_button}
                       type='submit'
                       onClick={e => {
@@ -143,7 +144,7 @@ export default function BookListItem(props) {
             <CardContent className={classes.row}>
               {props.book.authors &&
                 JSON.parse(props.book.authors).map((author, index) => (
-                  <Typography className={classes.author} variant='subtitle1'>
+                  <Typography key={index} className={classes.author} variant='subtitle1'>
                     {author}
                   </Typography>
                 ))}

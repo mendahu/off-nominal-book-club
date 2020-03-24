@@ -49,11 +49,13 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
   return (
     <div>
       <Layout>
-        <HeroCarousel 
-          randomBook={books[randomBookIndex]} 
-          mostFavBook={books[books.findIndex(book => book.id == mostFavId)]}
-          highestRatedBook={books[books.findIndex(book => book.id == highestRatedId)]}
-        />
+        <Container component="section" disableGutters={true} maxWidth={false}>
+          <HeroCarousel 
+            randomBook={books[randomBookIndex]} 
+            mostFavBook={books[books.findIndex(book => book.id == mostFavId)]}
+            highestRatedBook={books[books.findIndex(book => book.id == highestRatedId)]}
+          />
+        </Container>
         <Container component="main" maxWidth={false}>
           <SearchBar
             setSearchTerm={setSearchTerm}
