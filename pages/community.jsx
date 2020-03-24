@@ -1,6 +1,6 @@
 import  { Container } from "@material-ui/core";
+import SearchBar from "../src/components/SearchBar";
 import BookList from "../src/components/CommunityView/BookList";
-import SearchBar from "../src/components/CommunityView/SearchBar";
 import TagList from "../src/components/CommunityView/TagList";
 import Loading from "../src/components/CommunityView/Loading";
 import HeroCarousel from "../src/components/CommunityView/HeroCarousel";
@@ -18,10 +18,8 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [tagList, setTagList] = useState([]);
   const [mode, setMode] = useState(RESULTS);
+  const [input, setInput] = useState("");
 
-  function changeMode(mode) {
-    setMode(mode);
-  }
   async function getSearchResults(term) {
     const bookData = await axios.get(`/api/community/books?term=${term}`);
     const tagsData = await axios.get(`/api/community/tags?term=${term}`);
@@ -46,6 +44,23 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
     Router.push(`/books/new`);
   }
 
+  useEffect(() => {
+    // Set debouncedValue to value (passed in) after the specified delay
+    const handler = setTimeout(() => {
+      setMode("RESULTS");
+      setSearchTerm(input);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [input]);
+
+  const onInputChange = event => {
+    setMode("LOADING");
+    setInput(event.target.value);
+  };
+
   return (
     <div>
       <Layout>
@@ -57,12 +72,18 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
           />
         </Container>
         <Container component="main" maxWidth={false}>
-          <SearchBar
-            setSearchTerm={setSearchTerm}
-            searchTerm={searchTerm}
-            onClick={redirectToAdd}
-            setMode={changeMode}
-            />
+
+          <SearchBar 
+            placeholderText={'Find your books'} 
+            buttonText={'Add'} 
+            input={input} 
+            onChange={onInputChange}
+            onClick={event => {
+              event.preventDefault();
+              redirectToAdd();
+            }}
+          />
+
           {mode === LOADING && <Loading />}
           <TagList tags={tagList} onClick={selectTag} />
           <BookList

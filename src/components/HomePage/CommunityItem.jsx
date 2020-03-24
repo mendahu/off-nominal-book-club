@@ -52,7 +52,7 @@ const CommunityItem = (props) => {
           />
 
         <CardContent>
-          <Typography variant='body2' color='textSecondary' component='p' nowrap={true}>
+          <Typography variant='body2' color='textSecondary' component='p' nowrap="true">
             {data.desc}
           </Typography>
         </CardContent>
