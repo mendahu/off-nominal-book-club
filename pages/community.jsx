@@ -85,7 +85,9 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
           />
 
           {mode === LOADING && <Loading />}
+
           <TagList tags={tagList} onClick={selectTag} />
+          
           <BookList
             books={searchResults}
             onClick={redirectToBook}
