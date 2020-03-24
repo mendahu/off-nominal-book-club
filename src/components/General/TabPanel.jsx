@@ -79,7 +79,7 @@ export default function FullWidthTabs(props) {
         index={value}
         onChangeIndex={handleChangeIndex}>
         {props.lists.map((list, index) =>
-          Object.keys(list)[0] !== "Comments" ? (
+          Object.keys(list)[0] !== "comments" ? (
             <TabPanel value={value} index={index} dir={theme.direction}>
               <List
                 list={list[Object.keys(list)[0]]}
@@ -89,7 +89,7 @@ export default function FullWidthTabs(props) {
           ) : (
             <TabPanel value={value} index={1} dir={theme.direction}>
               <Comments
-                comments={props.comments}
+                comments={list[Object.keys(list)[0]]}
                 readingId={props.readingId}
                 userId={props.userId}
                 joinedUsers={props.joinedUsers}
@@ -107,11 +107,12 @@ export default function FullWidthTabs(props) {
 //     <List list={list} displayData={props.displayData} />
 //   </TabPanel>
 // ) : (
-<TabPanel value={value} index={1} dir={theme.direction}>
+
+/* <TabPanel value={value} index={1} dir={theme.direction}>
   <Comments
     comments={props.comments}
     readingId={props.readingId}
     userId={props.userId}
     joinedUsers={props.joinedUsers}
   />
-</TabPanel>;
+</TabPanel>; */

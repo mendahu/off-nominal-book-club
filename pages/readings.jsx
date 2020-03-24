@@ -16,7 +16,10 @@ function Readings({ readings, userId }) {
       {userId !== 0 ? (
         <TabPanel
           tabs={["Joined", "Not Joined"]}
-          lists={[readings.joined, readings.notJoined]}
+          lists={[
+            { joined: readings.joined },
+            { notJoined: readings.notJoined }
+          ]}
           displayData={displayData}
         />
       ) : (

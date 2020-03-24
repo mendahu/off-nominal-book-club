@@ -16,10 +16,10 @@ function UserView({ userBooks }) {
       <TabPanel
         tabs={["Favorites", "Read List", "Wish List", "Reviews"]}
         lists={[
-          userBooks.books.favourites,
-          userBooks.books.reads,
-          userBooks.books.wishlist,
-          userBooks.books.ratings
+          { favourites: userBooks.books.favourites },
+          { reads: userBooks.books.reads },
+          { wishlist: userBooks.books.wishlist },
+          { ratings: userBooks.books.ratings }
         ]}
         displayData={displayData}
       />
