@@ -5,19 +5,47 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Typography, Tabs, Tab, AppBar, Box } from "@material-ui/core";
 import List from "./List";
 import Comments from "../Readings/Comments";
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider
+} from "@material-ui/core/styles";
+
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: "100%"
+  },
+  listContainer: {
+    backgroundColor: theme.palette.grey["900"],
+    backgroundImage:
+      "url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')",
+    padding: 0
+  }
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
+  const classes = useStyles();
+
   return (
     <Typography
+      className={classes.find}
       component='div'
       role='tabpanel'
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
       {...other}>
-      {value === index && <Box p={4}>{children}</Box>}
+      {value === index && (
+        <Box className={classes.listContainer} p={4}>
+          {children}
+        </Box>
+      )}
     </Typography>
   );
 }
@@ -34,13 +62,6 @@ function a11yProps(index) {
     "aria-controls": `full-width-tabpanel-${index}`
   };
 }
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: "100%"
-  }
-}));
 
 export default function FullWidthTabs(props) {
   const classes = useStyles();
