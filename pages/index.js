@@ -10,6 +10,7 @@ const dates = [
   new Date('2019', '11', '02'),
   new Date('2019', '10', '11'),
   new Date('2019', '09', '13'),
+  new Date('2020', '01', '06'),
 ]
 
 const mockCommunityData = [
@@ -57,6 +58,15 @@ const mockCommunityData = [
     members: 13,
     books: 666,
     created_at: dates[4]
+  },
+  {
+    name: "Gradient Gang",
+    desc: "The humble gradient is a staple of the design world, and we want to explore every last pixel.",
+    url: "/community",
+    img_url: "https://img.freepik.com/free-vector/abstract-blurred-gradient-background_97886-2814.jpg?size=338&ext=jpg",
+    members: 11,
+    books: 1,
+    created_at: dates[5]
   },
 ]
 
