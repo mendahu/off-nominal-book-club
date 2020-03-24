@@ -15,15 +15,14 @@ import Link from "next/link";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    width: "75vw"
+    width: "100%"
   },
   card: {
     display: "flex",
     width: "100%",
-    height: "5vh",
+    height: "6vh",
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: "1vh"
+    justifyContent: "space-between"
   },
   title: {
     width: "60%",
@@ -34,6 +33,9 @@ const useStyles = makeStyles(theme => ({
     width: "auto",
     alignSelf: "flex-end",
     margin: "auto"
+  },
+  text: {
+    fontSize: "1"
   }
 }));
 

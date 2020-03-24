@@ -1,14 +1,22 @@
-import { Card, CardContent, Typography, Avatar } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+  CardMedia
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
     diplay: "flex",
-    flexDirection: "column"
+    flexDirection: "row"
   },
   container: {
-    height: "15vh",
-    display: "flex"
+    height: "10vh",
+    display: "flex",
+    flexDirection: "column",
+    width: "75%"
   },
   avatar: {
     width: "10vh",
@@ -22,6 +30,10 @@ const useStyles = makeStyles({
   bio: {
     fontSize: "1vh",
     margin: "auto"
+  },
+  image_container: {
+    display: "flex",
+    width: "25%"
   }
 });
 export default function ProfileBanner(props) {
@@ -29,17 +41,15 @@ export default function ProfileBanner(props) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      <CardContent className={classes.container}>
+      <CardMedia className={classes.image_container}>
         <Avatar
           className={classes.avatar}
           alt={props.user.name}
           src={props.user.avatar_url}
         />
-      </CardContent>
+      </CardMedia>
       <CardContent className={classes.container}>
         <Typography className={classes.name}>{props.user.name}</Typography>
-      </CardContent>
-      <CardContent className={classes.container}>
         <Typography
           className={classes.name.bio}
           variant='subtitle1'

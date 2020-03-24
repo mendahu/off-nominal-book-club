@@ -1,6 +1,7 @@
 const queries = require("../../db/queries/users");
 import ProfileBanner from "../../src/components/Users/ProfileBanner";
 import TabPanel from "../../src/components/General/TabPanel";
+import Layout from "../../src/components/DefaultLayout";
 
 function UserView({ userBooks }) {
   const displayData = {
@@ -12,7 +13,7 @@ function UserView({ userBooks }) {
   const link = "/books";
 
   return (
-    <div>
+    <Layout>
       <ProfileBanner user={userBooks.user[0]} />
       {console.log(userBooks.books)}
       <TabPanel
@@ -26,16 +27,15 @@ function UserView({ userBooks }) {
         displayData={displayData}
         link={link}
       />
-    </div>
+    </Layout>
   );
 }
 
 export async function getServerSideProps(context) {
   const queryId = context.params.id;
-  console.log(queryId);
-  // const userBooks = await axios.get(`/api/users/${queryId}`);
+
   const userBooks = await queries.users.getUserData(queryId);
-  console.log(userBooks);
+
   return { props: { userBooks } };
 }
 
