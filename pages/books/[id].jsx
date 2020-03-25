@@ -4,66 +4,52 @@ import Layout from "../../src/components/DefaultLayout";
 import BookTitleBar from "../../src/components/Bookview/BookTitleBar";
 import BookTagList from "../../src/components/Bookview/BookTagList";
 import BookDesc from "../../src/components/Bookview/BookDesc";
-import BookReviewList from "../../src/components/Bookview/BookReviewList";
+import BookFeedback from "../../src/components/Bookview/BookFeedback";
 import UserContext from '../../src/UserContext'
 import { useContext } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core'
-
-const useStyles = makeStyles(theme => ({
-  contentContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: "space-between"
-  },
-  content: {
-    width: '100%'
-  }
-}));
+import { Grid } from '@material-ui/core'
 
 const Bookview = ({ book, userData }) => {
-
-  const classes = useStyles();
 
   const { userId } = useContext(UserContext)
 
   return (
     <Layout>
-      <BookTitleBar 
-        userId={userId} 
-        bookId={book.id} 
+      <Grid container spacing={2}>
+        <BookTitleBar 
+          userId={userId} 
+          bookId={book.id} 
 
-        userRead={userData.read} 
-        userFav={userData.fav}
-        userWishlist={userData.wishlist} 
+          userRead={userData.read} 
+          userFav={userData.fav}
+          userWishlist={userData.wishlist} 
 
-        reads={book.reads}
-        favs={book.favs}
-        wishes={book.wishes}
+          reads={book.reads}
+          favs={book.favs}
+          wishes={book.wishes}
 
-        rating={book.rating} 
-        authors={book.authors} 
-        title={book.title} 
-        img={book.image_url} 
-        year={book.year} 
-      />
-      <BookTagList 
-        userId={userId}
-        bookId={book.id}
-        tags={book.tags} 
-        userTags={userData.user_tags}
-      />
-      <Box className={classes.contentContainer}>
-        <BookDesc desc={book.description} className={classes.content}/>
-        <BookReviewList 
+          rating={book.rating} 
+          authors={book.authors} 
+          title={book.title} 
+          img={book.image_url} 
+          year={book.year} 
+        />
+        <BookTagList 
+          userId={userId}
+          bookId={book.id}
+          tags={book.tags} 
+          userTags={userData.user_tags}
+        />
+
+        <BookDesc desc={book.description}/>
+        <BookFeedback 
           userId={userId}
           bookId={book.id}
           reviews={book.reviews} 
           userReview={userData.review}
           userRating={userData.rating}
-          className={classes.content}
         />
-      </Box>
+      </Grid>
     </Layout>
   );
 };

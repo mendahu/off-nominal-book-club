@@ -3,7 +3,7 @@ import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import moment from 'moment'
 
-const BookReview = (props) => {
+const BookReviews = (props) => {
 
   const timeAgo = moment(props.review.date).fromNow();
 
@@ -25,4 +25,4 @@ const BookReview = (props) => {
   )
 }
 
-export default BookReview;
+export default BookReviews;

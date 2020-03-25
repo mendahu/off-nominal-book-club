@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { 
   Chip,
-  Card,
+  Paper,
   CardContent,
   Box,
+  Grid,
   Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -17,7 +18,7 @@ import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: theme.spacing(1, 0),
+    margin: theme.spacing(1, 0, 0, 0 ),
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: "space-between"
@@ -125,43 +126,44 @@ const BookTitleBar = (props) => {
     : 'Author Unknown' 
 
   return (
-    <Card className={classes.root}>
+    <Grid item xs={12}>
+      <Paper className={classes.root}>
 
-      <img src={props.img} />
+        <img src={props.img} />
 
-      <CardContent className={classes.stats}>
-
-        <Box className={classes.bigStat}>
-          <Star htmlColor='#ffd54f'/>
-          <Typography component='h1'>
-            {props.rating || "-"}
-          </Typography>
-        </Box>
-
-        {userFlags.map((f, index) => (
-          <Box key={index} className={classes.stat}>
-            <Chip
-              onClick={() => toggleData(f.type)}
-              label={f.count}
-              icon={f.status ? f.icon_active : f.icon_inactive}
-              className={classes.chip}
-              color={(f.status) ? "primary" : "default"}
-            />
+        <CardContent className={classes.stats}>
+          <Box className={classes.bigStat}>
+            <Star htmlColor='#ffd54f'/>
+            <Typography component='h1'>
+              {props.rating || "-"}
+            </Typography>
           </Box>
-          ))}
-      </CardContent>
 
-      <CardContent className={classes.content}>  
-        <Typography 
-          variant='h5' 
-          component='h1' >{props.title}</Typography>
-        <Typography 
-          variant='body2'
-          className={classes.authors}
-          color='textSecondary'>{authorString} - {props.year}</Typography>
-      </CardContent>
+          {userFlags.map((f, index) => (
+            <Box key={index} className={classes.stat}>
+              <Chip
+                onClick={() => toggleData(f.type)}
+                label={f.count}
+                icon={f.status ? f.icon_active : f.icon_inactive}
+                className={classes.chip}
+                color={(f.status) ? "primary" : "default"}
+              />
+            </Box>
+            ))}
+        </CardContent>
 
-    </Card>
+        <CardContent className={classes.content}>  
+          <Typography 
+            variant='h5' 
+            component='h1' >{props.title}</Typography>
+          <Typography 
+            variant='body2'
+            className={classes.authors}
+            color='textSecondary'>{authorString} - {props.year}</Typography>
+        </CardContent>
+
+      </Paper>
+    </Grid>
   )
 }
 
