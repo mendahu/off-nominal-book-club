@@ -75,7 +75,7 @@ const Home = () => (
     <HeroImage />
     
     <Container component="main" maxWidth={false}>
-      <SearchBar placeholderText={'Find your people'} buttonText={'Search'}/>
+      <SearchBar placeholderText={'Find your people'} buttonText={'Search'} buttonHref='/'/>
       <CommunityList commData={mockCommunityData}/>
     </Container>
   </Layout>
