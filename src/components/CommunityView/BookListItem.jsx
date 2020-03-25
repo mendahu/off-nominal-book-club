@@ -99,7 +99,7 @@ export default function BookListItem(props) {
     <Card className={classes.root}>
 
       <Link href={`/books/${props.book.id}`}>
-        <img src={props.book.image_url} alt={props.book.title} />
+        <a><img src={props.book.image_url} alt={props.book.title} /></a>
       </Link>
 
 
@@ -107,8 +107,8 @@ export default function BookListItem(props) {
       <CardContent className={classes.content}>
 
         <Typography variant='body1' component='h2' className={classes.title}>{props.book.title}</Typography>
-        <Typography variant='body2' paragraph='true' className={classes.authors} color='textSecondary'>{authorString} - {props.book.year}</Typography>
-        <Typography paragraph='true' className={classes.desc}>{description}</Typography>
+        <Typography variant='body2' paragraph={true} className={classes.authors} color='textSecondary'>{authorString} - {props.book.year}</Typography>
+        <Typography paragraph={true} className={classes.desc}>{description}</Typography>
 
         <Box>
           {props.book.tags &&

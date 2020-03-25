@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Chip, Paper } from "@material-ui/core";
+import { 
+  Chip,
+  Card,
+  CardContent,
+  Box,
+  Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -11,23 +16,13 @@ import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
   root: {
+    margin: theme.spacing(1, 0),
     display: 'flex',
-    justifyContent: 'center',
     flexWrap: 'wrap',
-    padding: theme.spacing(0.5),
   },
   chip: {
     margin: theme.spacing(0.5),
   },
-  image: {
-    padding: "5px",
-  },
-  title: {
-    padding: "5px",
-  },
-  titleBar: {
-    display: 'flex'
-  }
 }));
 
 const BookTitleBar = (props) => {
@@ -93,29 +88,34 @@ const BookTitleBar = (props) => {
       icon_inactive: <FavoriteBorderIcon />}
   ]
 
+  const authorString = props.authors 
+    ? props.authors.map(author => author.name).join(", ")
+    : 'Author Unknown' 
+
   return (
-    <Paper className={classes.titleBar}>
-      <div className={classes.image}>
-        <img src={props.img} />
-      </div>
-      <div className={classes.title}>
-        <h1>{props.title}</h1>
-        <h4>{props.authors &&
-          props.authors.map((author) => author.name + " - ")} {props.year}</h4>
+    <Card className={classes.root}>
+
+      <img src={props.img} />
+
+      <CardContent>
         <h4>{props.rating || "-"}</h4>
-        <Paper className={classes.root}>
-          {userFlags.map((f, index) => (
-            <Chip
-              key={index}
-              onClick={() => toggleData(f.type)}
-              label={f.count}
-              icon={f.status ? f.icon_active : f.icon_inactive}
-              className={classes.chip}
-              color={(f.status) ? "primary" : "default"}
-            />))}
-        </Paper>
-      </div>
-    </Paper>
+        {userFlags.map((f, index) => (
+          <Chip
+          key={index}
+          onClick={() => toggleData(f.type)}
+          label={f.count}
+          icon={f.status ? f.icon_active : f.icon_inactive}
+          className={classes.chip}
+          color={(f.status) ? "primary" : "default"}
+          />))}
+      </CardContent>
+
+      <CardContent>  
+        <h1>{props.title}</h1>
+        <h4>{authorString} - {props.year}</h4>
+      </CardContent>
+
+    </Card>
   )
 }
 
