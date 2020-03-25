@@ -2,7 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { 
   Avatar, 
   Chip, 
-  Card } from "@material-ui/core";
+  Grid,
+  Paper } from "@material-ui/core";
 import { useState } from 'react';
 import axios from 'axios';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -10,10 +11,7 @@ import DoneIcon from '@material-ui/icons/Done';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
     padding: theme.spacing(0.5),
-    margin: theme.spacing(1, 0)
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -118,50 +116,51 @@ const BookTagList = (props) => {
   }
 
   return (
-    <Card className={classes.root}>
+    <Grid item xs={12}>
+      <Paper className={classes.root}>
+        {(state.tags.length > 0) &&
+          state.tags.map((t, index) => {
+            if (t.count) {
+              const isUserTag = state.userTags && (state.userTags.findIndex((tag) => tag.tag_id === t.tag_id) >= 0)
 
-      {(state.tags.length > 0) &&
-        state.tags.map((t, index) => {
-          if (t.count) {
-            const isUserTag = state.userTags && (state.userTags.findIndex((tag) => tag.tag_id === t.tag_id) >= 0)
-
-            return (
-              <Chip
-                key={index}
-                label={"#" + t.tag_name} 
-                avatar={<Avatar>{t.count}</Avatar>}
-                className={classes.chip}
-                color={isUserTag ? "primary" : "default"}
-                onClick={() => toggleTag(t.tag_name, t.tag_id)}
-              />)
-            }
-          })}
-          
-      <Chip
-        key={"add"}
-        label={state.addMode 
-          ? (
-            <form onSubmit={(e) => addTag(e)}>
-              <span># 
-                <input 
-                  autoFocus
-                  type="text" 
-                  id="tagInputField" 
-                  className={classes.tagInput}
-                  value={newTagInput}
-                  onChange={(e) => setNewTagInput(e.target.value)}
-                  onClick={(e) => stopClick(e)}>
-                </input>
-                <button type="submit" hidden></button>
-              </span>
-            </form>
-            )
-          : "Add Tag"}
-        icon={state.addMode ? <DoneIcon></DoneIcon> : <AddCircleIcon></AddCircleIcon>}
-        onClick={state.addMode ? (e) => addTag(e) : toggleAddMode}
-        className={classes.chip}>
-      </Chip>
-    </Card>
+              return (
+                <Chip
+                  key={index}
+                  label={"#" + t.tag_name} 
+                  avatar={<Avatar>{t.count}</Avatar>}
+                  className={classes.chip}
+                  color={isUserTag ? "primary" : "default"}
+                  onClick={() => toggleTag(t.tag_name, t.tag_id)}
+                />)
+              }
+            })}
+            
+        <Chip
+          key={"add"}
+          label={state.addMode 
+            ? (
+              <form onSubmit={(e) => addTag(e)}>
+                <span># 
+                  <input 
+                    autoFocus
+                    type="text" 
+                    id="tagInputField" 
+                    className={classes.tagInput}
+                    value={newTagInput}
+                    onChange={(e) => setNewTagInput(e.target.value)}
+                    onClick={(e) => stopClick(e)}>
+                  </input>
+                  <button type="submit" hidden></button>
+                </span>
+              </form>
+              )
+            : "Add Tag"}
+          icon={state.addMode ? <DoneIcon></DoneIcon> : <AddCircleIcon></AddCircleIcon>}
+          onClick={state.addMode ? (e) => addTag(e) : toggleAddMode}
+          className={classes.chip}>
+        </Chip> 
+      </Paper>
+    </Grid>
   )
 }
 
