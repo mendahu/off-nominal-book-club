@@ -1,21 +1,44 @@
 import CommentsList from "./CommentsList";
-import NewComment from "./NewComment";
 import React, { useState } from "react";
+import SearchBar from "../SearchBar";
+import Axios from "axios";
 
 export default function Comments(props) {
   const [comments, setComments] = useState(props.comments);
+  const [input, setInput] = useState("");
 
-  function updateComments(comments) {
-    setComments(comments);
+  function onInputChange() {
+    setInput(event.target.value);
+  }
+
+  function clearInput() {
+    setInput("");
+  }
+
+  function onSubmit() {
+    Axios.post(`/api/readings/comments/${props.readingId}`, {
+      comment: input,
+      userId: props.userId
+    })
+      .then(() => {
+        clearInput();
+        return Axios.get(`/api/readings/${props.readingId}`);
+      })
+      .then(res => setComments(res.data.comments));
   }
 
   return (
     <section>
       {props.joinedUsers.includes(Number(props.userId)) && (
-        <NewComment
-          readingId={props.readingId}
-          setComments={updateComments}
-          userId={props.userId}
+        <SearchBar
+          placeholderText={"Add a Comment"}
+          buttonText={"POST"}
+          input={input}
+          onChange={onInputChange}
+          onClick={event => {
+            event.preventDefault();
+            onSubmit();
+          }}
         />
       )}
       <CommentsList comments={comments} />

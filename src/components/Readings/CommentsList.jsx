@@ -7,7 +7,6 @@ import CommentsListItem from "./CommentsListItem";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    maxWidth: "80vw",
     backgroundColor: theme.palette.background.paper
   },
   inline: {

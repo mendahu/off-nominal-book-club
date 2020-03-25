@@ -419,55 +419,58 @@ select users.id, users.name, users.avatar_url
 
 
 SELECT
-          b.id,
-          b.title,
-          b.fiction,
-          b.google_id,
-          b.isbn13,
-          b.description,
-          b.year,
-          b.image_url,
-          ROUND(max(ratings.avg_rating),1) as avg_rating,
-          max(author_names.names) AS authors_string,
-          max(author_names.names_json::text) AS authors,
-          max(tags_info.tags:: text) as tags,
-          max(tags_info.tag_string) as tags_string,
-          fav_count.count
-        FROM books b
-          LEFT JOIN (
-            SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
-              FROM authors a
-                JOIN books_authors ba ON a.id = ba.author_id
-                JOIN books AS b ON ba.book_id = b.id
-              GROUP BY book_id
-          ) as author_names ON author_names.book_id = b.id
-          LEFT JOIN (
-            SELECT book_id, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
-              FROM (
-                SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
-                    FROM tags t
-                      JOIN user_tag_book utb ON t.id = utb.tag_id
-                      JOIN books AS b ON utb.book_id = b.id
-                    GROUP BY book_id, t.name
-                    ORDER BY count DESC) as tag_counts
-                    GROUP BY book_id) as tags_info on tags_info.book_id = b.id
-          LEFT JOIN (
-            SELECT ratings.book_id, AVG(rating) as avg_rating
-              FROM reviews
-              JOIN ratings ON ratings.book_id = reviews.book_id
-              GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id
-          LEFT JOIN (
-            SELECT book_id, count(*) as count
-            FROM books
-            JOIN favourites on books.id = book_id
-            GROUP BY book_id
-          ) as fav_count on fav_count.book_id = b.id    
-        WHERE b.id = 1
-        GROUP BY b.id
+  b.id,
+  b.title,
+  b.fiction,
+  b.google_id,
+  b.isbn13,
+  b.description,
+  b.year,
+  b.image_url,
+  ROUND(max(ratings.avg_rating),1) as avg_rating,
+  max(author_names.names) AS authors_string,
+  max(author_names.names_json::text) AS authors,
+  max(tags_info.tags:: text) as tags,
+  max(tags_info.tag_string) as tags_string,
+  max(fav_count.count) as fav_count,
+  max(read_count.count) as read_count
+FROM books b
+  LEFT JOIN (
+    SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
+      FROM authors a
+        JOIN books_authors ba ON a.id = ba.author_id
+        JOIN books AS b ON ba.book_id = b.id
+      GROUP BY book_id
+  ) as author_names ON author_names.book_id = b.id
+  LEFT JOIN (
+    SELECT book_id, string_agg(tag_name::character varying, ',') as tag_string, json_agg(tag_counts) as tags
+      FROM (
+        SELECT book_id, name as tag_name, COUNT('user_tag_book.id') AS count
+            FROM tags t
+              JOIN user_tag_book utb ON t.id = utb.tag_id
+              JOIN books AS b ON utb.book_id = b.id
+            GROUP BY book_id, t.name
+            ORDER BY count DESC) as tag_counts
+            GROUP BY book_id) as tags_info on tags_info.book_id = b.id
+  LEFT JOIN (
+    SELECT ratings.book_id, AVG(rating) as avg_rating
+      FROM reviews
+      JOIN ratings ON ratings.book_id = reviews.book_id
+      GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id
+  LEFT JOIN (
+    SELECT book_id, count(*) as count
+    FROM books
+    JOIN favourites on books.id = book_id
+    GROUP BY book_id
+  ) as fav_count on fav_count.book_id = b.id
+  LEFT JOIN (
+    SELECT book_id,  count(reads.book_id) as count
+    FROM books
+    JOIN reads on books.id = reads.book_id
+    GROUP BY book_id
+  ) as read_count on read_count.book_id = b.id
+WHERE b.id = 1
+GROUP BY b.id
 
 
-        SELECT book_id, count(*)
-        FROM books
-        JOIN favourites on books.id = book_id
-
-        GROUP BY book_id
+        

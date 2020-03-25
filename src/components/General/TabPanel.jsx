@@ -16,9 +16,11 @@ const useStyles = makeStyles(theme => ({
     width: "100%"
   },
   listContainer: {
+    backgroundColor: "#303030",
     padding: "10px"
   },
   tabLabel: {
+    backgroundColor: theme.palette.background.paper,
     [theme.breakpoints.down("xs")]: {
       fontSize: "1.5vh"
     }

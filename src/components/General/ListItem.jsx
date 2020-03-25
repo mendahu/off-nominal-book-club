@@ -9,14 +9,15 @@ import {
 
 import {
   Paper,
-  div,
   Card,
   Typography,
   Button,
   Avatar,
-  CardActionArea
+  CardActionArea,
+  Container
 } from "@material-ui/core";
 import Link from "next/link";
+import PeopleIcon from "@material-ui/icons/People";
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -24,14 +25,14 @@ theme = responsiveFontSizes(theme);
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    width: "100%",
-    padding: "2px"
+    width: "100%"
   },
   card: {
     display: "flex",
     width: "100%",
-    height: "9vh",
+    height: "7vh",
     flexDirection: "row",
+    margin: "2px",
     [theme.breakpoints.down("xs")]: {
       padding: 0,
       flexWrap: "wrap",
@@ -41,9 +42,10 @@ const useStyles = makeStyles(theme => ({
     }
   },
   imageContainer: {
-    height: "9vh",
-    width: "9vh",
-    padding: "7px",
+    height: "7vh",
+    width: "7vh",
+    padding: "5px",
+    marginLeft: "0",
     [theme.breakpoints.down("xs")]: {
       width: "11vh",
       height: "11vh",
@@ -81,6 +83,8 @@ const useStyles = makeStyles(theme => ({
     width: "auto",
     margin: 0,
     alignSelf: "center",
+    display: "flex",
+    flexDirection: "row",
     [theme.breakpoints.down("xs")]: {
       alignSelf: "flex-start",
       padding: "0"
@@ -116,41 +120,42 @@ export default function UserBookListItem(props) {
       <ThemeProvider>
         <Link href={`${props.link}/${props.item.id}`}>
           <Card className={classes.card}>
-            <div className={classes.imageContainer}>
+            <Container className={classes.imageContainer}>
               <Avatar
                 variant='rounded'
                 className={classes.image}
                 alt={props.item[props.displayData.title]}
                 src={props.item[props.displayData.image]}
               />
-            </div>
-            <div className={classes.dataContainer}>
-              <div className={classes.titleContainer}>
+            </Container>
+            <Container className={classes.dataContainer}>
+              <Container className={classes.titleContainer}>
                 <Typography className={classes.title} variant='subtitle1'>
                   {props.item[props.displayData.title]}
                 </Typography>
-              </div>
+              </Container>
               {props.displayData.secondary && (
-                <div className={classes.secondaryContainer}>
+                <Container className={classes.secondaryContainer}>
+                  {props.item.user_count && <PeopleIcon color='primary' />}
                   <Typography
                     className={classes.secondary}
                     variant='subtitle2'
                     color='primary'>
                     {props.item[props.displayData.secondary]}
                   </Typography>
-                </div>
+                </Container>
               )}
               {props.item.rating && (
-                <div className={classes.secondaryContainer}>
+                <Container className={classes.secondaryContainer}>
                   <Rating
                     className={classes.secondary}
                     name='read-only'
                     value={props.item.rating}
                     readOnly
                   />
-                </div>
+                </Container>
               )}
-            </div>
+            </Container>
           </Card>
         </Link>
       </ThemeProvider>
