@@ -1,181 +1,157 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import StarBorder from "@material-ui/icons/StarBorder";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
   Chip,
-  Paper,
   Typography,
-  CardMedia,
   CardContent,
   Card,
-  Button
-} from "@material-ui/core";
-
+  Box} from "@material-ui/core";
+import Star from "@material-ui/icons/Star";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Link from "next/link";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    flexGrow: 1,
-    flexDirection: "row",
-    marginTop: "1vh",
-    height: "15vh"
+    margin: theme.spacing(2, 0),
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
   },
-  imageContainer: {
-    display: "flex",
-    width: "17%",
-    padding: 0
-  },
-  thumb_image: {
-    margin: "auto",
-    maxHeight: "13vh",
-    maxWidth: "10vh"
-  },
-  row: {
-    display: "flex",
-    flexDirection: "row",
-    padding: "0",
-    justifyContent: "space-between"
+  flex: {
+    display: 'flex'
   },
   content: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    width: "78%"
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    flex: '1 0 300px',
+    order: 2,
+    [theme.breakpoints.down('xs')]: {
+      order: 3,
+      flex: '1 0 100%'
+    }
   },
   title: {
-    width: "90%",
-    fontSize: "2vh"
+    fontSize: '1rem',
+    [theme.breakpoints.up(450)]: {
+      fontSize: '1.2rem'
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: '1.5rem'
+    }
   },
-  author: {
-    width: "90%",
-    fontSize: "1.5vh"
+  authors: {
+    fontSize: '0.875rem',
+    fontStyle: 'italic',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '1.2rem'
+    }
   },
-  tags: {
-    display: "flex",
-    flexDirection: "row",
-    paddingTop: "0",
-    flexWrap: "wrap"
+  stats: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'space-evenly',
+    order: 3,
+    minWidth: 100,
+    [theme.breakpoints.down('xs')]: {
+      order: 2,
+    }
   },
-  year: {
-    width: "10%",
-    alignSelf: "flex-end"
+  stat: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    margin: theme.spacing(1),
   },
-  button: {
-    height: "3vh"
+  statNumber: {
+    marginLeft: 4,
+    fontSize: '1rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '1.2rem'
+    }
   },
   chip: {
-    margin: ".3vh",
-    height: "2vh",
-    fontSize: "1vh"
+    margin: theme.spacing(0.5, 0.5)
   },
-  chip_button: {
-    margin: 0,
-    padding: 0
-  },
-  chip_avatar: {
-    maxHeight: "1.7vh",
-    maxWidth: "1.7vh",
-    fontSize: "1vh"
-  },
-  rating: {
-    width: "10%",
-    fontSize: "2vh",
-    margin: "auto"
-  },
-  star: {
-    margin: "auto"
+  desc: {
+    [theme.breakpoints.down(400)]: {
+      display: 'none'
+    }
   }
 }));
 
+
+
 export default function BookListItem(props) {
   const classes = useStyles();
-  const theme = useTheme();
+
+  const reads = 5
+  const favs = 5
+
+  const authorString = JSON.parse(props.book.authors).join(", ")
+  const description = props.book.description.slice(0, 100) + "..."
 
   return (
-    <form>
-      <Paper>
-        <Card className={classes.root}>
-          <CardContent className={classes.imageContainer}>
-            <CardMedia className={classes.thumb_image}>
-              <img className={classes.thumb_image} src={props.book.image_url} />
-            </CardMedia>
-          </CardContent>
-          <CardContent className={classes.content}>
-            <CardContent className={classes.row}>
-              <Typography className={classes.title} component='h5' variant='h5'>
-                {props.book.title}
-              </Typography>
-              {props.book.avg_rating && <StarBorder className={classes.star} />}
-              <Typography
-                className={classes.rating}
-                variant='subtitle1'
-                color='textSecondary'>
-                {props.book.avg_rating}
-              </Typography>
-            </CardContent>
-            <div className={classes.tags}>
-              {props.book.tags &&
-                JSON.parse(props.book.tags)
-                  .slice(0, 4)
-                  .map((tag, index) => (
-                    <Button
-                      key={index}
-                      className={classes.chip_button}
-                      type='submit'
-                      onClick={e => {
-                        e.preventDefault();
-                        props.selectTag(tag.tag_name);
-                      }}>
-                      <Chip
-                        className={classes.chip}
-                        key={index}
-                        label={tag.tag_name}
-                        avatar={
-                          <Avatar className={classes.chip_avatar}>
-                            {tag.count}
-                          </Avatar>
-                        }
-                      />
-                    </Button>
-                  ))}
-            </div>
-            <CardContent className={classes.row}>
-              {props.book.authors &&
-                JSON.parse(props.book.authors).map((author, index) => (
-                  <Typography key={index} className={classes.author} variant='subtitle1'>
-                    {author}
-                  </Typography>
-                ))}
-              <Typography
-                className={classes.year}
-                variant='subtitle1'
-                color='textSecondary'>
-                {props.book.year}
-              </Typography>
-            </CardContent>
-            <CardContent className={classes.row}>
-              <Link href={`/readings/new/${props.book.id}`}>
-                <Button
-                  className={classes.button}
-                  variant='contained'
-                  color='primary'>
-                  <Typography variant='body2'>Create Reading</Typography>
-                </Button>
-              </Link>
-              <Link href={`/books/${props.book.id}`}>
-                <Button
-                  className={classes.button}
-                  variant='contained'
-                  color='primary'>
-                  <Typography variant='body2'>Go To Book</Typography>
-                </Button>
-              </Link>
-            </CardContent>
-          </CardContent>
-        </Card>
-      </Paper>
-    </form>
+
+    <Card className={classes.root}>
+
+      <Link href={`/books/${props.book.id}`}>
+        <img src={props.book.image_url} alt={props.book.title} />
+      </Link>
+
+
+
+      <CardContent className={classes.content}>
+
+        <Typography variant='body1' component='h2' className={classes.title}>{props.book.title}</Typography>
+        <Typography variant='body2' paragraph='true' className={classes.authors} color='textSecondary'>{authorString} - {props.book.year}</Typography>
+        <Typography paragraph='true' className={classes.desc}>{description}</Typography>
+
+        <Box>
+          {props.book.tags &&
+            JSON.parse(props.book.tags)
+              .slice(0, 4)
+              .map((tag, index) => (
+                <Chip
+                  size='small'
+                  className={classes.chip}
+                  key={index}
+                  label={tag.tag_name}
+                  onClick={() => props.selectTag(tag.tag_name)}
+                  avatar={
+                    <Avatar>
+                      {tag.count}
+                    </Avatar>
+                  }
+                />
+              ))}
+        </Box>
+
+      </CardContent>
+
+
+      <CardContent className={classes.stats}>
+
+        <Box className={classes.stat}>
+          <Star htmlColor='#ffd54f' />
+          <Typography component='h3' className={classes.statNumber}>{props.book.avg_rating || "-"}</Typography>
+        </Box>
+
+        <Box className={classes.stat}>
+          <FavoriteIcon htmlColor='#e57373' />
+          <Typography component='h3' className={classes.statNumber}>{favs}</Typography>
+        </Box>
+
+        <Box className={classes.stat}>
+          <CheckCircleIcon htmlColor='#64b5f6' />
+          <Typography component='h3' className={classes.statNumber}>{reads}</Typography>
+        </Box>
+
+      </CardContent>
+
+    </Card>
   );
 }
