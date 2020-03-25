@@ -79,7 +79,12 @@ const BookUserReview = (props) => {
                 value={props.review.user_review}
                 onChange={props.reviewChange}
               />
-              <Button type ="submit" variant="contained" color="primary">Save</Button>
+              <Button 
+                type ="submit" 
+                variant="contained" 
+                color="primary">
+                  {(props.review.id) ? "Update" : "Submit"}
+              </Button>
             </Box>
 
           </CardContent>
