@@ -103,23 +103,27 @@ export default function NewReading(props) {
 
   function onSubmit(event) {
     event.preventDefault();
-    const readingData = {
-      bookId: props.bookId,
-      userId: props.userId,
-      dateStarted: startDate,
-      dateEnded: endDate
-    };
-    axios
-      .post(`/api/readings/new`, readingData)
-      .then(res => {
-        const readingId = res.data[0];
-        axios.post(`/api/readings/users`, {
-          readingId: readingId,
-          userId: props.userId
-        });
-        return readingId;
-      })
-      .then(readingId => router.push(`/readings/${readingId}`));
+    if (props.userId === null) {
+      alert("Please Login to create reading");
+    } else {
+      const readingData = {
+        bookId: props.bookId,
+        userId: props.userId,
+        dateStarted: startDate,
+        dateEnded: endDate
+      };
+      axios
+        .post(`/api/readings/new`, readingData)
+        .then(res => {
+          const readingId = res.data[0];
+          axios.post(`/api/readings/users`, {
+            readingId: readingId,
+            userId: props.userId
+          });
+          return readingId;
+        })
+        .then(readingId => router.push(`/readings/${readingId}`));
+    }
   }
   return (
     <Paper className={classes.root}>

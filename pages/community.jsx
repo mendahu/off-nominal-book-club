@@ -65,7 +65,6 @@ function Community({
     const tagsData = await tagSearch.search(term).map(tag => {
       return tag.item;
     });
-    console.log(tagsData);
 
     setSearchResults(bookData);
     setTagList(tagsData);

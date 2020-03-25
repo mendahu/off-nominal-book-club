@@ -38,7 +38,7 @@ export default function New() {
     event => {
       event.preventDefault();
     };
-    console.log(id);
+
     Router.push(`/books/${id}`);
   }
 
@@ -48,8 +48,6 @@ export default function New() {
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(event) {
-    console.log(bookObj);
-
     // ADD BOOK --
     axios
       .post(`/api/books/new`, bookObj)
@@ -83,7 +81,6 @@ export default function New() {
       );
       // if results found, set mode to confirm and setSearchResults to db hits
       if (dbResults.data.length > 0) {
-        console.log(dbResults.data);
         setMode(CONFIRM);
         setSearchResults(dbResults.data);
 
@@ -92,8 +89,6 @@ export default function New() {
         addBook(event);
       }
     } else {
-      console.log(bookObj);
-
       // REDIRECT TO BOOK
       redirectToBook(bookId);
     }

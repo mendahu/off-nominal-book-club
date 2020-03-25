@@ -48,7 +48,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 export default function ProfileBanner(props) {
-  console.log(props);
   const classes = useStyles();
   return (
     <Grid className={classes.root}>
