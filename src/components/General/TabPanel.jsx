@@ -5,11 +5,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Typography, Tabs, Tab, AppBar, Box } from "@material-ui/core";
 import List from "./List";
 import Comments from "../Readings/Comments";
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  ThemeProvider
-} from "@material-ui/core/styles";
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -20,10 +16,12 @@ const useStyles = makeStyles(theme => ({
     width: "100%"
   },
   listContainer: {
-    backgroundColor: theme.palette.grey["900"],
-    backgroundImage:
-      "url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')",
-    padding: 0
+    padding: "10px"
+  },
+  tabLabel: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.5vh"
+    }
   }
 }));
 
@@ -87,7 +85,11 @@ export default function FullWidthTabs(props) {
           variant='fullWidth'
           aria-label='UserBooks'>
           {props.tabs.map((tab, index) => (
-            <Tab label={tab} {...a11yProps(index)} />
+            <Tab
+              className={classes.tabLabel}
+              label={tab}
+              {...a11yProps(index)}
+            />
           ))}
         </Tabs>
       </AppBar>

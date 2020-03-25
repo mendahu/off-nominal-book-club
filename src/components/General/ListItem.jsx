@@ -9,11 +9,12 @@ import {
 
 import {
   Paper,
-  CardContent,
+  div,
   Card,
   Typography,
   Button,
-  Avatar
+  Avatar,
+  CardActionArea
 } from "@material-ui/core";
 import Link from "next/link";
 
@@ -24,27 +25,86 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     width: "100%",
-    padding: "1px"
+    padding: "2px"
   },
   card: {
     display: "flex",
     width: "100%",
-    height: "auto",
+    height: "9vh",
     flexDirection: "row",
-    justifyContent: "space-between"
+    [theme.breakpoints.down("xs")]: {
+      padding: 0,
+      flexWrap: "wrap",
+      width: "100%",
+      height: "11vh",
+      flexDirection: "row"
+    }
   },
-  title: {
+  imageContainer: {
+    height: "9vh",
+    width: "9vh",
+    padding: "7px",
+    [theme.breakpoints.down("xs")]: {
+      width: "11vh",
+      height: "11vh",
+      padding: "4px",
+      justifyContent: "center"
+    }
+  },
+  dataContainer: {
+    display: "flex",
+    width: "85%",
+    flexDirection: "row",
+    padding: "5px",
+    justifyContent: "space-between",
+    [theme.breakpoints.down("xs")]: {
+      width: "70%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      height: "11vh",
+      paddingLeft: "3px"
+    }
+  },
+  titleContainer: {
+    margin: 0,
     width: "60%",
-    alignSelf: "flex-start",
-    margin: "auto"
+    alignSelf: "center",
+    [theme.breakpoints.down("xs")]: {
+      alignSelf: "flex-start",
+      width: "100%",
+      padding: "0",
+      width: "auto"
+    }
+  },
+  secondaryContainer: {
+    width: "auto",
+    margin: 0,
+    alignSelf: "center",
+    [theme.breakpoints.down("xs")]: {
+      alignSelf: "flex-start",
+      padding: "0"
+    }
   },
   secondary: {
-    width: "auto",
-    alignSelf: "flex-end",
-    margin: "auto"
+    fontSize: "1.5vh",
+    textAlign: "right",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2vh",
+      textAlign: "left"
+    }
   },
-  text: {
-    fontSize: "1"
+  title: {
+    fontSize: "1.5vh",
+    textAlign: "left",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2vh",
+      textAlign: "left"
+    }
+  },
+  image: {
+    height: "100%",
+    width: "100%"
   }
 }));
 
@@ -56,29 +116,41 @@ export default function UserBookListItem(props) {
       <ThemeProvider>
         <Link href={`${props.link}/${props.item.id}`}>
           <Card className={classes.card}>
-            <CardContent>
+            <div className={classes.imageContainer}>
               <Avatar
+                variant='rounded'
+                className={classes.image}
                 alt={props.item[props.displayData.title]}
                 src={props.item[props.displayData.image]}
               />
-            </CardContent>
-            <CardContent className={classes.title}>
-              <Typography variant='subtitle1'>
-                {props.item[props.displayData.title]}
-              </Typography>
-            </CardContent>
-            {props.displayData.secondary && (
-              <CardContent className={classes.secondary}>
-                <Typography variant='subtitle2' color='textSecondary'>
-                  {props.item[props.displayData.secondary]}
+            </div>
+            <div className={classes.dataContainer}>
+              <div className={classes.titleContainer}>
+                <Typography className={classes.title} variant='subtitle1'>
+                  {props.item[props.displayData.title]}
                 </Typography>
-              </CardContent>
-            )}
-            {props.item.rating && (
-              <CardContent className={classes.secondary}>
-                <Rating name='read-only' value={props.item.rating} readOnly />
-              </CardContent>
-            )}
+              </div>
+              {props.displayData.secondary && (
+                <div className={classes.secondaryContainer}>
+                  <Typography
+                    className={classes.secondary}
+                    variant='subtitle2'
+                    color='primary'>
+                    {props.item[props.displayData.secondary]}
+                  </Typography>
+                </div>
+              )}
+              {props.item.rating && (
+                <div className={classes.secondaryContainer}>
+                  <Rating
+                    className={classes.secondary}
+                    name='read-only'
+                    value={props.item.rating}
+                    readOnly
+                  />
+                </div>
+              )}
+            </div>
           </Card>
         </Link>
       </ThemeProvider>
