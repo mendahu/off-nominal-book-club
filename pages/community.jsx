@@ -106,14 +106,10 @@ function Community({
         <Container component='main' maxWidth={false}>
           <SearchBar
             placeholderText={"Find your books"}
-            buttonText={"Add"}
+            buttonText={"Search"}
             input={input}
             onChange={onInputChange}
-            buttonHref={'/books/new'}
-            onClick={event => {
-              event.preventDefault();
-              redirectToAdd();
-            }}
+            buttonHref={'/community'}
           />
 
           <TagList tags={tagList} onClick={selectTag} />
