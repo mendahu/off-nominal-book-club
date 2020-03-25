@@ -1,15 +1,6 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import {
-  Avatar,
-  Chip,
-  Paper,
-  Typography,
-  CardMedia,
-  CardContent,
-  Card,
-  Button
-} from "@material-ui/core";
+import { Typography, Container, Button } from "@material-ui/core";
 
 import Link from "next/link";
 import Axios from "axios";
@@ -17,20 +8,15 @@ import Axios from "axios";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    flexGrow: 1,
+    padding: 0,
     flexDirection: "row",
-    marginTop: "1vh",
-    height: "25vh"
-  },
-  imageContainer: {
-    display: "flex",
-    width: "17%",
-    padding: 0
-  },
-  thumb_image: {
-    margin: "auto",
-    maxHeight: "13vh",
-    maxWidth: "10vh"
+    height: "15vh",
+    backgroundColor: theme.palette.grey["900"],
+    backgroundImage:
+      "url('https://www.transparenttextures.com/patterns/light-paper-fibers.png')",
+    [theme.breakpoints.down("xs")]: {
+      height: "25vh"
+    }
   },
   row: {
     display: "flex",
@@ -41,61 +27,56 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "center",
     width: "78%"
   },
   title: {
-    width: "90%",
-    fontSize: "2vh"
+    width: "100%",
+    fontSize: "2vh",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2.5vh"
+    }
   },
   author: {
     width: "90%",
     fontSize: "1.5vh"
   },
-  tags: {
+  topButton: {
+    display: "block",
+    height: "3vh",
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
+  },
+  bottomButton: {
+    display: "none",
+    [theme.breakpoints.down("xs")]: {
+      display: "block",
+      width: "100%"
+    }
+  },
+  dateContainer: {
     display: "flex",
     flexDirection: "row",
-    paddingTop: "0",
-    flexWrap: "wrap"
+    width: "100%",
+    justifyContent: "space-between",
+    paddingLeft: "0",
+    paddingRight: "0",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+      justifyContent: "center"
+    }
   },
-  year: {
-    width: "10%",
-    alignSelf: "flex-end"
-  },
-  button: {
-    height: "3vh"
-  },
-  chip: {
-    margin: ".3vh",
-    height: "2vh",
-    fontSize: "1vh"
-  },
-  chip_button: {
-    margin: 0,
-    padding: 0
-  },
-  chip_avatar: {
-    maxHeight: "1.7vh",
-    maxWidth: "1.7vh",
-    fontSize: "1vh"
-  },
-  rating: {
-    width: "10%",
-    fontSize: "2vh",
-    margin: "auto"
-  },
-  star: {
-    margin: "auto"
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "space-between"
+  date: {
+    fontSize: "1.70vh",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2vh"
+    }
   }
 }));
 
 export default function BookBanner(props) {
   const classes = useStyles();
-  const theme = useTheme();
 
   function addUser(event) {
     event.preventDefault();
@@ -141,81 +122,122 @@ export default function BookBanner(props) {
       });
   }
 
+  function parseDate(dateJSON) {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    const dateArr = JSON.parse(dateJSON)
+      .split("T")[0]
+      .split("-");
+    const year = dateArr[0].slice(2);
+    const month = months[dateArr[1] - 1];
+    const day = dateArr[2];
+
+    return `${month} ${day}, '${year}`;
+  }
+
   return (
-    <Paper>
-      <Card className={classes.root}>
-        <CardContent className={classes.imageContainer}>
-          <CardMedia className={classes.thumb_image}>
-            <img className={classes.thumb_image} src={props.book.image_url} />
-          </CardMedia>
-        </CardContent>
-        <CardContent className={classes.content}>
-          <CardContent className={classes.row}>
+    <Container className={classes.root}>
+      <Link href={`/books/${props.book.id}`}>
+        <img src={props.book.image_url} />
+      </Link>
+      <Container className={classes.content}>
+        <Container className={classes.row}>
+          <Link href={`/books/${props.book.id}`}>
             <Typography className={classes.title} component='h5' variant='h5'>
               {props.book.title}
             </Typography>
-          </CardContent>
-          <CardContent className={classes.row}>
-            {props.book.authors &&
-              props.book.authors.map((author, index) => (
-                <Typography className={classes.author} variant='subtitle1'>
-                  {author}
-                </Typography>
-              ))}
-            <Typography
-              className={classes.year}
-              variant='subtitle1'
-              color='textSecondary'>
-              {props.book.year}
-            </Typography>
-          </CardContent>
-          <CardContent className={classes.row}>
-            <Typography variant='subtitle1' color='textSecondary'>
-              Started On: {JSON.parse(props.book.date_started).split("T")[0]}
-            </Typography>
-            <Typography variant='subtitle1' color='textSecondary'>
-              Ends on: {JSON.parse(props.book.date_ended).split("T")[0]}
-            </Typography>
-          </CardContent>
-          <CardContent className={classes.buttons}>
-            <Link href={`/books/${props.book.id}`}>
+          </Link>
+          {!props.joinedUsers.includes(Number(props.userId)) ? (
+            <form
+              onSubmit={event => {
+                addUser(event);
+              }}>
               <Button
-                className={classes.button}
+                className={classes.topButton}
                 variant='contained'
-                color='primary'>
-                <Typography variant='body2'>Go To Book</Typography>
+                color='primary'
+                type='submit'>
+                <Typography variant='body2'>JOIN</Typography>
               </Button>
-            </Link>
-            {!props.joinedUsers.includes(Number(props.userId)) ? (
-              <form
-                onSubmit={event => {
-                  addUser(event);
-                }}>
-                <Button
-                  className={classes.button}
-                  variant='contained'
-                  color='primary'
-                  type='submit'>
-                  <Typography variant='body2'>JOIN</Typography>
-                </Button>
-              </form>
-            ) : (
-              <form
-                onSubmit={event => {
-                  deleteUser(event);
-                }}>
-                <Button
-                  className={classes.button}
-                  variant='contained'
-                  color='primary'
-                  type='submit'>
-                  LEAVE
-                </Button>
-              </form>
-            )}
-          </CardContent>
-        </CardContent>
-      </Card>
-    </Paper>
+            </form>
+          ) : (
+            <form
+              onSubmit={event => {
+                deleteUser(event);
+              }}>
+              <Button
+                className={classes.topButton}
+                variant='contained'
+                color='primary'
+                type='submit'>
+                LEAVE
+              </Button>
+            </form>
+          )}
+        </Container>
+        <Container className={classes.row}>
+          {props.book.authors && (
+            <Typography className={classes.author} variant='subtitle1'>
+              {props.book.authors[0]} - {props.book.year}
+            </Typography>
+          )}
+        </Container>
+        <Container className={classes.dateContainer}>
+          <Typography
+            className={classes.date}
+            component='h6'
+            variant='subtitle1'
+            color='textSecondary'>
+            Started On: {parseDate(props.book.date_started)}
+          </Typography>
+          <Typography
+            className={classes.date}
+            variant='subtitle1'
+            color='textSecondary'>
+            Ends on: {parseDate(props.book.date_ended)}
+          </Typography>
+        </Container>
+        {!props.joinedUsers.includes(Number(props.userId)) ? (
+          <form
+            onSubmit={event => {
+              addUser(event);
+            }}>
+            <Button
+              className={classes.bottomButton}
+              variant='contained'
+              color='primary'
+              type='submit'>
+              <Typography variant='body2'>JOIN</Typography>
+            </Button>
+          </form>
+        ) : (
+          <form
+            onSubmit={event => {
+              deleteUser(event);
+            }}>
+            <Button
+              className={classes.bottomButton}
+              variant='contained'
+              color='primary'
+              type='submit'>
+              LEAVE
+            </Button>
+          </form>
+        )}
+      </Container>
+    </Container>
   );
 }
