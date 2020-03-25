@@ -2,55 +2,73 @@ import { Container } from "@material-ui/core";
 import SearchBar from "../src/components/SearchBar";
 import BookList from "../src/components/CommunityView/BookList";
 import TagList from "../src/components/CommunityView/TagList";
-import Loading from "../src/components/CommunityView/Loading";
 import HeroCarousel from "../src/components/CommunityView/HeroCarousel";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Layout from "../src/components/LandingLayout";
 import axios from "axios";
 const queries = require("../db/queries/books");
 import Router from "next/router";
 import Fuse from "fuse.js";
 
-function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
-  // const isFirstRun = useRef(true);
-  // useEffect(() => {
-  //   if (isFirstRun.current) {
-  //     isFirstRun.current = false;
-  //   }
-  // });
-
-  const searchOptions = {
+function Community({
+  books,
+  tags,
+  mostFavId,
+  highestRatedId,
+  randomBookIndex
+}) {
+  const bookOptions = {
     shouldSort: true,
-    threshold: 0.6,
+    threshold: 0.7,
     location: 0,
     distance: 100,
     minMatchCharLength: 2,
-    keys: ["title", "authors_string", "tags_string"]
+    keys: [
+      {
+        name: "title",
+        weight: 0.5
+      },
+      {
+        name: "tags_string",
+        weight: 0.3
+      },
+      {
+        name: "authors_string",
+        weight: 0.2
+      }
+    ]
   };
 
-  let fuse = new Fuse(books, searchOptions);
+  const tagOptions = {
+    shouldSort: true,
+    threshold: 0.9,
+    location: 0,
+    distance: 100,
+    minMatchCharLength: 2,
+    keys: ["tag_name"]
+  };
 
-  const LOADING = "LOADING";
-  const RESULTS = "RESULTS";
+  const bookSearch = new Fuse(books, bookOptions);
+  const tagSearch = new Fuse(tags, tagOptions);
 
   const [searchResults, setSearchResults] = useState(books);
-  // const [searchTerm, setSearchTerm] = useState("");
-  const [tagList, setTagList] = useState([]);
-  const [mode, setMode] = useState(RESULTS);
+  const [tagList, setTagList] = useState(tags);
   const [input, setInput] = useState("");
 
   async function getSearchResults(term) {
-    const bookData = await fuse
+    const bookData = await bookSearch
       .search(term)
       .slice(0, 5)
       .map(item => {
         return item.item;
       });
-    const tagsData = await axios.get(`/api/community/tags?term=${term}`);
-    setSearchResults(bookData);
-    setTagList(tagsData.data);
+    const tagsData = await tagSearch.search(term).map(tag => {
+      return tag.item;
+    });
+    console.log(tagsData);
 
-    // const bookData = await axios.get(`/api/community/books?term=${term}`);
+    setSearchResults(bookData);
+    setTagList(tagsData);
   }
 
   async function selectTag(tag) {
@@ -66,24 +84,11 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
     Router.push(`/books/new`);
   }
 
-  // useEffect(() => {
-  //   console.log(input);
-  //   // Set debouncedValue to value (passed in) after the specified delay
-  //   const handler = setTimeout(() => {
-  //     getSearchResults(input);
-  //   }, 200);
-
-  //   return () => {
-  //     clearTimeout(handler);
-  //   };
-  // }, [input]);
-
   const onInputChange = event => {
     setInput(event.target.value);
     event.target.value !== ""
       ? getSearchResults(event.target.value)
       : setSearchResults(books);
-    // getSearchResults(event.target.value);
   };
 
   return (
@@ -125,17 +130,20 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
 
 export async function getServerSideProps() {
   const books = queries.books.getAll("");
+  const tags = queries.books.getTags("");
   const mostFavId = queries.books.getMostFavourite();
   const highestRatedId = queries.books.getHighestRated();
 
-  return Promise.all([books, mostFavId, highestRatedId]).then(res => {
+  return Promise.all([books, tags, mostFavId, highestRatedId]).then(res => {
     const books = res[0].rows;
-    const mostFavId = res[1][0].id;
-    const highestRatedId = res[2][0].id;
+    const tags = res[1].rows;
+    const mostFavId = res[2][0].id;
+    const highestRatedId = res[3][0].id;
     const randomBookIndex = Math.floor(Math.random() * books.length);
 
-    console.log(res);
-    return { props: { books, mostFavId, highestRatedId, randomBookIndex } };
+    return {
+      props: { books, tags, mostFavId, highestRatedId, randomBookIndex }
+    };
   });
 }
 
