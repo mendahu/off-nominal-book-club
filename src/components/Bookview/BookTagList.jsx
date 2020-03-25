@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     padding: theme.spacing(0.5),
+    margin: theme.spacing(1, 0)
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -118,6 +119,7 @@ const BookTagList = (props) => {
 
   return (
     <Card className={classes.root}>
+
       {(state.tags.length > 0) &&
         state.tags.map((t, index) => {
           if (t.count) {
@@ -134,6 +136,7 @@ const BookTagList = (props) => {
               />)
             }
           })}
+          
       <Chip
         key={"add"}
         label={state.addMode 

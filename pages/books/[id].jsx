@@ -7,8 +7,23 @@ import BookDesc from "../../src/components/Bookview/BookDesc";
 import BookReviewList from "../../src/components/Bookview/BookReviewList";
 import UserContext from '../../src/UserContext'
 import { useContext } from 'react'
+import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  contentContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: "space-between"
+  },
+  content: {
+    width: '100%'
+  }
+}));
 
 const Bookview = ({ book, userData }) => {
+
+  const classes = useStyles();
 
   const { userId } = useContext(UserContext)
 
@@ -38,14 +53,17 @@ const Bookview = ({ book, userData }) => {
         tags={book.tags} 
         userTags={userData.user_tags}
       />
-      <BookDesc desc={book.description} />
-      <BookReviewList 
-        userId={userId}
-        bookId={book.id}
-        reviews={book.reviews} 
-        userReview={userData.review}
-        userRating={userData.rating}
-      />
+      <Box className={classes.contentContainer}>
+        <BookDesc desc={book.description} className={classes.content}/>
+        <BookReviewList 
+          userId={userId}
+          bookId={book.id}
+          reviews={book.reviews} 
+          userReview={userData.review}
+          userRating={userData.rating}
+          className={classes.content}
+        />
+      </Box>
     </Layout>
   );
 };
