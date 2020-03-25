@@ -1,24 +1,10 @@
-import { 
-  Button,
-  Box,
-  Paper,
-  Grid,
-  CardContent,
-  Typography } from "@material-ui/core";
-import { useState } from 'react'
-import BookReviews from './BookReviews'
+import { useState, useEffect } from 'react'
+import BookReviewList from './BookReviewList'
 import axios from 'axios'
-import { makeStyles } from '@material-ui/core/styles';
 import BookRating from './BookRating'
 import BookUserReview from './BookUserReview'
 
-const useStyles = makeStyles(theme => ({
-//
-}));
-
 const BookFeedback = (props) => {
-
-  const classes = useStyles();
 
   const emptyReview = {
     summary: "",
@@ -30,6 +16,7 @@ const BookFeedback = (props) => {
 
   const [rating, setRating] = useState(userRating);
   const [review, setReview] = useState(userReview);
+  const [ loggedIn, setLoggedIn ] = useState(false);
 
   const rateBook = (value) => {
     if (rating.id) {
@@ -70,36 +57,28 @@ const BookFeedback = (props) => {
     }
   }
 
+  useEffect(() => {
+    if (props.userId) setLoggedIn(true);
+  }, [])
+
   return (
     <>
-      
-      {props.userId &&
-        <>
+      {loggedIn &&
           <BookRating
             rating={rating} 
-            rateBook={rateBook}/>
+            rateBook={rateBook}/>}
 
+      {loggedIn &&
           <BookUserReview 
             review={review}
             submitReview={e => submitReview(e)}
             summaryChange={e => setReview({...review, summary: e.target.value})}
-            reviewChange={e => setReview({...review, user_review: e.target.value})} />
-        </>
-      }
+            reviewChange={e => setReview({...review, user_review: e.target.value})} />}
 
-      <Grid item xs={12}>
-        <Paper>
-          <CardContent>
-
-            <Typography component='h2' variant='h5'>Reviews</Typography>
-            {review.id && <BookReviews review={review} rating={rating}/>}
-            {props.reviews && 
-              props.reviews.map((indReview, index) => <BookReviews review={indReview} rating={{user_rating: indReview.rating}} key={index}/>)}
-          
-          </CardContent>
-        </Paper>
-      </Grid>
-
+      <BookReviewList
+        reviews={props.reviews}
+        userReview={review}
+        userRating={rating} />
     </>
     )
 }
