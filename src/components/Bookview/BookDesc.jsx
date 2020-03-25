@@ -39,7 +39,7 @@ const BookDesc = (props) => {
   };
 
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} sm={8}>
       <Paper>
 
         <CardContent className={classes.header}>

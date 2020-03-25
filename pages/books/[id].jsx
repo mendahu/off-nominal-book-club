@@ -5,13 +5,21 @@ import BookTitleBar from "../../src/components/Bookview/BookTitleBar";
 import BookTagList from "../../src/components/Bookview/BookTagList";
 import BookDesc from "../../src/components/Bookview/BookDesc";
 import BookFeedback from "../../src/components/Bookview/BookFeedback";
+import ReadingButton from "../../src/components/Bookview/ReadingButton";
 import UserContext from '../../src/UserContext'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { Grid } from '@material-ui/core'
 
 const Bookview = ({ book, userData }) => {
 
   const { userId } = useContext(UserContext)
+
+  const [ loggedIn, setLoggedIn ] = useState(false);
+
+  useEffect(() => {
+    if (userId) setLoggedIn(true);
+  }, [])
+
 
   return (
     <Layout>
@@ -41,8 +49,13 @@ const Bookview = ({ book, userData }) => {
           userTags={userData.user_tags}
         />
 
+        {loggedIn &&
+          <ReadingButton
+            bookId={book.id}/>}
+
         <BookDesc desc={book.description}/>
         <BookFeedback 
+          loggedIn={loggedIn}
           userId={userId}
           bookId={book.id}
           reviews={book.reviews} 

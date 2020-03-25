@@ -16,7 +16,7 @@ const BookFeedback = (props) => {
 
   const [rating, setRating] = useState(userRating);
   const [review, setReview] = useState(userReview);
-  const [ loggedIn, setLoggedIn ] = useState(false);
+
 
   const rateBook = (value) => {
     if (rating.id) {
@@ -57,18 +57,14 @@ const BookFeedback = (props) => {
     }
   }
 
-  useEffect(() => {
-    if (props.userId) setLoggedIn(true);
-  }, [])
-
   return (
     <>
-      {loggedIn &&
+      {props.loggedIn &&
           <BookRating
             rating={rating} 
             rateBook={rateBook}/>}
 
-      {loggedIn &&
+      {props.loggedIn &&
           <BookUserReview 
             review={review}
             submitReview={e => submitReview(e)}

@@ -2,7 +2,7 @@ import Layout from "../../../src/components/DefaultLayout"
 import NewReading from "../../../src/components/Readings/NewReadiing"
 import queries from "../../../db/queries/readings"
 import UserContext from "../../../src/UserContext"
-import { useContext, useState, useEffect } from "react"
+import { useContext } from "react"
 
 function NewReadingView( {bookData, bookId} ) {
   const { userId } = useContext(UserContext)
@@ -24,7 +24,6 @@ export async function getServerSideProps(context) {
 
 
   const data = await queries.readings.getBookData(bookId)
-  console.log(data.rows[0])
   const bookData = data.rows[0]
   return { props: {bookData, bookId} }
 }
