@@ -75,14 +75,14 @@
 
 ## Book Club [STRETCH]
 
-[ ] As a community owner/moderator, I want to set up a Book Club-style reading event so the community can jointly participate in a reading session
+[x] As a community owner/moderator, I want to set up a Book Club-style reading event so the community can jointly participate in a reading session
 [x] As a community owner/moderator, I want a reading event to have a read-by date to set an expiry
-[ ] As a user, I want to be able to "sign up" to a reading event so I can participate
+[x] As a user, I want to be able to "sign up" to a reading event so I can participate
 [ ] As a user, I want to get email updates about my reading event
 [ ] As a user, I want to be invited to review a book when a reading event I am participating in finishes
 [ ] As a user, I want reading event reviews to be aggregated on a reading event page so I Can see what the community thinks of a book
 [ ] As a user, I want reviews from a reading event to join the main pool of reviews of a book view so others can see what we thought
-[ ] As a user, I want my profile to show records of past reading events I participated in
+[x] As a user, I want my profile to show records of past reading events I participated in
 [ ] As a user, I want to view past reading events to know what the community read and liked
 
 [x] As a user, I want to reply to reviews in a reading event page so I can discuss with others the book we've read

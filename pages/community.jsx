@@ -78,6 +78,7 @@ function Community({ books, mostFavId, highestRatedId, randomBookIndex }) {
             buttonText={'Add'} 
             input={input} 
             onChange={onInputChange}
+            buttonHref={'/books/new'}
             onClick={event => {
               event.preventDefault();
               redirectToAdd();
