@@ -15,7 +15,6 @@ function UserView({ userBooks }) {
   return (
     <Layout>
       <ProfileBanner user={userBooks.user[0]} />
-      {console.log(userBooks.books)}
       <TabPanel
         tabs={["Favorites", "Read List", "Wish List", "Reviews"]}
         lists={[

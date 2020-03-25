@@ -1,4 +1,5 @@
 import Layout from "../src/components/DefaultLayout";
+import ReadingsBanner from "../src/components/Readings/ReadingsBanner";
 // import Banner from "../src/components/Banner";
 import List from "../src/components/General/List";
 import TabPanel from "../src/components/General/TabPanel";
@@ -15,6 +16,7 @@ function Readings({ readings, userId }) {
 
   return (
     <Layout>
+      <ReadingsBanner />
       {userId !== 0 ? (
         <TabPanel
           tabs={["Joined", "Not Joined"]}

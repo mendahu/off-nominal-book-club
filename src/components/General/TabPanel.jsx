@@ -89,6 +89,7 @@ export default function FullWidthTabs(props) {
           {props.tabs.map((tab, index) => (
             <Tab
               className={classes.tabLabel}
+              key={index}
               label={tab}
               {...a11yProps(index)}
             />
@@ -101,8 +102,13 @@ export default function FullWidthTabs(props) {
         onChangeIndex={handleChangeIndex}>
         {props.lists.map((list, index) =>
           Object.keys(list)[0] !== "comments" ? (
-            <TabPanel value={value} index={index} dir={theme.direction}>
+            <TabPanel
+              value={value}
+              key={index}
+              index={index}
+              dir={theme.direction}>
               <List
+                key={index}
                 list={list[Object.keys(list)[0]]}
                 displayData={props.displayData}
                 link={props.link}
