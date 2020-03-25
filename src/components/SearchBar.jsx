@@ -4,6 +4,7 @@ import {
   Paper,
   Button,
   Box } from "@material-ui/core";
+import Link from 'next/link'
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -37,13 +38,15 @@ export default function SearchBar(props) {
           value={props.input}
           onChange={props.onChange}
         />
-        <Button
-          className={classes.button}
-          variant='contained'
-          color='primary'
-          onClick={props.onClick}>
-          {props.buttonText}
-        </Button>
+        <Link href={props.buttonHref} passHref>
+          <Button
+            className={classes.button}
+            variant='contained'
+            color='primary'
+            component='a'>
+            {props.buttonText}
+          </Button>
+        </Link>
       </Paper>
     </Box>
   );

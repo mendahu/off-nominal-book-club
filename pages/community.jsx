@@ -109,6 +109,7 @@ function Community({
             buttonText={"Add"}
             input={input}
             onChange={onInputChange}
+            buttonHref={'/books/new'}
             onClick={event => {
               event.preventDefault();
               redirectToAdd();
