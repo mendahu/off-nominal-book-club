@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Chip, Paper } from "@material-ui/core";
+import { 
+  Chip,
+  Card,
+  CardContent,
+  Box,
+  Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -7,27 +12,49 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import Star from "@material-ui/icons/Star";
 import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
   root: {
+    margin: theme.spacing(1, 0),
     display: 'flex',
-    justifyContent: 'center',
     flexWrap: 'wrap',
-    padding: theme.spacing(0.5),
+    justifyContent: "space-between"
   },
   chip: {
     margin: theme.spacing(0.5),
   },
-  image: {
-    padding: "5px",
+  stats: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "space-evenly",
+    order: 3,
+    minWidth: 100,
+    [theme.breakpoints.down("xs")]: {
+      order: 2
+    }
   },
-  title: {
-    padding: "5px",
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    flex: "1 0 300px",
+    order: 2,
+    [theme.breakpoints.down("xs")]: {
+      order: 3,
+      flex: "1 0 100%"
+    }
   },
-  titleBar: {
-    display: 'flex'
-  }
+  stat: {
+    alignItems: "center"
+  },
+  bigStat: {
+    display: "flex",
+    justifyContent: "center",
+    paddingLeft: 4
+  },
 }));
 
 const BookTitleBar = (props) => {
@@ -93,29 +120,48 @@ const BookTitleBar = (props) => {
       icon_inactive: <FavoriteBorderIcon />}
   ]
 
+  const authorString = props.authors 
+    ? props.authors.map(author => author.name).join(", ")
+    : 'Author Unknown' 
+
   return (
-    <Paper className={classes.titleBar}>
-      <div className={classes.image}>
-        <img src={props.img} />
-      </div>
-      <div className={classes.title}>
-        <h1>{props.title}</h1>
-        <h4>{props.authors &&
-          props.authors.map((author) => author.name + " - ")} {props.year}</h4>
-        <h4>{props.rating || "-"}</h4>
-        <Paper className={classes.root}>
-          {userFlags.map((f, index) => (
+    <Card className={classes.root}>
+
+      <img src={props.img} />
+
+      <CardContent className={classes.stats}>
+
+        <Box className={classes.bigStat}>
+          <Star htmlColor='#ffd54f'/>
+          <Typography component='h1'>
+            {props.rating || "-"}
+          </Typography>
+        </Box>
+
+        {userFlags.map((f, index) => (
+          <Box key={index} className={classes.stat}>
             <Chip
-              key={index}
               onClick={() => toggleData(f.type)}
               label={f.count}
               icon={f.status ? f.icon_active : f.icon_inactive}
               className={classes.chip}
               color={(f.status) ? "primary" : "default"}
-            />))}
-        </Paper>
-      </div>
-    </Paper>
+            />
+          </Box>
+          ))}
+      </CardContent>
+
+      <CardContent className={classes.content}>  
+        <Typography 
+          variant='h5' 
+          component='h1' >{props.title}</Typography>
+        <Typography 
+          variant='body2'
+          className={classes.authors}
+          color='textSecondary'>{authorString} - {props.year}</Typography>
+      </CardContent>
+
+    </Card>
   )
 }
 
