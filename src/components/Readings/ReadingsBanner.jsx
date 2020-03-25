@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
-const HeroImage = () => {
+const ReadingsBanner = () => {
   const classes = useStyles();
 
   return (
@@ -52,11 +52,9 @@ const HeroImage = () => {
               variant='h1'
               gutterBottom={true}
               className={classes.title}>
-              Books from Space
+              Readings
             </Typography>
-            <Typography variant='subtitle1'>
-              Find your people. Find your books.
-            </Typography>
+            <Typography variant='subtitle1'>from your community.</Typography>
           </Grid>
         </Grid>
       </ThemeProvider>
