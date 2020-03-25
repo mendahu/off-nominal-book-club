@@ -54,7 +54,7 @@ const ReadingsBanner = () => {
               className={classes.title}>
               Readings
             </Typography>
-            <Typography variant='subtitle1'>from your community.</Typography>
+            <Typography variant='subtitle1'>from your people.</Typography>
           </Grid>
         </Grid>
       </ThemeProvider>
@@ -62,4 +62,4 @@ const ReadingsBanner = () => {
   );
 };
 
-export default HeroImage;
+export default ReadingsBanner;
