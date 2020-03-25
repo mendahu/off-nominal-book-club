@@ -132,21 +132,23 @@ module.exports = {
 
     getAll: function(term) {
       return knex.raw(`
-        SELECT
-          b.id,
-          b.title,
-          b.fiction,
-          b.google_id,
-          b.isbn13,
-          b.description,
-          b.year,
-          b.image_url,
-          ROUND(max(ratings.avg_rating),1) as avg_rating,
-          max(author_names.names) AS authors_string,
-          max(author_names.names_json::text) AS authors,
-          max(tags_info.tags:: text) as tags,
-          max(tags_info.tag_string) as tags_string
-        FROM books b
+          SELECT
+            b.id,
+            b.title,
+            b.fiction,
+            b.google_id,
+            b.isbn13,
+            b.description,
+            b.year,
+            b.image_url,
+            ROUND(max(ratings.avg_rating),1) as avg_rating,
+            max(author_names.names) AS authors_string,
+            max(author_names.names_json::text) AS authors,
+            max(tags_info.tags:: text) as tags,
+            max(tags_info.tag_string) as tags_string,
+            max(fav_count.count) as fav_count,
+            max(read_count.count) as read_count
+          FROM books b
           LEFT JOIN (
             SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
               FROM authors a
@@ -164,16 +166,28 @@ module.exports = {
                     GROUP BY book_id, t.name
                     ORDER BY count DESC) as tag_counts
                     GROUP BY book_id) as tags_info on tags_info.book_id = b.id
-            LEFT JOIN (
-              SELECT ratings.book_id, AVG(rating) as avg_rating
-                    FROM reviews
-                        JOIN ratings ON ratings.book_id = reviews.book_id
-                      GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id       
-        WHERE b.title ILIKE ?
-          OR author_names.names ILIKE ?
-          OR tags_info.tag_string ILIKE ? 
-        GROUP BY b.id
-      `, [`%${term}%`, `%${term}%`, `%${term}%`])
+          LEFT JOIN (
+            SELECT ratings.book_id, AVG(rating) as avg_rating
+              FROM reviews
+              JOIN ratings ON ratings.book_id = reviews.book_id
+              GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id
+          LEFT JOIN (
+            SELECT book_id, count(*) as count
+            FROM books
+            JOIN favourites on books.id = book_id
+            GROUP BY book_id
+          ) as fav_count on fav_count.book_id = b.id
+          LEFT JOIN (
+            SELECT book_id,  count(reads.book_id) as count
+            FROM books
+            JOIN reads on books.id = reads.book_id
+            GROUP BY book_id
+          ) as read_count on read_count.book_id = b.id
+            WHERE b.title ILIKE ?
+              OR author_names.names ILIKE ?
+              OR tags_info.tag_string ILIKE ? 
+            GROUP BY b.id
+        `, [`%${term}%`, `%${term}%`, `%${term}%`])
     },
     getTags: function(term) {
       return knex.raw(`
@@ -206,7 +220,9 @@ module.exports = {
       max(author_names.names) AS authors_string,
       max(author_names.names_json::text) AS authors,
       max(tags_info.tags:: text) as tags,
-      max(tags_info.tag_string) as tags_string
+      max(tags_info.tag_string) as tags_string,
+      max(fav_count.count) as fav_count,
+      max(read_count.count) as read_count
     FROM books b
       LEFT JOIN (
         SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
@@ -230,7 +246,19 @@ module.exports = {
         SELECT ratings.book_id, AVG(rating) as avg_rating
               FROM reviews
                   JOIN ratings ON ratings.book_id = reviews.book_id
-                GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id          
+                GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id
+      LEFT JOIN (
+        SELECT book_id, count(*) as count
+        FROM books
+        JOIN favourites on books.id = book_id
+        GROUP BY book_id
+      ) as fav_count on fav_count.book_id = b.id
+      LEFT JOIN (
+        SELECT book_id,  count(reads.book_id) as count
+        FROM books
+        JOIN reads on books.id = reads.book_id
+        GROUP BY book_id
+      ) as read_count on read_count.book_id = b.id          
     GROUP BY b.id
     HAVING ? = ANY(max(tags_info.tag_array))
     `, tag)
