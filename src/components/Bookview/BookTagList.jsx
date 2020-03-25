@@ -1,5 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Chip, Paper } from "@material-ui/core";
+import { 
+  Avatar, 
+  Chip, 
+  Card } from "@material-ui/core";
 import { useState } from 'react';
 import axios from 'axios';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -8,7 +11,6 @@ import DoneIcon from '@material-ui/icons/Done';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    justifyContent: 'center',
     flexWrap: 'wrap',
     padding: theme.spacing(0.5),
   },
@@ -115,7 +117,7 @@ const BookTagList = (props) => {
   }
 
   return (
-    <Paper className={classes.root}>
+    <Card className={classes.root}>
       {(state.tags.length > 0) &&
         state.tags.map((t, index) => {
           if (t.count) {
@@ -129,7 +131,6 @@ const BookTagList = (props) => {
                 className={classes.chip}
                 color={isUserTag ? "primary" : "default"}
                 onClick={() => toggleTag(t.tag_name, t.tag_id)}
-                //onDelete={(t.count === 1 && isUserTag) ? true : false}
               />)
             }
           })}
@@ -157,7 +158,7 @@ const BookTagList = (props) => {
         onClick={state.addMode ? (e) => addTag(e) : toggleAddMode}
         className={classes.chip}>
       </Chip>
-    </Paper>
+    </Card>
   )
 }
 

@@ -12,6 +12,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import Star from "@material-ui/icons/Star";
 import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
@@ -19,9 +20,40 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1, 0),
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: "space-between"
   },
   chip: {
     margin: theme.spacing(0.5),
+  },
+  stats: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "space-evenly",
+    order: 3,
+    minWidth: 100,
+    [theme.breakpoints.down("xs")]: {
+      order: 2
+    }
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    flex: "1 0 300px",
+    order: 2,
+    [theme.breakpoints.down("xs")]: {
+      order: 3,
+      flex: "1 0 100%"
+    }
+  },
+  stat: {
+    alignItems: "center"
+  },
+  bigStat: {
+    display: "flex",
+    justifyContent: "center",
+    paddingLeft: 4
   },
 }));
 
@@ -97,22 +129,36 @@ const BookTitleBar = (props) => {
 
       <img src={props.img} />
 
-      <CardContent>
-        <h4>{props.rating || "-"}</h4>
+      <CardContent className={classes.stats}>
+
+        <Box className={classes.bigStat}>
+          <Star htmlColor='#ffd54f'/>
+          <Typography component='h1'>
+            {props.rating || "-"}
+          </Typography>
+        </Box>
+
         {userFlags.map((f, index) => (
-          <Chip
-          key={index}
-          onClick={() => toggleData(f.type)}
-          label={f.count}
-          icon={f.status ? f.icon_active : f.icon_inactive}
-          className={classes.chip}
-          color={(f.status) ? "primary" : "default"}
-          />))}
+          <Box key={index} className={classes.stat}>
+            <Chip
+              onClick={() => toggleData(f.type)}
+              label={f.count}
+              icon={f.status ? f.icon_active : f.icon_inactive}
+              className={classes.chip}
+              color={(f.status) ? "primary" : "default"}
+            />
+          </Box>
+          ))}
       </CardContent>
 
-      <CardContent>  
-        <h1>{props.title}</h1>
-        <h4>{authorString} - {props.year}</h4>
+      <CardContent className={classes.content}>  
+        <Typography 
+          variant='h5' 
+          component='h1' >{props.title}</Typography>
+        <Typography 
+          variant='body2'
+          className={classes.authors}
+          color='textSecondary'>{authorString} - {props.year}</Typography>
       </CardContent>
 
     </Card>
