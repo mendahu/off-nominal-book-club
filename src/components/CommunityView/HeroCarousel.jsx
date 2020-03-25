@@ -36,6 +36,10 @@ const useStyles = makeStyles(theme => ({
   },
   carouselTextContainer: {
     height: '100%'
+  },
+  button: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.contrastText,
   }
 }));
 
@@ -80,13 +84,15 @@ export default function HeroCarousel(props) {
                   <Typography gutterBottom={true} align="right"  variant='h6' componet="h2">{item.subline}</Typography>
                 </Grid>
                 <Grid item>
-                  <Button 
-                    size='large' 
-                    href={`/books/${item.id}`} 
-                    variant="contained" 
-                    color="secondary">
-                      Check it Out
-                  </Button>
+                  <Link href={`/books/${item.id}`} passHref>
+                    <Button 
+                      size='large'
+                      component='a'
+                      className={classes.button}
+                      variant="contained">
+                        Check it Out
+                    </Button>
+                  </Link>
                 </Grid>
                 <Grid item>
                   <Typography align="right"  variant='h5' componet="h2">{item.title}</Typography>

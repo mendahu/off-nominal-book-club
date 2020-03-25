@@ -14,6 +14,7 @@ import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 import Link from 'next/link'
 import { useState, useContext } from 'react'
@@ -73,6 +74,12 @@ const Navbar = () => {
           <ListItem button>
             <ListItemIcon><LibraryAddIcon color='primary'/></ListItemIcon>
             <ListItemText primary={'Add Book'} />
+          </ListItem>
+        </Link>
+        <Link href={`/community`} passHref>
+          <ListItem button>
+            <ListItemIcon><PeopleIcon /></ListItemIcon>
+            <ListItemText primary={'Community'} />
           </ListItem>
         </Link>
         <Link href={`/readings`} passHref>
