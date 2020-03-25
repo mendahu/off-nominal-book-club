@@ -13,6 +13,10 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    marginTop: theme.spacing(-3),
+    marginBottom: theme.spacing(4),
+    margin: "auto",
+    width: "100%"
   },
   chip: {
     margin: theme.spacing(1)
@@ -38,7 +42,7 @@ export default function TagList(props) {
             <GridListTile key={index} classes={{root: classes.listItem}}>
               <Chip
                 onClick={() => props.onClick(tag.tag_name)}
-                label={tag.tag_name}
+                label={'#' + tag.tag_name}
                 avatar={<Avatar>{tag.count}</Avatar>}
                 className={classes.chip}
               />

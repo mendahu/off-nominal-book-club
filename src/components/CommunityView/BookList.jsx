@@ -1,8 +1,11 @@
 import BookListItem from "./BookListItem";
+import { Box } from '@material-ui/core'
 
 export default function BookList(props) {
+
+  console.log('book list rendered')
   return (
-    <section>
+    <Box component='section'>
       {props.books &&
         props.books.map((book, index) => (
           <BookListItem
@@ -12,6 +15,6 @@ export default function BookList(props) {
             selectTag={props.selectTag}
           />
         ))}
-    </section>
+    </Box>
   );
 }
