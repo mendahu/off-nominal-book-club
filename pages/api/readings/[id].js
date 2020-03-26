@@ -6,9 +6,9 @@ export default (req, res) => {
   } = req
 
 
-  queries.readings.fetch(id).then((results) => {
+  return queries.readings.fetch(id).then((results) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(results))
+    return res.end(JSON.stringify(results))
   })
 }

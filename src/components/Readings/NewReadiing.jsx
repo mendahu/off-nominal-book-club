@@ -95,7 +95,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function NewReading(props) {
   const classes = useStyles();
-  const theme = useTheme();
   const router = useRouter();
 
   const [startDate, setStartDate] = useState(Date.now());
@@ -166,12 +165,12 @@ export default function NewReading(props) {
               variant='inline'
               format='yyyy-MM-dd'
               margin='normal'
-              id='date-picker-inline'
+              id='start-date-picker-inline'
               label='START DATE:'
               value={startDate}
               onChange={setStartDate}
               KeyboardButtonProps={{
-                "aria-label": "change date"
+                "aria-label": "change start date"
               }}
             />
             <KeyboardDatePicker
@@ -180,12 +179,12 @@ export default function NewReading(props) {
               variant='inline'
               format='yyyy-MM-dd'
               margin='normal'
-              id='date-picker-inline'
+              id='end-date-picker-inline'
               label='END DATE:'
               value={endDate}
               onChange={setEndDate}
               KeyboardButtonProps={{
-                "aria-label": "change date"
+                "aria-label": "change end date"
               }}
             />
           </MuiPickersUtilsProvider>

@@ -9,7 +9,6 @@ function NewReadingView( {bookData, bookId} ) {
 
   return (
     <Layout>
-      {console.log(userId)}
       <NewReading
         userId={userId}
         bookId={bookId}

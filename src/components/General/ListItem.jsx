@@ -117,48 +117,49 @@ export default function UserBookListItem(props) {
 
   return (
     <Button className={classes.root}>
-      <ThemeProvider>
-        <Link href={`${props.link}/${props.item.id}`}>
-          <Card className={classes.card}>
-            <Container className={classes.imageContainer}>
-              <Avatar
-                variant='rounded'
-                className={classes.image}
-                alt={props.item[props.displayData.title]}
-                src={props.item[props.displayData.image]}
-              />
+      <Link
+        href={`${props.link}/[id]`}
+        as={`${props.link}/${props.item.id}`}
+        passHref>
+        <Card className={classes.card}>
+          <Container className={classes.imageContainer}>
+            <Avatar
+              variant='rounded'
+              className={classes.image}
+              alt={props.item[props.displayData.title]}
+              src={props.item[props.displayData.image]}
+            />
+          </Container>
+          <Container className={classes.dataContainer}>
+            <Container className={classes.titleContainer}>
+              <Typography className={classes.title} variant='subtitle1'>
+                {props.item[props.displayData.title]}
+              </Typography>
             </Container>
-            <Container className={classes.dataContainer}>
-              <Container className={classes.titleContainer}>
-                <Typography className={classes.title} variant='subtitle1'>
-                  {props.item[props.displayData.title]}
+            {props.displayData.secondary && (
+              <Container className={classes.secondaryContainer}>
+                {props.item.user_count && <PeopleIcon color='primary' />}
+                <Typography
+                  className={classes.secondary}
+                  variant='subtitle2'
+                  color='primary'>
+                  {props.item[props.displayData.secondary]}
                 </Typography>
               </Container>
-              {props.displayData.secondary && (
-                <Container className={classes.secondaryContainer}>
-                  {props.item.user_count && <PeopleIcon color='primary' />}
-                  <Typography
-                    className={classes.secondary}
-                    variant='subtitle2'
-                    color='primary'>
-                    {props.item[props.displayData.secondary]}
-                  </Typography>
-                </Container>
-              )}
-              {props.item.rating && (
-                <Container className={classes.secondaryContainer}>
-                  <Rating
-                    className={classes.secondary}
-                    name='read-only'
-                    value={props.item.rating}
-                    readOnly
-                  />
-                </Container>
-              )}
-            </Container>
-          </Card>
-        </Link>
-      </ThemeProvider>
+            )}
+            {props.item.rating && (
+              <Container className={classes.secondaryContainer}>
+                <Rating
+                  className={classes.secondary}
+                  name='read-only'
+                  value={props.item.rating}
+                  readOnly
+                />
+              </Container>
+            )}
+          </Container>
+        </Card>
+      </Link>
     </Button>
   );
 }
