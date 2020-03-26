@@ -41,7 +41,7 @@ export default function Comments(props) {
           }}
         />
       )}
-      <CommentsList comments={comments} />
+      {comments.length > 0 && <CommentsList comments={comments} />}
     </section>
   );
 }

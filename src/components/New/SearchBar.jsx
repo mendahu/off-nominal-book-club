@@ -56,7 +56,7 @@ export default function SearchGoogle(props) {
     );
     const formatedResults = searchResult.data.items.map(book => ({
       title: book.volumeInfo.title,
-      author: book.volumeInfo.authors ? book.volumeInfo.authors : "",
+      author: book.volumeInfo.authors ? book.volumeInfo.authors : [""],
       fiction: false,
       year: book.volumeInfo.publishedDate
         ? book.volumeInfo.publishedDate.split("-")[0]
@@ -72,6 +72,7 @@ export default function SearchGoogle(props) {
         ? book.volumeInfo.industryIdentifiers[0].identifier
         : ""
     }));
+    console.log(formatedResults);
     props.setResults(formatedResults);
   };
 

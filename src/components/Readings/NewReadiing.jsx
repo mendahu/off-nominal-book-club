@@ -126,12 +126,12 @@ export default function NewReading(props) {
   }
   return (
     <Paper className={classes.root}>
-      <Link href={`/books/${props.book.id}`}>
+      <Link href={`/books/[id]`} as={`/books/${props.book.id}`} passHref>
         <img src={props.book.image_url} />
       </Link>
       <Container className={classes.content}>
         <Container className={classes.row}>
-          <Link href={`/books/${props.book.id}`}>
+          <Link href={`/books/[id]`} as={`/books/${props.book.id}`} passHref>
             <Typography className={classes.title} component='h5' variant='h5'>
               {props.book.title}
             </Typography>
