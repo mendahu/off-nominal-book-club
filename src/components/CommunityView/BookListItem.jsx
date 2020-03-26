@@ -12,6 +12,7 @@ import Star from "@material-ui/icons/Star";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import Link from "next/link";
+import urlGenerator from '../../helpers/urlGenerator'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -90,10 +91,12 @@ export default function BookListItem(props) {
   const authorString = JSON.parse(props.book.authors).join(", ");
   const description = props.book.description.slice(0, 100) + "...";
 
+  const urlString = urlGenerator(props.book.id, authorString, props.book.title)
+
   return (
     <Card className={classes.root}>
-      <Link href={`/books/${props.book.id}`}>
-        <a><img src={props.book.image_url} alt={props.book.title} /></a>
+      <Link href={`/books/[id]`} as={`/books/${urlString}`} passHref>
+        <img src={props.book.image_url} alt={props.book.title} />
       </Link>
 
       <CardContent className={classes.content}>

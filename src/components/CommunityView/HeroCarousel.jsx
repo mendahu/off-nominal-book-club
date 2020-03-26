@@ -11,7 +11,7 @@ import {
   Grid,
   Button,
   Typography } from '@material-ui/core';
-import { spacing } from '@material-ui/system';
+import urlGenerator from '../../helpers/urlGenerator'
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 
 let theme = createMuiTheme();
@@ -84,7 +84,7 @@ export default function HeroCarousel(props) {
                   <Typography gutterBottom={true} align="right"  variant='h6' componet="h2">{item.subline}</Typography>
                 </Grid>
                 <Grid item>
-                  <Link href={`/books/${item.id}`} passHref>
+                  <Link href={`/books/[id]`} as={`/books/${urlGenerator(item.id, JSON.parse(item.authors).join(", "), item.title)}`} passHref>
                     <Button 
                       size='large'
                       component='a'
