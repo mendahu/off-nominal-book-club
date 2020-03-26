@@ -142,7 +142,7 @@ const BookTitleBar = (props) => {
           {userFlags.map((f, index) => (
             <Box key={index} className={classes.stat}>
               <Chip
-                onClick={() => toggleData(f.type)}
+                onClick={() => props.userId ? toggleData(f.type) : alert("You must be logged in to mark books as read, add to wishlist, or favourte.")}
                 label={f.count}
                 icon={f.status ? f.icon_active : f.icon_inactive}
                 className={classes.chip}
