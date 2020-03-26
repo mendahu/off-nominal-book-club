@@ -21,7 +21,6 @@ const Bookview = ({ book, userData }) => {
     if (userId) setLoggedIn(true);
   }, [])
 
-
   return (
     <Layout>
       <Grid container spacing={2}>
@@ -59,6 +58,7 @@ const Bookview = ({ book, userData }) => {
         <BookFeedback 
           loggedIn={loggedIn}
           userId={userId}
+          userName={userData.name}
           bookId={book.id}
           reviews={book.reviews} 
           userReview={userData.review}

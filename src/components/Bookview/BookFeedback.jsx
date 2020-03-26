@@ -7,6 +7,7 @@ import BookUserReview from './BookUserReview'
 const BookFeedback = (props) => {
 
   const emptyReview = {
+    name: props.userName,
     summary: "",
     user_review: ""
   }
@@ -16,7 +17,6 @@ const BookFeedback = (props) => {
 
   const [rating, setRating] = useState(userRating);
   const [review, setReview] = useState(userReview);
-
 
   const rateBook = (value) => {
     if (rating.id) {
