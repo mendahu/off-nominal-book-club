@@ -6,6 +6,7 @@ import BookTagList from "../../src/components/Bookview/BookTagList";
 import BookDesc from "../../src/components/Bookview/BookDesc";
 import BookFeedback from "../../src/components/Bookview/BookFeedback";
 import ReadingButton from "../../src/components/Bookview/ReadingButton";
+import LoginPromote from "../../src/components/Bookview/LoginPromote";
 import UserContext from '../../src/UserContext'
 import { useContext, useState, useEffect } from 'react'
 import { Grid } from '@material-ui/core'
@@ -49,9 +50,10 @@ const Bookview = ({ book, userData }) => {
           userTags={userData.user_tags}
         />
 
-        {loggedIn &&
-          <ReadingButton
-            bookId={book.id}/>}
+        {loggedIn
+          ? <ReadingButton
+            bookId={book.id}/>
+          : <LoginPromote />}
 
         <BookDesc desc={book.description}/>
         <BookFeedback 
