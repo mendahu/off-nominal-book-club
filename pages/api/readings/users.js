@@ -6,7 +6,6 @@ export default (req, res) => {
 
   switch(method) {
     case 'POST': 
-      console.log(method)
       return queries
       .users
       .addUser(readingId, userId)
@@ -22,7 +21,6 @@ export default (req, res) => {
       })
 
     case 'PATCH':
-      console.log(method)
       return queries
       .users
       .deleteUser(readingId, userId)

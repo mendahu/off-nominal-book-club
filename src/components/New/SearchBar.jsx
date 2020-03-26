@@ -72,7 +72,6 @@ export default function SearchGoogle(props) {
         ? book.volumeInfo.industryIdentifiers[0].identifier
         : ""
     }));
-    console.log(formatedResults);
     props.setResults(formatedResults);
   };
 
