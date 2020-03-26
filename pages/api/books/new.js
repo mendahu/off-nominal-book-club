@@ -6,42 +6,41 @@ export default (req, res) => {
   
   switch (method) {
     case 'GET' :
-      console.log("in Get")
     
       bookObj = {
         google_id: req.query.googleid,
         isbn13: req.query.isbn13,
         title: req.query.title,
       }
-    
-    
-    
-      queries
+
+      return queries
         .books
         .confirm(bookObj)
         .then((results) => {
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json')
-          res.end(JSON.stringify(results))
+          return res.end(JSON.stringify(results))
         })
-      break
+        .catch(err => console.error(err))
+
     case 'POST':
         
-        bookObj = req.body
-        console.log(bookObj)
+      bookObj = req.body
+      console.log(bookObj)
        
-      queries
+      return queries
         .books
         .add(bookObj)
         .then((results) => {
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json')
-          res.end(JSON.stringify(results))
+          return res.end(JSON.stringify(results))
         })
-      break
+        .catch(err => console.error(err))
+
       default:
         res.setHeader('Allow', ['GET', 'POST'])
         res.status(405).end(`Method ${method} Not Allowed`)
-        res.redirect('/')
+        return res.redirect('/')
   }
 };
