@@ -77,7 +77,6 @@ export default function SearchResultsListItem(props) {
               <Button
                 variant='contained'
                 color='primary'
-                // type='submit'
                 onClick={() => {
                   {
                     props.isSearch === true
