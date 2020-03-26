@@ -47,6 +47,9 @@ const useStyles = makeStyles(theme =>
       display: "block",
       maxWidth: "100%",
       maxHeight: "100%"
+    },
+    button: {
+      alignSelf: "flex-end"
     }
   })
 );
@@ -73,7 +76,7 @@ export default function SearchResultsListItem(props) {
                 {props.book.description.split(".")[0]}
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item className={classes.button}>
               <Button
                 variant='contained'
                 color='primary'
