@@ -26,7 +26,7 @@ export default function SearchBar(props) {
   const classes = useStyles();
 
   return (
-    <Box component='section'>
+    <form onSubmit={props.onClick}>
       <Paper component='form' className={classes.paper}>
         <InputBase
           className={classes.input}
@@ -34,16 +34,16 @@ export default function SearchBar(props) {
           value={props.input}
           onChange={props.onChange}
         />
-        <Link href={props.buttonHref} passHref>
-          <Button
-            className={classes.button}
-            variant='contained'
-            color='primary'
-            component='a'>
-            {props.buttonText}
-          </Button>
-        </Link>
+
+        <Button
+          className={classes.button}
+          onClick={props.onClick}
+          variant='contained'
+          color='primary'
+          component='a'>
+          {props.buttonText}
+        </Button>
       </Paper>
-    </Box>
+    </form>
   );
 }

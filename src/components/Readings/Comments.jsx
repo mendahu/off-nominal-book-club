@@ -1,6 +1,6 @@
 import CommentsList from "./CommentsList";
 import React, { useState } from "react";
-import SearchBar from "../SearchBar";
+import NewComment from "../Readings/NewComment";
 import Axios from "axios";
 
 export default function Comments(props) {
@@ -30,7 +30,7 @@ export default function Comments(props) {
   return (
     <section>
       {props.joinedUsers.includes(Number(props.userId)) && (
-        <SearchBar
+        <NewComment
           placeholderText={"Add a Comment"}
           buttonText={"POST"}
           input={input}

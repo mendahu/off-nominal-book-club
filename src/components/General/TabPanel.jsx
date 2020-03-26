@@ -115,7 +115,7 @@ export default function FullWidthTabs(props) {
               />
             </TabPanel>
           ) : (
-            <TabPanel value={value} index={1} dir={theme.direction}>
+            <TabPanel value={value} key={index} index={1} dir={theme.direction}>
               <Comments
                 comments={list[Object.keys(list)[0]]}
                 readingId={props.readingId}
