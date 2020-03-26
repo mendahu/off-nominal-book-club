@@ -69,7 +69,7 @@ const BookTagList = (props) => {
         return;
       }
       let selectedTag
-      if (tagIndex > 0) {
+      if (tagIndex > -1) {
         selectedTag = newTags[tagIndex]
         selectedTag.count++
       } else {
@@ -82,7 +82,7 @@ const BookTagList = (props) => {
 
       axios.post(`/api/tagRels/new`, {...userTagBook, tagId: selectedTag.tag_id})
         .then((res) => {
-          if (tagIndex > 0) {
+          if (tagIndex > -1) {
             return setState({tags: newTags, userTags: [...state.userTags, {tag_id: tagId, tag_rel_id: res.data[0], name: tagName}]})
           } else {
             return setState({tags: [...newTags, selectedTag], userTags: [...state.userTags, {tag_id: tagId, tag_rel_id: res.data[0], name: tagName}]})

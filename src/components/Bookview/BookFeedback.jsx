@@ -7,6 +7,7 @@ import BookUserReview from './BookUserReview'
 const BookFeedback = (props) => {
 
   const emptyReview = {
+    name: props.userName,
     summary: "",
     user_review: ""
   }
@@ -15,8 +16,8 @@ const BookFeedback = (props) => {
   const userReview = props.userReview ? props.userReview[0] : emptyReview
 
   const [rating, setRating] = useState(userRating);
-  const [review, setReview] = useState(userReview);
-
+  const [permReview, setPermReview] = useState(userReview);
+  const [tempReview, setTempReview] = useState(userReview);
 
   const rateBook = (value) => {
     if (rating.id) {
@@ -38,21 +39,21 @@ const BookFeedback = (props) => {
 
   const submitReview = (e) => {
     e.preventDefault();
-    if (review.id) {
-      axios.patch(`/api/reviews/${review.id}`, {
-        summary: review.summary,
-        user_review: review.user_review
+    if (tempReview.id) {
+      axios.patch(`/api/reviews/${tempReview.id}`, {
+        summary: tempReview.summary,
+        user_review: tempReview.user_review
       })
-      .then(res => setReview({...review}))
+      .then(res => setPermReview({...tempReview}))
       .catch(err => console.error(err))
     } else {
       axios.post(`/api/reviews/new`, {
         bookId: props.bookId,
         userId: props.userId,
-        summary: review.summary,
-        user_review: review.user_review
+        summary: tempReview.summary,
+        user_review: tempReview.user_review
       })
-      .then(res => setReview({...review, id: res.data[0]}))
+      .then(res => setPermReview({...tempReview, id: res.data[0]}))
       .catch(err => console.error(err))
     }
   }
@@ -66,14 +67,14 @@ const BookFeedback = (props) => {
 
       {props.loggedIn &&
           <BookUserReview 
-            review={review}
+            review={tempReview}
             submitReview={e => submitReview(e)}
-            summaryChange={e => setReview({...review, summary: e.target.value})}
-            reviewChange={e => setReview({...review, user_review: e.target.value})} />}
+            summaryChange={e => setTempReview({...tempReview, summary: e.target.value})}
+            reviewChange={e => setTempReview({...tempReview, user_review: e.target.value})} />}
 
       <BookReviewList
         reviews={props.reviews}
-        userReview={review}
+        userReview={permReview}
         userRating={rating} />
     </>
     )

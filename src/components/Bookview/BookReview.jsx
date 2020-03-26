@@ -19,7 +19,7 @@ const BookReview = (props) => {
 
       {(props.rating.user_rating > 0) && 
         <Box borderColor="transparent">
-          <Rating name="read-only" value={props.rating.user_rating} readOnly />
+          <Rating name="read-only" value={Number(props.rating.user_rating)} readOnly />
         </Box>
       }
 
