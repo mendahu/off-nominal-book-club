@@ -44,6 +44,16 @@ export default function ConfirmResults(props) {
           color='primary'>
           No, Add Book
         </Button>
+        <Button
+          onClick={event => {
+            event.preventDefault();
+            props.back();
+          }}
+          className={classes.button}
+          variant='contained'
+          color='primary'>
+          Back To Search
+        </Button>
       </Paper>
     </Box>
   );

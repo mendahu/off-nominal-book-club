@@ -89,6 +89,11 @@ export default function New() {
     }
   }
 
+  function toSearch() {
+    setSearchResults([]);
+    setIsSearch(true);
+  }
+
   return (
     <Layout>
       {isSearch === true ? (
@@ -100,7 +105,7 @@ export default function New() {
           onClick={redirectToCom}
         />
       ) : (
-        <ConfirmResults book={bookObj} onClick={addBook} />
+        <ConfirmResults book={bookObj} onClick={addBook} back={toSearch} />
       )}
       {isSearch === true ? (
         <SearchResultsList
