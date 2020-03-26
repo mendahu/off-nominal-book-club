@@ -88,11 +88,6 @@ export default function SearchGoogle(props) {
           value={props.searchTerm}
           onChange={onInputChange}
         />
-        <SearchIcon
-          type='submit'
-          className={classes.iconButton}
-          aria-label='search'
-        />
         <Button
           className={classes.button}
           variant='contained'
