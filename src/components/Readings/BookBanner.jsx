@@ -95,7 +95,6 @@ export default function BookBanner(props) {
         const idArr = res.map(user => {
           return user.id;
         });
-        console.log(idArr);
         props.setJoinedUsers(idArr);
       });
   }

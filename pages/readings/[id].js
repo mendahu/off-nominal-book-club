@@ -34,7 +34,7 @@ function ReadingView( {readingData, readingId} ) {
       />
       <TabPanel 
         tabs={["Users", "Comments"]}
-        lists={[{users: readingData.users}, {comments: readingData.comments}]}
+        lists={[{users: users}, {comments: readingData.comments}]}
         displayData={displayData}
         joinedUsers={usersIdArray}
         userId={userId}
