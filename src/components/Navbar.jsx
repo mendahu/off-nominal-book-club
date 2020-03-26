@@ -137,7 +137,11 @@ const Navbar = () => {
           </Link>
         </Typography>
         <Link href={`/books/new`} passHref>
-          <Button component='a' variant='contained' color='secondary'>Add a Book</Button>
+          <Button 
+            component='a' 
+            variant='contained'
+            startIcon={<LibraryAddIcon />} 
+            color='secondary'>Add a Book</Button>
         </Link>
       </Toolbar>
     </AppBar>

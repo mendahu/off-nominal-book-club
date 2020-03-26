@@ -67,7 +67,7 @@ const CommunityItem = (props) => {
             <IconButton>
               <ImportContactsIcon />
             </IconButton>
-            <Link href={data.url}>
+            <Link href={data.url} passHref>
               <Button 
                 className={classes.button}
                 component='a'
