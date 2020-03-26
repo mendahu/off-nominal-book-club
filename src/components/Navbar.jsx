@@ -1,3 +1,5 @@
+import { useState, useContext, useEffect } from 'react'
+import UserContext from '../UserContext'
 import { 
   AppBar, 
   Toolbar, 
@@ -7,6 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  Box,
   Drawer,
   Button } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
@@ -17,14 +20,25 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 import Link from 'next/link'
-import { useState, useContext } from 'react'
-import UserContext from '../UserContext'
 import { makeStyles } from '@material-ui/core/styles';
 import Router from 'next/router'
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: theme.spacing(-2)
+  },
+  brand: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  brandText: {
+    marginLeft: theme.spacing(1),
+    [theme.breakpoints.down(400)]: {
+      display: 'none'
+    }
   },
   title: {
     flexGrow: 1,
@@ -44,13 +58,19 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { userId, logUserIn, logUserOut } = useContext(UserContext)
 
+  const [ isLoggedin, setIsLoggedIn ] = useState(false)
+
+  useEffect(() => setIsLoggedIn(userId), []);
+
   const logOut = () => {
     logUserOut();
+    setIsLoggedIn(false)
     Router.push(window.location.pathname)
   }
   
   const logIn = (userId) => {
     logUserIn(userId)
+    setIsLoggedIn(true)
     Router.push(window.location.pathname)
   }
 
@@ -70,12 +90,14 @@ const Navbar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <Link href={`/books/new`} passHref>
-          <ListItem button>
-            <ListItemIcon><LibraryAddIcon color='primary'/></ListItemIcon>
-            <ListItemText primary={'Add Book'} />
-          </ListItem>
-        </Link>
+        {userId &&
+          <Link href={`/books/new`} passHref>
+            <ListItem button>
+              <ListItemIcon><LibraryAddIcon color='primary'/></ListItemIcon>
+              <ListItemText primary={'Add Book'} />
+            </ListItem>
+          </Link>
+        }
         <Link href={`/community`} passHref>
           <ListItem button>
             <ListItemIcon><PeopleIcon /></ListItemIcon>
@@ -125,24 +147,29 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        <Button onClick={toggleDrawer(true)}>
-          <MenuIcon />
+        <Button onClick={toggleDrawer(true)} className={classes.menuButton}>
+          <MenuIcon onClick={toggleDrawer(true)}/>
         </Button>
         <Drawer anchor={'left'} open={drawerOpen} onClose={toggleDrawer(false)}>
           {drawer()}
         </Drawer>
         <Typography variant="h6" className={classes.title}>
-          <Link href="/">
-            <a className={classes.link}><ImportContactsIcon /> Bookpeople</a>
+          <Link href="/" passHref>
+            <Box className={classes.brand}>
+              <ImportContactsIcon/>
+              <Typography component='span' className={classes.brandText}>Bookpeople</Typography>
+            </Box>
           </Link>
         </Typography>
-        <Link href={`/books/new`} passHref>
-          <Button 
-            component='a' 
-            variant='contained'
-            startIcon={<LibraryAddIcon />} 
-            color='secondary'>Add a Book</Button>
-        </Link>
+        {isLoggedin &&
+          <Link href={`/books/new`} passHref>
+            <Button 
+              component='a' 
+              variant='contained'
+              startIcon={<LibraryAddIcon />} 
+              color='secondary'>Add a Book</Button>
+          </Link>
+        } 
       </Toolbar>
     </AppBar>
   )
