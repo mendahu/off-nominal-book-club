@@ -1,10 +1,10 @@
-import React from "react";
-import axios from "axios";
+import { Box } from "@material-ui/core";
+
 import SearchResultsListItem from "./SearchResultsListsItem";
 
 export default function SearchResultsList(props) {
   return (
-    <section>
+    <Box>
       {props.results.map((book, index) => (
         <SearchResultsListItem
           index={index}
@@ -19,6 +19,6 @@ export default function SearchResultsList(props) {
           mode={props.mode}
         />
       ))}
-    </section>
+    </Box>
   );
 }

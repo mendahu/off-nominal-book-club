@@ -1,5 +1,4 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
@@ -7,10 +6,26 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 
+import { Card, CardContent } from "@material-ui/core";
+
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
-      flexGrow: 1
+      margin: theme.spacing(2, 0),
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-between"
+    },
+    content: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      flex: "1 0 300px",
+      order: 2,
+      [theme.breakpoints.down("xs")]: {
+        order: 3,
+        flex: "1 0 100%"
+      }
     },
     paper: {
       padding: theme.spacing(2),
@@ -41,17 +56,9 @@ export default function SearchResultsListItem(props) {
 
   return (
     <form key={props.key} onSubmit={props.onSubmit}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <ButtonBase className={classes.image}>
-              <img
-                className={classes.img}
-                alt={props.book.title}
-                src={props.book.image_url}
-              />
-            </ButtonBase>
-          </Grid>
+      <Card className={classes.root}>
+        <img alt={props.book.title} src={props.book.image_url} />
+        <CardContent className={classes.content}>
           <Grid item xs={12} sm container>
             <Grid item xs container direction='column' spacing={2}>
               <Grid>
@@ -60,12 +67,9 @@ export default function SearchResultsListItem(props) {
                     {props.book.title}
                   </Typography>
                 </Grid>
-                {props.book.author &&
-                  props.book.author.map((name, index) => (
-                    <Typography variant='subtitle1' color='textSecondary'>
-                      {name}
-                    </Typography>
-                  ))}
+                <Typography variant='subtitle1' color='textSecondary'>
+                  {props.book.author && props.book.author[0]}
+                </Typography>
                 <Typography variant='body2' gutterBottom>
                   {props.book.description.split(".")[0]}
                 </Typography>
@@ -113,8 +117,8 @@ export default function SearchResultsListItem(props) {
               </Typography>
             </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </CardContent>
+      </Card>
     </form>
   );
 }

@@ -3,34 +3,24 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme =>
   createStyles({
-    root: {
-      flexGrow: 1
-    },
     paper: {
-      padding: theme.spacing(2),
+      display: "flex",
+      marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(4),
       margin: "auto",
-      maxWidth: "auto"
+      width: "100%"
     },
-    input: {
-      marginLeft: theme.spacing(1),
+    text: {
       flex: 1,
-      width: 900
+      width: "80%",
+      margin: 10
     },
-    iconButton: {
-      padding: 10
-    },
-    image: {
-      width: 128,
-      height: 128
-    },
-    img: {
-      margin: "auto",
-      display: "block",
-      maxWidth: "100%",
-      maxHeight: "100%"
+    button: {
+      margin: 10
     }
   })
 );
@@ -39,13 +29,19 @@ export default function ConfirmResults(props) {
   const classes = useStyles();
 
   return (
-    <section className={classes.root}>
+    <Box component='section'>
       <Paper component='form' className={classes.paper}>
-        <Typography>
+        <Typography className={classes.text}>
           Are one of these books what you were looking for?
         </Typography>
-        <Button onClick={props.onClick}>No, Add Book</Button>
+        <Button
+          onClick={props.onClick}
+          className={classes.button}
+          variant='contained'
+          color='primary'>
+          No, Add Book
+        </Button>
       </Paper>
-    </section>
+    </Box>
   );
 }
