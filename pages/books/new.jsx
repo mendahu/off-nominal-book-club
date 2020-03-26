@@ -7,17 +7,9 @@ import axios from "axios";
 import Router from "next/router";
 
 export default function New() {
-  const SEARCH = "SEARCH";
-  const CONFIRM = "CONFIRM";
-
   const [searchResults, setSearchResults] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState("");
-
-  const [mode, setMode] = useState(SEARCH);
-
-  const [bookId, setBookId] = useState("1");
-
+  const [isSearch, setIsSearch] = useState(true);
   const [bookObj, setBookObj] = useState({
     book: {
       id: null,
@@ -33,12 +25,7 @@ export default function New() {
     authors: null
   });
 
-  // function that redirects to book/[book]
   function redirectToBook(id) {
-    event => {
-      event.preventDefault();
-    };
-
     Router.push(`/books/${id}`);
   }
 
@@ -47,64 +34,64 @@ export default function New() {
   }
 
   // adds book to database with bookObj State and redirects to book/[book]
-  function addBook(event) {
+  function addBook(book) {
     // ADD BOOK --
-    axios
-      .post(`/api/books/new`, bookObj)
-      .then(res => redirectToBook(res.data[0]));
+    axios.post(`/api/books/new`, book).then(res => redirectToBook(res.data[0]));
     console.log("ADDED New Book");
   }
 
   // sets search term to book.tile
   function handleSearchTerm(title) {
-    if (mode === SEARCH) {
+    if (isSearch === true) {
       setSearchTerm(title);
     }
   }
-
-  // function handleSearchClick(term, book) {
-  //   handleSearchTerm(term);
-  //   setBookObj(book);
-  // }
 
   // sets searchResults state
   function handleResults(value) {
     setSearchResults(value);
   }
 
-  const onSubmitHandler = async event => {
-    // prevent page refresh
-    event.preventDefault();
-    if (mode === SEARCH) {
-      const dbResults = await axios.get(
-        `/api/books/new?googleid=${bookObj.book.google_id}&isbn13=${bookObj.book.isbn13}&title=${bookObj.book.title}`
-      );
-      // if results found, set mode to confirm and setSearchResults to db hits
-      if (dbResults.data.length > 0) {
-        setMode(CONFIRM);
-        setSearchResults(dbResults.data);
+  async function selectBook(book) {
+    // format google book data into database format
+    const selectedBook = {
+      book: {
+        user_id: 10,
+        title: book.title,
+        description: book.description,
+        fiction: true,
+        year: book.year,
+        image_url: book.image_url,
+        google_id: book.google_id,
+        isbn13: book.isbn13
+      },
+      authors: book.author.map(a => {
+        return { name: a };
+      })
+    };
 
-        // if no hits, add book to database and redirect to book
-      } else {
-        addBook(event);
-      }
+    // setBookObj to formatted book
+    setBookObj(selectedBook);
+
+    // check if book exists in database
+    const dbResults = await axios.get(
+      `/api/books/new?googleid=${selectedBook.book.google_id}&isbn13=${selectedBook.book.isbn13}&title=${selectedBook.book.title}`
+    );
+
+    // if book has hits in db, set is search to false, and set search results to db hits
+    if (dbResults.data.length > 0) {
+      setIsSearch(false);
+      setSearchResults(dbResults.data);
+
+      // if no hits, add book to database and redirect to book
     } else {
-      // REDIRECT TO BOOK
-      redirectToBook(bookId);
-    }
-  };
-  // makes a get request to api/books/new and returns hits found in database
-
-  // set bookObj state
-  function selectBook(value) {
-    if (mode == SEARCH) {
-      setBookObj(value);
+      addBook(selectedBook);
     }
   }
 
   return (
     <Layout>
-      {mode === SEARCH && (
+      {isSearch === true ? (
         <SearchBar
           results={searchResults}
           setResults={handleResults}
@@ -112,28 +99,22 @@ export default function New() {
           setTerm={handleSearchTerm}
           onClick={redirectToCom}
         />
+      ) : (
+        <ConfirmResults book={bookObj} onClick={addBook} />
       )}
-      {mode === SEARCH && (
+      {isSearch === true ? (
         <SearchResultsList
           results={searchResults}
-          setTerm={handleSearchTerm}
           selectBook={selectBook}
-          onSubmit={onSubmitHandler}
-          // onClick={handleSearchClick}
           buttonText={"Add Book"}
-          mode={mode}
+          isSearch={isSearch}
         />
-      )}
-      {mode === CONFIRM && <ConfirmResults onClick={addBook} />}
-      {mode === CONFIRM && (
+      ) : (
         <SearchResultsList
           results={searchResults}
-          setTerm={handleSearchTerm}
-          selectBook={selectBook}
-          setBookId={setBookId}
-          onSubmit={onSubmitHandler}
+          redirectToBook={redirectToBook}
           buttonText={"Go to Book"}
-          mode={mode}
+          isSearch={isSearch}
         />
       )}
     </Layout>

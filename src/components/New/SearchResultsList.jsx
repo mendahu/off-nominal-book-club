@@ -7,16 +7,14 @@ export default function SearchResultsList(props) {
     <Box>
       {props.results.map((book, index) => (
         <SearchResultsListItem
+          book={book}
           index={index}
           key={index}
           results={props.results}
-          onSubmit={props.onSubmit}
-          book={book}
-          setTerm={props.setTerm}
           selectBook={props.selectBook}
-          setBookId={props.setBookId}
+          redirectToBook={props.redirectToBook}
           buttonText={props.buttonText}
-          mode={props.mode}
+          isSearch={props.isSearch}
         />
       ))}
     </Box>

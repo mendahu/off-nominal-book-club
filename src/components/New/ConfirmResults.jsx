@@ -35,7 +35,10 @@ export default function ConfirmResults(props) {
           Are one of these books what you were looking for?
         </Typography>
         <Button
-          onClick={props.onClick}
+          onClick={event => {
+            event.preventDefault();
+            props.onClick(props.book);
+          }}
           className={classes.button}
           variant='contained'
           color='primary'>
