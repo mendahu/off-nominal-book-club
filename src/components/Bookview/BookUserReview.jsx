@@ -46,7 +46,7 @@ const BookUserReview = (props) => {
       <Paper>
 
         <CardContent className={classes.header}>
-          <Typography component='h2' variant='h5'>{(props.review.id) ? "Update Review" : "Review"}</Typography>
+          <Typography component='h2' variant='h5'>{(props.reviewState.id) ? "Update Review" : "Review"}</Typography>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -83,7 +83,7 @@ const BookUserReview = (props) => {
                 type ="submit" 
                 variant="contained" 
                 color="primary">
-                  {(props.review.id) ? "Update" : "Submit"}
+                  {(props.reviewState.id) ? "Update" : "Submit"}
               </Button>
             </Box>
 

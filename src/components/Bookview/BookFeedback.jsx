@@ -68,6 +68,7 @@ const BookFeedback = (props) => {
       {props.loggedIn &&
           <BookUserReview 
             review={tempReview}
+            reviewState={permReview}
             submitReview={e => submitReview(e)}
             summaryChange={e => setTempReview({...tempReview, summary: e.target.value})}
             reviewChange={e => setTempReview({...tempReview, user_review: e.target.value})} />}
