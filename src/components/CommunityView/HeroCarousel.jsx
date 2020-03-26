@@ -6,8 +6,7 @@ import {
   MDBContainer } from "mdbreact";
 import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles';
-import { 
-  Box,
+import {
   Grid,
   Button,
   Typography } from '@material-ui/core';
@@ -35,6 +34,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 3, 3, 6),
   },
   carouselTextContainer: {
+    textShadow: `2px 2px 8px ` + theme.palette.grey['900'],
     height: '100%'
   },
   button: {

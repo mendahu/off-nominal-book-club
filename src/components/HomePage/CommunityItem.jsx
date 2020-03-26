@@ -45,11 +45,14 @@ const CommunityItem = (props) => {
           subheader={`Founded ${timeAgo}`}
           />
 
-        <CardMedia 
-          className={classes.media}
-          image={data.img_url}
-          title={data.name}
-          />
+        <Link href={data.url} passHref>
+          <CardMedia
+            component='a'
+            className={classes.media}
+            image={data.img_url}
+            title={data.name}
+            />
+        </Link>
 
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p' nowrap="true">
