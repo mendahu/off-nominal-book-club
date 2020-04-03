@@ -23,7 +23,7 @@ Book People is a final project for Lighthouse Labs Web Development Bootcamp. It 
 * react-dom
 * next
 * pg
-* pg-native
+* @date-io/date-fns
 * @material-ui/core
 * @material-ui/icons
 * @material-ui/lab
