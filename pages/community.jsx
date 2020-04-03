@@ -130,18 +130,19 @@ export async function getServerSideProps() {
   const mostFavId = queries.books.getMostFavourite();
   const highestRatedId = queries.books.getHighestRated();
 
-  return Promise.all([books, tags, mostFavId, highestRatedId]).then(res => {
-    const books = res[0].rows;
-    const tags = res[1].rows;
-    const mostFavId = res[2][0].id;
-    const highestRatedId = res[3][0].id;
-    const randomBookIndex = Math.floor(Math.random() * books.length)
-    .catch(err => console.error(err));
+  return Promise.all([books, tags, mostFavId, highestRatedId])
+    .then(res => {
+      const books = res[0].rows;
+      const tags = res[1].rows;
+      const mostFavId = res[2][0].id;
+      const highestRatedId = res[3][0].id;
+      const randomBookIndex = Math.floor(Math.random() * books.length);
 
-    return {
-      props: { books, tags, mostFavId, highestRatedId, randomBookIndex }
-    };
-  });
+      return {
+        props: { books, tags, mostFavId, highestRatedId, randomBookIndex }
+      };
+    })
+    .catch(err => console.error(err));
 }
 
 export default Community;
