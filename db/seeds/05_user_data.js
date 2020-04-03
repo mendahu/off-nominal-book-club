@@ -33,22 +33,20 @@ exports.seed = function(knex) {
 
   //clear all user metadata tables if they have data in them
   const initPromises = [
-    users,
-    knex("tags").del(),
-    knex("user_tag_book").del(),
-    knex("reads").del(),
-    knex("favourites").del(),
-    knex("ratings").del(),
-    knex("reviews").del(),
-    knex("wishlist").del(),
+    users
   ]
 
-  // wait for above operations to conclude, then begin simulation
-  return Promise.all(initPromises)   
-    .then((results) =>{
-
+  return knex("tags").del()
+  .then(res => knex("user_tag_book").del())
+  .then(res => knex("reads").del())
+  .then(res => knex("favourites").del())
+  .then(res => knex("ratings").del())
+  .then(res => knex("reviews").del())
+  .then(res => knex("wishlist").del())
+  .then(res => knex('users').select("id") 
+    .then((res) => {
       //set users 
-      const [ users ] = results
+      const users = res
 
       //containers for data inserts
       //these are the arrays that will eventually be added to the db
@@ -181,17 +179,13 @@ exports.seed = function(knex) {
     .then((data) => {
       const { insertableTags, tagRels, reads, favs, ratings, reviews, wishlist } = data;
 
-      //insert reads, favs and tags into database
-      const insertPromises = [
-        knex('tags').insert(insertableTags),
-        knex('reads').insert(reads),
-        knex('favourites').insert(favs),
-        knex('ratings').insert(ratings),
-        knex('reviews').insert(reviews),
-        knex('wishlist').insert(wishlist)
-      ]
-
-      return Promise.all(insertPromises)
+      
+      return knex('tags').insert(insertableTags)
+      .then(res => knex('reads').insert(reads))
+      .then(res => knex('favourites').insert(favs))
+      .then(res => knex('ratings').insert(ratings))
+      .then(res => knex('reviews').insert(reviews))
+      .then(res => knex('wishlist').insert(wishlist))
         .then(() => {
           return knex.select().from('tags')
         })
@@ -215,5 +209,5 @@ exports.seed = function(knex) {
 
           return knex('user_tag_book').insert(tagRelationInsertData)
         })
-    });
+    }));
 };
