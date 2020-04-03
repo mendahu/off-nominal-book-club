@@ -135,7 +135,8 @@ export async function getServerSideProps() {
     const tags = res[1].rows;
     const mostFavId = res[2][0].id;
     const highestRatedId = res[3][0].id;
-    const randomBookIndex = Math.floor(Math.random() * books.length);
+    const randomBookIndex = Math.floor(Math.random() * books.length)
+    .catch(err => console.error(err));
 
     return {
       props: { books, tags, mostFavId, highestRatedId, randomBookIndex }
