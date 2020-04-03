@@ -132,6 +132,7 @@ export async function getServerSideProps() {
 
   return Promise.all([books, tags, mostFavId, highestRatedId])
     .then(res => {
+      console.log("made it to .then")
       const books = res[0].rows;
       const tags = res[1].rows;
       const mostFavId = res[2][0].id;
