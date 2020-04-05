@@ -2,8 +2,18 @@ const queries = require("../../db/queries/users");
 import ProfileBanner from "../../src/components/Users/ProfileBanner";
 import TabPanel from "../../src/components/General/TabPanel";
 import Layout from "../../src/components/DefaultLayout";
+import { Typography } from "@material-ui/core";
 
 function UserView({ userBooks }) {
+
+  if (!userBooks.user.length) {
+    return (
+      <Layout>
+        <Typography>The User profile you've entered is not in our database. Please try again.</Typography>
+      </Layout>
+    )
+  }
+
   const displayData = {
     image: "image_url",
     title: "title",

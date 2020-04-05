@@ -44,13 +44,13 @@ module.exports = {
       .then(([bookData, usersData, comments]) => {
         const readingsData = {
           book: {
-            id: bookData.rows[0].id,
-            title: bookData.rows[0].title,
-            authors: bookData.rows[0].authors,
-            year: bookData.rows[0].year,
-            image_url: bookData.rows[0].image_url,
-            date_started: JSON.stringify(bookData.rows[0].date_started),
-            date_ended: JSON.stringify(bookData.rows[0].date_ended),
+            id: bookData.rows[0]?.id || null,
+            title: bookData.rows[0]?.title || null,
+            authors: bookData.rows[0]?.authors || null,
+            year: bookData.rows[0]?.year || null,
+            image_url: bookData.rows[0]?.image_url || null,
+            date_started: JSON.stringify(bookData.rows[0]?.date_started || null),
+            date_ended: JSON.stringify(bookData.rows[0]?.date_ended || null),
           }, 
           users: usersData.rows,
           comments: comments.rows.map(comment => {

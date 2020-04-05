@@ -9,9 +9,17 @@ import ReadingButton from "../../src/components/Bookview/ReadingButton";
 import LoginPromote from "../../src/components/Bookview/LoginPromote";
 import UserContext from '../../src/UserContext'
 import { useContext, useState, useEffect } from 'react'
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 
 const Bookview = ({ book, userData }) => {
+
+  if (!book) {
+    return (
+      <Layout>
+        <Typography>The book URL you've come to is not in our database. Return home and search for a different book.</Typography>
+      </Layout>
+    )
+  }
 
   const { userId } = useContext(UserContext)
 
@@ -94,7 +102,7 @@ export async function getServerSideProps(context) {
   
   return Promise.all(promises)
     .then(values => {
-      props.book = values[0][0]
+      props.book = values[0][0] || null
       if (userId) props.userData = values[1][0]
       return { props };
     })

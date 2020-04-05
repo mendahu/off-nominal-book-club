@@ -58,7 +58,7 @@ const BookDesc = (props) => {
 
         <Collapse in={!expanded} timeout={0} unmountOnExit>
           <CardContent>
-            <Typography paragraph color='textSecondary'>{props.desc.slice(0, 100) + '...'}</Typography>
+            <Typography paragraph color='textSecondary'>{props.desc?.slice(0, 100) + '...'}</Typography>
           </CardContent>
         </Collapse>
         <Collapse in={expanded} timeout={0} unmountOnExit>
