@@ -8,8 +8,6 @@ import { useContext, useState } from "react"
 
 function ReadingView( {readingData, readingId} ) {
 
-  console.log(readingData)
-
   if (!readingData.book.id) {
     return (
       <Layout>
