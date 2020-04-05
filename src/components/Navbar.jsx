@@ -14,7 +14,6 @@ import {
   Button
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -37,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
   brandText: {
     marginLeft: theme.spacing(1),
-    [theme.breakpoints.down(400)]: {
+    [theme.breakpoints.down(415)]: {
       display: "none"
     }
   },
@@ -166,22 +165,25 @@ const Navbar = () => {
   return (
     <AppBar position='sticky'>
       <Toolbar>
+
         <Button onClick={toggleDrawer(true)} className={classes.menuButton}>
           <MenuIcon onClick={toggleDrawer(true)} />
         </Button>
         <Drawer anchor={"left"} open={drawerOpen} onClose={toggleDrawer(false)}>
           {drawer()}
         </Drawer>
+
         <Typography variant='h6' className={classes.title}>
           <Link href='/' passHref>
             <Box className={classes.brand}>
-              <ImportContactsIcon />
+              <img src='/favicons/favicon-96.png' width='24' alt='Off-Nominal Book Club Logo'/>
               <Typography component='span' className={classes.brandText}>
-                Bookpeople
+                Off-Nominal Book Club
               </Typography>
             </Box>
           </Link>
         </Typography>
+
         {isLoggedin && (
           <Link href={`/books/new`} passHref>
             <Button
@@ -193,6 +195,7 @@ const Navbar = () => {
             </Button>
           </Link>
         )}
+
       </Toolbar>
     </AppBar>
   );
