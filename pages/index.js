@@ -1,84 +1,147 @@
-import Layout from "../src/components/LandingLayout";
-import HeroImage from "../src/components/HomePage/HeroImage";
-import CommunityList from "../src/components/HomePage/CommunityList";
+import { Container } from "@material-ui/core";
 import SearchBar from "../src/components/SearchBar";
-import { Container } from '@material-ui/core'
+import BookList from "../src/components/Landing/BookList";
+import TagList from "../src/components/Landing/TagList";
+import HeroCarousel from "../src/components/Landing/HeroCarousel";
+import React, { useState } from "react";
+import Layout from "../src/components/LandingLayout";
+import axios from "axios";
+const queries = require("../db/queries/books");
+import Router from "next/router";
+import Fuse from "fuse.js";
 
-const dates = [
-  new Date('2020', '02', '11'),
-  new Date('2020', '01', '18'),
-  new Date('2019', '11', '02'),
-  new Date('2019', '10', '11'),
-  new Date('2019', '09', '13'),
-  new Date('2020', '01', '06'),
-]
+export default function App(props) {
 
-const mockCommunityData = [
-  {
-    name: "Books from Space!",
-    desc: "A community for lovers of space. Rockets, planets, science, technology and more!",
-    url: "/community",
-    img_url: "https://www.spacestationexplorers.org/wp-content/uploads/2018/06/KateRubins-RosieRevere-screengrab-square.jpg",
-    members: 11,
-    books: 120,
-    created_at: dates[0]
-  },
-  {
-    name: "Books for Cooks!",
-    desc: "Learn to cook and become a home chef by using our recommdations!",
-    url: "/community",
-    img_url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2014/5/1/0/original_Marian-Parsons-handmade-cookbook-stand-beauty-horiz2.jpg.rend.hgtvcom.1280.960.suffix/1400989965441.jpeg",
-    members: 19,
-    books: 166,
-    created_at: dates[1]
-  },
-  {
-    name: "Account on Us!",
-    desc: "There's more to accounting than numbers and meetings! Peruse our ledger of incredible recommends!",
-    url: "/community",
-    img_url: "https://cdn.merchantmaverick.com/wp-content/uploads/2016/08/bigstock-ACCOUNTING-inscription-coming-324977827.jpg",
-    members: 3,
-    books: 19,
-    created_at: dates[2]
-  },
-  {
-    name: "Don't over React",
-    desc: "React has changed the way we build web applications, and we can't stop reading about it!",
-    url: "/community",
-    img_url: "https://techcrunch.com/wp-content/uploads/2015/04/codecode.jpg",
-    members: 35,
-    books: 56,
-    created_at: dates[3]
-  },
-  {
-    name: "Crime Time",
-    desc: "It's tough to find good reading on how to do crime. We've done the hard work for you, so you can get to crime.",
-    url: "/community",
-    img_url: "https://harvardmagazine.com/sites/default/files/styles/4x3_main/public/img/article/0817/SO17_CJ_bars_0.jpg?itok=3J_N-LMq",
-    members: 13,
-    books: 666,
-    created_at: dates[4]
-  },
-  {
-    name: "Gradient Gang",
-    desc: "The humble gradient is a staple of the design world, and we want to explore every last pixel.",
-    url: "/community",
-    img_url: "https://img.freepik.com/free-vector/abstract-blurred-gradient-background_97886-2814.jpg?size=338&ext=jpg",
-    members: 11,
-    books: 1,
-    created_at: dates[5]
-  },
-]
+  const {
+    books,
+    tags,
+    mostFavId,
+    highestRatedId,
+    randomBookIndex
+  } = props;
 
-const Home = () => (
-  <Layout>
-    <HeroImage />
-    
-    <Container component="main" maxWidth={false}>
-      <SearchBar placeholderText={'Find your people'} buttonText={'Search'} buttonHref='/'/>
-      <CommunityList commData={mockCommunityData}/>
-    </Container>
-  </Layout>
-);
+  const bookOptions = {
+    shouldSort: true,
+    threshold: 0.7,
+    location: 0,
+    distance: 100,
+    minMatchCharLength: 2,
+    keys: [
+      {
+        name: "title",
+        weight: 0.5
+      },
+      {
+        name: "tags_string",
+        weight: 0.3
+      },
+      {
+        name: "authors_string",
+        weight: 0.2
+      }
+    ]
+  };
 
-export default Home;
+  const tagOptions = {
+    shouldSort: true,
+    threshold: 0.9,
+    location: 0,
+    distance: 100,
+    minMatchCharLength: 2,
+    keys: ["tag_name"]
+  };
+
+  const bookSearch = new Fuse(books, bookOptions);
+  const tagSearch = new Fuse(tags, tagOptions);
+
+  const [searchResults, setSearchResults] = useState(books);
+  const [tagList, setTagList] = useState(tags);
+  const [input, setInput] = useState("");
+
+  async function getSearchResults(term) {
+    const bookData = await bookSearch
+      .search(term)
+      .slice(0, 5)
+      .map(item => {
+        return item.item;
+      });
+    const tagsData = await tagSearch.search(term).map(tag => {
+      return tag.item;
+    });
+
+    setSearchResults(bookData);
+    setTagList(tagsData);
+  }
+
+  async function selectTag(tag) {
+    const bookData = await axios.get(`/api/community/tags/${tag}`);
+    setSearchResults(bookData.data);
+  }
+
+  function redirectToBook(id) {
+    Router.push(`/books/${id}`);
+  }
+
+  function redirectToAdd() {
+    Router.push(`/books/new`);
+  }
+
+  const onInputChange = event => {
+    setInput(event.target.value);
+    event.target.value !== ""
+      ? getSearchResults(event.target.value)
+      : setSearchResults(books);
+  };
+
+  return (
+    <div>
+      <Layout>
+        <Container component='section' disableGutters={true} maxWidth={false}>
+          <HeroCarousel
+            randomBook={books[randomBookIndex] || null}
+            mostFavBook={books[books.findIndex(book => book.id == mostFavId)] || null}
+            highestRatedBook={books[books.findIndex(book => book.id == highestRatedId)] || null}
+          />
+        </Container>
+        <Container component='main' maxWidth={false}>
+          <SearchBar
+            placeholderText={"Find your books"}
+            buttonText={"Search"}
+            input={input}
+            onChange={onInputChange}
+            buttonHref={'/community'}
+          />
+
+          <TagList tags={tagList} onClick={selectTag} />
+
+          <BookList
+            books={searchResults}
+            onClick={redirectToBook}
+            selectTag={selectTag}
+          />
+        </Container>
+      </Layout>
+    </div>
+  );
+}
+
+export async function getServerSideProps() {
+  const books = queries.books.getAll("");
+  const tags = queries.books.getTags("");
+  const mostFavId = queries.books.getMostFavourite();
+  const highestRatedId = queries.books.getHighestRated();
+
+  return Promise.all([books, tags, mostFavId, highestRatedId])
+    .then(res => {
+      const books = res[0].rows;
+      const tags = res[1].rows;
+      const mostFavId = res[2][0]?.id || null;
+      const highestRatedId = res[3][0]?.id || null;
+      const randomBookIndex = books.length ? Math.floor(Math.random() * books.length) : null;
+
+      return {
+        props: { books, tags, mostFavId, highestRatedId, randomBookIndex }
+      };
+    })
+    .catch(err => console.error(err));
+}
