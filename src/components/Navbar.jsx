@@ -103,12 +103,12 @@ const Navbar = () => {
             </ListItem>
           </Link>
         )}
-        <Link href={`/community`} passHref>
+        <Link href={`/`} passHref>
           <ListItem button>
             <ListItemIcon>
               <PeopleIcon />
             </ListItemIcon>
-            <ListItemText primary={"Community"} />
+            <ListItemText primary={"Home"} />
           </ListItem>
         </Link>
         <Link href={`/readings`} passHref>
