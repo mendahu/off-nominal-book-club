@@ -1,60 +1,16 @@
-# Book People
-Find your people. Find your books.
+# Off-Nominal Book Club
+Collecting the best space books.
 
-## What is Book People?
+## What is ONBC?
 
-The internet has provided opportunities for increasingly more niche communities to find one another and share content and experiences. When it comes to book recommendations, large services like Amazon, Goodreads, or even public libraries and book stores fall short in offering categorization, recommendations, or searchability when extreme specificity is required.
+The Off-Nominal Book Club (ONBC) is a community of space enthusiasts who have come together to share book recommendations and curate a collection of space-themed books. Through the application, members append to books user-specific meta-data such as tags, favourites, ratings, and reviews to build a community consensus about recommendations. In this way, the application can serve relevant books to users looking for their next space-themed read.
 
-It's easy enough to browse titles in the Science and Technology category, but what if a user wants a new book specifically about geomorphology of the planet Venus, or challenges of implementing thorium reactors? For these topics, users are left scouring message boards or hoping to run across an expert in the wild.
+ONBC is an extension of the content offerings of the WeMartians Podcast, the Main Engine Cut Off Podcast, and the Off-Nominal Podcast, delivered to you by hosts Jake Robins and Anthony Colangelo,.
 
-This Book Club app seeks to solve this problem by allowing users to create communities around their favourite topic, pull in books to a shared collection, and append their own specific metadata and categorization heirarchy. They can then share this with others and provide common spaces for niche communities to geek out about their favourite topics.
+The collection is available to browse by anyone in the general public, but adding new books to the collection, or adding user meta-data is restricted to paid members of the Patreon accounts for either [Jake Robins](https://www.patreon.com/wemartians) or [Anthony Colangelo](https://www.patreon.com/meco). Please consider becoming a patron for these to not only support the Off-Nominal Book Club but also their podcast and journalism pursuits. Our joint venture is a content-driven organization that is listener/reader-funded - your support means a lot.
 
 ## Team Members
 
-Book People is a final project for Lighthouse Labs Web Development Bootcamp. It is created jointly by Jake Robins ([@mendahu](https://github.com/mendahu)) and Matthew Chan ([@matthew-charles-chan](https://github.com/matthew-charles-chan)).
+ONBC is maintained by Jake Robins ([@mendahu](https://github.com/mendahu)).
 
-## Dependencies
-* dotenv
-* chalk
-* fs
-* react
-* react-datepicker
-* react-swipeable-views
-* react-dom
-* next
-* pg
-* @date-io/date-fns
-* @material-ui/core
-* @material-ui/icons
-* @material-ui/lab
-* @material-ui/pickers
-* axios
-* fuse.js
-* knex
-* mdbreact
-* moment
-* nookies
-* prop-types
-
-## Getting Started
-
-Clone this repository and run `npm install` to load required packages
-
-### To run a live development server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-### To run a production build
-
-
-```bash
-npm run build
-# then
-npm run start
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Special thanks to Matthew Chan ([@matthew-charles-chan](https://github.com/matthew-charles-chan)), who co-built the original code base that ONBC is based off. You can still see this original project, Book People, by visiting its [project page](https://github.com/mendahu/book-club).
