@@ -1,5 +1,4 @@
-import { useState, useContext, useEffect } from "react";
-import UserContext from "../UserContext";
+import { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -22,6 +21,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Router from "next/router";
+import { useFetchUser } from '../../lib/user'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,24 +55,17 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
   const classes = useStyles();
 
+  const { user, loading } = useFetchUser();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { userId, logUserIn, logUserOut } = useContext(UserContext);
 
-  const [isLoggedin, setIsLoggedIn] = useState(false);
-
-  useEffect(() => setIsLoggedIn(userId), []);
 
   const logOut = () => {
-    logUserOut();
-    setIsLoggedIn(false);
-    Router.push(window.location.pathname);
-  };
+    Router.push('/api/auth0/logout')
+  }
 
-  const logIn = userId => {
-    logUserIn(userId);
-    setIsLoggedIn(true);
-    Router.push(window.location.pathname);
-  };
+  const logIn = () => {
+    Router.push('/api/auth0/login')
+  }
 
   const toggleDrawer = open => event => {
     if (
@@ -92,7 +85,7 @@ const Navbar = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}>
       <List>
-        {userId && (
+        {user && (
           <Link href={`/books/new`} passHref>
             <ListItem button>
               <ListItemIcon>
@@ -120,9 +113,9 @@ const Navbar = () => {
         </Link>
       </List>
       <Divider />
-      {userId ? (
+      {user ? (
         <List>
-          <Link href={`/users/[id]`} as={`/users/${userId}`} passHref>
+          <Link href={`/`} as={`/`} passHref>
             <ListItem button>
               <ListItemIcon>
                 <PersonIcon />
@@ -139,23 +132,11 @@ const Navbar = () => {
         </List>
       ) : (
         <List>
-          <ListItem button onClick={() => logIn(2)}>
+          <ListItem button onClick={() => logIn()}>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
-            <ListItemText primary={"Log in Owner"} />
-          </ListItem>
-          <ListItem button onClick={() => logIn(1)}>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Log in Moderator"} />
-          </ListItem>
-          <ListItem button onClick={() => logIn(3)}>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Log in Member"} />
+            <ListItemText primary={"Log in"} />
           </ListItem>
         </List>
       )}
@@ -184,7 +165,7 @@ const Navbar = () => {
           </Link>
         </Typography>
 
-        {isLoggedin && (
+        {user && (
           <Link href={`/books/new`} passHref>
             <Button
               component='a'

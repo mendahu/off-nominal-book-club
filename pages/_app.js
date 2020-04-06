@@ -1,14 +1,10 @@
 import App from 'next/app'
 import Head from 'next/head'
-import useCookie from '../src/hooks/useCookie'
-import { UserProvider } from '../src/UserContext'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import "react-datepicker/dist/react-datepicker.css";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
 function MyApp({ Component, pageProps }) {
-
-  const userFuncs = useCookie() 
 
   const theme = createMuiTheme({
     palette: {
@@ -24,7 +20,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <UserProvider value={userFuncs}>
         <Head>
           <meta
             name="viewport"
@@ -53,7 +48,6 @@ function MyApp({ Component, pageProps }) {
         </Head>
         <CssBaseline />
         <Component {...pageProps} />
-      </UserProvider>
     </ThemeProvider>
   )
 }
