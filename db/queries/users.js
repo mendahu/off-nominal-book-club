@@ -3,6 +3,12 @@ const knex = require('../knex');
 module.exports = {
   users : {
 
+    register: () => {
+      return knex('users')
+        .returning('id')
+        .insert({name: null, bio: null})
+    },
+
     fetch: (userId, bookId) => {
       const params = {
         bookId,
