@@ -6,7 +6,7 @@ module.exports = {
     register: () => {
       return knex('users')
         .returning('id')
-        .insert({name: null, bio: null})
+        .insert({})
     },
 
     fetch: (userId, bookId) => {
@@ -66,7 +66,7 @@ module.exports = {
 
       promises.push(
         knex.raw(`
-        SELECT name, email, bio, avatar_url
+        SELECT name, bio, avatar_url
           FROM users
           WHERE id = ?
         `, userId)
