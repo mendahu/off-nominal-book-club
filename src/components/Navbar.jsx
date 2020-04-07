@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -53,11 +53,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Navbar = () => {
+
   const classes = useStyles();
 
   const { user, loading } = useFetchUser();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const logOut = () => {
     Router.push('/api/auth0/logout')
