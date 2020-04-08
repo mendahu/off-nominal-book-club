@@ -1,7 +1,6 @@
 const queries = require('../../../db/queries/users')
 
 export default function register(req, res) {
-  //const { body } = req
   
   return queries.users.register()
   .then((id) => {
