@@ -18,12 +18,11 @@ export default function Register() {
 
   if (!user || user.app_metadata?.onbc_id) Router.replace("/")
   
-  axios.get('/api/users/register')
-    .then((res) => {
-      //send res.data[0] to auth0
-    });
+  const authUser = axios.get('/api/users/register')
+    .then((res) => axios.patch('/api/users/update', { "userId": res.data[0] }))
+    .catch(err => console.error(err));
 
-  return (
+  return (  
     <Layout>
       <Typography>We just need a little more info!</Typography>
     </Layout>
