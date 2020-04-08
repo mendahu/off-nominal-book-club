@@ -19,7 +19,7 @@ export default function Register() {
   if (!user || user.app_metadata?.onbc_id) Router.replace("/")
   
   const authUser = axios.get('/api/users/register')
-    .then((res) => axios.patch('/api/users/update', { "userId": res.data[0] }))
+    .then(onbcId => axios.patch('/api/users/update', { "userId": onbcId.data[0] }))
     .catch(err => console.error(err));
 
   return (  
