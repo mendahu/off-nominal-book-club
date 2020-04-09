@@ -1,31 +1,26 @@
-import { patreon as patreonAPI , oauth as patreonOAuth } from 'patreon'
+import axios from 'axios'
+import querystring from 'querystring'
  
 const CLIENT_ID = process.env.PAT_CLIENT_ID
 const CLIENT_SECRET = process.env.PAT_CLIENT_SECRET
-const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET)
- 
-const redirectURL = process.env.PAT_REDIRECT_URI
+const REDIRECT_URI = process.env.PAT_REDIRECT_URI_FINAL
 
-export default (request, response) => {
+export default (req, res) => {
   
-  //extracts authorization code from request query param
-  const oauthGrantCode = request.query.code
+  const patreonData = {
+    code: req.query.code,
+    grant_type: 'authorization_code',
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET,
+    redirect_uri: REDIRECT_URI
+  }
 
-  patreonOAuthClient
-      .getTokens(oauthGrantCode, redirectURL)
-      .then(function(tokensResponse) {
-          const patreonAPIClient = patreonAPI(tokensResponse.access_token)
-          return patreonAPIClient('/current_user')
-      })
-      .then(function(result) {
-          var store = result.store
-          // store is a [JsonApiDataStore](https://github.com/beauby/jsonapi-datastore)
-          // You can also ask for result.rawJson if you'd like to work with unparsed data
-          response.end(store.findAll('user').map(user => user.serialize()))
-      })
-      .catch(function(err) {
-          console.error('error!', err)
-          response.end(err)
-      })
-
+  return axios.post('https://www.patreon.com/api/oauth2/token', querystring.stringify(patreonData))
+    .then(response => {
+        console.log(response)
+        return response;
+    })
+    .catch(err => {
+        throw err;
+    })
 };
