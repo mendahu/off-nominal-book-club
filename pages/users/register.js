@@ -1,5 +1,6 @@
 import { Typography, Button } from '@material-ui/core'
 import Message from '../../src/components/Utility/Message'
+import userProfileValidator from '../../src/helpers/userProfileValidator'
 import { useFetchUser } from '../../lib/user'
 // import { useState } from 'react'
 import Layout from "../../src/components/DefaultLayout";
@@ -51,9 +52,14 @@ export default function Register() {
     return <Message message="Redirecting" />
   }
 
+  const profileError = userProfileValidator(user)
+  if (profileError) return profileError
+
   return (
       <Layout>
-        <Typography>Hello</Typography>
+        <Typography>User Email: {user?.name || "undefined"}</Typography>
+        <Typography>User ONBC Id: {user?.app_metadata.onbc_id || "undefined"}</Typography>
+        <Typography>User Patreon Name: {user?.app_metadata.patreon.name || "undefined"}</Typography>
       </Layout>
     )
 
