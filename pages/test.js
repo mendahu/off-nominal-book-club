@@ -14,8 +14,8 @@ export default function TestUser() {
   return (
     <Layout>
       <Typography>User Email: {user?.name || "undefined"}</Typography>
-      <Typography>User ONBC Id: {user?.app_metadata?.onbc_id || "undefined"}</Typography>
-      <Typography>User Patreon Name: {user?.app_metadata?.patreon?.name || "undefined"}</Typography>
+      <Typography>User ONBC Id: {user?.app_metadata.onbc_id || "undefined"}</Typography>
+      <Typography>User Patreon Name: {user?.app_metadata.patreon.name || "undefined"}</Typography>
     </Layout>
   );
 }
