@@ -1,4 +1,5 @@
 import { Typography, Button } from '@material-ui/core'
+import Message from '../../src/components/Utility/Message'
 import { useFetchUser } from '../../lib/user'
 // import { useState } from 'react'
 import Layout from "../../src/components/DefaultLayout";
@@ -42,20 +43,19 @@ export default function Register() {
   //   })
   // }
   if (loading) {
-    return (
-      <Layout>
-        <Typography>Validating Credentials...</Typography>
-      </Layout>
-    )
+    return <Message message="Validating Credentials" />
   }
 
-  if (!loading) Router.replace("/");
+  if (!loading && !user) {
+    Router.replace("/");
+    return <Message message="Redirecting" />
+  }
 
   return (
-    <Layout>
-      <Typography>Success. Redirecting to main page...</Typography>
-    </Layout>
-  )
+      <Layout>
+        <Typography>Hello</Typography>
+      </Layout>
+    )
 
   // return (
   //   <Layout>
