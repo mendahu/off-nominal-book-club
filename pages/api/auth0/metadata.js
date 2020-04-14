@@ -12,6 +12,8 @@ export default function update(req, res) {
       scope: 'read:users read:user_idp_tokens'
     })
 
+    let metaData;
+
     return auth0.getSession(req)
       .then(session => {
         const { user } = session;
@@ -19,8 +21,8 @@ export default function update(req, res) {
         return auth0client.getUser(params)
       })
       .then(userData => {
-        return res.status(200)
-          .end(userData.app_metadata ? JSON.stringify(userData.app_metadata) : JSON.stringify({onbc_id: null}))
+        metaData = userData.app_metadata || null
+        return res.end(JSON.stringify(metaData));
       })
       .catch(err => {
         console.error(err)
