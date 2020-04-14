@@ -11,16 +11,7 @@ import Router from 'next/router'
 export default function Register({justConnectedPatreon}) {
 
   const { user, loading } = useFetchUser();
-  //const [ patConnect, setPatConnect ] = useState(justConnectePatreon)
-  //const [ patData, setPatData ] = useState(null)
 
-  // if (patConnect && !patData) {
-  //   setPatData({
-  //     "first_name": "Jake",
-  //     'last-name': "Robins",
-  //     'image-url': 'http://www.example.com/image.png'
-  //   })
-  // }
   if (loading) {
     return <Message message="Validating Credentials" />
   }
@@ -47,11 +38,6 @@ export default function Register({justConnectedPatreon}) {
         <Button variant="contained" color="secondary" href={patreonAuthUrlGenerator(patreonAuthOptions)}>Connect your Patreon</Button>
       </Layout>
       )
-  }
-
-  if (user.app_metadata.patreon === "skipped") {
-    Router.replace("/");
-    return <Message message="User declined to add Patreon. Redirecting." />
   }
 
   Router.replace("/");
