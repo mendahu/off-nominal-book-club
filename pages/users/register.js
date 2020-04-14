@@ -55,13 +55,17 @@ export default function Register() {
   const profileError = userProfileValidator(user)
   if (profileError) return profileError
 
-  return (
-      <Layout>
-        <Typography>User Email: {user?.name || "undefined"}</Typography>
-        <Typography>User ONBC Id: {user?.app_metadata.onbc_id || "undefined"}</Typography>
-        <Typography>User Patreon Name: {user?.app_metadata.patreon.name || "undefined"}</Typography>
-      </Layout>
-    )
+  if (user.app_metadata.patreon === "unchecked") {
+    return <Message message="No Patreon Connected Yet" />
+  }
+
+  if (user.app_metadata.patreon === "skipped") {
+    Router.replace("/");
+    return <Message message="User declined to add Patreon. Redirecting." />
+  }
+
+  Router.replace("/");
+  return <Message message="Redirecting..." />
 
   // return (
   //   <Layout>
