@@ -115,7 +115,7 @@ const Navbar = () => {
       <Divider />
       {user ? (
         <List>
-          <Link href={`/`} as={`/`} passHref>
+          <Link href={`/users/${user.app_metadata.onbc_id}`} passHref>
             <ListItem button>
               <ListItemIcon>
                 <PersonIcon />
@@ -132,7 +132,7 @@ const Navbar = () => {
         </List>
       ) : (
         <List>
-          <ListItem button onClick={() => logIn()}>
+          <ListItem button onClick={logIn}>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
