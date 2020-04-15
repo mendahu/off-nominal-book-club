@@ -18,6 +18,7 @@ export default function me(req, res) {
 
     return auth0.getSession(req)
       .then(session => {
+        if (!session) return null
         const { user: { sub } } = session;
         const params = { "id": sub }
         return auth0client.getUser(params)

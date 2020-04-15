@@ -1,8 +1,11 @@
 module.exports = {
   collectCoverageFrom: [
-    '**/*.{js,jsx,ts,tsx}',
-    '!**/*.d.ts',
-    '!**/node_modules/**',
+    "src/**/*.{js,jsx}",
+    "db/queries/**/*.js",
+    "db/*.js",
+    "lib/**/*.js",
+    "pages/**/*.{js,jsx}",
+    "knexfile.js"
   ],
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   transform: {

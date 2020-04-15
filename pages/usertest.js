@@ -1,14 +1,15 @@
-import Layout from "../src/components/DefaultLayout";
+import Message from "../src/components/Utility/Message";
 import { Typography } from '@material-ui/core'
 import { useFetchUser } from '../lib/user'
 
 export default function TestUser() {
-  const { user, loading } = useFetchUser();
+  //const { user, loading } = useFetchUser();
  
+  const user = false;
+  const loading = true;
+
   if (loading) return (
-    <Layout>
-      <Typography>Loading...</Typography>
-    </Layout>
+    <Message message="Loading..." />
   )
 
   if (!user && !loading) return (
