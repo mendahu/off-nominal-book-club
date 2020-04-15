@@ -4,7 +4,6 @@ import userProfileValidator from '../../src/helpers/userProfileValidator'
 import patreonAuthUrlGenerator from '../../src/helpers/patreon/authUrlGenerator'
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
-// import { useState } from 'react'
 import Layout from "../../src/components/DefaultLayout";
 import Router from 'next/router'
 

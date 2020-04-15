@@ -1,5 +1,8 @@
+const Dotenv = require("dotenv-webpack");
+
 module.exports = {
-  webpack: (config) => {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.plugins.push(new Dotenv({ silent: true }));
     return {
       ...config,
       node: {
@@ -7,9 +10,5 @@ module.exports = {
           'empty'
         }
       }
-   },
-  env: {
-    PAT_CLIENT_ID: process.env.PAT_CLIENT_ID,
-    PAT_REDIRECT_URI: process.env.PAT_REDIRECT_URI
-  }
+   }
 };
