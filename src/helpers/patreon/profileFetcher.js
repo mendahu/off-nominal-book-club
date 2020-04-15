@@ -10,11 +10,13 @@ export default function patreonProfileFetcher(token) {
     "image_url",
   ].join(',')
 
+  const includes = [
+    "memberships",
+    "campaign"
+  ].join(',')
   
-  const url = `https://www.patreon.com/api/oauth2/v2/identity?include=memberships&fields%5Buser%5D=${fields}`
+  const url = `https://www.patreon.com/api/oauth2/v2/identity?include=${includes}&fields%5Buser%5D=${fields}`
   
-  console.log(url)
-
   return axios.get(url, { headers })
     .then(res => res.data)
     .catch(err => console.error(err))
