@@ -3,10 +3,20 @@ const knex = require('../knex');
 module.exports = {
   users : {
 
+    //only called by Auth0 when user registers
     register: () => {
       return knex('users')
         .returning('id')
         .insert({})
+    },
+
+    update: (userId, { bio, name }) => {
+      return knex('users')
+        .where('id', '=', userId)
+        .update({
+          bio,
+          name
+        })
     },
 
     fetch: (userId, bookId) => {

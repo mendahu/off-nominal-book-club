@@ -10,15 +10,15 @@ const errorMessages = {
 export default function userProfileValidator(user) {
 
   if (!user.app_metadata) {
-    return <Message message={errorMessages['missing_meta']} />
+    return <Message message={errorMessages['missing_meta']} variant="warning"/>
   }
 
   if (!user.app_metadata.onbc_id) {
-    return <Message message={errorMessages['missing_onbcId']} />
+    return <Message message={errorMessages['missing_onbcId']} variant="warning"/>
   }
 
   if (!user.app_metadata.patreon) {
-    return <Message message={errorMessages['missing_patreon']} />
+    return <Message message={errorMessages['missing_patreon']} variant="warning"/>
   }
 
   return false;

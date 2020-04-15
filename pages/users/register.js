@@ -1,10 +1,8 @@
-import { Typography, Button } from '@material-ui/core'
 import Message from '../../src/components/Utility/Message'
 import userProfileValidator from '../../src/helpers/userProfileValidator'
-import patreonAuthUrlGenerator from '../../src/helpers/patreon/authUrlGenerator'
+import AddPatreon from '../../src/components/Registration/AddPatreon'
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
-import Layout from "../../src/components/DefaultLayout";
 import Router from 'next/router'
 
 export default function Register({justConnectedPatreon}) {
@@ -12,37 +10,28 @@ export default function Register({justConnectedPatreon}) {
   const { user, loading } = useFetchUser();
 
   if (loading) {
-    return <Message message="Validating Credentials" />
+    return <Message message="Validating Credentials" variant='loading'/>
   }
 
+  //user is not logged in
   if (!loading && !user) {
     Router.replace("/");
-    return <Message message="Redirecting" />
+    return <Message message="Redirecting" variant='loading'/>
   }
 
-  console.log(user)
-
+  // checks for any errors in the profile fetched which would indicate system issues 
+  // and shows error to user
   const profileError = userProfileValidator(user)
   if (profileError) return profileError
 
-  if (user.app_metadata.patreon === "unchecked") {
+  //Prompts user to add Patreon account to new account
+  if (user.app_metadata.patreon === "unchecked") return <AddPatreon />
 
-    const patreonAuthOptions = {
-      client_id: process.env.PAT_CLIENT_ID,
-      redirect_uri: process.env.PAT_REDIRECT_URI
-    }
-
-    return (
-      <Layout>
-        <Typography>We just need a little more info!</Typography>
-        <Typography>Connect your Patreon account to be able to rate and review books, as well as add new books to the app.</Typography>
-        <Button variant="contained" color="secondary" href={patreonAuthUrlGenerator(patreonAuthOptions)}>Connect your Patreon</Button>
-      </Layout>
-      )
-  }
+  //Prompts for final registration information
+  if (justConnectedPatreon) return <CompleteProfile />
 
   Router.replace("/");
-  return <Message message="Redirecting..." />
+  return <Message message="Redirecting..." variant='loading'/>
 }
 
 export async function getServerSideProps(context) {

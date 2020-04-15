@@ -1,38 +1,22 @@
-import auth0 from '../../../lib/auth0';
-import { ManagementClient } from 'auth0'
+const queries = require('../../../db/queries/users')
 
-export default function update(req, res) {
+export default (req, res) => {
   
-  if (typeof window === 'undefined') {
-    const { userId } = req.body;
+  const { name, bio } = req.body
 
-    const auth0client = new ManagementClient({
-      domain: process.env.AUTH0_DOMAIN,
-      clientId: process.env.AUTH0_CLIENT_ID,
-      clientSecret: process.env.AUTH0_CLIENT_SECRET,
-      scope: 'update:users update:users_app_metadata'
+  const userId = 538
+
+  return queries
+    .users
+    .update(userId, { bio, name })
+    .then((results) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json')
+      return res.end(JSON.stringify(results))
     })
-
-    return auth0.getSession(req)
-      .then(session => {
-        const { user } = session;
-        const params = { "id": user.sub }
-        const data = { "app_metadata": { "onbc_id": userId } }
-
-        return auth0client.updateUser(params, data)
-      })
-      .then(userObj => {
-        res.status(userObj.app_metadata.onbc_id === userId ? 200 : 400)
-        return res.end()
-      })
-      .catch(err => {
-        console.error(err)
-        const { name, statusCode, message } = err
-        res.status(statusCode)
-        return res.end(JSON.stringify({ name, statusCode, description: JSON.parse(message).error_description }))
-      })
-  }
-
-  return;
-
+    .catch(err => {
+      console.error(err)
+      res.statusCode = 500;
+      return res.end(JSON.stringify({"success": false}))
+    })
 };
