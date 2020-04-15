@@ -1,21 +1,17 @@
 import Message from "../src/components/Utility/Message";
+import Layout from "../src/components/DefaultLayout";
 import { Typography } from '@material-ui/core'
 import { useFetchUser } from '../lib/user'
 
 export default function TestUser() {
-  //const { user, loading } = useFetchUser();
- 
-  const user = false;
-  const loading = true;
+  const { user, loading } = useFetchUser();
 
   if (loading) return (
-    <Message message="Loading..." />
+    <Message message="Loading..." variant='loading'/>
   )
 
   if (!user && !loading) return (
-    <Layout>
-    <Typography>Not logged in.</Typography>
-  </Layout>
+    <Message message="Not Logged In." variant='warning' />
   )
 
   console.log(user)
