@@ -1,8 +1,8 @@
 import { Typography, Button } from '@material-ui/core'
 import Message from '../../src/components/Utility/Message'
 import userProfileValidator from '../../src/helpers/userProfileValidator'
-import patreonAuthUrlGenerator from '../../src/helpers/patreonAuthUrlGenerator'
-import patreonTokenFetcher from '../../src/helpers/patreonTokenFetcher'
+import patreonAuthUrlGenerator from '../../src/helpers/patreon/authUrlGenerator'
+import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
 // import { useState } from 'react'
 import Layout from "../../src/components/DefaultLayout";
@@ -20,6 +20,8 @@ export default function Register({justConnectedPatreon}) {
     Router.replace("/");
     return <Message message="Redirecting" />
   }
+
+  console.log(user)
 
   const profileError = userProfileValidator(user)
   if (profileError) return profileError

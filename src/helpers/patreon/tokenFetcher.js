@@ -1,6 +1,6 @@
 import querystring from 'querystring'
 import axios from 'axios'
-import auth0 from '../../lib/auth0';
+import auth0 from '../../../lib/auth0';
 import { ManagementClient } from 'auth0'
 
 const CLIENT_ID = process.env.PAT_CLIENT_ID

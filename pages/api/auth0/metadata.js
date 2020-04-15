@@ -1,5 +1,6 @@
 import auth0 from '../../../lib/auth0';
 import { ManagementClient } from 'auth0'
+import patreonProfileFetcher from '../../../src/helpers/patreon/profileFetcher'
 
 export default function update(req, res) {
   
@@ -12,7 +13,7 @@ export default function update(req, res) {
       scope: 'read:users read:user_idp_tokens'
     })
 
-    let metaData;
+    let metaData = {};
 
     return auth0.getSession(req)
       .then(session => {
@@ -21,7 +22,19 @@ export default function update(req, res) {
         return auth0client.getUser(params)
       })
       .then(userData => {
-        metaData = userData.app_metadata || null
+        const { app_metadata } = userData
+        metaData.onbc_id = app_metadata.onbc_id;
+        const isPatron = app_metadata.patreon !== ("unchecked" || "skipped")
+
+        if (isPatron) {
+          const token = app_metadata.patreon
+          return patreonProfileFetcher(token)
+        } else {
+          return app_metadata.patreon
+        }
+      })
+      .then(patreonData => {
+        metaData.patreon = patreonData;
         return res.end(JSON.stringify(metaData));
       })
       .catch(err => {
