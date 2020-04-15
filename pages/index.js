@@ -9,6 +9,7 @@ import axios from "axios";
 const queries = require("../db/queries/books");
 import Router from "next/router";
 import Fuse from "fuse.js";
+import { bookOptions, tagOptions } from '../config/search.json'
 
 export default function App(props) {
 
@@ -20,39 +21,8 @@ export default function App(props) {
     randomBookIndex
   } = props;
 
-  const bookOptions = {
-    shouldSort: true,
-    threshold: 0.7,
-    location: 0,
-    distance: 100,
-    minMatchCharLength: 2,
-    keys: [
-      {
-        name: "title",
-        weight: 0.5
-      },
-      {
-        name: "tags_string",
-        weight: 0.3
-      },
-      {
-        name: "authors_string",
-        weight: 0.2
-      }
-    ]
-  };
-
-  const tagOptions = {
-    shouldSort: true,
-    threshold: 0.9,
-    location: 0,
-    distance: 100,
-    minMatchCharLength: 2,
-    keys: ["tag_name"]
-  };
-
-  const bookSearch = new Fuse(books, bookOptions);
-  const tagSearch = new Fuse(tags, tagOptions);
+  const bookSearch = books ? new Fuse(books, bookOptions) : null;
+  const tagSearch = tags ? new Fuse(tags, tagOptions) : null;
 
   const [searchResults, setSearchResults] = useState(books);
   const [tagList, setTagList] = useState(tags);
@@ -97,11 +67,13 @@ export default function App(props) {
     <div>
       <Layout>
         <Container component='section' disableGutters={true} maxWidth={false}>
+          {books ? 
           <HeroCarousel
-            randomBook={books[randomBookIndex] || null}
-            mostFavBook={books[books.findIndex(book => book.id == mostFavId)] || null}
-            highestRatedBook={books[books.findIndex(book => book.id == highestRatedId)] || null}
+            randomBook={books[randomBookIndex]}
+            mostFavBook={books[books.findIndex(book => book.id == mostFavId)]}
+            highestRatedBook={books[books.findIndex(book => book.id == highestRatedId)]}
           />
+          : <HeroCarousel />}
         </Container>
         <Container component='main' maxWidth={false}>
           <SearchBar

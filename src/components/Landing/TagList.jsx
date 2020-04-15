@@ -38,7 +38,7 @@ export default function TagList(props) {
     <Box component='section'>
       <Paper className={classes.root}>
         <GridList className={classes.gridList}>
-          {props.tags.slice(0, 10).map((tag, index) => (
+          {props.tags && props.tags.slice(0, 10).map((tag, index) => (
             <GridListTile key={index} classes={{root: classes.listItem}}>
               <Chip
                 onClick={() => props.onClick(tag.tag_name)}
