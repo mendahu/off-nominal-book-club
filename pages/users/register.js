@@ -8,8 +8,6 @@ import Router from 'next/router'
 
 export default function Register({justConnectedPatreon}) {
 
-  console.log(justConnectedPatreon)
-
   const { user, loading } = useFetchUser();
 
   if (loading) {
@@ -45,7 +43,6 @@ export async function getServerSideProps(context) {
   if (code) {
     const user = await patreonTokenFetcher(code, context.req)
     justConnectedPatreon = typeof user.app_metadata.patreon !== "string"
-    console.log(justConnectedPatreon)
   } 
   
   return { props: { justConnectedPatreon } }
