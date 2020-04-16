@@ -1,6 +1,6 @@
 import { Typography, Button } from '@material-ui/core'
 import Layout from '../DefaultLayout'
-import patreonAuthUrlGenerator from '../../src/helpers/patreon/authUrlGenerator'
+import patreonAuthUrlGenerator from '../../../src/helpers/patreon/authUrlGenerator'
 
 const patreonAuthOptions = {
   client_id: process.env.PAT_CLIENT_ID,

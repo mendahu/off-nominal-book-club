@@ -3,13 +3,14 @@ const knex = require('../knex');
 module.exports = {
   users : {
 
-    //only called by Auth0 when user registers
+    //only called by Auth0 when user registers to get an onbc_id and send to Auth0
     register: () => {
       return knex('users')
         .returning('id')
         .insert({})
     },
 
+    //called by user when they update their onbc profile
     update: (userId, { bio, name }) => {
       return knex('users')
         .where('id', '=', userId)
