@@ -1,16 +1,12 @@
 import Message from '../../src/components/Utility/Message'
 import userProfileValidator from '../../src/helpers/userProfileValidator'
 import AddPatreon from '../../src/components/Registration/AddPatreon'
+import CompleteProfile from '../../src/components/Registration/CompleteProfile'
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
 import Router from 'next/router'
-import { useState } from 'react'
 
-export default function Register(props) {
-
-  console.log(props)
-
-  const { justConnectedPatreon } = props
+export default function Register({justConnectedPatreon}) {
 
   console.log(justConnectedPatreon)
 
@@ -44,21 +40,13 @@ export default function Register(props) {
 export async function getServerSideProps(context) {
 
   const code = context.query?.code
-
   let justConnectedPatreon = false
 
   if (code) {
-
-    patreonTokenFetcher(code, context.req)
-      .then(user => {
-        justConnectedPatreon = typeof user.app_metadata.patreon !== "string"
-      })
-      .catch(err => console.error(err))
-      .finally(() => {
-        return { props: { justConnectedPatreon } }
-      })
-  }
-
+    const user = await patreonTokenFetcher(code, context.req)
+    justConnectedPatreon = typeof user.app_metadata.patreon !== "string"
+    console.log(justConnectedPatreon)
+  } 
+  
   return { props: { justConnectedPatreon } }
-
 }
