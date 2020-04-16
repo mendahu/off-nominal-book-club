@@ -1,6 +1,6 @@
 import auth0 from '../../../lib/auth0'
 import { users } from '../../../db/queries/users'
-import getAuth0User from '../../../src/helpers/getAuth0user';
+import { getAuth0User } from '../../../src/helpers/Auth0User';
 
 export default auth0.requireAuthentication(async function update(req, res) {
   
