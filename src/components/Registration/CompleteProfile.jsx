@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CompleteProfile() {
+export default function CompleteProfile({user}) {
 
   const classes = useStyles();
 

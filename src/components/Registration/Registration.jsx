@@ -24,7 +24,7 @@ export default function Registration(props) {
           <Paper>
             {props.patreon 
               ? <AddPatreon />
-              : <CompleteProfile />
+              : <CompleteProfile user={props.user}/>
             }
           </Paper>
         </Grid>

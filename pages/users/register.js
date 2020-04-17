@@ -28,7 +28,7 @@ export default function Register({justConnectedPatreon}) {
   if (user.app_metadata.patreon === "unchecked") return <Registration patreon={true} />
 
   //Prompts for final registration information
-  if (justConnectedPatreon) return <Registration patreon={false} />
+  if (justConnectedPatreon) return <Registration patreon={false} user={user}/>
 
   Router.replace("/");
   return <Message message="Redirecting..." variant='loading'/>
