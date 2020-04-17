@@ -1,8 +1,6 @@
 import React from 'react'
 import { render, cleanup } from "@testing-library/react";
-import Register from './register'
-
-afterEach(cleanup)
+import Register from '../../../pages/users/register'
 
 describe("Registration", () => {
 

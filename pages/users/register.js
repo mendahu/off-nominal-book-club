@@ -19,8 +19,6 @@ export default function Register({justConnectedPatreon}) {
     return <Message message="Redirecting" variant='loading'/>
   }
 
-  console.log(user)
-
   // checks for any errors in the profile fetched which would indicate system issues 
   // and shows error to user
   const profileError = userProfileValidator(user)

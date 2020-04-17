@@ -7,11 +7,6 @@ import ForwardIcon from '@material-ui/icons/Forward';
 import axios from 'axios'
 import { makeStyles } from "@material-ui/core/styles";
 
-const patreonAuthOptions = {
-  client_id: process.env.PAT_CLIENT_ID,
-  redirect_uri: process.env.PAT_REDIRECT_URI
-}
-
 const useStyles = makeStyles(theme => ({
   contents: {
     display: "flex",
@@ -51,7 +46,7 @@ export default function AddPatreon() {
       </CardContent>
 
       <CardContent className={classes.contents}>
-        <Button className={classes.button} variant="contained" color="secondary" href={patreonAuthUrlGenerator(patreonAuthOptions)}>Connect your Patreon</Button>
+        <Button className={classes.button} variant="contained" color="secondary" href={patreonAuthUrlGenerator()}>Connect your Patreon</Button>
         <Button className={classes.button} endIcon={<ForwardIcon />} size='small' variant="contained" color="default" onClick={handleSkip}>Skip for now</Button>
       </CardContent>
 

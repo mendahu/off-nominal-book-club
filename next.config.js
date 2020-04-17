@@ -5,10 +5,7 @@ module.exports = {
     config.plugins.push(new Dotenv({ silent: true }));
     return {
       ...config,
-      node: {
-        fs:
-          'empty'
-        }
+      node: { fs: 'empty' }
       }
    }
 };
