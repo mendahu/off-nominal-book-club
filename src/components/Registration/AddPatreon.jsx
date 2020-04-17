@@ -52,7 +52,7 @@ export default function AddPatreon() {
 
       <CardContent className={classes.contents}>
         <Button className={classes.button} variant="contained" color="secondary" href={patreonAuthUrlGenerator(patreonAuthOptions)}>Connect your Patreon</Button>
-        <Button className={classes.button} endIcon={<ForwardIcon />} size='small' variant="contained" color="default" onClick={handleSkip()}>Skip for now</Button>
+        <Button className={classes.button} endIcon={<ForwardIcon />} size='small' variant="contained" color="default" onClick={handleSkip}>Skip for now</Button>
       </CardContent>
 
       <CardContent>

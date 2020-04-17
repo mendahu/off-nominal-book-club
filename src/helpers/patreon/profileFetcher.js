@@ -1,6 +1,7 @@
 import axios from 'axios'
+import profileFormatter from './profileFormatter'
 
-export default function patreonProfileFetcher(token) {
+export default async function patreonProfileFetcher(token) {
 
   const headers = { "Authorization": `${token.token_type} ${token.access_token}` }
 
@@ -17,7 +18,7 @@ export default function patreonProfileFetcher(token) {
   
   const url = `https://www.patreon.com/api/oauth2/v2/identity?include=${includes}&fields%5Buser%5D=${fields}`
   
-  return axios.get(url, { headers })
-    .then(res => res.data)
-    .catch(err => console.error(err))
+  const patreonData = await axios.get(url, { headers })
+  return profileFormatter(patreonData.data)
+
 }

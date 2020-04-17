@@ -1,7 +1,6 @@
 import Message from '../../src/components/Utility/Message'
 import userProfileValidator from '../../src/helpers/userProfileValidator'
-import AddPatreon from '../../src/components/Registration/AddPatreon'
-import CompleteProfile from '../../src/components/Registration/CompleteProfile'
+import Registration from '../../src/components/Registration/Registration'
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
 import Router from 'next/router'
@@ -26,10 +25,10 @@ export default function Register({justConnectedPatreon}) {
   if (profileError) return profileError
 
   //Prompts user to add Patreon account to new account
-  if (user.app_metadata.patreon === "unchecked") return <AddPatreon />
+  if (user.app_metadata.patreon === "unchecked") return <Registration patreon={true} />
 
   //Prompts for final registration information
-  if (justConnectedPatreon) return <CompleteProfile />
+  if (justConnectedPatreon) return <Registration patreon={false} />
 
   Router.replace("/");
   return <Message message="Redirecting..." variant='loading'/>
