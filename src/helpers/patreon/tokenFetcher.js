@@ -1,8 +1,6 @@
-import querystring from 'querystring'
-import axios from 'axios'
 import auth0 from '../../../lib/auth0';
 import { updatePatreonData } from '../auth0User';
-import { patreon as patreonAPI, oauth as patreonOAuth } from 'patreon'
+import { oauth as patreonOAuth } from 'patreon'
 
 export default async function patreonTokenFetcher(code, req) {
 

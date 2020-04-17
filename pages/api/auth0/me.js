@@ -1,7 +1,8 @@
 import auth0 from '../../../lib/auth0';
-import patreonProfileFetcher from '../../../src/helpers/patreon/profileFetcher'
+import profileFormatter from '../../../src/helpers/patreon/profileFormatter'
 import userDataFormatter from '../../../src/helpers/userDataFormatter'
 import { getAuth0User } from '../../../src/helpers/auth0User';
+import { patreon as patreonAPI } from 'patreon'
 
 export default auth0.requireAuthentication(async function me(req, res) {
   
@@ -15,9 +16,16 @@ export default auth0.requireAuthentication(async function me(req, res) {
   
   const patreonToken = auth0User.app_metadata.patreon
   const isPatron = !(patreonToken === "unchecked" || patreonToken === "skipped")
-  const patreonData = isPatron ? await patreonProfileFetcher(patreonToken) : patreonToken
-  
-  userData.app_metadata.patreon = patreonData
+
+  let patreonData;
+  if (isPatron) {
+    const patreonClient = patreonAPI(patreonToken.access_token)
+    patreonData = await patreonClient('/current_user')
+  } else {
+    patreonData = patreonToken
+  }
+
+  userData.app_metadata.patreon = profileFormatter(patreonData.rawJson);
   return res.end(JSON.stringify(userData))
 
 });
