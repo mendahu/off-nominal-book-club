@@ -15,11 +15,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
   },
   button: {
-    margin: theme.spacing(2, 0, 0, 0)
-  },
-  patreonWordMark: {
-    width: "80%",
-    margin: theme.spacing(2, 0, 2, 0)
+    margin: theme.spacing(6, 0, 2, 0)
   }
 }));
 
@@ -36,32 +32,40 @@ export default function CompleteProfile() {
     setFormData({...formData, [e.target.id]: e.target.value})
   }
 
-  const submit = () => {
-    axios.patch('/api/users/update', formData)
-      .then(() => {
-        Router.replace("/");
-      })
+  const submit = async () => {
+    await axios.patch('/api/users/update', formData)
+    Router.replace("/");
   }
 
   return (
     <>
-      <CardContent className={classes.content}>
-        <Typography>Just a few more details...</Typography>
-          <TextField 
-            id="name" 
-            label='Public display name'
-            value={formData.name}
-            onChange={handleFormChange}
-            helperText='Displayed next your public reviews and on your public profile page' />
-          <TextField 
-            id="bio" 
-            label='Public short bio' 
-            multiline
-            rows={3}
-            value={formData.bio}
-            onChange={handleFormChange}
-            helperText='Displayed on your public profile page' />
-        <Button variant="contained" color="primary" href={'/'} onClick={submit}>Submit</Button>
+      <CardContent>
+        <Typography 
+          variant='h5'
+          paragraph>Just a few more details...</Typography>
+        <TextField 
+          id="name" 
+          label='Public display name'
+          value={formData.name}
+          margin='normal'
+          onChange={handleFormChange}
+          helperText='Displayed next your public reviews and on your public profile page' />
+        <TextField 
+          id="bio" 
+          label='Public short bio' 
+          multiline
+          fullWidth
+          margin='normal'
+          rows={1}
+          value={formData.bio}
+          onChange={handleFormChange}
+          helperText='Displayed on your public profile page' />
+      <Button 
+        variant="contained" 
+        color="primary" 
+        className={classes.button}
+        onClick={submit}>Submit
+      </Button>
       </CardContent>
     </>
   )
