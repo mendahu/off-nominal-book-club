@@ -9,7 +9,7 @@ export const callOptions = {
 export const tokenOptions = {
   client_id: process.env.PAT_CLIENT_ID,
   redirect_uri: process.env.PAT_REDIRECT_URI,
-  scope: 'identity'
+  scope: 'identity identity.memberships'
 }
 
 export default { callOptions, tokenOptions };
