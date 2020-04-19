@@ -32,7 +32,7 @@ export default function profileFormatter(patreonData) {
     const formattedData = {
       full_name,
       image_url,
-      campaigns,
+      campaigns
     }
   
     return formattedData;
