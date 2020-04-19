@@ -29,7 +29,7 @@ const LoginPromote = (props) => {
             component='p'
             color='textSecondary'
             variant='body2'
-            paragraph>Logged in users can create wishlists, add tags, rate and review books, and more!</Typography>
+            paragraph>Logged in patrons can add tags, rate and review books, and more!</Typography>
           <Link href={`/community`} passHref>
             <Button variant='contained' color='primary' component='a'>Create Account</Button>
           </Link>

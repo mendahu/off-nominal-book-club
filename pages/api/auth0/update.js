@@ -1,5 +1,5 @@
 import auth0 from '../../../lib/auth0';
-import { updatePatreonData } from '../../../src/helpers/auth0User';
+import { updatePatreonData } from '../../../src/helpers/auth0/auth0User';
 
 export default auth0.requireAuthentication(async function me(req, res) {
   

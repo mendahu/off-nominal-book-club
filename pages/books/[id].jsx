@@ -7,11 +7,15 @@ import BookDesc from "../../src/components/Bookview/BookDesc";
 import BookFeedback from "../../src/components/Bookview/BookFeedback";
 import ReadingButton from "../../src/components/Bookview/ReadingButton";
 import LoginPromote from "../../src/components/Bookview/LoginPromote";
-import UserContext from '../../src/UserContext'
-import { useContext, useState, useEffect } from 'react'
+import auth0 from '../../lib/auth0'
+import userProfileFetcher from '../../src/helpers/userProfileFetcher'
 import { Grid, Typography } from '@material-ui/core'
+import { useFetchUser } from '../../lib/user'
 
 const Bookview = ({ book, userData }) => {
+
+  const { user, loading } = useFetchUser();
+  const userId = user?.app_metadata?.onbc_id
 
   if (!book) {
     return (
@@ -20,14 +24,6 @@ const Bookview = ({ book, userData }) => {
       </Layout>
     )
   }
-
-  const { userId } = useContext(UserContext)
-
-  const [ loggedIn, setLoggedIn ] = useState(false);
-
-  useEffect(() => {
-    if (userId) setLoggedIn(true);
-  }, [])
 
   return (
     <Layout>
@@ -57,14 +53,14 @@ const Bookview = ({ book, userData }) => {
           userTags={userData.user_tags}
         />
 
-        {loggedIn
+        {user?.isPatron
           ? <ReadingButton
             bookId={book.id}/>
           : <LoginPromote />}
 
         <BookDesc desc={book.description}/>
         <BookFeedback 
-          loggedIn={loggedIn}
+          loggedIn={user?.isPatron}
           userId={userId}
           userName={userData.name}
           bookId={book.id}
@@ -79,10 +75,10 @@ const Bookview = ({ book, userData }) => {
 
 export async function getServerSideProps(context) {
   const queryId = context.params.id.split("-")[0];
-  const cookie = context.req.headers.cookie
-  const userId = (cookie) ? Number(cookie.split("=")[1]) : 0
 
-  
+  const userProfile = await userProfileFetcher(context.req)
+  const userId = userProfile?.app_metadata?.onbc_id
+
   //Default user Data
   const props = {
     userData: {

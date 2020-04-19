@@ -1,5 +1,5 @@
 import auth0 from '../../../lib/auth0';
-import { updatePatreonData } from '../auth0User';
+import { updatePatreonData } from '../auth0/auth0User';
 import { oauth as patreonOAuth } from 'patreon'
 
 export default async function patreonTokenFetcher(code, req, options) {

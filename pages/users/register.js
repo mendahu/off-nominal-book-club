@@ -4,6 +4,7 @@ import Registration from '../../src/components/Registration/Registration'
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
 import Router from 'next/router'
+import Layout from '../../src/components/DefaultLayout'
 
 export default function Register({justConnectedPatreon}) {
 

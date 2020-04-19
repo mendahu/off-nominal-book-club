@@ -113,7 +113,7 @@ const Navbar = () => {
         </Link>
       </List>
       <Divider />
-      {user ? (
+      {user?.app_metadata ? (
         <List>
           <Link href={`/users/${user.app_metadata.onbc_id}`} passHref>
             <ListItem button>
