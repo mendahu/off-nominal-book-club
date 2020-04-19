@@ -17,7 +17,7 @@ export default auth0.requireAuthentication(async function me(req, res) {
   const patreonToken = auth0User.app_metadata.patreon
   const isPatron = !(patreonToken === "unchecked" || patreonToken === "skipped")
 
-  const patreonData = isPatron ? await patreonProfileFetcher(patreonToken) : patreonToken
+  const patreonData = isPatron ? await patreonProfileFetcher(req, patreonToken) : patreonToken
 
   userData.app_metadata.patreon = profileFormatter(patreonData);
   return res.end(JSON.stringify(userData))

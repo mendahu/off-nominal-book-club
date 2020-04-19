@@ -7,32 +7,37 @@ export default function profileFormatter(patreonData) {
     "410513": "meco"
   }
 
-  const { data: { attributes: { full_name, image_url } }, included } = patreonData.data
-
-  if (included.length) {
-    included.forEach((campaign, index) => {
+  if (patreonData.data) {
+    const { data: { attributes: { full_name, image_url } }, included } = patreonData.data
   
-      const campaignId = included[index].relationships?.campaign.data.id
-      
-      if (campaignRef[campaignId]) {
-  
-        const campaignObj = {
-          name: campaignRef[campaignId],
-          id: campaignId,
-          status: campaign.attributes.patron_status,
-          pledge: campaign.attributes.currently_entitled_amount_cents
+    if (included.length) {
+      included.forEach((campaign, index) => {
+    
+        const campaignId = included[index].relationships?.campaign.data.id
+        
+        if (campaignRef[campaignId]) {
+    
+          const campaignObj = {
+            name: campaignRef[campaignId],
+            id: campaignId,
+            status: campaign.attributes.patron_status,
+            pledge: campaign.attributes.currently_entitled_amount_cents
+          }
+    
+          campaigns.push(campaignObj)
         }
+      })
+    }
   
-        campaigns.push(campaignObj)
-      }
-    })
+    const formattedData = {
+      full_name,
+      image_url,
+      campaigns,
+    }
+  
+    return formattedData;
+  } else {
+    return patreonData;
   }
 
-  const formattedData = {
-    full_name,
-    image_url,
-    campaigns,
-  }
-
-  return formattedData;
 }

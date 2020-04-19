@@ -2,8 +2,6 @@ import { tokenOptions as options } from '../../../config/patreon/api_config'
 
 export default function patreonAuthUrlGenerator() {
 
-  console.log(options)
-
   const baseURL = 'https://www.patreon.com/oauth2/authorize'
   const response_type = 'code'
 
@@ -16,7 +14,6 @@ export default function patreonAuthUrlGenerator() {
     (options.state ? '&state=' + options.state : "")
   )
 
-  console.log(url)
   return url;
 }
 
