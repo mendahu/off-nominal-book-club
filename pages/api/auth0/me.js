@@ -19,7 +19,7 @@ export default auth0.requireAuthentication(async function me(req, res) {
 
   const patreonData = isPatron ? await patreonProfileFetcher(patreonToken) : patreonToken
 
-  userData.app_metadata.patreon = profileFormatter(patreonData.data);
+  userData.app_metadata.patreon = profileFormatter(patreonData);
   return res.end(JSON.stringify(userData))
 
 });
