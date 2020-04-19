@@ -11,7 +11,7 @@ export default function userDataFormatter(user) {
     },
     get isPatron() {
       let status = false;
-      if (this.app_metadata?.patreon) {
+      if (this.app_metadata?.patreon?.campaigns) {
         this.app_metadata.patreon.campaigns.forEach(campaign => {
           if (campaign.status === "active_patron") {
             status = true;

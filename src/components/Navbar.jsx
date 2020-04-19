@@ -85,7 +85,7 @@ const Navbar = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}>
       <List>
-        {user && (
+        {user?.isPatron && (
           <Link href={`/books/new`} passHref>
             <ListItem button>
               <ListItemIcon>
@@ -165,7 +165,7 @@ const Navbar = () => {
           </Link>
         </Typography>
 
-        {user && (
+        {user?.isPatron && (
           <Link href={`/books/new`} passHref>
             <Button
               component='a'
