@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SearchBar from "../../src/components/New/SearchBar";
 import Layout from "../../src/components/DefaultLayout";
 import SearchResultsList from "../../src/components/New/SearchResultsList";
 import ConfirmResults from "../../src/components/New/ConfirmResults";
 import axios from "axios";
 import Router from "next/router";
+import { useFetchUser } from '../../lib/user'
+import Message from '../../src/components/Utility/Message'
 
 export default function New() {
+
+  const { user, loading } = useFetchUser();
   const [searchResults, setSearchResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearch, setIsSearch] = useState(true);
@@ -56,7 +60,7 @@ export default function New() {
     // format google book data into database format
     const selectedBook = {
       book: {
-        user_id: 10,
+        user_id: user.app_metadata.onbc_id,
         title: book.title,
         description: book.description,
         fiction: true,
@@ -94,34 +98,48 @@ export default function New() {
     setIsSearch(true);
   }
 
+  if ((!user && !loading) || (!user?.isPatron && !loading)) {
+    return (
+      <Layout>
+        You must be logged in and a Patron to add books.
+      </Layout>
+    )
+  }
+
   return (
     <Layout>
-      {isSearch === true ? (
-        <SearchBar
-          results={searchResults}
-          setResults={handleResults}
-          searchTerm={searchTerm}
-          setTerm={handleSearchTerm}
-          onClick={redirectToCom}
-        />
-      ) : (
-        <ConfirmResults book={bookObj} onClick={addBook} back={toSearch} />
-      )}
-      {isSearch === true ? (
-        <SearchResultsList
-          results={searchResults}
-          selectBook={selectBook}
-          buttonText={"Add Book"}
-          isSearch={isSearch}
-        />
-      ) : (
-        <SearchResultsList
-          results={searchResults}
-          redirectToBook={redirectToBook}
-          buttonText={"Go to Book"}
-          isSearch={isSearch}
-        />
-      )}
+      {loading &&
+        <Message variant='loading' message='Validating credentials...' />
+      }
+      {(!loading && user?.isPatron) && 
+        (isSearch
+          ?
+            <>
+              <SearchBar
+                results={searchResults}
+                setResults={handleResults}
+                searchTerm={searchTerm}
+                setTerm={handleSearchTerm}
+                onClick={redirectToCom}
+              />
+              <SearchResultsList
+                results={searchResults}
+                selectBook={selectBook}
+                buttonText={"Add Book"}
+                isSearch={isSearch}
+              />
+            </>
+          :
+            <>
+              <ConfirmResults book={bookObj} onClick={addBook} back={toSearch} />
+              <SearchResultsList
+                results={searchResults}
+                redirectToBook={redirectToBook}
+                buttonText={"Go to Book"}
+                isSearch={isSearch}
+              />
+            </>)
+      }
     </Layout>
   );
 }

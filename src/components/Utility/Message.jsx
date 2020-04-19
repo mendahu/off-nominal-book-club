@@ -1,4 +1,3 @@
-import Layout from "../DefaultLayout";
 import { Paper, Grid, CardContent, Typography } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ErrorIcon from '@material-ui/icons/Error';
@@ -32,17 +31,15 @@ export default function BookList(props) {
   }
 
   return (
-    <Layout>
-      <Grid container space={2} className={classes.root}>
-        <Grid item xs={12} sm={10} md={6} lg={4}>
-          <Paper>
-            <CardContent className={classes.contents}>
-              {variants[props.variant]}
-              <Typography align="center" variant='h6' component='p'>{props.message}</Typography>
-            </CardContent>
-          </Paper>
-        </Grid>
+    <Grid container space={2} className={classes.root}>
+      <Grid item xs={12} sm={10} md={6} lg={4}>
+        <Paper>
+          <CardContent className={classes.contents}>
+            {variants[props.variant]}
+            <Typography align="center" variant='h6' component='p'>{props.message}</Typography>
+          </CardContent>
+        </Paper>
       </Grid>
-    </Layout>
+    </Grid>
   );
 }

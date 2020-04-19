@@ -16,7 +16,11 @@ export default function Register({justConnectedPatreon}) {
   //user is not logged in
   if (!loading && !user) {
     Router.replace("/");
-    return <Message message="Redirecting" variant='loading'/>
+    return (
+      <Layout>
+        <Message message="Redirecting" variant='loading'/>
+      </Layout>
+      )
   }
 
   // checks for any errors in the profile fetched which would indicate system issues 
@@ -31,7 +35,11 @@ export default function Register({justConnectedPatreon}) {
   if (justConnectedPatreon) return <Registration patreon={false} user={user}/>
 
   Router.replace("/");
-  return <Message message="Redirecting..." variant='loading'/>
+  return (
+    <Layout>
+      <Message message="Redirecting..." variant='loading'/>
+    </Layout>
+  )
 }
 
 export async function getServerSideProps(context) {
