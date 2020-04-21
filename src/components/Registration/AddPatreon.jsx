@@ -6,6 +6,7 @@ import patreonAuthUrlGenerator from '../../../src/helpers/patreon/authUrlGenerat
 import ForwardIcon from '@material-ui/icons/Forward';
 import axios from 'axios'
 import { makeStyles } from "@material-ui/core/styles";
+import { Router } from 'next/router';
 
 const useStyles = makeStyles(theme => ({
   contents: {
@@ -22,13 +23,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const handleSkip = () => {
-  axios.post('/api/auth0/update', { result: "skipped" });
-  //
-}
 
-export default function AddPatreon() {
+export default function AddPatreon({skipProfile}) {
   const classes = useStyles();
+  
+  const handleSkip = () => {
+    axios.post('/api/auth0/update', { result: "skipped" });
+    skipProfile();
+  }
 
   return (
     <>

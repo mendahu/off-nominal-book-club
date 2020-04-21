@@ -4,16 +4,23 @@ import Registration from '../../src/components/Registration/Registration'
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
 import Router from 'next/router'
+import { useState, useEffect } from 'react'
 import Layout from '../../src/components/DefaultLayout'
 
 export default function Register({justConnectedPatreon}) {
 
   const { user, loading } = useFetchUser();
+  const [ promptForPatreon, setPromptForPatreon ] = useState(false)
+  const [ promptForProfile, setPromptForProfile ] = useState(justConnectedPatreon)
 
   if (loading) {
-    return <Message message="Validating Credentials" variant='loading'/>
+    return (
+    <Layout>
+      <Message message="Validating Credentials" variant='loading'/>
+    </Layout>
+    )
   }
-
+  
   //user is not logged in
   if (!loading && !user) {
     Router.replace("/");
@@ -22,23 +29,28 @@ export default function Register({justConnectedPatreon}) {
         <Message message="Redirecting" variant='loading'/>
       </Layout>
       )
-  }
-
+    }
+    
   // checks for any errors in the profile fetched which would indicate system issues 
   // and shows error to user
   const profileError = userProfileValidator(user)
   if (profileError) return profileError
+  
+  useEffect(() => {
+    if (user.app_metadata.patreon === "unchecked") setPromptForPatreon(true);
+  }, [user])
 
-  //Prompts user to add Patreon account to new account
-  if (user.app_metadata.patreon === "unchecked") return <Registration patreon={true} />
+  if (!promptForPatreon && !promptForProfile) Router.replace("/");
 
-  //Prompts for final registration information
-  if (justConnectedPatreon) return <Registration patreon={false} user={user}/>
-
-  Router.replace("/");
   return (
     <Layout>
-      <Message message="Redirecting..." variant='loading'/>
+      {(promptForPatreon || promptForProfile) 
+        ? <Registration 
+          patreon={promptForPatreon}
+          onSkip={setPromptForProfile(true)} 
+          user={user}/>
+        : <Message message="Redirecting..." variant='loading'/>
+      }
     </Layout>
   )
 }
