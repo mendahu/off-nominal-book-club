@@ -10,12 +10,12 @@ import Layout from '../../src/components/DefaultLayout'
 export default function Register({justConnectedPatreon}) {
 
   const { user, loading } = useFetchUser();
-  const [ promptForPatreon, setPromptForPatreon ] = useState(false)
   const [ promptForProfile, setPromptForProfile ] = useState(justConnectedPatreon)
-
+  const [ patreonOverride, setPatreonOverride ] = useState(false)
+  
   if (loading) {
     return (
-    <Layout>
+      <Layout>
       <Message message="Validating Credentials" variant='loading'/>
     </Layout>
     )
@@ -36,18 +36,21 @@ export default function Register({justConnectedPatreon}) {
   const profileError = userProfileValidator(user)
   if (profileError) return profileError
   
-  useEffect(() => {
-    if (user.app_metadata.patreon === "unchecked") setPromptForPatreon(true);
-  }, [user])
+  const promptForPatreon = (user.app_metadata.patreon === "unchecked")
 
   if (!promptForPatreon && !promptForProfile) Router.replace("/");
 
+  const handleSkip = () => {
+    setPromptForProfile(true)
+    setPatreonOverride(true)
+  }
+
   return (
     <Layout>
-      {(promptForPatreon || promptForProfile) 
+      {((patreonOverride || promptForPatreon) || promptForProfile) 
         ? <Registration 
-          patreon={promptForPatreon}
-          onSkip={setPromptForProfile(true)} 
+          patreon={patreonOverride ? false : promptForPatreon}
+          onSkip={handleSkip} 
           user={user}/>
         : <Message message="Redirecting..." variant='loading'/>
       }
