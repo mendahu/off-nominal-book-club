@@ -103,14 +103,6 @@ const Navbar = () => {
             <ListItemText primary={"Home"} />
           </ListItem>
         </Link>
-        <Link href={`/readings`} passHref>
-          <ListItem button>
-            <ListItemIcon>
-              <LocalLibraryIcon />
-            </ListItemIcon>
-            <ListItemText primary={"View Readings"} />
-          </ListItem>
-        </Link>
       </List>
       <Divider />
       {user?.app_metadata ? (
