@@ -101,7 +101,7 @@ export default function New() {
   if ((!user && !loading) || (!user?.isPatron && !loading)) {
     return (
       <Layout>
-        You must be logged in and a Patron to add books.
+        <Message variant="warning" message='You must be logged in and a Patron to add books.' />
       </Layout>
     )
   }

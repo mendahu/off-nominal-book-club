@@ -1,13 +1,15 @@
 const bookQueries = require('../../db/queries/books')
 const userQueries = require('../../db/queries/users')
 import Layout from "../../src/components/DefaultLayout";
-import BookTitleBar from "../../src/components/Bookview/BookTitleBar";
-import BookTagList from "../../src/components/Bookview/BookTagList";
-import BookDesc from "../../src/components/Bookview/BookDesc";
-import BookFeedback from "../../src/components/Bookview/BookFeedback";
-import ReadingButton from "../../src/components/Bookview/ReadingButton";
-import LoginPromote from "../../src/components/Bookview/LoginPromote";
-import auth0 from '../../lib/auth0'
+import {
+  BookTitleBar,
+  BookTagList,
+  BookDesc,
+  BookFeedback,
+  PatronPromote,
+  LoginPromote,
+  DataPromote,
+} from '../../src/components/Bookview'
 import userProfileFetcher from '../../src/helpers/userProfileFetcher'
 import { Grid, Typography } from '@material-ui/core'
 import { useFetchUser } from '../../lib/user'
@@ -53,10 +55,10 @@ const Bookview = ({ book, userData }) => {
           userTags={userData.user_tags}
         />
 
-        {user?.isPatron
-          ? <ReadingButton
-            bookId={book.id}/>
-          : <LoginPromote />}
+        {!user && <LoginPromote />}
+        {user && (user?.isPatron
+          ? <DataPromote/>
+          : <PatronPromote userId={userId} />)}
 
         <BookDesc desc={book.description}/>
         <BookFeedback 

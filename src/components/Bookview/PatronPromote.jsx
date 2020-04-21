@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LoginPromote = (props) => {
+const PatronPromote = (props) => {
 
   const classes = useStyles();
 
@@ -21,7 +21,7 @@ const LoginPromote = (props) => {
         <CardContent className={classes.header}>
           <Typography 
             component='h2' 
-            variant='h5'>Login for more!</Typography>
+            variant='h5'>Subscribe for more!</Typography>
         </CardContent>
         
         <CardContent>
@@ -29,9 +29,9 @@ const LoginPromote = (props) => {
             component='p'
             color='textSecondary'
             variant='body2'
-            paragraph>Logged in users can add create wishlists, mark books as read and add favourites!</Typography>
-          <Link href={`/api/auth0/login`} passHref>
-            <Button variant='contained' color='primary' component='a'>Log in</Button>
+            paragraph>Patron users can add tags, rate and review books, and more!</Typography>
+          <Link href={`/users/${props.userId}`} passHref>
+            <Button variant='contained' color='primary' component='a'>Connect your Account</Button>
           </Link>
         </CardContent>
 
@@ -41,4 +41,4 @@ const LoginPromote = (props) => {
 
   }
 
-export default LoginPromote;
+export default PatronPromote;

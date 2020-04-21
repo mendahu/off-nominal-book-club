@@ -5,9 +5,9 @@ import patreonProfileFetcher from './patreon/profileFetcher'
 import auth0 from '../../lib/auth0';
 
 export default async function userProfileFetcher(req) {
-  const { user } = await auth0.getSession(req)
-  if (!user) return null;
-  const { sub } = user;
+  const returnedUserObj = await auth0.getSession(req)
+  if (!returnedUserObj) return null;
+  const { user: { sub } } = returnedUserObj
 
   const auth0User = await getAuth0User(sub)
   const userData = userDataFormatter(auth0User)

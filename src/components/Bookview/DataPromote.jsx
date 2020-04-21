@@ -21,7 +21,7 @@ const LoginPromote = (props) => {
         <CardContent className={classes.header}>
           <Typography 
             component='h2' 
-            variant='h5'>Login for more!</Typography>
+            variant='h5'>Tell us about this book!</Typography>
         </CardContent>
         
         <CardContent>
@@ -29,10 +29,7 @@ const LoginPromote = (props) => {
             component='p'
             color='textSecondary'
             variant='body2'
-            paragraph>Logged in users can add create wishlists, mark books as read and add favourites!</Typography>
-          <Link href={`/api/auth0/login`} passHref>
-            <Button variant='contained' color='primary' component='a'>Log in</Button>
-          </Link>
+            paragraph>The Off-Nominal Book Club is powered by user feedback. Tell us what you think of this book by adding tags, reviews, or ratings!</Typography>
         </CardContent>
 
       </Paper>
