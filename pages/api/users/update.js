@@ -5,7 +5,6 @@ import { getAuth0User } from '../../../src/helpers/auth0/auth0User';
 export default auth0.requireAuthentication(async function update(req, res) {
   
   const { name, bio } = req.body
-  
   const { user: { sub } } = await auth0.getSession(req)
   const { app_metadata: { onbc_id }} = await getAuth0User(sub)
 
