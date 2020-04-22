@@ -3,30 +3,18 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
   Box,
   Drawer,
   Button
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
-import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import PeopleIcon from "@material-ui/icons/People";
-import PersonIcon from "@material-ui/icons/Person";
 import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
-import Router from "next/router";
 import { useFetchUser } from '../../lib/user'
+import DrawerContents from './Navbar/DrawerContents'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
   menuButton: {
     marginLeft: theme.spacing(-2)
   },
@@ -42,13 +30,6 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
-  },
-  link: {
-    color: theme.palette.text.primary,
-    textDecoration: "none"
-  },
-  list: {
-    width: 250
   }
 }));
 
@@ -58,14 +39,6 @@ const Navbar = () => {
 
   const { user, loading } = useFetchUser();
   const [drawerOpen, setDrawerOpen] = useState(false)
-
-  const logOut = () => {
-    Router.push('/api/auth0/logout')
-  }
-
-  const logIn = () => {
-    Router.push('/api/auth0/login')
-  }
 
   const toggleDrawer = open => event => {
     if (
@@ -78,63 +51,6 @@ const Navbar = () => {
     setDrawerOpen(open);
   };
 
-  const drawer = () => (
-    <div
-      className={classes.list}
-      role='presentation'
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}>
-      <List>
-        {user?.isPatron && (
-          <Link href={`/books/new`} passHref>
-            <ListItem button>
-              <ListItemIcon>
-                <LibraryAddIcon color='primary' />
-              </ListItemIcon>
-              <ListItemText primary={"Add Book"} />
-            </ListItem>
-          </Link>
-        )}
-        <Link href={`/`} passHref>
-          <ListItem button>
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Home"} />
-          </ListItem>
-        </Link>
-      </List>
-      <Divider />
-      {user?.app_metadata ? (
-        <List>
-          <Link href={`/users/${user.app_metadata.onbc_id}`} passHref>
-            <ListItem button>
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary={"My Profile"} />
-            </ListItem>
-          </Link>
-          <ListItem button onClick={logOut}>
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Logout"} />
-          </ListItem>
-        </List>
-      ) : (
-        <List>
-          <ListItem button onClick={logIn}>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Log in"} />
-          </ListItem>
-        </List>
-      )}
-    </div>
-  );
-
   return (
     <AppBar position='sticky'>
       <Toolbar>
@@ -143,7 +59,11 @@ const Navbar = () => {
           <MenuIcon onClick={toggleDrawer(true)} />
         </Button>
         <Drawer anchor={"left"} open={drawerOpen} onClose={toggleDrawer(false)}>
-          {drawer()}
+          <DrawerContents 
+            user={user}
+            logInUrl='/api/auth0/login'
+            logOutUrl='/api/auth0/logout'
+            toggleDrawer={toggleDrawer} />
         </Drawer>
 
         <Typography variant='h6' className={classes.title}>
