@@ -33,11 +33,15 @@ const Bookview = ({ slug, book, userData }) => {
     <Layout>
       <Head>
         <meta property="og:url"          content={bookUrl} key='url'/>
-        <meta property="og:type"         content="website" key='type'/>
         <meta property="og:title"        content={book.title + " - The Off-Nominal Book Club"} key='title'/>
         <meta property="og:description"  content={book.description} key='description'/>
         <meta property="og:image"        content={book.image_url} key='image'/>
-      </Head>
+
+        <meta name="twitter:description" content={book.description.slice(0, 196) + '...'} key='twitter_description'/>
+        <meta name="twitter:title"       content={book.title + " - The Off-Nominal Book Club"} key='twitter_title'/>
+        <meta name="twitter:image"       content={book.image_url} key='twitter_image'/>
+        <meta name="twitter:image:alt"   content={'Book cover for ' + book.title} key='twitter_image_alt'/>
+    </Head>
       <Grid container spacing={2}>
         <BookTitleBar 
           userId={userId} 

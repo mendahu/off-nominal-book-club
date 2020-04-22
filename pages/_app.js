@@ -51,6 +51,14 @@ function MyApp({ Component, pageProps }) {
           <meta property="og:description"  content="Find the best recommendations for space-themed books, built by the space-loving Off-Nominal community." key='description'/>
           <meta property="og:image"        content="https://books.offnominal.space/onbc_social.png" key='image'/>
 
+          <meta name="twitter:card"        content="summary_large_image" key='twitter_card'/>
+          <meta name="twitter:site"        content="@offnom" key='site_handle'/>
+          <meta name="twitter:creator"     content="@JakeOnOrbit" key='creator_handle'/>
+          <meta name="twitter:description" content="Find the best recommendations for space-themed books, built by the space-loving Off-Nominal community." key='twitter_description'/>
+          <meta name="twitter:title"       content="The Off-Nominal Book Club" key='twitter_title'/>
+          <meta name="twitter:image"       content="https://books.offnominal.space/onbc_social.png" key='twitter_image'/>
+          <meta name="twitter:image:alt"   content="Off-Nominal Book Club Logo with space-themed book icons" key='twitter_image_alt'/>
+
           <title>The Off-Nominal Book Club</title>
         </Head>
         <CssBaseline />
