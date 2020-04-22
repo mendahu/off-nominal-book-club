@@ -13,9 +13,11 @@ import {
 import userProfileFetcher from '../../src/helpers/userProfileFetcher'
 import { Grid, Typography } from '@material-ui/core'
 import { useFetchUser } from '../../lib/user'
+import Head from 'next/head'
 
-const Bookview = ({ book, userData }) => {
+const Bookview = ({ slug, book, userData }) => {
 
+  const bookUrl = `https://books.offnominal.space/${slug}`
   const { user, loading } = useFetchUser();
   const userId = user?.app_metadata?.onbc_id
 
@@ -29,6 +31,13 @@ const Bookview = ({ book, userData }) => {
 
   return (
     <Layout>
+      <Head>
+        <meta property="og:url"          content={bookUrl} key='url'/>
+        <meta property="og:type"         content="website" key='type'/>
+        <meta property="og:title"        content={book.title + " - The Off-Nominal Book Club"} key='title'/>
+        <meta property="og:description"  content={book.description} key='description'/>
+        <meta property="og:image"        content={book.image_url} key='image'/>
+      </Head>
       <Grid container spacing={2}>
         <BookTitleBar 
           userId={userId} 
@@ -76,14 +85,14 @@ const Bookview = ({ book, userData }) => {
 };
 
 export async function getServerSideProps(context) {
-  const queryId = context.params.id.split("-")[0];
+  const slug = context.params.id;
+  const bookId = slug.split("-")[0];
 
   const userProfile = await userProfileFetcher(context.req)
   const userId = userProfile?.app_metadata?.onbc_id
 
   //Default user Data
-  const props = {
-    userData: {
+  let userData = {
       user_tags: [],
       read: false, 
       wishlist: false, 
@@ -91,20 +100,12 @@ export async function getServerSideProps(context) {
       rating: null, 
       review: null
     }
-  }
   
   // Fetch book data from API
-  const promises = [];
-  promises.push(bookQueries.books.fetch(queryId, userId));
-  if (userId) promises.push(userQueries.users.fetch(userId, queryId));
-  
-  return Promise.all(promises)
-    .then(values => {
-      props.book = values[0][0] || null
-      if (userId) props.userData = values[1][0]
-      return { props };
-    })
-    .catch(err => console.error(err));
+  const [ book ] = await bookQueries.books.fetch(bookId, userId) || null
+  if (userId) [ userData ] = await userQueries.users.fetch(userId, bookId)
+
+  return { props: { slug, book: book, userData } };
 }
 
 export default Bookview;

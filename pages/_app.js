@@ -25,14 +25,14 @@ function MyApp({ Component, pageProps }) {
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"
           />
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-          <link rel="icon" href="/favicons/favicon-32.png" sizes="32x32" />
-          <link rel="icon" href="/favicons/favicon-57.png" sizes="57x57" />
-          <link rel="icon" href="/favicons/favicon-76.png" sizes="76x76" />
-          <link rel="icon" href="/favicons/favicon-96.png" sizes="96x96" />
-          <link rel="icon" href="/favicons/favicon-128.png" sizes="128x128" />
-          <link rel="icon" href="/favicons/favicon-192.png" sizes="192x192" />
-          <link rel="icon" href="/favicons/favicon-228.png" sizes="228x228" />
+          <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+          <link rel="icon"        href="/favicons/favicon-32.png" sizes="32x32" />
+          <link rel="icon"        href="/favicons/favicon-57.png" sizes="57x57" />
+          <link rel="icon"        href="/favicons/favicon-76.png" sizes="76x76" />
+          <link rel="icon"        href="/favicons/favicon-96.png" sizes="96x96" />
+          <link rel="icon"        href="/favicons/favicon-128.png" sizes="128x128" />
+          <link rel="icon"        href="/favicons/favicon-192.png" sizes="192x192" />
+          <link rel="icon"        href="/favicons/favicon-228.png" sizes="228x228" />
 
           <link rel="shortcut icon" sizes="196x196" href="/favicons/favicon-196.png" />
 
@@ -44,6 +44,13 @@ function MyApp({ Component, pageProps }) {
           <meta name="msapplication-TileImage" content="/favicons/favicon-144.png" />
 
           <meta name="msapplication-config" content="/favicons/browserconfig.xml" />
+
+          <meta property="og:url"          content="https://books.offnominal.space" key='url'/>
+          <meta property="og:type"         content="website" key='type'/>
+          <meta property="og:title"        content="The Off-Nominal Book Club" key='title'/>
+          <meta property="og:description"  content="Find the best recommendations for space-themed books, built by the space-loving Off-Nominal community." key='description'/>
+          <meta property="og:image"        content="https://books.offnominal.space/onbc_social.png" key='image'/>
+
           <title>The Off-Nominal Book Club</title>
         </Head>
         <CssBaseline />
