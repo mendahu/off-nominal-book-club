@@ -16,8 +16,6 @@ function ReadingView() {
   //   )
   // }
 
-  // const { userId } = useContext(UserContext)
-
   // const [users, setUsers] = useState(readingData.users)
 
   // const [usersIdArray, setUsersIdArray] = useState(readingData.users.map(user => {
