@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Push Master to Production
           command: |
-            git push https://github.com/mendadhu/off-nominal-book-club.git master:production   
+            git push https://github.com/mendahu/off-nominal-book-club.git master:production   
 workflows:
     build-and-test:
       jobs:
