@@ -2,9 +2,14 @@ import {
   List,
   Divider
 } from "@material-ui/core";
+
+//Material Icons
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PeopleIcon from "@material-ui/icons/People";
 import PersonIcon from "@material-ui/icons/Person";
+import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+
 import { makeStyles } from "@material-ui/core/styles";
 import DrawerItem from './DrawerItem'
 
@@ -30,6 +35,7 @@ const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
           {user?.isPatron && 
           <DrawerItem url='/books/new' text='Add Book' icon={<LibraryAddIcon color='primary' />} />}
           <DrawerItem url='/' text='Home' icon={<PeopleIcon />} />
+          <DrawerItem url='/about' text='About' icon={<ContactSupportIcon />} />
         </List>
         <Divider />
         <List>
