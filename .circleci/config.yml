@@ -11,7 +11,31 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+  deploy:
+    machine:
+      enabled: true
+
+    working_directory: ~/client
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "7d:1c:1f:c8:04:4c:48:ad:10:2d:81:66:71:4d:95:09"
+      - checkout
+      - run:
+          name: Push Master to Production
+          command: |
+            git push https://github.com/mendadhu/off-nominal-book-club.git master:production   
 workflows:
     build-and-test:
       jobs:
-        - build-and-test
+        - build-and-test:
+            filters:
+              branches:
+                ignore: production
+        - deploy:
+            filters:
+              branches:
+                ignore: production
+            requires:
+              - build-and-test
