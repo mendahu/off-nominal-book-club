@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "prod": "NODE_ENV=production next start -p 80",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.11.0",
