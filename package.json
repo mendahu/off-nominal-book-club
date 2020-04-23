@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "prod": "NODE_ENV=production next start -p 80",
+    "start": "next start -p $PORT",
     "test": "jest"
   },
   "dependencies": {
