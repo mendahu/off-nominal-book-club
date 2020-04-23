@@ -9,6 +9,8 @@ const errorMessages = {
 
 export default function userProfileValidator(user) {
 
+  if (!user) return false;
+
   if (!user.app_metadata) {
     return <Message message={errorMessages['missing_meta']} variant="warning"/>
   }
@@ -20,7 +22,5 @@ export default function userProfileValidator(user) {
   if (!user.app_metadata.patreon) {
     return <Message message={errorMessages['missing_patreon']} variant="warning"/>
   }
-
-  return false;
 
 }
