@@ -1,10 +1,10 @@
 const queries = require('../../db/queries/books')
 
 export default (req, res) => {
-  queries.books.getAll().then((results) => {
+  return queries.books.getAll("").then((results) => {
     res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json')
-          res.end(JSON.stringify(results))
+    res.setHeader('Content-Type', 'application/json')
+    return res.end(JSON.stringify(results.rows))
   })
 }
 

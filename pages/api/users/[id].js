@@ -5,10 +5,9 @@ export default (req, res) => {
     query: { id }
   } = req
 
-
-  queries.users.getUserData(id).then((results) => {
+  return queries.users.getUserData(id).then((results) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(results))
+    return res.end(JSON.stringify(results))
   })
 }

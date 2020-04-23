@@ -84,7 +84,7 @@ const BookTitleBar = (props) => {
 
   const toggleData = (dataType) => {
     (userData[dataType].user) 
-      ? axios.delete(`/api/${dataType}/${userData[dataType].user}`)
+      ? axios.delete(`/api/${dataType}/${userData[dataType].user}/delete`)
         .then(() => setUserData({
           ...userData, 
           [dataType]: { user: false, community: userData[dataType].community-- }

@@ -1,13 +1,12 @@
-const queries = require('../../../db/queries/reviews')
+const queries = require('../../../../db/queries/wishlist')
+import auth0 from '../../../../lib/auth0'
 
-export default (req, res) => {
-
+export default auth0.requireAuthentication((req, res) => {
   const { query: { id }} = req
-  const { summary, user_review } = req.body
   
   return queries
-    .reviews
-    .update(id, summary, user_review)
+    .wishlist
+    .delete(id)
     .then(() => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json')
@@ -18,4 +17,4 @@ export default (req, res) => {
       res.statusCode = 500;
       return res.end(JSON.stringify({"success": false}))
     })
-};
+});

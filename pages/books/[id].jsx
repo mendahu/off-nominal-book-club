@@ -104,7 +104,8 @@ export async function getServerSideProps(context) {
       wishlist: false, 
       fav: false, 
       rating: null, 
-      review: null
+      review: null,
+      name: ""
     }
   
   // Fetch book data from API

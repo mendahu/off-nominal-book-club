@@ -59,7 +59,7 @@ const BookTagList = (props) => {
       const newUserTags = [...state.userTags].filter((tag) => !(tag.name == tagName))
       newTags[tagIndex].count--
 
-      axios.delete(`/api/tagRels/${tagRelId}`)
+      axios.delete(`/api/tagRels/${tagRelId}/delete`)
         .then(() => setState({tags: newTags, userTags: newUserTags}))
         .catch(err => console.error(err))
 

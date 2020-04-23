@@ -16,12 +16,12 @@ const BookFeedback = (props) => {
   const userReview = props.userReview ? props.userReview[0] : emptyReview
 
   const [rating, setRating] = useState(userRating);
-  const [permReview, setPermReview] = useState(userReview);
-  const [tempReview, setTempReview] = useState(userReview);
+  const [permReview, setPermReview] = useState({...userReview, name: props.userName});
+  const [tempReview, setTempReview] = useState({...userReview, name: props.userName});
 
   const rateBook = (value) => {
     if (rating.id) {
-      axios.patch(`/api/ratings/${rating.id}`, { rating: value })
+      axios.patch(`/api/ratings/${rating.id}/update`, { rating: value })
       .then(() => {
         setRating({...rating, user_rating: value})
       })
@@ -39,8 +39,9 @@ const BookFeedback = (props) => {
 
   const submitReview = (e) => {
     e.preventDefault();
+    console.log("id is", tempReview.id)
     if (tempReview.id) {
-      axios.patch(`/api/reviews/${tempReview.id}`, {
+      axios.patch(`/api/reviews/${tempReview.id}/update`, {
         summary: tempReview.summary,
         user_review: tempReview.user_review
       })
@@ -53,7 +54,10 @@ const BookFeedback = (props) => {
         summary: tempReview.summary,
         user_review: tempReview.user_review
       })
-      .then(res => setPermReview({...tempReview, id: res.data[0]}))
+      .then(res => {
+        setPermReview({...tempReview, id: res.data[0]})
+        return setTempReview({...tempReview, id: res.data[0]})
+    })
       .catch(err => console.error(err))
     }
   }

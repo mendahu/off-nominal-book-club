@@ -1,6 +1,12 @@
 const queries = require('../../../db/queries/books')
+import auth0 from '../../../lib/auth0'
+import userProfileFetcher from '../../../src/helpers/userProfileFetcher'
 
-export default (req, res) => {
+export default auth0.requireAuthentication(async (req, res) => {
+
+  const userProfile = await userProfileFetcher(req)
+  if (!userProfile.isPatron) return res.status(403).end(JSON.stringify({error: "not_authenticated", message: "Access restricted to logged in patrons only."}))
+
   const { method } = req
   let bookObj = {}
   
@@ -8,9 +14,9 @@ export default (req, res) => {
     case 'GET' :
     
       bookObj = {
-        google_id: req.query.googleid,
-        isbn13: req.query.isbn13,
-        title: req.query.title,
+        google_id: req.query.googleid || null,
+        isbn13: req.query.isbn13 || null,
+        title: req.query.title || null,
       }
 
       return queries
@@ -24,7 +30,7 @@ export default (req, res) => {
         .catch(err => console.error(err))
 
     case 'POST':
-        
+      
       bookObj = req.body
        
       return queries
@@ -42,4 +48,4 @@ export default (req, res) => {
         res.status(405).end(`Method ${method} Not Allowed`)
         return res.redirect('/')
   }
-};
+});

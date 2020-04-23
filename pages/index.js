@@ -44,7 +44,7 @@ export default function App(props) {
   }
 
   async function selectTag(tag) {
-    const bookData = await axios.get(`/api/community/tags/${tag}`);
+    const bookData = await axios.get(`/api/tags/${tag}`);
     setSearchResults(bookData.data);
   }
 

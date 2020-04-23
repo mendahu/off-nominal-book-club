@@ -18,6 +18,7 @@
     "@material-ui/pickers": "^3.2.10",
     "auth0": "^2.24.0",
     "axios": "^0.19.2",
+    "basic-auth": "^2.0.1",
     "chalk": "^3.0.0",
     "contentful": "^7.14.0",
     "date-fns": "^2.11.0",
@@ -37,7 +38,8 @@
     "react-datepicker": "^2.14.1",
     "react-dom": "16.13.0",
     "react-swipeable-views": "^0.13.9",
-    "react-twitter-embed": "^3.0.3"
+    "react-twitter-embed": "^3.0.3",
+    "tsscmp": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -1,10 +1,11 @@
-const queries = require('../../../db/queries/wishlist')
+const queries = require('../../../../db/queries/reads')
+import auth0 from '../../../../lib/auth0'
 
-export default (req, res) => {
+export default auth0.requireAuthentication((req, res) => {
   const { query: { id }} = req
   
   return queries
-    .wishlist
+    .reads
     .delete(id)
     .then(() => {
       res.statusCode = 200;
@@ -16,4 +17,4 @@ export default (req, res) => {
       res.statusCode = 500;
       return res.end(JSON.stringify({"success": false}))
     })
-};
+});

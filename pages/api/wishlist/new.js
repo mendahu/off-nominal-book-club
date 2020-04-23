@@ -1,6 +1,7 @@
 const queries = require('../../../db/queries/wishlist')
+import auth0 from '../../../lib/auth0'
 
-export default (req, res) => {
+export default auth0.requireAuthentication((req, res) => {
   
   const { bookId, userId } = req.body
 
@@ -17,4 +18,4 @@ export default (req, res) => {
       res.statusCode = 500;
       return res.end(JSON.stringify({"success": false}))
     })
-};
+});
