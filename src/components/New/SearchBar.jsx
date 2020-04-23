@@ -65,7 +65,7 @@ export default function SearchGoogle(props) {
         ? book.volumeInfo.description
         : "",
       image_url: book.volumeInfo.imageLinks
-        ? book.volumeInfo.imageLinks.thumbnail
+        ? 'https://' + book.volumeInfo.imageLinks.thumbnail.slice(7)
         : "",
       google_id: book.id,
       isbn13: book.volumeInfo.industryIdentifiers
