@@ -1,4 +1,3 @@
-//import auth0 from '../../../lib/auth0';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher'
 
 export default async function me(req, res) {
