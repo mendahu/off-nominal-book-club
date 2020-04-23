@@ -32,10 +32,10 @@ workflows:
         - build-and-test:
             filters:
               branches:
-                ignore: production
+                only: master
         - deploy:
             filters:
               branches:
-                ignore: production
+                only: master
             requires:
               - build-and-test
