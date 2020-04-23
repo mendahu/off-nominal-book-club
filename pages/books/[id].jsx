@@ -11,9 +11,10 @@ import {
   DataPromote,
 } from '../../src/components/Bookview'
 import userProfileFetcher from '../../src/helpers/userProfileFetcher'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { useFetchUser } from '../../lib/user'
 import Head from 'next/head'
+import Message from '../../src/components/Utility/Message'
 
 const Bookview = ({ slug, book, userData }) => {
 
@@ -24,7 +25,7 @@ const Bookview = ({ slug, book, userData }) => {
   if (!book) {
     return (
       <Layout>
-        <Typography>The book URL you've come to is not in our database. Return home and search for a different book.</Typography>
+        <Message variant='warning' message="Book not found. Return home and search for a different book." />
       </Layout>
     )
   }
@@ -41,7 +42,7 @@ const Bookview = ({ slug, book, userData }) => {
         <meta name="twitter:title"       content={book.title + " - The Off-Nominal Book Club"} key='twitter_title'/>
         <meta name="twitter:image"       content={book.image_url} key='twitter_image'/>
         <meta name="twitter:image:alt"   content={'Book cover for ' + book.title} key='twitter_image_alt'/>
-    </Head>
+      </Head>
       <Grid container spacing={2}>
         <BookTitleBar 
           userId={userId} 
@@ -63,6 +64,7 @@ const Bookview = ({ slug, book, userData }) => {
         />
         <BookTagList 
           userId={userId}
+          isPatron={user?.isPatron}
           bookId={book.id}
           tags={book.tags} 
           userTags={userData.user_tags}
@@ -75,8 +77,8 @@ const Bookview = ({ slug, book, userData }) => {
 
         <BookDesc desc={book.description}/>
         <BookFeedback 
-          loggedIn={user?.isPatron}
           userId={userId}
+          isPatron={user?.isPatron}
           userName={userData.name}
           bookId={book.id}
           reviews={book.reviews} 
@@ -106,10 +108,11 @@ export async function getServerSideProps(context) {
     }
   
   // Fetch book data from API
-  const [ book ] = await bookQueries.books.fetch(bookId, userId) || null
+  const results = await bookQueries.books.fetch(bookId, userId)
+  const book = results.length ? results[0] : null
   if (userId) [ userData ] = await userQueries.users.fetch(userId, bookId)
 
-  return { props: { slug, book: book, userData } };
+  return { props: { slug, book, userData } };
 }
 
 export default Bookview;

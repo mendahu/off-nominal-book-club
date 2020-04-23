@@ -60,12 +60,12 @@ const BookFeedback = (props) => {
 
   return (
     <>
-      {props.loggedIn &&
+      {props.isPatron &&
           <BookRating
             rating={rating} 
             rateBook={rateBook}/>}
 
-      {props.loggedIn &&
+      {props.isPatron &&
           <BookUserReview 
             review={tempReview}
             reviewState={permReview}

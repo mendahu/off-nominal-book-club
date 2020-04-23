@@ -93,7 +93,7 @@ const BookTagList = (props) => {
   }
 
   const toggleAddMode = () => {
-    props.userId ? setState({...state, addMode: !state.addMode}) : alert("You must be logged in to add tags.")
+    props.isPatron ? setState({...state, addMode: !state.addMode}) : alert("Only logged in patrons may add tags to books. Consider supporting us for as little as $1/month!")
   }
 
   const stopClick = (event) => event.stopPropagation();
@@ -132,7 +132,7 @@ const BookTagList = (props) => {
                   avatar={<Avatar>{t.count}</Avatar>}
                   className={classes.chip}
                   color={isUserTag ? "primary" : "default"}
-                  onClick={() => props.userId ? toggleTag(t.tag_name, t.tag_id) : alert("You must be logged in to add tags.")}
+                  onClick={() => props.isPatron ? toggleTag(t.tag_name, t.tag_id) : alert("Only logged in patrons may add tags to books. Consider supporting us for as little as $1/month!")}
                 />)
               }
             })}
