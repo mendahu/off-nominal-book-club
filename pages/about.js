@@ -41,14 +41,14 @@ export default function About() {
           <Paper>
             <CardContent className={classes.content}>
               <Typography variant='h5' component='h1' paragraph>The Off-Nominal Book Club</Typography>
-              <Typography variant='body1' component='p' paragraph>The Off-Nominal Book Club is a community space conceived by <i>The Anomalies</i>, a group of space enthusiasts and podcast listeners for the Off-Nominal network of radio shows, <Link href='http://www.mainenginecutoff.com'>Main Engine Cut Off</Link>, <Link href='http://www.wemartians.com'>WeMartians</Link>, and the titular <Link href='http://www.offnominal.space'>Off-Nominal</Link>.</Typography>
+              <Typography variant='body1' component='p' paragraph>The Off-Nominal Book Club is a community space conceived by <i>The Anomalies</i>, a group of space enthusiasts and podcast listeners for the Off-Nominal network of radio shows, <Link href='http://www.mainenginecutoff.com' target="_blank" rel='noopener'>Main Engine Cut Off</Link>, <Link href='http://www.wemartians.com' target="_blank" rel='noopener'>WeMartians</Link>, and the titular <Link href='http://www.offnominal.space' target="_blank" rel='noopener'>Off-Nominal</Link>.</Typography>
               <TwitterFollowButton screenName='OffNom' options={{size: 'large', showCount: false}}/>
               <TwitterFollowButton screenName='WeHaveMECO' options={{size: 'large', showCount: false}}/>
               <TwitterFollowButton screenName='We_Martians' options={{size: 'large', showCount: false}}/>
               <Typography variant='body1' component='p' paragraph>Our goal is to create the best repository of space-related books so that space enthusiasts around the world can continue learning new things and exploring the universe together.</Typography>
-              <Typography variant='body1' component='p' paragraph>You can help support this effort, and all the space content we produce, by becomoing patrons of Anthony and Jake for as little as $1/month.</Typography>
-              <Button className={classes.button} variant="contained" color="secondary" href={'http://www.wemartians.com/support'} size='large'>Support WeMartians</Button>
-              <Button className={classes.button} variant="contained" color="secondary" href={'http://www.mainenginecutoff.com/support'} size='large'>Support MECO</Button>
+              <Typography variant='body1' component='p' paragraph>You can help support this effort, and all the space content we produce, by becomoing patrons of Anthony and/or Jake for as little as $1/month.</Typography>
+              <Button className={classes.button} variant="contained" color="secondary" href={'http://www.wemartians.com/support'} size='large' target="_blank">Support Jake</Button>
+              <Button className={classes.button} variant="contained" color="secondary" href={'http://www.mainenginecutoff.com/support'} size='large' target="_blank">Support Anthony</Button>
               <Typography variant='h5' component='h1' paragraph>The Hosts</Typography>
               <img src='https://pbs.twimg.com/profile_images/1059935361693028352/GiR2lwgk_400x400.jpg' className={classes.profile}/>
               <TwitterFollowButton screenName='acolangelo' options={{size: 'large', showCount: false}}/>

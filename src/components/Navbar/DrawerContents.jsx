@@ -21,8 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
 
-  console.log(logInUrl, logOutUrl)
-
   const classes = useStyles();
 
   return (
