@@ -34,7 +34,7 @@ export default function New() {
   }
 
   function redirectToCom() {
-    Router.push(`/community`);
+    Router.push(`/`);
   }
 
   // adds book to database with bookObj State and redirects to book/[book]

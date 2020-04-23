@@ -81,7 +81,7 @@ export default function App(props) {
             buttonText={"Search"}
             input={input}
             onChange={onInputChange}
-            buttonHref={'/community'}
+            buttonHref={'/'}
           />
 
           <TagList tags={tagList} onClick={selectTag} />
