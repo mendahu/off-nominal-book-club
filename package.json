@@ -39,6 +39,7 @@
     "react-dom": "16.13.0",
     "react-swipeable-views": "^0.13.9",
     "react-twitter-embed": "^3.0.3",
+    "dotenv-webpack": "^1.7.0",
     "tsscmp": "^1.0.6"
   },
   "devDependencies": {
@@ -47,7 +48,6 @@
     "@testing-library/react": "^10.0.2",
     "@types/node": "^13.9.1",
     "babel-jest": "^25.3.0",
-    "dotenv-webpack": "^1.7.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.3.0",
     "react-test-renderer": "^16.13.1"
