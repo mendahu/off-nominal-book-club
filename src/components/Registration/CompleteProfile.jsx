@@ -1,7 +1,9 @@
 import { 
   Typography, 
   Button, 
+  Checkbox,
   CardContent,
+  FormControlLabel,
   TextField } from '@material-ui/core'
 import { useState } from 'react'
 import axios from 'axios'
@@ -25,15 +27,20 @@ export default function CompleteProfile({user}) {
 
   const [ formData, setFormData ] = useState({
     name: "",
-    bio: ""
+    bio: "",
   })
+  const [ checked, setChecked ] = useState(false)
 
   const handleFormChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value})
   }
 
+  const handleCheckbox = (e) => {
+    setChecked(e.target.checked)
+  }
+
   const submit = async () => {
-    await axios.patch('/api/users/update', formData)
+    await axios.patch('/api/users/update', {...formData, gets_mail: checked})
     Router.replace("/");
   }
 
@@ -60,12 +67,22 @@ export default function CompleteProfile({user}) {
           value={formData.bio}
           onChange={handleFormChange}
           helperText='Displayed on your public profile page' />
-      <Button 
-        variant="contained" 
-        color="primary" 
-        className={classes.button}
-        onClick={submit}>Submit
-      </Button>
+        <FormControlLabel 
+          control={
+            <Checkbox 
+              id="gets_mail"
+              checked={formData.gets_mail}
+              onChange={handleCheckbox}
+              color='primary' />}
+          label="Send me occasional updates about the Off-Nominal Book Club via email."
+        />
+          
+        <Button 
+          variant="contained" 
+          color="primary" 
+          className={classes.button}
+          onClick={submit}>Submit
+        </Button>
       </CardContent>
     </>
   )

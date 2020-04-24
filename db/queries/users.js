@@ -11,12 +11,13 @@ module.exports = {
     },
 
     //called by user when they update their onbc profile
-    update: (userId, { bio, name }) => {
+    update: (userId, { bio, name, gets_mail }) => {
       return knex('users')
         .where('id', '=', userId)
         .update({
           bio,
-          name
+          name,
+          gets_mail
         })
     },
 
