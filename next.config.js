@@ -7,9 +7,6 @@ module.exports = {
       ...config,
       node: { fs: 'empty' }
       }
-   },
-  env: {
-    BASEURL: 'https://onbc.ngrok.io'
-  }   
+   }
 };
 
