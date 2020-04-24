@@ -89,13 +89,13 @@ const BookTitleBar = (props) => {
           ...userData, 
           [dataType]: { user: false, community: userData[dataType].community-- }
         }))
-        .catch(err => console.log(err))
+        .catch(err => console.errror(err))
       : axios.post(`/api/${dataType}/new`, userBook)
         .then(res => setUserData({
           ...userData, 
           [dataType]: { user: res.data[0], community: userData[dataType].community++ }
         }))
-        .catch(err => console.log(err))
+        .catch(err => console.error(err))
   }
 
   const userFlags = [

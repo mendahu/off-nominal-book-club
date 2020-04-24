@@ -27,7 +27,7 @@ module.exports = {
           .insert(bookObj.book)
           .returning('id')
           .into('books')
-          .catch(err => console.log(err))
+          .catch(err => console.error(err))
       ) 
       
       const authorsArr = bookObj.authors.map((author) => {

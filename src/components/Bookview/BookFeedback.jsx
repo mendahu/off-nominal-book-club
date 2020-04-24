@@ -39,7 +39,6 @@ const BookFeedback = (props) => {
 
   const submitReview = (e) => {
     e.preventDefault();
-    console.log("id is", tempReview.id)
     if (tempReview.id) {
       axios.patch(`/api/reviews/${tempReview.id}/update`, {
         summary: tempReview.summary,

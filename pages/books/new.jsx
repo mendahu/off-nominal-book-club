@@ -39,9 +39,7 @@ export default function New() {
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(book) {
-    // ADD BOOK --
     axios.post(`/api/books/new`, book).then(res => redirectToBook(res.data[0]));
-    console.log("ADDED New Book");
   }
 
   // sets search term to book.tile
