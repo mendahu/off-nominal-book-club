@@ -46,7 +46,7 @@ export default function About() {
               <TwitterFollowButton screenName='WeHaveMECO' options={{size: 'large', showCount: false}}/>
               <TwitterFollowButton screenName='We_Martians' options={{size: 'large', showCount: false}}/>
               <Typography variant='body1' component='p' paragraph>Our goal is to create the best repository of space-related books so that space enthusiasts around the world can continue learning new things and exploring the universe together.</Typography>
-              <Typography variant='body1' component='p' paragraph>You can help support this effort, and all the space content we produce, by becomoing patrons of Anthony and/or Jake for as little as $1/month.</Typography>
+              <Typography variant='body1' component='p' paragraph>You can help support this effort, and all the space content we produce, by becoming patrons of Anthony and/or Jake for as little as $1/month.</Typography>
               <Button className={classes.button} variant="contained" color="secondary" href={'http://www.wemartians.com/support'} size='large' target="_blank">Support Jake</Button>
               <Button className={classes.button} variant="contained" color="secondary" href={'http://www.mainenginecutoff.com/support'} size='large' target="_blank">Support Anthony</Button>
               <Typography variant='h5' component='h1' paragraph>The Hosts</Typography>
