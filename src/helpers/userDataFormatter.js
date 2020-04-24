@@ -1,13 +1,13 @@
 export default function userDataFormatter(user) {
 
-  const { name, nickname, picture, app_metadata: { onbc_id } } = user
+  const { name, nickname, picture, app_metadata } = user
 
   const formattedUser = {
     name,
     nickname,
     picture,
     app_metadata: {
-      onbc_id
+      onbc_id: app_metadata?.onbc_id
     },
     get isPatron() {
       let status = false;

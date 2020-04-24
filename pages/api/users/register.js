@@ -5,7 +5,6 @@ import compare from 'tsscmp'
 export default function register(req, res) {
 
   const credentials = auth(req)
-  console.log(credentials)
 
   function check (name, pass) {
     let valid = true
@@ -26,9 +25,7 @@ export default function register(req, res) {
       const onbcId = id[0]
       return res.json({ onbcId })
     })
-    .catch((err) => {
-      console.error("could not insert user into db", err)
-    })
+    .catch((err) => res.status(500).end(err))
   }
   
 
