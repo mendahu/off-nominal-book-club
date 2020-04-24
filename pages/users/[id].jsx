@@ -26,7 +26,7 @@ function UserView({ userBooks }) {
     <Layout>
       <ProfileBanner user={userBooks.user[0]} />
       <TabPanel
-        tabs={["Favorites", "Read List", "Wish List", "Reviews"]}
+        tabs={["Favorites", "Read List", "Wish List", "Ratings"]}
         lists={[
           { favourites: userBooks.books.favourites },
           { reads: userBooks.books.reads },
