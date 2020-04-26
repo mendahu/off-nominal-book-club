@@ -8,7 +8,9 @@ import {
   CardContent,
   IconButton,
   Typography,
+  Snackbar,
   Collapse } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
@@ -31,14 +33,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookUserReview = ({ review, name, submitReview, setSummary, setReview }) => {
+const BookUserReview = ({ review, submitReview, setSummary, isTooLong, setReview, errorOpen, closeError }) => {
   const classes = useStyles();
 
-  const [expanded, setExpanded] = useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const [ expanded, setExpanded ] = useState(false);
+  const handleExpandClick = () => setExpanded(!expanded);
 
   return (
     <Grid item xs={12} sm={8}>
@@ -67,6 +66,8 @@ const BookUserReview = ({ review, name, submitReview, setSummary, setReview }) =
                 value={review.summary}
                 onChange={setSummary}
                 fullWidth
+                error={isTooLong}
+                helperText={isTooLong ? "Summaries should be 255 characters or fewer." : ""}
                 margin='normal'
               />
               <TextField
@@ -84,6 +85,14 @@ const BookUserReview = ({ review, name, submitReview, setSummary, setReview }) =
                 color="primary">
                   {(review.id) ? "Update" : "Submit"}
               </Button>
+              <Snackbar 
+                open={errorOpen}
+                autoHideDuration={6000}
+                onClose={closeError}>
+                  <Alert onClose={closeError} severity="error" variant='filled'>
+                    Check your form for errors!
+                  </Alert>
+                </Snackbar>
             </Box>
 
           </CardContent>

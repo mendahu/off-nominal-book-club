@@ -17,6 +17,15 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
   const [permRating, setPermRating]         = useState(db_rating);
   const [mutableReview, setMutableReview]   = useState(db_review);
   const [permReview, setPermReview]         = useState(db_review);
+  const [open, setOpen]                     = useState(false);
+
+  const closeError = (e, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  }
 
   const rateBook = (value) => {
 
@@ -47,6 +56,8 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
 
   const submitReview = (e) => {
     e.preventDefault();
+    if (mutableReview.summary.length > 255) return setOpen(true)
+
     if (mutableReview.id) {
       axios.patch(`/api/reviews/${mutableReview.id}/update`, {
         summary: mutableReview.summary,
@@ -72,17 +83,19 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
   return (
     <>
       {isPatron &&
-          <BookRating
-            rating={mutableRating} 
-            rateBook={rateBook}/>}
+        <BookRating
+          rating={mutableRating} 
+          rateBook={rateBook}/>}
 
       {isPatron &&
-          <BookUserReview 
-            review={mutableReview}
-            name={name}
-            submitReview={e => submitReview(e)}
-            setSummary={e => setMutableReview({...mutableReview, summary: e.target.value})}
-            setReview={e => setMutableReview({...mutableReview, user_review: e.target.value})} />}
+        <BookUserReview 
+          review={mutableReview}
+          isTooLong={mutableReview.summary.length > 255}
+          errorOpen={open}
+          closeError={closeError}
+          submitReview={e => submitReview(e)}
+          setSummary={e => setMutableReview({...mutableReview, summary: e.target.value})}
+          setReview={e => setMutableReview({...mutableReview, user_review: e.target.value})} />}
 
       <BookReviewList
         reviews={reviews}
