@@ -2,6 +2,12 @@
 
 1. Explain the app
 2. Explain the test
+3. Ask for feedback at multiple stages
+  a. performance
+  b. functionality
+  c. UI
+  d. UX
+  e. feature requests
 
 ## Pre-testing
 1. Check browser types
