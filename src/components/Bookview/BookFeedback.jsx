@@ -18,7 +18,6 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
   const [mutableReview, setMutableReview]   = useState(db_review);
   const [permReview, setPermReview]         = useState(db_review);
 
-
   const rateBook = (value) => {
 
     //provides user immediate feedback
