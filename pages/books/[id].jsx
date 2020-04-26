@@ -79,11 +79,8 @@ const Bookview = ({ slug, book, userData }) => {
         <BookFeedback 
           userId={userId}
           isPatron={user?.isPatron}
-          userName={userData.name}
-          bookId={book.id}
-          reviews={book.reviews} 
-          userReview={userData.review}
-          userRating={userData.rating}
+          userData={userData}
+          book={book}
         />
       </Grid>
     </Layout>

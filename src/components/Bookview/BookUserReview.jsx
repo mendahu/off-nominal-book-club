@@ -31,8 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookUserReview = (props) => {
-
+const BookUserReview = ({ review, name, submitReview, setSummary, setReview }) => {
   const classes = useStyles();
 
   const [expanded, setExpanded] = useState(false);
@@ -46,7 +45,7 @@ const BookUserReview = (props) => {
       <Paper>
 
         <CardContent className={classes.header}>
-          <Typography component='h2' variant='h5'>{(props.reviewState.id) ? "Update Review" : "Review"}</Typography>
+          <Typography component='h2' variant='h5'>{(review.id) ? "Update Review" : "Review"}</Typography>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -62,11 +61,11 @@ const BookUserReview = (props) => {
         <Collapse in={expanded} unmountOnExit>
           <CardContent>
 
-            <Box component='form' onSubmit={props.submitReview}>
+            <Box component='form' onSubmit={submitReview}>
               <TextField 
                 label="Short Summary"
-                value={props.review.summary}
-                onChange={props.summaryChange}
+                value={review.summary}
+                onChange={setSummary}
                 fullWidth
                 margin='normal'
               />
@@ -76,14 +75,14 @@ const BookUserReview = (props) => {
                 margin='normal'
                 multiline
                 rows="6"
-                value={props.review.user_review}
-                onChange={props.reviewChange}
+                value={review.user_review}
+                onChange={setReview}
               />
               <Button 
                 type ="submit" 
                 variant="contained" 
                 color="primary">
-                  {(props.reviewState.id) ? "Update" : "Submit"}
+                  {(review.id) ? "Update" : "Submit"}
               </Button>
             </Box>
 

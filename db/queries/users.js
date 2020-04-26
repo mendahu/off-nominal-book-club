@@ -72,6 +72,7 @@ module.exports = {
         .from('books')
         .where('books.id', bookId)
     },
+    
     getUserData: (userId) => {
 
       const promises = []

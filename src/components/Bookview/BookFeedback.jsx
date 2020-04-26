@@ -1,61 +1,70 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import BookReviewList from './BookReviewList'
 import axios from 'axios'
 import BookRating from './BookRating'
 import BookUserReview from './BookUserReview'
 
-const BookFeedback = (props) => {
+const BookFeedback = ({ userId, userData, book, isPatron }) => {
 
-  const emptyReview = {
-    name: props.userName,
-    summary: "",
-    user_review: ""
-  }
+  const { id: bookId, reviews } = book;
+  const { name, rating, review } = userData;
 
-  const userRating = props.userRating ? props.userRating[0] : {user_rating: null}
-  const userReview = props.userReview ? props.userReview[0] : emptyReview
+  const db_rating = rating ? rating[0] : { user_rating: null }
+  const db_review = review ? review[0] : { name, summary: "", user_review: "" }
 
-  const [rating, setRating] = useState(userRating);
-  const [permReview, setPermReview] = useState({...userReview, name: props.userName});
-  const [tempReview, setTempReview] = useState({...userReview, name: props.userName});
+  //this component maintains two states for both ratings and reviews to allow for faster feedback without altering db in the case of a db call error
+  const [mutableRating, setMutableRating]   = useState(db_rating);
+  const [permRating, setPermRating]         = useState(db_rating);
+  const [mutableReview, setMutableReview]   = useState(db_review);
+  const [permReview, setPermReview]         = useState(db_review);
+
 
   const rateBook = (value) => {
-    if (rating.id) {
-      axios.patch(`/api/ratings/${rating.id}/update`, { rating: value })
-      .then(() => {
-        setRating({...rating, user_rating: value})
-      })
-      .catch((err) => console.error(err))
+
+    //provides user immediate feedback
+    setMutableRating({...mutableRating, user_rating: value})
+
+    if (mutableRating.id) {
+      axios.patch(`/api/ratings/${mutableRating.id}/update`, { rating: value })
+        .then(() => setPermRating({...permRating, user_rating: value}))
+        .catch(err => {
+          console.error(err)
+          setMutableRating({...mutableRating, user_rating: permRating.user_rating}) // return mutable to permanent state if error
+        })
     } else {
       axios.post('/api/ratings/new', {
-        bookId: props.bookId,
-        userId: props.userId,
+        bookId,
+        userId,
         rating: value
       })
-      .then((res) => setRating({id: res.data[0], user_rating: value}))
-      .catch((err) => console.error(err))
+        .then(res => {
+          setPermRating({id: res.data[0], user_rating: value})
+          return res.data[0]
+        })
+        .catch(err => console.error(err))
+        .finally((id) => setMutableRating({id, user_rating: value})) // resets mutable Rating to new state or old state if error
     }
   }
 
   const submitReview = (e) => {
     e.preventDefault();
-    if (tempReview.id) {
-      axios.patch(`/api/reviews/${tempReview.id}/update`, {
-        summary: tempReview.summary,
-        user_review: tempReview.user_review
+    if (mutableReview.id) {
+      axios.patch(`/api/reviews/${mutableReview.id}/update`, {
+        summary: mutableReview.summary,
+        user_review: mutableReview.user_review
       })
-      .then(res => setPermReview({...tempReview}))
+      .then(res => setPermReview({...mutableReview}))
       .catch(err => console.error(err))
     } else {
       axios.post(`/api/reviews/new`, {
-        bookId: props.bookId,
-        userId: props.userId,
-        summary: tempReview.summary,
-        user_review: tempReview.user_review
+        bookId,
+        userId,
+        summary: mutableReview.summary,
+        user_review: mutableReview.user_review
       })
       .then(res => {
-        setPermReview({...tempReview, id: res.data[0]})
-        return setTempReview({...tempReview, id: res.data[0]})
+        setPermReview({...mutableReview, id: res.data[0]})
+        return setMutableReview({...mutableReview, id: res.data[0]})
     })
       .catch(err => console.error(err))
     }
@@ -63,23 +72,23 @@ const BookFeedback = (props) => {
 
   return (
     <>
-      {props.isPatron &&
+      {isPatron &&
           <BookRating
-            rating={rating} 
+            rating={mutableRating} 
             rateBook={rateBook}/>}
 
-      {props.isPatron &&
+      {isPatron &&
           <BookUserReview 
-            review={tempReview}
-            reviewState={permReview}
+            review={mutableReview}
+            name={name}
             submitReview={e => submitReview(e)}
-            summaryChange={e => setTempReview({...tempReview, summary: e.target.value})}
-            reviewChange={e => setTempReview({...tempReview, user_review: e.target.value})} />}
+            setSummary={e => setMutableReview({...mutableReview, summary: e.target.value})}
+            setReview={e => setMutableReview({...mutableReview, user_review: e.target.value})} />}
 
       <BookReviewList
-        reviews={props.reviews}
+        reviews={reviews}
         userReview={permReview}
-        userRating={rating} />
+        userRating={permRating} />
     </>
     )
 }

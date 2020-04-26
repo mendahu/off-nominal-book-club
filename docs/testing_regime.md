@@ -12,6 +12,7 @@
 ## Pre-testing
 1. Check browser types
 2. Check Patreon Status
+3. Pick some people to skip Patreon
 
 ## Phase 1 - Basic Functionality (Do not log in yet)
 1. Load the app in your browser [https://books.offnominal.space](https://books.offnominal.space)

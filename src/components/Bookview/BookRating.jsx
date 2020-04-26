@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookRating = (props) => {
+const BookRating = ({ rating, rateBook }) => {
 
   const classes = useStyles();
 
@@ -39,8 +39,8 @@ const BookRating = (props) => {
           className={classes.rateBox}>
           <Rating
             name="simple-controlled"
-            value={props.rating ? Number(props.rating.user_rating) : 0}
-            onChange={e => props.rateBook(e.target.value)}
+            value={Number(rating?.user_rating || 0)}
+            onChange={e => rateBook(e.target.value)}
           />
         </Box>
       

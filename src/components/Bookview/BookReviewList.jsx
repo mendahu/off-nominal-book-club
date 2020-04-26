@@ -6,7 +6,7 @@ import {
   Typography } from '@material-ui/core';
 import BookReview from './BookReview'
 
-const BookReviewList = (props) => {
+const BookReviewList = ({ userRating, userReview, reviews }) => {
 
   return (
 
@@ -19,13 +19,13 @@ const BookReviewList = (props) => {
             variant='h5'
             gutterBottom>Community Reviews</Typography>
 
-          {props.userReview.id && 
+          {userReview.id && 
             <BookReview 
-              review={props.userReview} 
-              rating={props.userRating}/>}
+              review={userReview} 
+              rating={userRating}/>}
           
-          {props.reviews && 
-            props.reviews.map((indReview, index) => (
+          {reviews && 
+            reviews.map((indReview, index) => (
               <BookReview 
                 review={indReview} 
                 rating={{user_rating: indReview.rating}} 
