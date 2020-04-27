@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { 
-  Chip,
   Paper,
   CardContent,
   Box,
@@ -14,7 +12,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import Star from "@material-ui/icons/Star";
-import axios from 'axios'
+import BookTitleBarMetaFlag from "./BookTitleBarMetaFlag";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,9 +20,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: "space-between"
-  },
-  chip: {
-    margin: theme.spacing(0.5),
   },
   stats: {
     display: "flex",
@@ -60,65 +55,40 @@ const useStyles = makeStyles(theme => ({
 
 const BookTitleBar = (props) => {
 
+  console.log(props)
+
   const classes = useStyles();
-  
-  const [userData, setUserData ] = useState({
-    reads: {
-      user: props.userRead,
-      community: props.reads - (props.userRead ? 1 : 0)
-    },
-    favourites: {
-      user: props.userFav,
-      community: props.favs - (props.userFav ? 1 : 0)
-    },
-    wishlist: {
-      user: props.userWishlist,
-      community: props.wishes - (props.userWishlist ? 1 : 0)
-    },
-  })
 
   const userBook = {
     bookId: props.bookId,
     userId: props.userId,
   }
 
-  const toggleData = (dataType) => {
-    (userData[dataType].user) 
-      ? axios.delete(`/api/${dataType}/${userData[dataType].user}/delete`)
-        .then(() => setUserData({
-          ...userData, 
-          [dataType]: { user: false, community: userData[dataType].community-- }
-        }))
-        .catch(err => console.errror(err))
-      : axios.post(`/api/${dataType}/new`, userBook)
-        .then(res => setUserData({
-          ...userData, 
-          [dataType]: { user: res.data[0], community: userData[dataType].community++ }
-        }))
-        .catch(err => console.error(err))
-  }
-
   const userFlags = [
     {
       type: "reads", 
-      count: userData.reads.community + (userData.reads.user ? 1 : 0),
-      status: userData.reads.user, 
+      count: props.reads,
+      status: props.userRead,
       icon_active: <CheckCircleIcon />, 
-      icon_inactive: <CheckCircleOutlineIcon />
+      icon_inactive: <CheckCircleOutlineIcon />,
+      error: "You must be logged in to mark books as read."
     },
     {
       type: "wishlist", 
-      count: userData.wishlist.community + (userData.wishlist.user ? 1 : 0), 
-      status: userData.wishlist.user, 
+      count: props.wishes,
+      status: props.userWishlist,
       icon_active: <BookmarkIcon />, 
-      icon_inactive: <BookmarkBorderIcon />
+      icon_inactive: <BookmarkBorderIcon />,
+      error: "You must be logged in to add books to your wishlist."
     },
     {
       type: "favourites", 
-      count: userData.favourites.community + (userData.favourites.user ? 1 : 0), 
-      status: userData.favourites.user, 
+      count: props.favs,
+      status: props.userFav,
       icon_active: <FavoriteIcon />, 
-      icon_inactive: <FavoriteBorderIcon />}
+      icon_inactive: <FavoriteBorderIcon />,
+      error: "You must be logged in to mark books favourites."
+    }
   ]
 
   const authorString = props.authors 
@@ -139,16 +109,14 @@ const BookTitleBar = (props) => {
             </Typography>
           </Box>
 
-          {userFlags.map((f, index) => (
-            <Box key={index} className={classes.stat}>
-              <Chip
-                onClick={() => props.userId ? toggleData(f.type) : alert("You must be logged in to mark books as read, add to wishlist, or favourite.")}
-                label={f.count}
-                icon={f.status ? f.icon_active : f.icon_inactive}
-                className={classes.chip}
-                color={(f.status) ? "primary" : "default"}
+          {userFlags.map((flag, index) => (
+            <BookTitleBarMetaFlag 
+              userBook={userBook}
+              flag={flag}
+              key={index}
+              className={classes.stat}
+              loggedIn={props.userId}
               />
-            </Box>
             ))}
         </CardContent>
 
