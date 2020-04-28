@@ -12,6 +12,7 @@ import Star from "@material-ui/icons/Star";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import Link from "next/link";
+import MatLink from '@material-ui/core/Link';
 import urlGenerator from '../../helpers/urlGenerator'
 
 const useStyles = makeStyles(theme => ({
@@ -96,13 +97,15 @@ export default function BookListItem(props) {
   return (
     <Card className={classes.root}>
       <Link href={`/books/[id]`} as={`/books/${urlString}`} passHref>
-        <img src={props.book.image_url} alt={props.book.title} />
+        <a><img src={props.book.image_url} alt={props.book.title} /></a>
       </Link>
-
+      
       <CardContent className={classes.content}>
-        <Typography variant='body1' component='h2' className={classes.title}>
-          {props.book.title}
-        </Typography>
+        <Link href={`/books/[id]`} as={`/books/${urlString}`} passHref>
+          <MatLink color="inherit" underline="none">
+            <Typography variant='body1' component='h2' className={classes.title}>{props.book.title}</Typography>
+          </MatLink>
+        </Link>
         <Typography
           variant='body2'
           paragraph={true}
@@ -132,27 +135,27 @@ export default function BookListItem(props) {
       </CardContent>
 
       <CardContent className={classes.stats}>
-        <Box className={classes.stat}>
-          <Star htmlColor='#ffd54f' />
-          <Typography component='h3' className={classes.statNumber}>
-            {props.book.avg_rating || "-"}
-          </Typography>
-        </Box>
+      <Box className={classes.stat}>
+        <Star htmlColor='#ffd54f' />
+        <Typography component='h3' className={classes.statNumber}>
+          {props.book.avg_rating || "-"}
+        </Typography>
+      </Box>
 
-        <Box className={classes.stat}>
-          <FavoriteIcon htmlColor='#e57373' />
-          <Typography component='h3' className={classes.statNumber}>
-            {props.book.fav_count || "-"}
-          </Typography>
-        </Box>
+      <Box className={classes.stat}>
+        <FavoriteIcon htmlColor='#e57373' />
+        <Typography component='h3' className={classes.statNumber}>
+          {props.book.fav_count || "-"}
+        </Typography>
+      </Box>
 
-        <Box className={classes.stat}>
-          <CheckCircleIcon htmlColor='#64b5f6' />
-          <Typography component='h3' className={classes.statNumber}>
-            {props.book.read_count || "-"}
-          </Typography>
-        </Box>
-      </CardContent>
+      <Box className={classes.stat}>
+        <CheckCircleIcon htmlColor='#64b5f6' />
+        <Typography component='h3' className={classes.statNumber}>
+          {props.book.read_count || "-"}
+        </Typography>
+      </Box>
+    </CardContent>
     </Card>
   );
 }
