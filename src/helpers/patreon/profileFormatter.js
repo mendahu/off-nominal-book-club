@@ -9,8 +9,8 @@ export default function profileFormatter(patreonData) {
 
   if (patreonData.data) {
     const { data: { attributes: { full_name, image_url } }, included } = patreonData.data
-  
-    if (included.length) {
+
+    if (included?.length) {
       included.forEach((campaign, index) => {
     
         const campaignId = included[index].relationships?.campaign.data.id
