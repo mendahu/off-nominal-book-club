@@ -55,8 +55,6 @@ const useStyles = makeStyles(theme => ({
 
 const BookTitleBar = (props) => {
 
-  console.log(props)
-
   const classes = useStyles();
 
   const userBook = {

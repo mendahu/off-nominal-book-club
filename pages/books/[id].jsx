@@ -30,6 +30,16 @@ const Bookview = ({ slug, book, userData }) => {
     )
   }
 
+  const tagFormatter = (commTags, userTags) => {
+
+    commTags.forEach((tag, index) => {
+      const tagIndex = userTags.findIndex(userTag => userTag.tag_id === tag.tag_id)
+      if (tagIndex >= 0) commTags[index].tagRelId = userTags[tagIndex].tag_rel_id
+    })
+
+    return commTags;
+  }
+
   return (
     <Layout>
       <Head>
@@ -66,8 +76,7 @@ const Bookview = ({ slug, book, userData }) => {
           userId={userId}
           isPatron={user?.isPatron}
           bookId={book.id}
-          tags={book.tags} 
-          userTags={userData.user_tags}
+          tags={tagFormatter(book.tags, userData.user_tags)} 
         />
 
         {!user && <LoginPromote />}
