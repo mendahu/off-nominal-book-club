@@ -10,6 +10,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 import Link from "next/link";
+import { Link as MatLink } from '@material-ui/core'
 import { makeStyles } from "@material-ui/core/styles";
 import { useFetchUser } from '../../lib/user'
 import DrawerContents from './Navbar/DrawerContents'
@@ -68,12 +69,14 @@ const Navbar = () => {
 
         <Typography variant='h6' className={classes.title}>
           <Link href='/' passHref>
+          <MatLink color="inherit" underline="none">
             <Box className={classes.brand}>
               <img src='/favicons/favicon-96.png' width='24' alt='Off-Nominal Book Club Logo'/>
               <Typography component='span' className={classes.brandText}>
                 Off-Nominal Book Club
               </Typography>
             </Box>
+            </MatLink>
           </Link>
         </Typography>
 
