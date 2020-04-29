@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { 
-  Avatar, 
   Chip, 
   Grid,
   Paper } from "@material-ui/core";
@@ -28,9 +27,13 @@ const BookTagList = (props) => {
   const [ tags, setTags ] = useState(props.tags || [])
   const [ addMode, setAddMode ] = useState(false)
   const [ newTagInput, setNewTagInput ] = useState("")
+  const [ busy, setBusy ] = useState(false)
 
   //helper function to check if tag count is too high
-  const hasTooManyTags = () => (tags.length >= 5)
+  const hasTooManyTags = () => {
+    const userTags = tags.filter(tag => tag.tagRelId)
+    return userTags.length >= 5
+  }
 
   //default tag object to submit new tag relationship
   const userTagBook = {
@@ -38,19 +41,24 @@ const BookTagList = (props) => {
       bookId: props.bookId,
     }
 
+  const incrementTag = (tag, mutableTags, index, options) => {
 
+    if (hasTooManyTags()) {
+      alert("You can only add up to 5 tags per book.")
+      throw "user reached tag limit"
+    }
 
-
-  const incrementTag = (tag, mutableTags, index) => {
-
+    const { increment } = options
     const { tag_id } = tag;
 
-    const targetTag = { ...tags[index] };
-    targetTag.count++
-    targetTag.tagRelId = true;
-    mutableTags[index] = targetTag;
+    const targetTag = tag[index] ? { ...tags[index] } : tag;
 
-    setTags(mutableTags)
+    if (increment) { //short circuit for when creating a new tag and there is an earlier setState that accomplishes this
+      targetTag.count++
+      targetTag.tagRelId = true;
+      mutableTags[index] = targetTag;
+      setTags(mutableTags)
+    } 
 
     return axios.post(`/api/tagRels/new`, { ...userTagBook, tag_id })
       .then(res => {
@@ -92,7 +100,7 @@ const BookTagList = (props) => {
     try {
       return await tag.tagRelId 
         ? decrementTag(tag.tagRelId, mutableTags, index) 
-        : incrementTag(tag, mutableTags, index)
+        : incrementTag(tag, mutableTags, index, { increment: true })
     }
     catch(error) {
       setTags(backupTags) //reverts changes to state to keep db in sync
@@ -107,23 +115,47 @@ const BookTagList = (props) => {
 
   const stopClick = (event) => event.stopPropagation();
 
-  const addTag = (e) => {
+  const addTag = async (e) => {
     e.preventDefault();
-    if (!newTagInput) {
-      toggleAddMode();
-      return;
-    }
+
+    if (busy) return;
+
+    if (!newTagInput) return toggleAddMode();
+
     if (hasTooManyTags()) {
       alert("You can only add up to 5 tags per book.")
       toggleAddMode();
       setNewTagInput("")
       return;
     }
-    axios.post(`/api/tags/new`, { tagName: newTagInput })
-        .then(res => toggleTag(newTagInput, res.data[0]))
-        .catch(err => console.error(err))
-    setNewTagInput("")
+
+    setBusy(true)
+
+    const newTagIndex = tags.length
+    const backupTags = [...tags]
+    const newTag = {
+      tag_id: true,
+      tag_name: newTagInput.toLowerCase(),
+      count: 1,
+      tagRelId: true
+    }
+    const mutableTags = [...tags, newTag]
+
+    setTags(mutableTags)
     toggleAddMode()
+
+    try {
+      const tagId = await axios.post(`/api/tags/new`, { tagName: newTagInput })
+      newTag.tag_id = tagId.data[0]
+      await incrementTag(newTag, mutableTags, newTagIndex, { increment: false })
+    }
+    catch(error) {
+      setTags(backupTags)
+      console.error(error)
+    }
+
+    setNewTagInput("")
+    setBusy(false)
   }
 
   return (
