@@ -32,6 +32,8 @@ const Bookview = ({ slug, book, userData }) => {
 
   const tagFormatter = (commTags, userTags) => {
 
+    if (!commTags) return commTags;
+
     commTags.forEach((tag, index) => {
       const tagIndex = userTags.findIndex(userTag => userTag.tag_id === tag.tag_id)
       if (tagIndex >= 0) commTags[index].tagRelId = userTags[tagIndex].tag_rel_id

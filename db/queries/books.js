@@ -169,7 +169,7 @@ module.exports = {
           LEFT JOIN (
             SELECT ratings.book_id, AVG(rating) as avg_rating
               FROM reviews
-              JOIN ratings ON ratings.book_id = reviews.book_id
+              RIGHT JOIN ratings ON ratings.book_id = reviews.book_id
               GROUP BY ratings.book_id) as ratings on ratings.book_id = b.id
           LEFT JOIN (
             SELECT book_id, count(*) as count
