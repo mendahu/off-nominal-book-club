@@ -126,7 +126,7 @@ export default function BookListItem(props) {
                   size='small'
                   className={classes.chip}
                   key={index}
-                  label={tag.tag_name}
+                  label={`#${tag.tag_name}`}
                   onClick={() => props.selectTag(tag.tag_name)}
                   avatar={<Avatar>{tag.count}</Avatar>}
                 />
