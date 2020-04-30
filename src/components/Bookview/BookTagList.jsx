@@ -30,7 +30,6 @@ const BookTagList = (props) => {
   const [ newTagInput, setNewTagInput ] = useState("")
   const [ busy, setBusy ] = useState(false)
   
-  console.log(tags)
   //helper function to check if tag count is too high
   const hasTooManyTags = () => {
     const userTags = tags.filter(tag => tag.tagRelId)
@@ -100,7 +99,6 @@ const BookTagList = (props) => {
 
     //two control flows for if we are adding or removing a tag Relationship
     try {
-      console.log(tag.tagRelId);
       return await tag.tagRelId 
         ? decrementTag(tag.tagRelId, mutableTags, index) 
         : incrementTag(tag, mutableTags, index, { increment: true })
