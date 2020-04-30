@@ -32,7 +32,7 @@ const Bookview = ({ slug, book, userData }) => {
 
   const tagFormatter = (commTags, userTags) => {
 
-    if (!commTags) return commTags;
+    if (!commTags || !userTags) return commTags;
 
     commTags.forEach((tag, index) => {
       const tagIndex = userTags.findIndex(userTag => userTag.tag_id === tag.tag_id)
