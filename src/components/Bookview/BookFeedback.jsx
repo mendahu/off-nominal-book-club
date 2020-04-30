@@ -17,15 +17,6 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
   const [ permRating, setPermRating ]       = useState(db_rating);
   const [ mutableReview, setMutableReview ] = useState(db_review);
   const [ permReview, setPermReview ]       = useState(db_review);
-  const [ open, setOpen ]                   = useState(false);
-
-  console.log("perm", permRating)
-  console.log("mutable", mutableRating)
-
-  const closeError = (e, reason) => {
-    if (reason === 'clickaway') return;
-    setOpen(false);
-  }
 
   const rateBook = async (value) => {
 
@@ -57,30 +48,35 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
     return;
   }
 
-  const submitReview = (e) => {
-    e.preventDefault();
-    if (mutableReview.summary.length > 255) return setOpen(true)
+  const submitReview = async () => {
 
-    if (mutableReview.id) {
-      axios.patch(`/api/reviews/${mutableReview.id}/update`, {
-        summary: mutableReview.summary,
-        user_review: mutableReview.user_review
-      })
-      .then(res => setPermReview({...mutableReview}))
-      .catch(err => console.error(err))
-    } else {
-      axios.post(`/api/reviews/new`, {
-        bookId,
-        userId,
-        summary: mutableReview.summary,
-        user_review: mutableReview.user_review
-      })
-      .then(res => {
-        setPermReview({...mutableReview, id: res.data[0]})
-        return setMutableReview({...mutableReview, id: res.data[0]})
-    })
-      .catch(err => console.error(err))
+    if (mutableReview.summary.length > 255) {
+      throw { message: 'Your review summary should be 255 characters or fewer.', severity: 'error' };
     }
+
+    if (mutableReview.summary === permReview.summary && mutableReview.user_review === permReview.user_review) {
+      throw { message: "You haven't made any changes to submit!", severity: 'warning' };
+    }
+
+    const newReview = {...mutableReview}
+    const { summary, user_review } = newReview
+
+    try {
+      if (mutableReview.id) {
+        await axios.patch(`/api/reviews/${mutableReview.id}/update`, { summary, user_review })
+      } else {
+        const newReviewId = await axios.post(`/api/reviews/new`, { bookId, userId, summary, user_review })
+        newReview.id = newReviewId.data[0]
+        setMutableReview({...mutableReview, id: newReview.id})
+      }
+    }
+    catch(error) {
+      console.error(error)
+      throw "There was an error submitting.";
+    }
+
+    setPermReview(newReview)
+    return;
   }
 
   return (
@@ -93,10 +89,7 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
       {isPatron &&
         <BookUserReview 
           review={mutableReview}
-          isTooLong={mutableReview.summary.length > 255}
-          errorOpen={open}
-          closeError={closeError}
-          submitReview={e => submitReview(e)}
+          submitReview={submitReview}
           setSummary={e => setMutableReview({...mutableReview, summary: e.target.value})}
           setReview={e => setMutableReview({...mutableReview, user_review: e.target.value})} />}
 

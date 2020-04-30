@@ -33,11 +33,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BookUserReview = ({ review, submitReview, setSummary, isTooLong, setReview, errorOpen, closeError }) => {
+const BookUserReview = ({ review, submitReview, setSummary, setReview }) => {
   const classes = useStyles();
 
   const [ expanded, setExpanded ] = useState(false);
+  const [ busy, setBusy ] = useState(false)
+  const [ error, setError ] = useState({ active: false, message: "", severity: "" })
+
+  const closeError = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setError({ ...error, active: false, message: "" })
+  }
+
   const handleExpandClick = () => setExpanded(!expanded);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true)
+  
+    try {
+      await submitReview()
+    }
+    catch({ message, severity }) {
+      setError({ active: true, message, severity })
+    }
+
+    setBusy(false)
+  }
 
   return (
     <Grid item xs={12} sm={8}>
@@ -60,14 +83,14 @@ const BookUserReview = ({ review, submitReview, setSummary, isTooLong, setReview
         <Collapse in={expanded} unmountOnExit>
           <CardContent>
 
-            <Box component='form' onSubmit={submitReview}>
+            <Box component='form' onSubmit={e => handleSubmit(e)}>
               <TextField 
                 label="Short Summary"
                 value={review.summary}
                 onChange={setSummary}
                 fullWidth
-                error={isTooLong}
-                helperText={isTooLong ? "Summaries should be 255 characters or fewer." : ""}
+                error={(review.summary.length > 255)}
+                helperText={(review.summary.length > 255) ? "Summaries should be 255 characters or fewer." : ""}
                 margin='normal'
               />
               <TextField
@@ -86,11 +109,11 @@ const BookUserReview = ({ review, submitReview, setSummary, isTooLong, setReview
                   {(review.id) ? "Update" : "Submit"}
               </Button>
               <Snackbar 
-                open={errorOpen}
+                open={error.active}
                 autoHideDuration={6000}
                 onClose={closeError}>
-                  <Alert onClose={closeError} severity="error" variant='filled'>
-                    Check your form for errors!
+                  <Alert onClose={closeError} severity={error.severity} variant='filled'>
+                    {error.message}
                   </Alert>
                 </Snackbar>
             </Box>
