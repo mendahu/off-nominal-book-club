@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-export default function SearchBar(props) {
+export default function SearchBar({ placeholderText, text, onChange, button }) {
   const classes = useStyles();
 
   return (
@@ -30,19 +30,28 @@ export default function SearchBar(props) {
       <Paper component='form' className={classes.paper}>
         <InputBase
           className={classes.input}
-          placeholder={props.placeholderText}
-          value={props.input}
-          onChange={props.onChange}
+          placeholder={placeholderText}
+          value={text}
+          onChange={onChange}
         />
-        <Link href={props.buttonHref} passHref>
-          <Button
-            className={classes.button}
-            variant='contained'
-            color='primary'
-            component='a'>
-            {props.buttonText}
-          </Button>
-        </Link>
+        {button.href 
+          ? <Link href={button.href} passHref>
+              <Button
+                className={classes.button}
+                variant='contained'
+                color='primary'
+                component='a'>
+                {button.text}
+              </Button>
+            </Link>
+          : <Button
+              className={classes.button}
+              variant='contained'
+              color='primary'
+              onClick={e => button.onClick(e)}>
+              {button.text}
+            </Button>
+          }
       </Paper>
     </Box>
   );

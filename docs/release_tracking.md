@@ -9,3 +9,4 @@
 * Title image/brand tag now properly appear as a link when you hover your cursor
 * App now successfully handles patreon users who don't actually pledge to WeMartians or MECO without crashing
 * Minor typos/formatting fixed
+* Search bar on main page now has a clear button which can reset search results

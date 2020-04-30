@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import Layout from "../src/components/LandingLayout";
 import axios from "axios";
 const queries = require("../db/queries/books");
-import Router from "next/router";
 import Fuse from "fuse.js";
 import { bookOptions, tagOptions } from '../config/search.json'
 
@@ -48,20 +47,19 @@ export default function App(props) {
     setSearchResults(bookData.data);
   }
 
-  function redirectToBook(id) {
-    Router.push(`/books/${id}`);
-  }
-
-  function redirectToAdd() {
-    Router.push(`/books/new`);
-  }
-
   const onInputChange = event => {
     setInput(event.target.value);
     event.target.value !== ""
       ? getSearchResults(event.target.value)
       : setSearchResults(books);
   };
+
+  const clearResults = (e) => {
+    e.preventDefault();
+    setTagList(tags);
+    setInput('');
+    setSearchResults(books);
+  }
 
   return (
     <div>
@@ -76,19 +74,18 @@ export default function App(props) {
           : <HeroCarousel />}
         </Container>
         <Container component='main' maxWidth={false}>
+
           <SearchBar
             placeholderText={"Find your books"}
-            buttonText={"Search"}
-            input={input}
+            text={input}
             onChange={onInputChange}
-            buttonHref={'/'}
+            button={{ active: true, text: "Clear", onClick: clearResults }}
           />
 
           <TagList tags={tagList} onClick={selectTag} />
 
           <BookList
             books={searchResults}
-            onClick={redirectToBook}
             selectTag={selectTag}
           />
         </Container>

@@ -10,7 +10,6 @@ export default function BookList(props) {
           <BookListItem
             key={index}
             book={book}
-            onClick={props.onClick}
             selectTag={props.selectTag}
           />
         ))}
