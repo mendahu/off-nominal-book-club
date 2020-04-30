@@ -22,13 +22,15 @@ const useStyles = makeStyles(theme => ({
 
 const BookTagList = (props) => {
 
+  
   const classes = useStyles();
-
+  
   const [ tags, setTags ] = useState(props.tags || [])
   const [ addMode, setAddMode ] = useState(false)
   const [ newTagInput, setNewTagInput ] = useState("")
   const [ busy, setBusy ] = useState(false)
-
+  
+  console.log(tags)
   //helper function to check if tag count is too high
   const hasTooManyTags = () => {
     const userTags = tags.filter(tag => tag.tagRelId)
@@ -98,6 +100,7 @@ const BookTagList = (props) => {
 
     //two control flows for if we are adding or removing a tag Relationship
     try {
+      console.log(tag.tagRelId);
       return await tag.tagRelId 
         ? decrementTag(tag.tagRelId, mutableTags, index) 
         : incrementTag(tag, mutableTags, index, { increment: true })
@@ -127,6 +130,15 @@ const BookTagList = (props) => {
       toggleAddMode();
       setNewTagInput("")
       return;
+    }
+
+    const existingTagIndex = tags.findIndex(tag => tag.tag_name === newTagInput)
+    if (existingTagIndex >= 0) {
+      if (!tags[existingTagIndex].tagRelId) {
+        return toggleTag(tags[existingTagIndex], existingTagIndex)
+      } else {
+        return alert("you've already added that tag!")
+      }
     }
 
     setBusy(true)
