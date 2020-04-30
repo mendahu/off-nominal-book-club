@@ -7,6 +7,7 @@ import axios from "axios";
 import Router from "next/router";
 import { useFetchUser } from '../../lib/user'
 import Message from '../../src/components/Utility/Message'
+import urlGenerator from '../../src/helpers/urlGenerator'
 
 export default function New() {
 
@@ -29,8 +30,9 @@ export default function New() {
     authors: null
   });
 
-  function redirectToBook(id) {
-    Router.push(`/books/${id}`);
+  function redirectToBook(book, id) {
+    const authorString = book.authors.length ? book.authors.map(author => author.name).join(", ") : 'Author unknown'
+    Router.push(`/books/${id}`, urlGenerator(id, authorString, book.book.title));
   }
 
   function redirectToCom() {
@@ -39,7 +41,7 @@ export default function New() {
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(book) {
-    axios.post(`/api/books/new`, book).then(res => redirectToBook(res.data[0]));
+    axios.post(`/api/books/new`, book).then(res => redirectToBook(book, res.data[0]));
   }
 
   // sets search term to book.tile
