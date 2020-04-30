@@ -13,45 +13,48 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
   const db_review = review ? review[0] : { name, summary: "", user_review: "" }
 
   //this component maintains two states for both ratings and reviews to allow for faster feedback without altering db in the case of a db call error
-  const [mutableRating, setMutableRating]   = useState(db_rating);
-  const [permRating, setPermRating]         = useState(db_rating);
-  const [mutableReview, setMutableReview]   = useState(db_review);
-  const [permReview, setPermReview]         = useState(db_review);
-  const [open, setOpen]                     = useState(false);
+  const [ mutableRating, setMutableRating ] = useState(db_rating);
+  const [ permRating, setPermRating ]       = useState(db_rating);
+  const [ mutableReview, setMutableReview ] = useState(db_review);
+  const [ permReview, setPermReview ]       = useState(db_review);
+  const [ open, setOpen ]                   = useState(false);
+
+  console.log("perm", permRating)
+  console.log("mutable", mutableRating)
 
   const closeError = (e, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
+    if (reason === 'clickaway') return;
     setOpen(false);
   }
 
-  const rateBook = (value) => {
+  const rateBook = async (value) => {
+
+    if (Number(value) === permRating.user_rating) return;
 
     //provides user immediate feedback
-    setMutableRating({...mutableRating, user_rating: value})
+    const newRating = {...mutableRating, user_rating: Number(value)}
+    setMutableRating(newRating)
 
-    if (mutableRating.id) {
-      axios.patch(`/api/ratings/${mutableRating.id}/update`, { rating: value })
-        .then(() => setPermRating({...permRating, user_rating: value}))
-        .catch(err => {
-          console.error(err)
-          setMutableRating({...mutableRating, user_rating: permRating.user_rating}) // return mutable to permanent state if error
+    try {
+      if (mutableRating.id) {
+        await axios.patch(`/api/ratings/${mutableRating.id}/update`, { rating: value })
+      } else {
+        const result = await axios.post('/api/ratings/new', {
+          bookId,
+          userId,
+          rating: value
         })
-    } else {
-      axios.post('/api/ratings/new', {
-        bookId,
-        userId,
-        rating: value
-      })
-        .then(res => {
-          setPermRating({id: res.data[0], user_rating: value})
-          return res.data[0]
-        })
-        .catch(err => console.error(err))
-        .finally((id) => setMutableRating({id, user_rating: value})) // resets mutable Rating to new state or old state if error
+        newRating.id = result.data[0]
+        setMutableRating(newRating)
+      }
     }
+    catch (error) {
+      setMutableRating(permRating)
+      throw error;
+    }
+
+    setPermRating(newRating)
+    return;
   }
 
   const submitReview = (e) => {

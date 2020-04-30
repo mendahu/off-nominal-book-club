@@ -1,6 +1,7 @@
 import { Grid, Paper, Box, Typography } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles';
+import { useState } from 'react'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,6 +26,23 @@ const BookRating = ({ rating, rateBook }) => {
 
   const classes = useStyles();
 
+  const [ busy, setBusy ] = useState(false)
+
+  const handleClick = async (value) => {
+    if (busy) return;
+    setBusy(true)
+
+    try {
+      await rateBook(value)
+    }
+    catch(error) {
+      alert("Something went wrong with your book rating!")
+      console.error(error)
+    }
+
+    setBusy(false)
+  }
+
   return (
     <Grid item xs={12} sm={4}>
       <Paper className={classes.root}>
@@ -40,7 +58,7 @@ const BookRating = ({ rating, rateBook }) => {
           <Rating
             name="simple-controlled"
             value={Number(rating?.user_rating || 0)}
-            onChange={e => rateBook(e.target.value)}
+            onChange={e => handleClick(e.target.value)}
           />
         </Box>
       
