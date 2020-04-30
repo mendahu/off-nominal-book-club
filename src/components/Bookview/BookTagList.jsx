@@ -135,7 +135,7 @@ const BookTagList = (props) => {
     const backupTags = [...tags]
     const newTag = {
       tag_id: true,
-      tag_name: newTagInput.toLowerCase(),
+      tag_name: newTagInput,
       count: 1,
       tagRelId: true
     }
@@ -185,7 +185,7 @@ const BookTagList = (props) => {
                     id="tagInputField" 
                     className={classes.tagInput}
                     value={newTagInput}
-                    onChange={(e) => setNewTagInput(e.target.value)}
+                    onChange={(e) => setNewTagInput(e.target.value.toLowerCase())}
                     onClick={(e) => stopClick(e)}>
                   </input>
                   <button type="submit" hidden></button>

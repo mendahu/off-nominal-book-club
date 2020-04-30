@@ -10,3 +10,12 @@
 * App now successfully handles patreon users who don't actually pledge to WeMartians or MECO without crashing
 * Minor typos/formatting fixed
 * Search bar on main page now has a clear button which can reset search results
+
+# 0.1.2
+
+* Fixed bgug where book-view was crashing if the user hadn't added any tags
+
+# 0.2.0
+
+* Fixed bug where url slug was not displaying properly after adding a book
+* Fixed bug where url slug was omitting numbers
