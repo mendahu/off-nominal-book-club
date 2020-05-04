@@ -13,9 +13,11 @@
 
 # 0.1.2
 
-* Fixed bgug where book-view was crashing if the user hadn't added any tags
+* Fixed bug where book-view was crashing if the user hadn't added any tags
 
 # 0.2.0
 
 * Fixed bug where url slug was not displaying properly after adding a book
 * Fixed bug where url slug was omitting numbers
+* Fixed bug where casing on tag entry would create duplicates
+* Fixed bug where manually typing in tags that were already appended would create duplicates

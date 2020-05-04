@@ -15,10 +15,15 @@ export default async function patreonTokenFetcher(code, req, options) {
   const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET)
 
   let patToken;
-  if (options?.refresh === true) {
-    patToken = await patreonOAuthClient.refreshToken(options.refreshToken)
-  } else {
-    patToken = await patreonOAuthClient.getTokens(code, REDIRECT_URI)
+  try {
+    if (options?.refresh === true) {
+      patToken = await patreonOAuthClient.refreshToken(options.refreshToken)
+    } else {
+      patToken = await patreonOAuthClient.getTokens(code, REDIRECT_URI)
+    }
+  }
+  catch(error) {
+    console.error(error)
   }
 
   const currentDate = Date.now()
