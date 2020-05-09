@@ -8,9 +8,6 @@ module.exports = {
       node: { fs: 'empty' }
       }
    },
-   env: {
-    PAT_REDIRECT_URI: process.env.PAT_REDIRECT_URI,
-    PAT_CLIENT_ID: process.env.PAT_CLIENT_ID,
-   }
+
 };
 

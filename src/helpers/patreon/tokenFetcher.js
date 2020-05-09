@@ -1,7 +1,7 @@
 import { updatePatreonData } from '../auth0/auth0User';
 import { oauth as patreonOAuth } from 'patreon'
 
-export default async function patreonTokenFetcher(code, auth0sub, { refresh, refreshToken }) {
+export default async function patreonTokenFetcher(code, auth0sub, options) {
   const CLIENT_ID = process.env.PAT_CLIENT_ID
   const CLIENT_SECRET = process.env.PAT_CLIENT_SECRET
   const REDIRECT_URI = process.env.PAT_REDIRECT_URI
@@ -10,8 +10,8 @@ export default async function patreonTokenFetcher(code, auth0sub, { refresh, ref
   let patToken;
 
   try {
-    patToken = (refresh) 
-     ? await patreonOAuthClient.refreshToken(refreshToken)
+    patToken = (options?.refresh) 
+     ? await patreonOAuthClient.refreshToken(options.refreshToken)
      : await patreonOAuthClient.getTokens(code, REDIRECT_URI)
   }
   catch(error) {
@@ -22,6 +22,13 @@ export default async function patreonTokenFetcher(code, auth0sub, { refresh, ref
   const currentDate = Date.now()
   patToken.expiry_date = currentDate + ( patToken.expires_in * 1000 )
 
-  return updatePatreonData(auth0sub, patToken)
+  try {
+    await updatePatreonData(auth0sub, patToken)
+    return patToken 
+  }
+  catch(error) {
+    throw error;
+  }
+
 
 }

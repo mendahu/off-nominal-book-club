@@ -9,8 +9,7 @@ export default async function patreonProfileFetcher(auth0sub, token) {
   const horizon = moment().add(21, 'days');
   if (expiry.isBefore(horizon)) {
     try {
-      const result = await tokenFetcher(null, auth0sub, { refresh: true, refreshToken: token.refresh_token })
-      token = result.app_metadata?.patreon
+      token = await tokenFetcher(null, auth0sub, { refresh: true, refreshToken: token.refresh_token })
     }
     catch(error) {
       console.error("Error refreshing token", error)

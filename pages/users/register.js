@@ -5,6 +5,7 @@ import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher'
 import { useFetchUser } from '../../lib/user'
 import Router from 'next/router'
 import { useState, useEffect } from 'react'
+import getAuth0UserSub from '../../src/helpers/auth0/auth0Sub'
 import Layout from '../../src/components/DefaultLayout'
 
 export default function Register({justConnectedPatreon}) {
@@ -64,8 +65,9 @@ export async function getServerSideProps(context) {
   let justConnectedPatreon = false
 
   if (code) {
-    const user = await patreonTokenFetcher(code, context.req)
-    justConnectedPatreon = typeof user.app_metadata.patreon !== "string"
+    const sub = await getAuth0UserSub(context.req)
+    const token = await patreonTokenFetcher(code, sub)
+    justConnectedPatreon = typeof token !== "string"
   } 
   
   return { props: { justConnectedPatreon } }

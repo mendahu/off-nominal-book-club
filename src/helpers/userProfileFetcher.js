@@ -2,24 +2,20 @@ import profileFormatter from './patreon/profileFormatter'
 import userDataFormatter from './userDataFormatter'
 import { getAuth0User } from './auth0/auth0User';
 import patreonProfileFetcher from './patreon/profileFetcher'
-import auth0 from '../../lib/auth0';
+import getAuth0UserSub from './auth0/auth0Sub'
 
 export default async function userProfileFetcher(req) {
 
   //Fetches the default userProfile from auth0, which containers the unique ID of user
-  let returnedUserObj;
   let auth0sub;
 
   try {
-    returnedUserObj = await auth0.getSession(req)
-    if (!returnedUserObj) return null;
-    auth0sub = returnedUserObj.user.sub;
+    auth0sub = await getAuth0UserSub(req)
   }
   catch(error) {
     console.error("Error at UserProfileFetcher:Fetching auth0Sub", error)
     throw error
   }
-
 
   //Fetches Full User Profile from auth0, extracts Patreon Token, and formats for display to client
   let isPatron;
