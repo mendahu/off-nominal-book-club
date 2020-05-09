@@ -17,6 +17,9 @@ export default async function userProfileFetcher(req) {
     throw error
   }
 
+  //if no user, short circuit here
+  if (!auth0sub) return null;
+
   //Fetches Full User Profile from auth0, extracts Patreon Token, and formats for display to client
   let isPatron;
   let patreonToken;
@@ -34,7 +37,7 @@ export default async function userProfileFetcher(req) {
   }
   
 
-  //Fetches Patreon Data with token, adds to formatted clien-side data
+  //Fetches Patreon Data with token, adds to formatted client-side data
   let patreonData
 
   try {
