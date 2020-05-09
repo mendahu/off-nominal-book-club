@@ -2,14 +2,19 @@ import axios from 'axios'
 import tokenFetcher from './tokenFetcher'
 import moment from 'moment'
 
-export default async function patreonProfileFetcher(req, token) {
+export default async function patreonProfileFetcher(auth0sub, token) {
 
   //refreshes token if it will expire in the next 3 weeks
   const expiry = moment(token.expiry_date);
   const horizon = moment().add(21, 'days');
   if (expiry.isBefore(horizon)) {
-    const result = await tokenFetcher(null, req, { refresh: true, refreshToken: token.refresh_token })
-    token = result.app_metadata?.patreon
+    try {
+      const result = await tokenFetcher(null, auth0sub, { refresh: true, refreshToken: token.refresh_token })
+      token = result.app_metadata?.patreon
+    }
+    catch(error) {
+      console.error("Error refreshing token", error)
+    }
   }
 
   const headers = { "Authorization": `${token.token_type} ${token.access_token}` }
