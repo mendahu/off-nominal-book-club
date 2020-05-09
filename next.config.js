@@ -7,10 +7,6 @@ module.exports = {
       ...config,
       node: { fs: 'empty' }
       }
-   },
-  env: {
-    runtime_PAT_CLIENT_ID: process.env.PAT_CLIENT_ID,
-    runtime_PAT_REDIRECT_URI: process.env.PAT_REDIRECT_URI
-  }
+    }
 };
 
