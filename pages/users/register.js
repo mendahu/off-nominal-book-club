@@ -24,7 +24,7 @@ export default function Register({justConnectedPatreon}) {
   
   //user is not logged in
   if (!loading && !user) {
-    Router.replace("/");
+    Router.push("/");
     return (
       <Layout>
         <Message message="Redirecting" variant='loading'/>
