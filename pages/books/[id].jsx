@@ -104,17 +104,17 @@ export async function getServerSideProps(context) {
 
   const userProfile = await userProfileFetcher(context.req)
   const userId = userProfile?.app_metadata?.onbc_id
-
+  
   //Default user Data
   let userData = {
-      user_tags: [],
-      read: false, 
-      wishlist: false, 
-      fav: false, 
-      rating: null, 
-      review: null,
-      name: ""
-    }
+    user_tags: [],
+    read: false, 
+    wishlist: false, 
+    fav: false, 
+    rating: null, 
+    review: null,
+    name: ""
+  }
   
   // Fetch book data from API
   const results = await bookQueries.books.fetch(bookId, userId)
