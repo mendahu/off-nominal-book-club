@@ -23,7 +23,6 @@
     "contentful": "^7.14.0",
     "date-fns": "^2.11.0",
     "dotenv": "^8.2.0",
-    "dotenv-webpack": "^1.7.0",
     "fuse.js": "^5.0.10-beta",
     "isomorphic-unfetch": "^3.0.0",
     "knex": "^0.20.11",

@@ -1,15 +1,12 @@
 import { updatePatreonData } from '../auth0/auth0User';
 import { oauth as patreonOAuth } from 'patreon'
-import config from '../../../lib/config'
 
-const CLIENT_ID = config.PAT_CLIENT_ID
+const CLIENT_ID = process.env.PAT_CLIENT_ID
 const CLIENT_SECRET = process.env.PAT_CLIENT_SECRET
-const REDIRECT_URI = config.PAT_REDIRECT_URI
+const REDIRECT_URI = process.env.PAT_REDIRECT_URI
 const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET)
 
 export default async function patreonTokenFetcher(code, auth0sub, options) {
-  console.log("Normal", process.env.PAT_CLIENT_ID, process.env.PAT_CLIENT_SECRET, process.env.PAT_REDIRECT_URI)
-  console.log("Build", process.env.build_PAT_CLIENT_ID, process.env.PAT_CLIENT_SECRET, process.env.build_PAT_REDIRECT_URI)
 
   let patToken;
 

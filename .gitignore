@@ -20,6 +20,8 @@
 .env
 .env.production
 .env.dev
+dev_config.js
+dev_config.example.js
 
 # debug
 npm-debug.log*
