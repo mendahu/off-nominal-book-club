@@ -15,6 +15,7 @@ import { Grid } from '@material-ui/core'
 import { useFetchUser } from '../../lib/user'
 import Head from 'next/head'
 import Message from '../../src/components/Utility/Message'
+import tagJoiner from '../../src/helpers/Bookview/tagJoiner'
 
 const Bookview = ({ slug, book, userData }) => {
 
@@ -28,18 +29,6 @@ const Bookview = ({ slug, book, userData }) => {
         <Message variant='warning' message="Book not found. Return home and search for a different book." />
       </Layout>
     )
-  }
-
-  const tagFormatter = (commTags, userTags) => {
-
-    if (!commTags || !userTags) return commTags;
-
-    commTags.forEach((tag, index) => {
-      const tagIndex = userTags.findIndex(userTag => userTag.tag_id === tag.tag_id)
-      if (tagIndex >= 0) commTags[index].tagRelId = userTags[tagIndex].tag_rel_id
-    })
-
-    return commTags;
   }
 
   return (
@@ -78,7 +67,7 @@ const Bookview = ({ slug, book, userData }) => {
           userId={userId}
           isPatron={user?.isPatron}
           bookId={book.id}
-          tags={tagFormatter(book.tags, userData.user_tags)} 
+          tags={tagJoiner(book.tags, userData.user_tags)} 
         />
 
         {!user && <LoginPromote />}

@@ -3,7 +3,6 @@ import Enzyme, { shallow } from 'enzyme'
 import EnzymeAdapter from 'enzyme-adapter-react-16'
 import Bookview, { getServerSideProps } from '../../../../pages/books/[id]'
 import Message from '../../Utility/Message'
-import userProfileFetcher from '../../../helpers/userProfileFetcher'
 
 Enzyme.configure({ adapter: new EnzymeAdapter() })
 
@@ -20,6 +19,42 @@ let userData = {
 
 //default book data from serverSideProps
 let book = null;
+
+//sample book data return
+const testBook = {
+  id: 4,
+  title: 'Roving Mars',
+  fiction: true,
+  google_id: '5SyZAAAAQBAJ',
+  isbn13: '9781401381912',
+  description: "Steve Squyres is the face and voice of NASA's Mars Exploration Rover mission. Squyres dreamed up the mission in 1987, saw it through from conception in 1995 to a successful landing in 2004, and serves as the principal scientist of its $400 million payload. He has gained a rare inside look at what it took for rovers Spirit and Opportunity to land on the red planet in January 2004--and knows firsthand their findings.",
+  year: '2005',
+  image_url: 'http://books.google.com/books/content?id=5SyZAAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+  reads: '1',
+  favs: '1',
+  wishes: '0',
+  rating: '5.0',
+  authors: [ { name: 'Steven Squyres' } ],
+  tags: [
+    { tag_id: 1, tag_name: 'mars', count: 2 },
+    { tag_id: 2, tag_name: 'rovers', count: 1 },
+    { tag_id: 5, tag_name: 'planetary science', count: 1 },
+    { tag_id: 9, tag_name: 'spacecraft engineering', count: 1 },
+    { tag_id: 17, tag_name: 'opportunity', count: 1 },
+    { tag_id: 21, tag_name: 'meridiani', count: 1 }
+  ],
+  reviews: [
+    {
+      id: 1,
+      user_id: 538,
+      name: 'Jake Robins',
+      rating: 5,
+      date: '2020-04-21T16:55:03.906279+00:00',
+      summary: 'What a ride! Such a great book!',
+      user_review: "The first half of this book is just outstanding - it really shows the crazy process we have in getting a mission to Mars. I have so much respect for the engineers who made this possible. It's a must read to hear all the stories of close calls and last minute changes and problems that leap in the way of the launch pad!!!"
+    }
+  ]
+}
 
 describe("Bookview", () => {
   
@@ -59,49 +94,5 @@ describe('Bookview ServerSide Props', () => {
         userData
       })
     })
-
-    // it('should pass book data for an unauthenticated user', () => {
-    //   const context = {
-    //     params: {
-    //       id: '1-author-title'
-    //     },
-    //     req: {}
-    //   }
-
-      
-    //   jest.mock('../../../helpers/userProfileFetcher', () => ({
-    //     userProfileFetcher: (req) => ({
-    //       app_metadata: { onbc_id: 1 }
-    //     })
-    //   }))
-
-    //   import userProfileFetcher, { Response } from '../../../helpers/userProfileFetcher'
-    //   userProfileFetcher.mockReturnValue(Promise.resolve(new Response(undefined)))
-
-    //   // jest.mock('../../../../db/queries/books', () => ({
-    //   //   bookQueries: {
-    //   //     books: {
-    //   //       fetch: (bookId, userId) => [ bookId ]
-    //   //     }
-    //   //   }
-    //   // }))
-      
-    //   // jest.mock('../../../../db/queries/books', () => ({
-    //   //   userQueries: {
-    //   //     users: {
-    //   //       fetch: (userId, bookId) => [ userId ]
-    //   //     }
-    //   //   }
-    //   // }));
-
-    //   const { props } = getServerSideProps(context);
-
-    //   expect(props).toEqual({
-    //     slug: '1-author-title',
-    //     book: 1,
-    //     userData: 1
-    //   })
-
-    // })
   
 });

@@ -24,3 +24,5 @@
 * Fixed bug where Patreon Tokens would not refresh properly
 
 # 0.2.0
+
+* Enhanced Testing on Book-view page to reduce bugs

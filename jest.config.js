@@ -1,10 +1,10 @@
 module.exports = {
   collectCoverageFrom: [
-    "src/**/*.{js,jsx}",
-    "db/queries/**/*.js",
-    "db/*.js",
-    "lib/**/*.js",
-    "pages/**/*.{js,jsx}",
+    "src/**/*.{js,jsx,ts,tsx}",
+    "db/queries/**/*.{js,ts}",
+    "db/*.{js,ts}",
+    "lib/**/*.{js,ts}",
+    "pages/**/*.{js,jsx,ts,tsx}",
     "knexfile.js"
   ],
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
