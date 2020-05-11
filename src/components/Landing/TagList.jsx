@@ -34,11 +34,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function TagList(props) {
   const classes = useStyles();
+  const tags = props.tags || []
+
   return (
     <Box component='section'>
       <Paper className={classes.root}>
         <GridList className={classes.gridList}>
-          {props.tags && props.tags.slice(0, 10).map((tag, index) => (
+          {tags.slice(0, 10).map((tag, index) => (
             <GridListTile key={index} classes={{root: classes.listItem}}>
               <Chip
                 onClick={() => props.onClick(tag.tag_name)}

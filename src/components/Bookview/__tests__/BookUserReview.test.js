@@ -1,12 +1,14 @@
 import React from 'react'
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import BookUserReview from '../BookUserReview'
 
 describe("Book Review", () => {
 
-  it("Should call the update function when you click it", () => {
+  it("Should call the update function when you click it", async () => {
 
-    const mockSubmit = jest.fn(e => e)
+    const promise = Promise.resolve()
+
+    const mockSubmit = jest.fn(() => promise)
     const dummyFunc = jest.fn()
 
     const { getAllByText, getByRole } = render(
@@ -23,6 +25,7 @@ describe("Book Review", () => {
     fireEvent(getAllByText(/update/i)[1], new MouseEvent('click', { bubbles: true }))
     
     expect(mockSubmit.mock.calls.length).toBe(1)
+    await act(() => promise)
   });
   
   it("Should display error if the summary is too long", () => {
