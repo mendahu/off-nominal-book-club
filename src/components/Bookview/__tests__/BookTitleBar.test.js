@@ -1,14 +1,12 @@
-import React from 'react'
-import Enzyme, { shallow } from 'enzyme'
-import EnzymeAdapter from 'enzyme-adapter-react-16'
-import BookTitleBar from '../BookTitleBar'
+import React from 'react';
+import Enzyme, { shallow } from 'enzyme';
+import EnzymeAdapter from 'enzyme-adapter-react-16';
+import BookTitleBar from '../BookTitleBar';
 
-Enzyme.configure({ adapter: new EnzymeAdapter() })
+Enzyme.configure({ adapter: new EnzymeAdapter() });
 
-describe("BookDescription should render without crashing", () => {
-
-  it("Should render error message if book doesn't exist in database", () => {
-    const wrapper = shallow(<BookTitleBar />)
+describe('BookDescription', () => {
+  it('Should render without crashing', () => {
+    const wrapper = shallow(<BookTitleBar authors={['Jake', 'Anthony']} />);
   });
-
 });
