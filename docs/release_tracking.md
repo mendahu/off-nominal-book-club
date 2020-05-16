@@ -25,4 +25,7 @@
 
 # 0.2.0
 
+- User Profile information now appears in the menu drawer for quick reference
+
 - Fixed bug that allowed non-authenticated users and non-patrons to increment, decrement tags.
+- Fixed bug where invalid book URL would break site
