@@ -87,6 +87,12 @@ const BookTagList = (props) => {
   };
 
   const toggleTag = async (tag, index) => {
+    if (!props.isPatron) {
+      return alert(
+        'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!'
+      );
+    }
+
     const mutableTags = [...tags]; //for altering state
     const backupTags = [...tags]; //in case db fails we can reset state and stay in sync
 

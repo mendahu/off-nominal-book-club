@@ -24,3 +24,5 @@
 - Fixed bug where Patreon Tokens would not refresh properly
 
 # 0.2.0
+
+- Fixed bug that allowed non-authenticated users and non-patrons to increment, decrement tags.
