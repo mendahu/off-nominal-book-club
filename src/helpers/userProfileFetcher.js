@@ -59,8 +59,9 @@ export default async function userProfileFetcher(req) {
       userData.app_metadata.onbc_id
     );
     userData.onbcData = onbcData;
-  } catch {
+  } catch (error) {
     console.error('Error at UserProfileFetcher: Fetching ONBC data', error);
+    throw error;
   }
 
   return userData;

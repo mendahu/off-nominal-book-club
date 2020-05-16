@@ -29,3 +29,4 @@
 
 - Fixed bug that allowed non-authenticated users and non-patrons to increment, decrement tags.
 - Fixed bug where invalid book URL would break site
+- Refactored User Fetching to reduce API calls and improve performance on client-side rendered pages
