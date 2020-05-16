@@ -1,19 +1,18 @@
-import React, { useState } from "react";
-import SearchBar from "../../src/components/New/SearchBar";
-import Layout from "../../src/components/DefaultLayout";
-import SearchResultsList from "../../src/components/New/SearchResultsList";
-import ConfirmResults from "../../src/components/New/ConfirmResults";
-import axios from "axios";
-import Router from "next/router";
-import { useFetchUser } from '../../lib/user'
-import Message from '../../src/components/Utility/Message'
-import urlGenerator from '../../src/helpers/urlGenerator'
+import React, { useState } from 'react';
+import SearchBar from '../../src/components/New/SearchBar';
+import Layout from '../../src/components/DefaultLayout';
+import SearchResultsList from '../../src/components/New/SearchResultsList';
+import ConfirmResults from '../../src/components/New/ConfirmResults';
+import axios from 'axios';
+import Router from 'next/router';
+import { useFetchUser } from '../../lib/user';
+import Message from '../../src/components/Utility/Message';
+import urlGenerator from '../../src/helpers/urlGenerator';
 
 export default function New() {
-
   const { user, loading } = useFetchUser();
   const [searchResults, setSearchResults] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [isSearch, setIsSearch] = useState(true);
   const [bookObj, setBookObj] = useState({
     book: {
@@ -25,14 +24,13 @@ export default function New() {
       year: null,
       image_url: null,
       google_id: null,
-      isbn13: null
+      isbn13: null,
     },
-    authors: null
+    authors: null,
   });
 
-  function redirectToBook(book, id) {
-    const authorString = book.authors.length ? book.authors.map(author => author.name).join(", ") : 'Author unknown'
-    Router.push(`/books/${id}`, urlGenerator(id, authorString, book.book.title));
+  function redirectToBook(book) {
+    Router.push(`/books/${book.id}`);
   }
 
   function redirectToCom() {
@@ -41,7 +39,9 @@ export default function New() {
 
   // adds book to database with bookObj State and redirects to book/[book]
   function addBook(book) {
-    axios.post(`/api/books/new`, book).then(res => redirectToBook(book, res.data[0]));
+    axios
+      .post(`/api/books/new`, book)
+      .then((res) => redirectToBook(book, res.data[0]));
   }
 
   // sets search term to book.tile
@@ -67,11 +67,11 @@ export default function New() {
         year: book.year,
         image_url: book.image_url,
         google_id: book.google_id,
-        isbn13: book.isbn13
+        isbn13: book.isbn13,
       },
-      authors: book.author.map(a => {
+      authors: book.author.map((a) => {
         return { name: a };
-      })
+      }),
     };
 
     // setBookObj to formatted book
@@ -101,45 +101,48 @@ export default function New() {
   if ((!user && !loading) || (!user?.isPatron && !loading)) {
     return (
       <Layout>
-        <Message variant="warning" message='You must be logged in and a Patron to add books.' />
+        <Message
+          variant="warning"
+          message="You must be logged in and a Patron to add books."
+        />
       </Layout>
-    )
+    );
   }
 
   return (
     <Layout>
-      {loading &&
-        <Message variant='loading' message='Validating credentials...' />
-      }
-      {(!loading && user?.isPatron) && 
-        (isSearch
-          ?
-            <>
-              <SearchBar
-                results={searchResults}
-                setResults={handleResults}
-                searchTerm={searchTerm}
-                setTerm={handleSearchTerm}
-                onClick={redirectToCom}
-              />
-              <SearchResultsList
-                results={searchResults}
-                selectBook={selectBook}
-                buttonText={"Add Book"}
-                isSearch={isSearch}
-              />
-            </>
-          :
-            <>
-              <ConfirmResults book={bookObj} onClick={addBook} back={toSearch} />
-              <SearchResultsList
-                results={searchResults}
-                redirectToBook={redirectToBook}
-                buttonText={"Go to Book"}
-                isSearch={isSearch}
-              />
-            </>)
-      }
+      {loading && (
+        <Message variant="loading" message="Validating credentials..." />
+      )}
+      {!loading &&
+        user?.isPatron &&
+        (isSearch ? (
+          <>
+            <SearchBar
+              results={searchResults}
+              setResults={handleResults}
+              searchTerm={searchTerm}
+              setTerm={handleSearchTerm}
+              onClick={redirectToCom}
+            />
+            <SearchResultsList
+              results={searchResults}
+              selectBook={selectBook}
+              buttonText={'Add Book'}
+              isSearch={isSearch}
+            />
+          </>
+        ) : (
+          <>
+            <ConfirmResults book={bookObj} onClick={addBook} back={toSearch} />
+            <SearchResultsList
+              results={searchResults}
+              redirectToBook={redirectToBook}
+              buttonText={'Go to Book'}
+              isSearch={isSearch}
+            />
+          </>
+        ))}
     </Layout>
   );
 }
