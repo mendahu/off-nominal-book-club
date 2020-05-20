@@ -44,7 +44,6 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
     }
 
     setPermRating(newRating);
-    sessionStorage.setItem('shouldRefresh', true);
     return;
   };
 

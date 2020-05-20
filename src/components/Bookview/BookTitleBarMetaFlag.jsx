@@ -52,8 +52,6 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
         })
         .finally(() => setBusy(false));
     }
-
-    sessionStorage.setItem('shouldRefresh', true);
   };
 
   const errorHandler = () => {
