@@ -1,51 +1,70 @@
-const queries = require("../../db/queries/users");
-import ProfileBanner from "../../src/components/Users/ProfileBanner";
-import TabPanel from "../../src/components/General/TabPanel";
-import Layout from "../../src/components/DefaultLayout";
-import { Typography } from "@material-ui/core";
+import { useState, useEffect } from 'react';
+import ProfileBanner from '../../src/components/Userview/ProfileBanner';
+import TabPanel from '../../src/components/General/TabPanel';
+import Layout from '../../src/components/DefaultLayout';
+import { Typography } from '@material-ui/core';
+import { useFetchUser } from '../../lib/user';
+import axios from 'axios';
 
-function UserView({ userBooks }) {
+const Userview = ({ userId }) => {
+  const { user, loading } = useFetchUser();
 
-  if (!userBooks.user.length) {
+  const [profileData, setProfileData] = useState({
+    user: null,
+    books: null,
+    loading: true,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`/api/users/${userId}`);
+        setProfileData({
+          user: data.user,
+          books: data.books,
+          loading: false,
+        });
+      } catch (error) {
+        setProfileData({
+          ...profileData,
+          loading: false,
+        });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (profileData.loading) {
     return (
       <Layout>
-        <Typography>The User profile you've entered is not in our database. Please try again.</Typography>
+        <Typography>Loading...</Typography>
       </Layout>
-    )
+    );
   }
 
-  const displayData = {
-    image: "image_url",
-    title: "title",
-    secondary: "author"
-  };
+  if (!profileData.user) {
+    return (
+      <Layout>
+        <Typography>
+          The User profile you've entered is not in our database. Please try
+          again.
+        </Typography>
+      </Layout>
+    );
+  }
 
-  const link = "/books";
+  const { books } = profileData;
 
   return (
     <Layout>
-      <ProfileBanner user={userBooks.user[0]} />
-      <TabPanel
-        tabs={["Favorites", "Read List", "Wish List", "Ratings"]}
-        lists={[
-          { favourites: userBooks.books.favourites },
-          { reads: userBooks.books.reads },
-          { wishlist: userBooks.books.wishlist },
-          { ratings: userBooks.books.ratings }
-        ]}
-        displayData={displayData}
-        link={link}
-      />
+      <Typography>Hello {profileData.user[0].name}</Typography>
     </Layout>
   );
-}
+};
+
+export default Userview;
 
 export async function getServerSideProps(context) {
-  const queryId = context.params.id;
-
-  const userBooks = await queries.users.getUserData(queryId);
-
-  return { props: { userBooks } };
+  return { props: { userId: context.params.id } };
 }
-
-export default UserView;
