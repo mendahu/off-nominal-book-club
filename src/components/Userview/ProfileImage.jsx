@@ -16,7 +16,7 @@ const ProfileImage = (props) => {
   const { user, ...rest } = props;
 
   return (
-    <LayoutComponent {...rest}>
+    <LayoutComponent {...rest} fullHeight={true}>
       <Avatar
         className={classes.avatar}
         alt={user.name}

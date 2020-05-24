@@ -70,8 +70,10 @@ const Userview = ({ userId }) => {
   return (
     <Layout>
       <Grid container space={2}>
-        <ProfileImage user={profileData.user[0]} xs={12} md={3} />
-        <ProfileHeader user={profileData.user[0]} xs={12} md={9} />
+        <Grid item container xs={12}>
+          <ProfileImage user={profileData.user[0]} xs={12} md={3} />
+          <ProfileHeader user={profileData.user[0]} xs={12} md={9} />
+        </Grid>
         <ProfileData xs={12} md={3} />
         <ProfileWishList books={books.wishlist} xs={12} md />
         <ProfileReadList books={books.reads} xs={12} md />
