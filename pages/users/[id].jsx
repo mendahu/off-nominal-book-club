@@ -10,8 +10,14 @@ import Layout from '../../src/components/DefaultLayout';
 import { Typography, Grid, Box } from '@material-ui/core';
 import { useFetchUser } from '../../lib/user';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  //
+}));
 
 const Userview = ({ userId }) => {
+  const classes = useStyles();
   const { user, loading } = useFetchUser();
 
   const [profileData, setProfileData] = useState({
@@ -51,12 +57,10 @@ const Userview = ({ userId }) => {
   if (!profileData.user) {
     return (
       <Layout>
-        <Grid container space={2}>
-          <Typography>
-            The User profile you've entered is not in our database. Please try
-            again.
-          </Typography>
-        </Grid>
+        <Typography>
+          The User profile you've entered is not in our database. Please try
+          again.
+        </Typography>
       </Layout>
     );
   }
@@ -65,13 +69,13 @@ const Userview = ({ userId }) => {
 
   return (
     <Layout>
-      <Box mt={2}>
-        <ProfileImage user={profileData.user[0]} xs={12} md={6} />
-        <ProfileHeader />
-        <ProfileWishList />
-        <ProfileReadList />
-        <ProfileData />
-      </Box>
+      <Grid container space={2}>
+        <ProfileImage user={profileData.user[0]} xs={12} md={3} />
+        <ProfileHeader user={profileData.user[0]} xs={12} md={9} />
+        <ProfileData xs={12} md={3} />
+        <ProfileWishList books={books.wishlist} xs={12} md />
+        <ProfileReadList books={books.reads} xs={12} md />
+      </Grid>
     </Layout>
   );
 };
