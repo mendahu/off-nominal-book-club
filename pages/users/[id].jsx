@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
-import ProfileBanner from '../../src/components/Userview/ProfileBanner';
-import TabPanel from '../../src/components/General/TabPanel';
+import {
+  ProfileImage,
+  ProfileHeader,
+  ProfileData,
+  ProfileWishList,
+  ProfileReadList,
+} from '../../src/components/Userview';
 import Layout from '../../src/components/DefaultLayout';
-import { Typography } from '@material-ui/core';
+import { Typography, Grid, Box } from '@material-ui/core';
 import { useFetchUser } from '../../lib/user';
 import axios from 'axios';
 
@@ -46,10 +51,12 @@ const Userview = ({ userId }) => {
   if (!profileData.user) {
     return (
       <Layout>
-        <Typography>
-          The User profile you've entered is not in our database. Please try
-          again.
-        </Typography>
+        <Grid container space={2}>
+          <Typography>
+            The User profile you've entered is not in our database. Please try
+            again.
+          </Typography>
+        </Grid>
       </Layout>
     );
   }
@@ -58,7 +65,13 @@ const Userview = ({ userId }) => {
 
   return (
     <Layout>
-      <Typography>Hello {profileData.user[0].name}</Typography>
+      <Box mt={2}>
+        <ProfileImage user={profileData.user[0]} xs={12} md={6} />
+        <ProfileHeader />
+        <ProfileWishList />
+        <ProfileReadList />
+        <ProfileData />
+      </Box>
     </Layout>
   );
 };

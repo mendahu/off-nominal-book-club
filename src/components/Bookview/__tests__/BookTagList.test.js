@@ -1,12 +1,8 @@
-import React from 'react';
-import Enzyme, { shallow, mount } from 'enzyme';
-import EnzymeAdapter from 'enzyme-adapter-react-16';
+import { shallow, mount } from 'enzyme';
 import BookTagList from '../BookTagList';
 import BookTagItem from '../BookTagItem';
 import { Chip } from '@material-ui/core';
 import { act } from 'react-dom/test-utils';
-
-Enzyme.configure({ adapter: new EnzymeAdapter() });
 
 const test_noUserTags = [
   { id: 1, tag_name: 'tag1', count: 2 },
