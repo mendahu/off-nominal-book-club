@@ -4,11 +4,7 @@ import { getAuth0User } from './auth0/auth0User';
 import patreonProfileFetcher from './patreon/profileFetcher';
 import getAuth0UserSub from './auth0/auth0Sub';
 import userQueries from '../../db/queries/users';
-import {
-  DisplayUser,
-  PatreonTokenData,
-  DisplayPatreonData,
-} from '../types/common';
+import { DisplayUser, PatreonTokenData } from '../types/common';
 
 export default async function userProfileFetcher(req) {
   //Fetches the default userProfile from auth0, which containers the unique ID of user
@@ -74,7 +70,16 @@ export default async function userProfileFetcher(req) {
       ratings,
     } = await userQueries.users.getUserData(userData.onbc_id);
 
-    //TODO: check for mismatch in avatars and correct in db
+    //check for mismatch in avatars and correct in db
+    if (
+      gravatar_avatar_url !== userData.gravatar_avatar_url ||
+      patreon_avatar_url !== userData.patreon_avatar_url
+    ) {
+      await userQueries.users.update(userData.onbc_id, {
+        gravatar_avatar_url: userData.gravatar_avatar_url,
+        patreon_avatar_url: userData.patreon_avatar_url,
+      });
+    }
 
     userData = {
       ...userData,

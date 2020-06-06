@@ -21,7 +21,7 @@ import { UserData, BookData } from '../../src/types/common';
 const Bookview = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
   const { user, loading } = useFetchUser();
-  const userId = user?.app_metadata?.onbc_id;
+  const userId = user?.onbc_id;
 
   if (!book) {
     return (
@@ -124,7 +124,7 @@ export async function getServerSideProps(context) {
 
   // Fetch book data from APIs
   const userProfile = await userProfileFetcher(context.req);
-  const userId = userProfile?.app_metadata?.onbc_id;
+  const userId = userProfile?.onbc_id;
 
   const fetchBook = bookQueries.books.fetch;
   const fetchUser = userQueries.users.fetch;

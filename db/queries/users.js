@@ -8,25 +8,8 @@ module.exports = {
     },
 
     //called by user when they update their onbc profile
-    update: (
-      userId,
-      {
-        bio,
-        name,
-        gets_mail,
-        avatar_select,
-        gravatar_avatar_url,
-        patreon_avatar_url,
-      }
-    ) => {
-      return knex('users').where('id', '=', userId).update({
-        bio,
-        name,
-        gets_mail,
-        avatar_select,
-        gravatar_avatar_url,
-        patreon_avatar_url,
-      });
+    update: (userId, fieldsToUpdate) => {
+      return knex('users').where('id', '=', userId).update(fieldsToUpdate);
     },
 
     fetch: (userId, bookId) => {

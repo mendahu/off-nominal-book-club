@@ -1,5 +1,4 @@
 import Message from '../../src/components/Utility/Message';
-import userProfileValidator from '../../src/helpers/userProfileValidator';
 import Registration from '../../src/components/Registration/Registration';
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher';
 import { useFetchUser } from '../../lib/user';
