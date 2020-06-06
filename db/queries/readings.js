@@ -1,12 +1,13 @@
-const knex = require('../knex')
+const knex = require('../knex');
 
 module.exports = {
   readings: {
     fetch: (readingId) => {
       const promises = [];
-      
+
       promises.push(
-        knex.raw(`
+        knex.raw(
+          `
           SELECT b.id, b.title, authors, b.year, b.image_url, date_started, date_ended
           FROM books b
           LEFT JOIN (
@@ -18,30 +19,37 @@ module.exports = {
             ) AS author_names ON author_names.book_id = b.id
             JOIN readings ON readings.book_id = b.id
             WHERE readings.id = ?
-            `, readingId)
-            )
+            `,
+          readingId
+        )
+      );
 
       promises.push(
-        knex.raw(`
-        SELECT users.id, users.name, users.avatar_url
+        knex.raw(
+          `
+        SELECT users.id, users.name, users.avatar_select, users.gravatar_avatar_url, users.patreon_avatar_url
         FROM users
         JOIN users_readings on user_id = users.id
         WHERE reading_id = ?
-        `, readingId)
-      )
+        `,
+          readingId
+        )
+      );
 
       promises.push(
-        knex.raw(`
-          SELECT users.id as user_id, users.name, users.avatar_url, comment, readings_comments.created_at
+        knex.raw(
+          `
+          SELECT users.id as user_id, users.name, users.avatar_select, users.gravatar_avatar_url, users.patreon_avatar_url, comment, readings_comments.created_at
           FROM users
           JOIN readings_comments on user_id = users.id
           WHERE reading_id = ?
           ORDER BY readings_comments.created_at DESC
-        `, readingId)
-      )
-      
-      return Promise.all(promises)
-      .then(([bookData, usersData, comments]) => {
+        `,
+          readingId
+        )
+      );
+
+      return Promise.all(promises).then(([bookData, usersData, comments]) => {
         const readingsData = {
           book: {
             id: bookData.rows[0]?.id || null,
@@ -49,28 +57,34 @@ module.exports = {
             authors: bookData.rows[0]?.authors || null,
             year: bookData.rows[0]?.year || null,
             image_url: bookData.rows[0]?.image_url || null,
-            date_started: JSON.stringify(bookData.rows[0]?.date_started || null),
+            date_started: JSON.stringify(
+              bookData.rows[0]?.date_started || null
+            ),
             date_ended: JSON.stringify(bookData.rows[0]?.date_ended || null),
-          }, 
+          },
           users: usersData.rows,
-          comments: comments.rows.map(comment => {
+          comments: comments.rows.map((comment) => {
             return {
               id: comment.user_id,
               name: comment.name,
-              avatar_url: comment.avatar_url,
+              avatar_url:
+                comment.avatar_select === 'gravatar'
+                  ? comment.gravatar_avatar_url
+                  : comment.patreon_avatar_url,
               comment: comment.comment,
-              created_at: JSON.stringify(comment.created_at)
-            }
-          })
-        }
-        return readingsData
-      })
+              created_at: JSON.stringify(comment.created_at),
+            };
+          }),
+        };
+        return readingsData;
+      });
     },
     getUsersReadings: (userId) => {
-      const promises = []
+      const promises = [];
 
       promises.push(
-        knex.raw(`
+        knex.raw(
+          `
         SELECT readings.id, max(books.title) as title, max(books.image_url) as image_url, max(readings.user_count) as user_count
         FROM books
           JOIN (
@@ -86,11 +100,14 @@ module.exports = {
         WHERE (? = ANY(users.users_array)
         )
         GROUP BY readings.id
-        `, userId)
-      )
+        `,
+          userId
+        )
+      );
 
       promises.push(
-        knex.raw(`
+        knex.raw(
+          `
         SELECT readings.id, max(books.title) as title, max(books.image_url) as image_url, max(readings.user_count) as user_count
         FROM books
           JOIN (
@@ -106,19 +123,21 @@ module.exports = {
         WHERE NOT (? = ANY(users.users_array)
         )
         GROUP BY readings.id
-        `, userId)
-      )
-      return Promise.all(promises)
-      .then(([joined, notJoined]) => {
+        `,
+          userId
+        )
+      );
+      return Promise.all(promises).then(([joined, notJoined]) => {
         const readings = {
           joined: joined.rows,
-          notJoined: notJoined.rows
-        }
-        return readings
-      })
+          notJoined: notJoined.rows,
+        };
+        return readings;
+      });
     },
     getBookData: (bookId) => {
-      return knex.raw(`
+      return knex.raw(
+        `
       SELECT books.id, books.title, authors, books.year, books.image_url
       FROM books 
       LEFT JOIN (
@@ -128,24 +147,33 @@ module.exports = {
         GROUP BY book_id
         ) AS author_names ON author_names.book_id = books.id
         WHERE books.id = ?;
-      `, bookId)
+      `,
+        bookId
+      );
     },
     add: (bookId, userId, dateStarted, dateEnded) => {
       return knex('readings')
-      .returning('id')
-      .insert({'book_id': bookId, 'user_id': userId, 'date_started': dateStarted, 'date_ended': dateEnded})
-    }
+        .returning('id')
+        .insert({
+          book_id: bookId,
+          user_id: userId,
+          date_started: dateStarted,
+          date_ended: dateEnded,
+        });
+    },
   },
   users: {
     addUser: (readingId, userId) => {
-      return knex('users_readings')
-      .insert({'reading_id': readingId, 'user_id': userId, 'gets_mail': true})
+      return knex('users_readings').insert({
+        reading_id: readingId,
+        user_id: userId,
+        gets_mail: true,
+      });
     },
     deleteUser: (readingId, userId) => {
       return knex('users_readings')
-      .where({'reading_id': readingId,'user_id': userId})
-      .del()
-    }
-  }
-}
-
+        .where({ reading_id: readingId, user_id: userId })
+        .del();
+    },
+  },
+};
