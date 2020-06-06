@@ -21,8 +21,6 @@ const Userview = ({ userId }) => {
   const { user, loading } = useFetchUser();
 
   const [profileData, setProfileData] = useState({
-    user: null,
-    books: null,
     loading: true,
   });
 
@@ -31,8 +29,7 @@ const Userview = ({ userId }) => {
       try {
         const { data } = await axios.get(`/api/users/${userId}`);
         setProfileData({
-          user: data.user,
-          books: data.books,
+          ...data,
           loading: false,
         });
       } catch (error) {
@@ -54,7 +51,7 @@ const Userview = ({ userId }) => {
     );
   }
 
-  if (!profileData.user) {
+  if (!profileData.name) {
     return (
       <Layout>
         <Typography>
@@ -71,12 +68,12 @@ const Userview = ({ userId }) => {
     <Layout>
       <Grid container space={2}>
         <Grid item container xs={12}>
-          <ProfileImage user={profileData.user[0]} xs={12} md={3} />
-          <ProfileHeader user={profileData.user[0]} xs={12} md={9} />
+          <ProfileImage user={profileData} xs={12} md={3} />
+          <ProfileHeader user={profileData} xs={12} md={9} />
         </Grid>
         <ProfileData xs={12} md={3} />
-        <ProfileWishList books={books.wishlist} xs={12} md />
-        <ProfileReadList books={books.reads} xs={12} md />
+        <ProfileWishList books={profileData.wishlist} xs={12} md />
+        <ProfileReadList books={profileData.reads} xs={12} md />
       </Grid>
     </Layout>
   );

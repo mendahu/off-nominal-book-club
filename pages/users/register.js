@@ -9,7 +9,9 @@ import Layout from '../../src/components/DefaultLayout';
 
 export default function Register({ justConnectedPatreon }) {
   const { user, loading } = useFetchUser();
-  const [promptForProfile, setPromptForProfile] = useState(true);
+  const [promptForProfile, setPromptForProfile] = useState(
+    justConnectedPatreon
+  );
   const [patreonOverride, setPatreonOverride] = useState(false);
 
   if (loading) {
@@ -20,7 +22,7 @@ export default function Register({ justConnectedPatreon }) {
     );
   }
 
-  //user is not logged in
+  //no user is logged in, redirect
   if (!loading && !user) {
     Router.push('/');
     return (
@@ -32,26 +34,30 @@ export default function Register({ justConnectedPatreon }) {
 
   const promptForPatreon = user.patreon.state === 'unchecked';
 
-  if (!promptForPatreon && !promptForProfile) Router.replace('/');
+  if (promptForPatreon || promptForProfile) {
+    const handleSkip = () => {
+      setPromptForProfile(true);
+      setPatreonOverride(true);
+    };
 
-  const handleSkip = () => {
-    setPromptForProfile(true);
-    setPatreonOverride(true);
-  };
-
-  return (
-    <Layout>
-      {patreonOverride || promptForPatreon || promptForProfile ? (
+    return (
+      <Layout>
         <Registration
           patreon={patreonOverride ? false : promptForPatreon}
           onSkip={handleSkip}
           user={user}
         />
-      ) : (
+      </Layout>
+    );
+  } else {
+    Router.replace('/');
+
+    return (
+      <Layout>
         <Message message="Redirecting..." variant="loading" />
-      )}
-    </Layout>
-  );
+      </Layout>
+    );
+  }
 }
 
 export async function getServerSideProps(context) {
