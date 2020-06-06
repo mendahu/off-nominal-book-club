@@ -11,15 +11,15 @@ const useStyles = makeStyles((theme) => ({
 const ProfileHeader = (props) => {
   const classes = useStyles();
 
-  const { user, ...rest } = props;
+  const { name, bio, ...rest } = props;
 
   return (
     <LayoutComponent {...rest} fullHeight={true}>
       <Typography variant="h3" component="h1" className={classes.title}>
-        {user.name}
+        {name}
       </Typography>
       <Typography variant="body1" component="p">
-        {user.bio}
+        {bio}
       </Typography>
     </LayoutComponent>
   );
