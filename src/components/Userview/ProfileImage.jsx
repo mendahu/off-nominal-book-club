@@ -20,7 +20,11 @@ const ProfileImage = (props) => {
       <Avatar
         className={classes.avatar}
         alt={user.name}
-        src={user.avatar_url}
+        src={
+          user.avatar_select === 'gravatar'
+            ? user.gravatar_avatar_url
+            : user.patreon_avatar_url
+        }
       />
     </LayoutComponent>
   );

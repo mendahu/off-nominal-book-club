@@ -124,8 +124,7 @@ module.exports = {
             b.id,
             b.title,
             b.image_url,
-            author,
-            f.user_id
+            author
           FROM books b
           LEFT JOIN (
             SELECT book_id, max(name) AS author
@@ -148,8 +147,7 @@ module.exports = {
           b.id,
           b.title,
           b.image_url,
-          author,
-          r.user_id
+          author
         FROM books b
         LEFT JOIN (
           SELECT book_id, max(name) AS author
@@ -172,8 +170,7 @@ module.exports = {
             b.id,
             b.title,
             b.image_url,
-            author,
-            w.user_id
+            author
           FROM books b
           LEFT JOIN (
             SELECT book_id, max(name) AS author
@@ -192,9 +189,16 @@ module.exports = {
       promises.push(
         knex.raw(
           `
-        SELECT books.id, books.title, books.image_url, rating
-          FROM books
-          JOIN ratings on book_id = books.id
+        SELECT b.id, b.title, b.image_url, author, rating
+          FROM books b
+          LEFT JOIN (
+            SELECT book_id, max(name) AS author
+            FROM authors a
+              JOIN books_authors ba ON a.id = ba.author_id
+              JOIN books AS b ON ba.book_id = b.id
+            GROUP BY book_id
+          ) as author_names on author_names.book_id = b.id
+          JOIN ratings on ratings.book_id = b.id
           WHERE ratings.user_id = ?
         `,
           userId
@@ -207,16 +211,26 @@ module.exports = {
             throw 'User not found';
           }
 
-          const userBooks = {
-            user: userData.rows,
-            books: {
-              favourites: favsData.rows,
-              reads: readsData.rows,
-              wishlist: wishlistData.rows,
-              ratings: ratingsData.rows,
-            },
+          const {
+            name,
+            bio,
+            gravatar_avatar_url,
+            patreon_avatar_url,
+            avatar_select,
+          } = userData.rows[0];
+
+          const onbcData = {
+            name,
+            bio,
+            gravatar_avatar_url,
+            patreon_avatar_url,
+            avatar_select,
+            favourites: favsData.rows,
+            reads: readsData.rows,
+            wishlist: wishlistData.rows,
+            ratings: ratingsData.rows,
           };
-          return userBooks;
+          return onbcData;
         })
         .catch((err) => {
           throw err;

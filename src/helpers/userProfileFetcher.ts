@@ -4,10 +4,15 @@ import { getAuth0User } from './auth0/auth0User';
 import patreonProfileFetcher from './patreon/profileFetcher';
 import getAuth0UserSub from './auth0/auth0Sub';
 import userQueries from '../../db/queries/users';
+import {
+  DisplayUser,
+  PatreonTokenData,
+  DisplayPatreonData,
+} from '../types/common';
 
 export default async function userProfileFetcher(req) {
   //Fetches the default userProfile from auth0, which containers the unique ID of user
-  let auth0sub;
+  let auth0sub: string;
 
   try {
     auth0sub = await getAuth0UserSub(req);
@@ -20,9 +25,9 @@ export default async function userProfileFetcher(req) {
   if (!auth0sub) return null;
 
   //Fetches Full User Profile from auth0, extracts Patreon Token, and formats for display to client
-  let isPatron;
-  let patreonToken;
-  let userData;
+  let isPatron: boolean;
+  let patreonToken: PatreonTokenData | string;
+  let userData: DisplayUser;
 
   try {
     const auth0User = await getAuth0User(auth0sub);
@@ -41,10 +46,12 @@ export default async function userProfileFetcher(req) {
   let patreonData;
 
   try {
-    patreonData = isPatron
-      ? await patreonProfileFetcher(auth0sub, patreonToken)
-      : patreonToken;
-    userData.app_metadata.patreon = profileFormatter(patreonData);
+    if (isPatron) {
+      patreonData = await patreonProfileFetcher(auth0sub, patreonToken);
+      const campaignData = profileFormatter(patreonData);
+      userData.patreon.campaigns = campaignData.campaigns;
+      userData.patreon_avatar_url = campaignData.image_url;
+    }
   } catch (error) {
     console.error(
       'Error at UserProfileFetcher:Fetching Patreon Profile',
@@ -55,10 +62,30 @@ export default async function userProfileFetcher(req) {
 
   //Fetches onbc data
   try {
-    const onbcData = await userQueries.users.getUserData(
-      userData.app_metadata.onbc_id
-    );
-    userData.onbcData = onbcData;
+    const {
+      name,
+      bio,
+      gravatar_avatar_url,
+      patreon_avatar_url,
+      avatar_select,
+      favourites,
+      reads,
+      wishlist,
+      ratings,
+    } = await userQueries.users.getUserData(userData.onbc_id);
+
+    //TODO: check for mismatch in avatars and correct in db
+
+    userData = {
+      ...userData,
+      name,
+      bio,
+      avatar_select,
+      favourites,
+      reads,
+      wishlist,
+      ratings,
+    };
   } catch (error) {
     console.error('Error at UserProfileFetcher: Fetching ONBC data', error);
     throw error;

@@ -4,15 +4,13 @@ import Registration from '../../src/components/Registration/Registration';
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher';
 import { useFetchUser } from '../../lib/user';
 import Router from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import getAuth0UserSub from '../../src/helpers/auth0/auth0Sub';
 import Layout from '../../src/components/DefaultLayout';
 
 export default function Register({ justConnectedPatreon }) {
   const { user, loading } = useFetchUser();
-  const [promptForProfile, setPromptForProfile] = useState(
-    justConnectedPatreon
-  );
+  const [promptForProfile, setPromptForProfile] = useState(true);
   const [patreonOverride, setPatreonOverride] = useState(false);
 
   if (loading) {
@@ -33,12 +31,7 @@ export default function Register({ justConnectedPatreon }) {
     );
   }
 
-  // checks for any errors in the profile fetched which would indicate system issues
-  // and shows error to user
-  const profileError = userProfileValidator(user);
-  if (profileError) return profileError;
-
-  const promptForPatreon = user.app_metadata.patreon === 'unchecked';
+  const promptForPatreon = user.patreon.state === 'unchecked';
 
   if (!promptForPatreon && !promptForProfile) Router.replace('/');
 

@@ -1,19 +1,37 @@
 import { DisplayUser } from '../types/common';
 
-export default function userDataFormatter(user) {
-  const { name, nickname, picture, app_metadata } = user;
+export default function userDataFormatter(user): DisplayUser {
+  const {
+    picture,
+    app_metadata: { patreon, onbc_id },
+  } = user;
+
+  const patreonStateChecker = (patreonAttribute): string => {
+    if (typeof patreonAttribute === 'string') {
+      return patreonAttribute;
+    } else {
+      return 'connected';
+    }
+  };
 
   const formattedUser: DisplayUser = {
-    name,
-    nickname,
-    picture,
-    app_metadata: {
-      onbc_id: app_metadata?.onbc_id,
+    onbc_id,
+    name: '',
+    bio: '',
+    gravatar_avatar_url: picture,
+    patreon_avatar_url: '',
+    avatar_select: '',
+    patreon: {
+      state: patreonStateChecker(patreon),
     },
+    favourites: [],
+    reads: [],
+    wishlist: [],
+    ratings: [],
     get isPatron(): boolean {
       let status: boolean = false;
-      if (this.app_metadata?.patreon?.campaigns) {
-        this.app_metadata.patreon.campaigns.forEach((campaign) => {
+      if (this.patreon.campaigns) {
+        this.patreon.campaigns.forEach((campaign) => {
           if (campaign.status === 'active_patron') {
             status = true;
           }

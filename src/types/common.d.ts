@@ -63,7 +63,15 @@ interface BookData {
   reviews: UserReview[];
 }
 
-interface PatreonTokenData {}
+interface PatreonTokenData {
+  access_token: string;
+  expires_in: number;
+  token_typ: string;
+  scope: string;
+  refresh_token: string;
+  version: string;
+  expiry_date: number;
+}
 
 interface Campaign {
   id: number;
@@ -73,35 +81,30 @@ interface Campaign {
 }
 
 interface DisplayPatreonData {
-  campaigns: Campaign[];
-  full_name: string;
+  campaigns?: Campaign[];
+  state: string;
+}
+
+type Book = {
+  id: number;
+  title: string;
   image_url: string;
-}
+  author: string;
+  rating?: number;
+};
 
-interface UserAppMetaData {
+interface DisplayUser {
   onbc_id: number;
-}
-
-interface Auth0UserAppMetaData extends UserAppMetaData {
-  patreon: string | PatreonTokenData;
-}
-
-interface DisplayUserAppMetaData extends UserAppMetaData {
-  patreon?: string | DisplayPatreonData;
-}
-
-interface Auth0ProfileBasic {
   name: string;
-  nickname: string;
-  picture: string;
-}
-
-interface Auth0ProfileFull extends Auth0ProfileBasic {
-  app_metadata: Auth0UserAppMetaData;
-}
-
-interface DisplayUser extends Auth0ProfileBasic {
-  app_metadata: DisplayUserAppMetaData;
+  bio: string;
+  gravatar_avatar_url: string;
+  patreon_avatar_url: string;
+  avatar_select: string;
+  patreon: DisplayPatreonData;
+  favourites: Book[];
+  reads: Book[];
+  wishlist: Book[];
+  ratings: Book[];
   isPatron: boolean;
 }
 
@@ -114,8 +117,8 @@ export {
   UserData,
   Author,
   BookData,
-  Auth0ProfileFull,
-  DisplayUser,
   Campaign,
   DisplayPatreonData,
+  PatreonTokenData,
+  DisplayUser,
 };
