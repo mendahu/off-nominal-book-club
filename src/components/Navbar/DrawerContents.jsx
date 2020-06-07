@@ -33,9 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
   const classes = useStyles();
 
-  const userData = user?.onbcData?.user[0];
-  const userBookData = user?.onbcData?.books;
-  const profileLink = `/users/${user?.app_metadata?.onbc_id}`;
+  const profileLink = `/users/${user?.onbc_id}`;
 
   const profileItems = [
     { display: 'READS', query: 'reads' },
@@ -50,21 +48,21 @@ const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      {user?.app_metadata?.onbc_id && (
+      {user?.onbc_id && (
         <>
           <Link href={profileLink} passHref>
             <MatLink color="inherit" underline="none">
               <Avatar
                 className={classes.avatar}
-                src={userData.avatar_url}
-                alt={`Avatar for ${userData.name}`}
+                src={user.avatar}
+                alt={`Avatar for ${user.name}`}
               />
             </MatLink>
           </Link>
           <Link href={profileLink} passHref>
             <MatLink color="inherit" underline="none">
               <Typography align="center" variant="h5" component="h1">
-                {userData.name}
+                {user.name}
               </Typography>
             </MatLink>
           </Link>
@@ -73,7 +71,7 @@ const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
               <Link href={profileLink} passHref key={index}>
                 <MatLink color="inherit" underline="none">
                   <Typography align="center" variant="overline" component="li">
-                    {item.display}: {userBookData[item.query].length}
+                    {item.display}: {user[item.query].length}
                   </Typography>
                 </MatLink>
               </Link>
@@ -98,7 +96,7 @@ const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
 
       <List>
         <DrawerItem url="/about" text="About" icon={<ContactSupportIcon />} />
-        {user?.app_metadata?.onbc_id ? (
+        {user?.onbc_id ? (
           <DrawerItem url={logOutUrl} text="Log out" icon={<ExitToAppIcon />} />
         ) : (
           <DrawerItem url={logInUrl} text="Log in" icon={<PersonIcon />} />

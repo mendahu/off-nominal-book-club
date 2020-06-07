@@ -100,6 +100,7 @@ interface DisplayUser {
   gravatar_avatar_url: string;
   patreon_avatar_url: string;
   avatar_select: string;
+  avatar: string;
   patreon: DisplayPatreonData;
   favourites: Book[];
   reads: Book[];

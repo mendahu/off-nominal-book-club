@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import ProfileImage from '../ProfileImage';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Button } from '@material-ui/core';
 
 const testUser = {
   name: 'Test User',
@@ -9,10 +9,31 @@ const testUser = {
 };
 
 describe('ProfileImage', () => {
-  it('Should renders an Avatar', () => {
+  it('Should renders an Avatar for unauthenticated user', () => {
     const wrapper = shallow(
-      <ProfileImage name={testUser.name} avatar={testUser.avatar} />
+      <ProfileImage
+        name={testUser.name}
+        avatar={testUser.avatar}
+        newAvatarSelect="gravatar"
+        loggedIn={false}
+        onClick={jest.fn()}
+      />
     );
     expect(wrapper.find(Avatar)).toHaveLength(1);
+    expect(wrapper.find(Button)).toHaveLength(0);
+  });
+  it('Should renders an Avatar and a button for authenticated users', () => {
+    const wrapper = shallow(
+      <ProfileImage
+        name={testUser.name}
+        avatar={testUser.avatar}
+        newAvatarSelect="gravatar"
+        loggedIn={true}
+        onClick={jest.fn()}
+      />
+    );
+    expect(wrapper.find(Avatar)).toHaveLength(1);
+    expect(wrapper.find(Button)).toHaveLength(1);
+    expect(wrapper.find(Button).text()).toMatch(/gravatar/);
   });
 });

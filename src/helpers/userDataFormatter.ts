@@ -39,6 +39,11 @@ export default function userDataFormatter(user): DisplayUser {
       }
       return status;
     },
+    get avatar(): string {
+      return this.avatar_select === 'patreon'
+        ? this.patreon_avatar_url
+        : this.gravatar_avatar_url;
+    },
   };
 
   return formattedUser;
