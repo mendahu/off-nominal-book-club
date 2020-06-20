@@ -90,7 +90,7 @@ const Userview = ({ userId }) => {
           xs={12}
           md={3}
           patreonState={user?.patreon?.state}
-          email={user.email}
+          email={user?.email}
         />
         <ProfileWishList books={profileData.wishlist} xs={12} md />
         <ProfileReadList books={profileData.reads} xs={12} md />

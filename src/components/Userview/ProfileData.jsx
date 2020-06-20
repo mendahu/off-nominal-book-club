@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
 import { usePasswordReset } from '../../hooks/usePasswordReset';
+import { useSnackbar, OnbcSnackbar } from '../../hooks/useSnackbar';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -22,15 +23,23 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
   const classes = useStyles();
 
   const { sendPasswordReset } = usePasswordReset(email);
-  const [error, setError] = useState({
-    active: false,
-    message: '',
-    severity: '',
-  });
+  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
   const handlePasswordReset = async () => {
-    const result = await sendPasswordReset();
-    alert(result);
+    try {
+      await sendPasswordReset();
+    } catch (err) {
+      triggerSnackbar({
+        active: true,
+        message: 'Something went wrong!',
+        severity: 'error',
+      });
+    }
+    triggerSnackbar({
+      active: true,
+      message: 'Password Email Sent!',
+      severity: 'success',
+    });
   };
 
   return (
@@ -83,19 +92,7 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
         >
           Send Password Reset Email
         </Button>
-        <Snackbar
-          open={error.active}
-          autoHideDuration={6000}
-          onClose={closeError}
-        >
-          <Alert
-            onClose={closeError}
-            severity={error.severity}
-            variant="filled"
-          >
-            {error.message}
-          </Alert>
-        </Snackbar>
+        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
       </Box>
     </LayoutComponent>
   );
