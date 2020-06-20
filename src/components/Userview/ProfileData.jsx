@@ -42,6 +42,10 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
     });
   };
 
+  const disconnectPatreon = () => {
+    //
+  };
+
   return (
     <LayoutComponent {...rest}>
       <Box className={classes.patreonContainer}>
@@ -53,7 +57,7 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
             className={classes.button}
             variant="contained"
             color="secondary"
-            href={'/'}
+            onClick={disconnectPatreon}
             startIcon={
               <img
                 className={classes.patreonMark}
