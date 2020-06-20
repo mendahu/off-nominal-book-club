@@ -24,9 +24,8 @@ module.exports = {
             `
         ( SELECT users.name
           FROM users
-          WHERE users.id = ?) as name
-        `,
-            userId
+          WHERE users.id = :userId) as name`,
+            params
           ),
           knex.raw(
             `
@@ -42,7 +41,7 @@ module.exports = {
             `
           ( SELECT json_agg(review)
             FROM (
-              SELECT reviews.id as id, reviews.user_id, users.name as name, reviews.created_at as date, reviews.summary as summary, reviews.review as user_review
+              SELECT reviews.id as id, reviews.user_id, users.name as name, CASE WHEN users.avatar_select='gravatar' THEN users.gravatar_avatar_url ELSE users.patreon_avatar_url END as avatar_url, reviews.created_at as date, reviews.summary as summary, reviews.review as user_review
               FROM reviews
                 JOIN users ON users.id = reviews.user_id
               WHERE reviews.user_id = :userId AND reviews.book_id = books.id
