@@ -1,7 +1,14 @@
 import { Avatar } from '@material-ui/core';
 import LayoutComponent from '../General/LayoutComponent';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@material-ui/core';
+import { useProfileUpdater } from '../../hooks/useProfileUpdater';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -14,23 +21,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileImage = (props) => {
+const ProfileImage = ({
+  name,
+  gravatar_avatar_url,
+  patreon_avatar_url,
+  avatar_select,
+  loggedIn,
+  onClick,
+  ...rest
+}) => {
   const classes = useStyles();
 
-  const { name, avatar, newAvatarSelect, loggedIn, onClick, ...rest } = props;
+  const { formData, handleFormChange, updateProfile } = useProfileUpdater({
+    avatar_select,
+  });
+
+  const isGravatar = formData.avatar_select === 'gravatar';
+  const newAvatarSelect = isGravatar ? 'patreon' : 'gravatar';
+
+  const toggleAvatar = (e) => {
+    handleFormChange(e);
+    updateProfile();
+  };
 
   return (
     <LayoutComponent {...rest} fullHeight={true}>
-      <Avatar className={classes.avatar} alt={name} src={avatar} />
+      <Avatar
+        className={classes.avatar}
+        alt={name}
+        src={isGravatar ? gravatar_avatar_url : patreon_avatar_url}
+      />
       {loggedIn && (
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          onClick={onClick}
-        >
-          Switch Avatar to {newAvatarSelect}
-        </Button>
+        <FormControl>
+          <RadioGroup
+            aria-label="avatar"
+            name="avatar_select"
+            value={formData.avatar_select}
+            onChange={toggleAvatar}
+          >
+            <FormControlLabel
+              control={<Radio />}
+              value="gravatar"
+              label="Use Gravatar"
+            />
+            <FormControlLabel
+              control={<Radio />}
+              value="patreon"
+              label="Use Patreon Avatar"
+            />
+          </RadioGroup>
+        </FormControl>
       )}
     </LayoutComponent>
   );

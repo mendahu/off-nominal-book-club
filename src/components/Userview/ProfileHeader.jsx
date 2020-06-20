@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileHeader = ({ name, bio, ...rest }) => {
+const ProfileHeader = ({ name, bio, loggedIn, ...rest }) => {
   const classes = useStyles();
 
   const [editMode, setEditMode] = useState(false);
@@ -38,10 +38,12 @@ const ProfileHeader = ({ name, bio, ...rest }) => {
   const staticDisplay = (
     <>
       <Typography variant="h3" component="h1" className={classes.title}>
-        {formData.name}{' '}
-        <Link className={classes.link} onClick={clickHandler}>
-          [edit]
-        </Link>
+        {formData.name}
+        {loggedIn && (
+          <Link className={classes.link} onClick={clickHandler}>
+            {' ' + '[edit]'}
+          </Link>
+        )}
       </Typography>
       <Typography variant="body1" component="p">
         {formData.bio}

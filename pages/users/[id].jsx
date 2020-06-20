@@ -65,28 +65,26 @@ const Userview = ({ userId }) => {
     patreon_avatar_url,
   } = profileData;
 
-  const isGravatar = avatar_select === 'gravatar';
-  const newAvatarSelect = isGravatar ? 'patreon' : 'gravatar';
-
-  const handleAvatarToggle = async () => {
-    setProfileData({ ...profileData, avatar_select: newAvatarSelect });
-    await axios.patch('/api/users/update', { avatar_select: newAvatarSelect });
-  };
-
   return (
     <Layout>
       <Grid container space={2}>
         <Grid item container xs={12}>
           <ProfileImage
             name={name}
-            avatar={isGravatar ? gravatar_avatar_url : patreon_avatar_url}
-            newAvatarSelect={newAvatarSelect}
+            gravatar_avatar_url={gravatar_avatar_url}
+            patreon_avatar_url={patreon_avatar_url}
+            avatar_select={avatar_select}
             loggedIn={!!user}
-            onClick={handleAvatarToggle}
             xs={12}
             md={3}
           />
-          <ProfileHeader name={name} bio={bio} xs={12} md={9} />
+          <ProfileHeader
+            name={name}
+            bio={bio}
+            xs={12}
+            md={9}
+            loggedIn={!!user}
+          />
         </Grid>
         <ProfileData xs={12} md={3} />
         <ProfileWishList books={profileData.wishlist} xs={12} md />
