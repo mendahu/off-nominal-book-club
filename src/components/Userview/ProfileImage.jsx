@@ -1,8 +1,8 @@
 import { Avatar } from '@material-ui/core';
+import { useEffect } from 'react';
 import LayoutComponent from '../General/LayoutComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Button,
   FormControl,
   FormControlLabel,
   Radio,
@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(2),
   },
+  form: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const ProfileImage = ({
@@ -26,8 +29,8 @@ const ProfileImage = ({
   gravatar_avatar_url,
   patreon_avatar_url,
   avatar_select,
-  loggedIn,
   onClick,
+  isPatron,
   ...rest
 }) => {
   const classes = useStyles();
@@ -37,12 +40,10 @@ const ProfileImage = ({
   });
 
   const isGravatar = formData.avatar_select === 'gravatar';
-  const newAvatarSelect = isGravatar ? 'patreon' : 'gravatar';
 
-  const toggleAvatar = (e) => {
-    handleFormChange(e);
+  useEffect(() => {
     updateProfile();
-  };
+  }, [formData]);
 
   return (
     <LayoutComponent {...rest} fullHeight={true}>
@@ -51,13 +52,13 @@ const ProfileImage = ({
         alt={name}
         src={isGravatar ? gravatar_avatar_url : patreon_avatar_url}
       />
-      {loggedIn && (
-        <FormControl>
+      {isPatron && (
+        <FormControl className={classes.form}>
           <RadioGroup
             aria-label="avatar"
             name="avatar_select"
             value={formData.avatar_select}
-            onChange={toggleAvatar}
+            onChange={handleFormChange}
           >
             <FormControlLabel
               control={<Radio />}

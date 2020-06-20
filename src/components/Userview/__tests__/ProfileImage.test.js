@@ -1,7 +1,6 @@
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import ProfileImage from '../ProfileImage';
-import { Avatar, FormControl, Radio } from '@material-ui/core';
-import { useProfileUpdater } from '../../../hooks/useProfileUpdater';
+import { Avatar, FormControl } from '@material-ui/core';
 
 const testUser = {
   name: 'Test User',

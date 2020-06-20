@@ -74,7 +74,7 @@ const Userview = ({ userId }) => {
             gravatar_avatar_url={gravatar_avatar_url}
             patreon_avatar_url={patreon_avatar_url}
             avatar_select={avatar_select}
-            loggedIn={!!user}
+            isPatron={user?.isPatron}
             xs={12}
             md={3}
           />
@@ -86,12 +86,16 @@ const Userview = ({ userId }) => {
             loggedIn={!!user}
           />
         </Grid>
-        <ProfileData
-          xs={12}
-          md={3}
-          patreonState={user?.patreon?.state}
-          email={user?.email}
-        />
+        {user ? (
+          <ProfileData
+            xs={12}
+            md={3}
+            patreonState={user?.patreon?.state}
+            email={user?.email}
+          />
+        ) : (
+          <Grid item xs={12} md={3} />
+        )}
         <ProfileWishList books={profileData.wishlist} xs={12} md />
         <ProfileReadList books={profileData.reads} xs={12} md />
       </Grid>

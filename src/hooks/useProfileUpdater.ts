@@ -22,7 +22,7 @@ export const useProfileUpdater = (profileData: ProfileData) => {
   const handleFormChange = (e) => {
     if (e.target.id === 'gets_mail') {
       setFormData({ ...formData, gets_mail: e.target.checked });
-    } else if (e.target.value === 'gravatar' || e.target.value === 'patreon') {
+    } else if (e.target.name === 'avatar_select') {
       setFormData({ ...formData, avatar_select: e.target.value });
     } else {
       setFormData({ ...formData, [e.target.id]: e.target.value });
