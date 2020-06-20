@@ -67,7 +67,7 @@ const ProfileImage = ({
             <FormControlLabel
               control={<Radio />}
               value="patreon"
-              label="Use Patreon Avatar"
+              label="Use Patreon"
             />
           </RadioGroup>
         </FormControl>
