@@ -86,7 +86,12 @@ const Userview = ({ userId }) => {
             loggedIn={!!user}
           />
         </Grid>
-        <ProfileData xs={12} md={3} />
+        <ProfileData
+          xs={12}
+          md={3}
+          patreonState={user?.patreon?.state}
+          email={user.email}
+        />
         <ProfileWishList books={profileData.wishlist} xs={12} md />
         <ProfileReadList books={profileData.reads} xs={12} md />
       </Grid>

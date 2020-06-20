@@ -101,6 +101,7 @@ enum avatarSelect {
 interface DisplayUser {
   onbc_id: number;
   name: string;
+  email: string;
   bio: string;
   gravatar_avatar_url: string;
   patreon_avatar_url: string;
