@@ -22,6 +22,11 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
   const classes = useStyles();
 
   const { sendPasswordReset } = usePasswordReset(email);
+  const [error, setError] = useState({
+    active: false,
+    message: '',
+    severity: '',
+  });
 
   const handlePasswordReset = async () => {
     const result = await sendPasswordReset();
@@ -78,6 +83,19 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
         >
           Send Password Reset Email
         </Button>
+        <Snackbar
+          open={error.active}
+          autoHideDuration={6000}
+          onClose={closeError}
+        >
+          <Alert
+            onClose={closeError}
+            severity={error.severity}
+            variant="filled"
+          >
+            {error.message}
+          </Alert>
+        </Snackbar>
       </Box>
     </LayoutComponent>
   );
