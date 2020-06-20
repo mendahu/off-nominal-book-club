@@ -1,10 +1,10 @@
-const user_schema = require('patreon/dist/schemas/user')
+const user_schema = require('patreon/dist/schemas/user');
 
 export const callOptions = {
   fields: {
-    user: [...user_schema.default.attributes.first_name]
-  }
-}
+    user: [...user_schema.default.attributes.first_name],
+  },
+};
 
 interface TokenOptions {
   client_id: string;
@@ -16,7 +16,7 @@ interface TokenOptions {
 export const tokenOptions: TokenOptions = {
   client_id: process.env.PAT_CLIENT_ID,
   redirect_uri: process.env.PAT_REDIRECT_URI,
-  scope: 'identity identity.memberships'
-}
+  scope: 'identity identity.memberships',
+};
 
 export default { callOptions, tokenOptions };

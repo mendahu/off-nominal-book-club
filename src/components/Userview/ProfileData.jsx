@@ -1,9 +1,11 @@
 import LayoutComponent from '../General/LayoutComponent';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
 import { usePasswordReset } from '../../hooks/usePasswordReset';
 import { useSnackbar, OnbcSnackbar } from '../../hooks/useSnackbar';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -19,9 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileData = ({ patreonState, email, ...rest }) => {
+const ProfileData = ({ patreonState, email, userId, ...rest }) => {
   const classes = useStyles();
 
+  const [patreonConnected, setPatreonConnected] = useState(
+    patreonState === 'connected'
+  );
   const { sendPasswordReset } = usePasswordReset(email);
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
@@ -42,8 +47,22 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
     });
   };
 
-  const disconnectPatreon = () => {
-    //
+  const disconnectPatreon = async () => {
+    try {
+      await axios.post('/api/auth0/update', { result: 'skipped' });
+    } catch (err) {
+      triggerSnackbar({
+        active: true,
+        message: 'Something went wrong!',
+        severity: 'error',
+      });
+    }
+    setPatreonConnected(false);
+    triggerSnackbar({
+      active: true,
+      message: 'Patreon Account Disconnected!',
+      severity: 'success',
+    });
   };
 
   return (
@@ -52,7 +71,7 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
         <Typography paragraph component="h2" variant="h5">
           Patreon
         </Typography>
-        {patreonState === 'connected' ? (
+        {patreonConnected ? (
           <Button
             className={classes.button}
             variant="contained"
@@ -78,7 +97,7 @@ const ProfileData = ({ patreonState, email, ...rest }) => {
                 src="/Patreon_Mark_Primary.png"
               />
             }
-            href={patreonAuthUrlGenerator()}
+            href={patreonAuthUrlGenerator({ redirect: 'home' })}
           >
             Connect
           </Button>
