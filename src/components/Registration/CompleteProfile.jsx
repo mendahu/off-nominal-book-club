@@ -12,9 +12,10 @@ import {
   Grid,
 } from '@material-ui/core';
 import { useState } from 'react';
-import axios from 'axios';
 import Router from 'next/router';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { useProfileUpdater } from '../../hooks/useProfileUpdater';
 
 const useStyles = makeStyles((theme) => ({
   contents: {
@@ -36,27 +37,15 @@ export default function CompleteProfile(props) {
   const classes = useStyles();
   const { user } = props;
 
-  const [formData, setFormData] = useState({
+  const { formData, handleFormChange, updateProfile } = useProfileUpdater({
     name: '',
     bio: '',
-    avatar_select: 'gravatar',
+    avatar_select: 'patreon',
+    gets_mail: false,
   });
-  const [checked, setChecked] = useState(false);
 
-  const handleFormChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  const handleCheckbox = (e) => {
-    setChecked(e.target.checked);
-  };
-
-  const handleAvatar = (e) => {
-    setFormData({ ...formData, avatar_select: e.target.value });
-  };
-
-  const submit = async () => {
-    await axios.patch('/api/users/update', { ...formData, gets_mail: checked });
+  const handleSubmit = () => {
+    updateProfile();
     Router.replace('/');
   };
 
@@ -68,10 +57,11 @@ export default function CompleteProfile(props) {
             Just a few more details...
           </Typography>
           <RadioGroup
+            id="avatar_select"
             aria-label="avatar"
             name="avatar"
             value={formData.avatar_select}
-            onChange={handleAvatar}
+            onChange={handleFormChange}
           >
             <Grid container spacing={2} justify="center">
               <Grid item xs={4}>
@@ -128,7 +118,7 @@ export default function CompleteProfile(props) {
               <Checkbox
                 id="gets_mail"
                 checked={formData.gets_mail}
-                onChange={handleCheckbox}
+                onChange={handleFormChange}
                 color="primary"
               />
             }
@@ -139,7 +129,7 @@ export default function CompleteProfile(props) {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={submit}
+            onClick={handleSubmit}
           >
             Submit
           </Button>

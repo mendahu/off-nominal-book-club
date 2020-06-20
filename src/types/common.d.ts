@@ -93,6 +93,11 @@ type Book = {
   rating?: number;
 };
 
+enum avatarSelect {
+  'gravatar',
+  'patreon',
+}
+
 interface DisplayUser {
   onbc_id: number;
   name: string;
@@ -100,7 +105,7 @@ interface DisplayUser {
   gravatar_avatar_url: string;
   patreon_avatar_url: string;
   avatar_select: string;
-  avatar: string;
+  avatar: avatarSelect;
   patreon: DisplayPatreonData;
   favourites: Book[];
   reads: Book[];
@@ -121,5 +126,6 @@ export {
   Campaign,
   DisplayPatreonData,
   PatreonTokenData,
+  avatarSelect,
   DisplayUser,
 };
