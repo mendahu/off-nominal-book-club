@@ -1,5 +1,6 @@
 import { Grid, Paper, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -8,24 +9,33 @@ const useStyles = makeStyles((theme) => ({
   child: {
     padding: theme.spacing(3),
   },
-  fullChild: {
-    padding: theme.spacing(3),
+  fullHeight: {
     height: '100%',
+  },
+  flex: {
+    display: 'flex',
+  },
+  flexCol: {
+    flexDirection: 'column',
   },
 }));
 
 const LayoutComponent = (props) => {
   const classes = useStyles();
 
-  const { fullHeight, ...rest } = props;
+  const { fullHeight, flexbox, ...rest } = props;
 
   return (
     <Grid item {...rest} className={classes.root}>
-      {fullHeight ? (
-        <Paper className={classes.fullChild}>{props.children}</Paper>
-      ) : (
-        <Paper className={classes.child}>{props.children}</Paper>
-      )}
+      <Paper
+        className={clsx(classes.child, {
+          [classes.fullHeight]: fullHeight,
+          [classes.flex]: flexbox,
+          [classes.flexCol]: flexbox === 'col',
+        })}
+      >
+        {props.children}
+      </Paper>
     </Grid>
   );
 };

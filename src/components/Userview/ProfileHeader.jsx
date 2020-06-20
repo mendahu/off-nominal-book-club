@@ -14,7 +14,7 @@ const ProfileHeader = (props) => {
   const { name, bio, ...rest } = props;
 
   return (
-    <LayoutComponent {...rest} fullHeight={true}>
+    <LayoutComponent {...rest} flexbox="col" fullHeight={true}>
       <Typography variant="h3" component="h1" className={classes.title}>
         {name}
       </Typography>
