@@ -49,6 +49,7 @@ describe('useProfileUpdater', () => {
 
     const event = {
       target: {
+        id: 'avatar_select',
         value: 'patreon',
       },
     };

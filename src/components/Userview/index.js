@@ -1,13 +1,13 @@
 import ProfileData from './ProfileData';
 import ProfileHeader from './ProfileHeader';
-import ProfileWishList from './ProfileWishList';
-import ProfileReadList from './ProfileReadList';
+import ProfileBookList from './ProfileBookList';
+import ProfileBookListItem from './ProfileBookListItem';
 import ProfileImage from './ProfileImage';
 
 export {
   ProfileData,
   ProfileHeader,
   ProfileImage,
-  ProfileReadList,
-  ProfileWishList,
+  ProfileBookList,
+  ProfileBookListItem,
 };

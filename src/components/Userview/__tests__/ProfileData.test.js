@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import ProfileData from '../ProfileData';
+import { Link } from '@material-ui/core';
 
 const testUser = {
   name: 'jake',

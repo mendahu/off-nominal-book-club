@@ -15,6 +15,5 @@ const testUser = {
 describe('Userview', () => {
   it('Should render Image, Header, Wishlist and Readlist when not logged in', () => {
     const wrapper = shallow(<Userview userId={testUser.userId} />);
-    console.log(wrapper.debug());
   });
 });

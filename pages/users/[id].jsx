@@ -3,8 +3,7 @@ import {
   ProfileImage,
   ProfileHeader,
   ProfileData,
-  ProfileWishList,
-  ProfileReadList,
+  ProfileBookList,
 } from '../../src/components/Userview';
 import Layout from '../../src/components/DefaultLayout';
 import { Typography, Grid, Box } from '@material-ui/core';
@@ -96,8 +95,18 @@ const Userview = ({ userId }) => {
         ) : (
           <Grid item xs={12} md={3} />
         )}
-        <ProfileWishList books={profileData.wishlist} xs={12} md />
-        <ProfileReadList books={profileData.reads} xs={12} md />
+        <ProfileBookList
+          listTitle="Wishlist"
+          books={profileData.wishlist}
+          xs={12}
+          md
+        />
+        <ProfileBookList
+          listTitle="Read List"
+          books={profileData.reads}
+          xs={12}
+          md
+        />
       </Grid>
     </Layout>
   );
