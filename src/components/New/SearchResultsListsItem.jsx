@@ -1,10 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
 
 import { Card, CardContent } from '@material-ui/core';
 
@@ -55,6 +53,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 export default function SearchResultsListItem(props) {
+  console.log(props.book);
   const classes = useStyles();
 
   return (
@@ -84,7 +83,12 @@ export default function SearchResultsListItem(props) {
                   {
                     props.isSearch === true
                       ? props.selectBook(props.book)
-                      : props.redirectToBook(props.book);
+                      : props.redirectToBook(
+                          props.book,
+                          props.book.authors.map((author) => {
+                            return { name: author };
+                          })
+                        );
                   }
                 }}
               >

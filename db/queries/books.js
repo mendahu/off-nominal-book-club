@@ -15,7 +15,23 @@ module.exports = {
       const lowerTitle = bookObj.title.toLowerCase();
 
       return knex
-        .select()
+        .select(
+          'description',
+          'fiction',
+          'id',
+          'image_url',
+          'title',
+          knex.raw(
+            `
+            ( SELECT json_agg(authors) 
+            FROM (
+              SELECT name 
+              FROM authors
+                JOIN books_authors ON authors.id = books_authors.author_id
+              WHERE books_authors.book_id = books.id
+            ) authors ) AS authors`
+          )
+        )
         .from('books')
         .where('isbn13', bookObj.isbn13)
         .orWhere('google_id', bookObj.google_id)

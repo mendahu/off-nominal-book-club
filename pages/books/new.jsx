@@ -8,6 +8,7 @@ import Router from 'next/router';
 import { useFetchUser } from '../../lib/user';
 import Message from '../../src/components/Utility/Message';
 import urlGenerator from '../../src/helpers/urlGenerator';
+import generateAuthorString from '../../src/helpers/generateAuthorString';
 
 export default function New() {
   const { user, loading } = useFetchUser();
@@ -29,8 +30,12 @@ export default function New() {
     authors: null,
   });
 
-  function redirectToBook(book) {
-    Router.push(`/books/${book.id}`);
+  function redirectToBook(book, authors, data) {
+    const baseUrl = `/books/`;
+    const authorString = generateAuthorString(authors);
+    console.log(book);
+    const slug = urlGenerator(data || book.id, authorString, book.title);
+    Router.push(baseUrl.concat(slug));
   }
 
   function redirectToCom() {
@@ -41,7 +46,7 @@ export default function New() {
   function addBook(book) {
     axios
       .post(`/api/books/new`, book)
-      .then((res) => redirectToBook(book, res.data[0]));
+      .then((res) => redirectToBook(book.book, book.authors, res.data[0]));
   }
 
   // sets search term to book.tile
@@ -60,7 +65,7 @@ export default function New() {
     // format google book data into database format
     const selectedBook = {
       book: {
-        user_id: user.app_metadata.onbc_id,
+        user_id: user.onbc_id,
         title: book.title,
         description: book.description,
         fiction: true,
