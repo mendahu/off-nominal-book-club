@@ -33,3 +33,5 @@
 - Redesigned responsive User Profile Page
 - - Users can now change profile picture, update name and bio, disconnect and connect Patreon account, and trigger password resets
 - User reviews in book view now show profile picture
+
+# 0.2.1
