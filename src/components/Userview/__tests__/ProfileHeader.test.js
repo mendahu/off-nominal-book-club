@@ -9,17 +9,23 @@ const testUser = {
 
 describe('ProfileImage', () => {
   it('Should render no edit button when not logged in', () => {
-    const wrapper = shallow(<ProfileHeader {...testUser} loggedIn={false} />);
+    const wrapper = shallow(
+      <ProfileHeader {...testUser} isUserAuthorized={false} />
+    );
     expect(wrapper.find(Link)).toHaveLength(0);
   });
 
   it('Should render edit button when not logged in', () => {
-    const wrapper = shallow(<ProfileHeader {...testUser} loggedIn={true} />);
+    const wrapper = shallow(
+      <ProfileHeader {...testUser} isUserAuthorized={true} />
+    );
     expect(wrapper.find(Link)).toHaveLength(1);
   });
 
   it('Should render button when edit clicked', () => {
-    const wrapper = shallow(<ProfileHeader {...testUser} loggedIn={true} />);
+    const wrapper = shallow(
+      <ProfileHeader {...testUser} isUserAuthorized={true} />
+    );
 
     const editButton = wrapper.find(Link);
     editButton.simulate('click');
@@ -28,7 +34,9 @@ describe('ProfileImage', () => {
   });
 
   it('Should render no more button when button clicked', () => {
-    const wrapper = shallow(<ProfileHeader {...testUser} loggedIn={true} />);
+    const wrapper = shallow(
+      <ProfileHeader {...testUser} isUserAuthorized={true} />
+    );
 
     const editButton = wrapper.find(Link);
     editButton.simulate('click');

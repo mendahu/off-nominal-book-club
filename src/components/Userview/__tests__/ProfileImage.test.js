@@ -14,15 +14,37 @@ const testUser = {
 describe('ProfileImage', () => {
   it('Should renders an Avatar for unauthenticated user', () => {
     const wrapper = shallow(
-      <ProfileImage {...testUser} isPatron={false} onClick={jest.fn()} />
+      <ProfileImage
+        {...testUser}
+        isPatron={false}
+        isUserAuthorized={false}
+        onClick={jest.fn()}
+      />
     );
     expect(wrapper.find(Avatar)).toHaveLength(1);
     expect(wrapper.find(FormControl)).toHaveLength(0);
   });
 
+  it('Should render an Avatar for authenticated Users who have not connect a Patreon account', () => {
+    const wrapper = shallow(
+      <ProfileImage
+        {...testUser}
+        isPatron={false}
+        isUserAuthorized={true}
+        onClick={jest.fn()}
+      />
+    );
+    expect(wrapper.find(Avatar)).toHaveLength(1);
+    expect(wrapper.find(FormControl)).toHaveLength(0);
+  });
   it('Should renders an Avatar and a Form Control for authenticated Users', () => {
     const wrapper = shallow(
-      <ProfileImage {...testUser} isPatron={true} onClick={jest.fn()} />
+      <ProfileImage
+        {...testUser}
+        isPatron={true}
+        isUserAuthorized={true}
+        onClick={jest.fn()}
+      />
     );
     expect(wrapper.find(Avatar)).toHaveLength(1);
     expect(wrapper.find(FormControl)).toHaveLength(1);
