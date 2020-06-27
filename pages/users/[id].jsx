@@ -64,6 +64,8 @@ const Userview = ({ userId }) => {
     patreon_avatar_url,
   } = profileData;
 
+  const isUserAuthorized = !!user && user.onbc_id === Number(userId);
+
   return (
     <Layout>
       <Grid container space={2}>
@@ -74,6 +76,7 @@ const Userview = ({ userId }) => {
             patreon_avatar_url={patreon_avatar_url}
             avatar_select={avatar_select}
             isPatron={user?.isPatron}
+            isUserAuthorized={isUserAuthorized}
             xs={12}
             md={3}
           />
@@ -82,10 +85,10 @@ const Userview = ({ userId }) => {
             bio={bio}
             xs={12}
             md={9}
-            loggedIn={!!user}
+            isUserAuthorized={isUserAuthorized}
           />
         </Grid>
-        {user ? (
+        {isUserAuthorized ? (
           <ProfileData
             xs={12}
             md={3}

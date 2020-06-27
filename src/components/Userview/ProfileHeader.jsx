@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileHeader = ({ name, bio, loggedIn, ...rest }) => {
+const ProfileHeader = ({ name, bio, isUserAuthorized, ...rest }) => {
   const classes = useStyles();
 
   const [editMode, setEditMode] = useState(false);
@@ -39,7 +39,7 @@ const ProfileHeader = ({ name, bio, loggedIn, ...rest }) => {
     <>
       <Typography variant="h3" component="h1" className={classes.title}>
         {formData.name}
-        {loggedIn && (
+        {isUserAuthorized && (
           <Link className={classes.link} onClick={clickHandler}>
             {' ' + '[edit]'}
           </Link>

@@ -50,6 +50,12 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
   const disconnectPatreon = async () => {
     try {
       await axios.post('/api/auth0/update', { result: 'skipped' });
+      setPatreonConnected(false);
+      triggerSnackbar({
+        active: true,
+        message: 'Patreon Account Disconnected!',
+        severity: 'success',
+      });
     } catch (err) {
       triggerSnackbar({
         active: true,
@@ -57,12 +63,6 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
         severity: 'error',
       });
     }
-    setPatreonConnected(false);
-    triggerSnackbar({
-      active: true,
-      message: 'Patreon Account Disconnected!',
-      severity: 'success',
-    });
   };
 
   return (
@@ -97,7 +97,7 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
                 src="/Patreon_Mark_Primary.png"
               />
             }
-            href={patreonAuthUrlGenerator({ redirect: 'home' })}
+            href={patreonAuthUrlGenerator()}
           >
             Connect
           </Button>

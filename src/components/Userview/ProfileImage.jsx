@@ -31,6 +31,7 @@ const ProfileImage = ({
   avatar_select,
   onClick,
   isPatron,
+  isUserAuthorized,
   ...rest
 }) => {
   const classes = useStyles();
@@ -52,7 +53,7 @@ const ProfileImage = ({
         alt={name}
         src={isGravatar ? gravatar_avatar_url : patreon_avatar_url}
       />
-      {isPatron && (
+      {isPatron && isUserAuthorized && (
         <FormControl className={classes.form}>
           <RadioGroup
             aria-label="avatar"
