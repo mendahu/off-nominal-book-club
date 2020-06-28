@@ -35,3 +35,7 @@
 - User reviews in book view now show profile picture
 
 # 0.2.1
+
+- Fixed bug where users could not add books
+
+# 0.2.2
