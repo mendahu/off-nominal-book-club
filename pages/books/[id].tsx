@@ -140,8 +140,6 @@ export async function getServerSideProps(context) {
     name: '',
   };
 
-  console.log(userData);
-
   const bookResults: BookData[] = await fetchBook(bookId, userId);
   const book: BookData = bookResults.length ? bookResults[0] : null;
 

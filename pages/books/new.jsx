@@ -33,7 +33,6 @@ export default function New() {
   function redirectToBook(book, authors, data) {
     const baseUrl = `/books/`;
     const authorString = generateAuthorString(authors);
-    console.log(book);
     const slug = urlGenerator(data || book.id, authorString, book.title);
     Router.push(baseUrl.concat(slug));
   }

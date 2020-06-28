@@ -65,6 +65,7 @@ const BookTitleBar = (props) => {
       icon_active: <CheckCircleIcon />,
       icon_inactive: <CheckCircleOutlineIcon />,
       error: 'You must be logged in to mark books as read.',
+      tooltip: 'Mark as read',
     },
     {
       type: 'wishlist',
@@ -73,6 +74,7 @@ const BookTitleBar = (props) => {
       icon_active: <BookmarkIcon />,
       icon_inactive: <BookmarkBorderIcon />,
       error: 'You must be logged in to add books to your wishlist.',
+      tooltip: 'Add to your wishlist',
     },
     {
       type: 'favourites',
@@ -81,6 +83,7 @@ const BookTitleBar = (props) => {
       icon_active: <FavoriteIcon />,
       icon_inactive: <FavoriteBorderIcon />,
       error: 'You must be logged in to mark books favourites.',
+      tooltip: 'Add to your favourites',
     },
   ];
 

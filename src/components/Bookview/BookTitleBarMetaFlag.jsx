@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Chip, Box } from '@material-ui/core';
+import { Chip, Box, Tooltip } from '@material-ui/core';
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -65,13 +65,15 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
 
   return (
     <Box>
-      <Chip
-        className={classes.chip}
-        onClick={() => clickHandler(flag.type)}
-        label={totalCount}
-        icon={userFlagId ? flag.icon_active : flag.icon_inactive}
-        color={userFlagId ? 'primary' : 'default'}
-      />
+      <Tooltip title={flag.tooltip} placement="left">
+        <Chip
+          className={classes.chip}
+          onClick={() => clickHandler(flag.type)}
+          label={totalCount}
+          icon={userFlagId ? flag.icon_active : flag.icon_inactive}
+          color={userFlagId ? 'primary' : 'default'}
+        />
+      </Tooltip>
     </Box>
   );
 }
