@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) =>
 );
 
 export default function SearchResultsListItem(props) {
-  console.log(props.book);
   const classes = useStyles();
 
   return (
