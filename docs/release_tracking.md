@@ -39,3 +39,5 @@
 - Fixed bug where users could not add books
 
 # 0.2.2
+
+- Tooltips now show up on meta data flags on book view page
