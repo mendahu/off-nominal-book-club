@@ -1,27 +1,27 @@
-interface BookTag {
+export interface BookTag {
   tag_id: number;
   tag_name: string;
   count: number;
 }
 
-interface UserTag {
+export interface UserTag {
   tag_id: number;
   tag_rel_id: number;
 }
 
-interface JoinedTag {
+export interface JoinedTag {
   tag_id: number;
   tag_name: string;
   count: number;
   tagRelId?: number;
 }
 
-interface UserRating {
+export interface UserRating {
   id: number;
   user_rating: number;
 }
 
-interface UserReview {
+export interface UserReview {
   id: number;
   user_id: number;
   name: string;
@@ -31,7 +31,7 @@ interface UserReview {
   user_review: string;
 }
 
-interface UserData {
+export interface UserData {
   user_tags: UserTag[];
   read: number;
   wishlist: number;
@@ -41,11 +41,11 @@ interface UserData {
   name: string;
 }
 
-interface Author {
+export interface Author {
   name: string;
 }
 
-interface BookData {
+export interface BookData {
   id: number;
   title: string;
   fiction: boolean;
@@ -63,7 +63,7 @@ interface BookData {
   reviews: UserReview[];
 }
 
-interface PatreonTokenData {
+export interface PatreonTokenData {
   access_token: string;
   expires_in: number;
   token_typ: string;
@@ -73,19 +73,19 @@ interface PatreonTokenData {
   expiry_date: number;
 }
 
-interface Campaign {
+export interface Campaign {
   id: number;
   name: string;
   pledge: number;
   status: string;
 }
 
-interface DisplayPatreonData {
+export interface DisplayPatreonData {
   campaigns?: Campaign[];
   state: string;
 }
 
-type Book = {
+export type Book = {
   id: number;
   title: string;
   image_url: string;
@@ -93,20 +93,12 @@ type Book = {
   rating?: number;
 };
 
-enum avatarSelect {
-  'gravatar',
-  'patreon',
-}
-
-interface DisplayUser {
+export interface DisplayUser {
   onbc_id: number;
   name: string;
   email: string;
   bio: string;
-  gravatar_avatar_url: string;
-  patreon_avatar_url: string;
-  avatar_select: string;
-  avatar: avatarSelect;
+  avatar: string;
   patreon: DisplayPatreonData;
   favourites: Book[];
   reads: Book[];
@@ -114,19 +106,3 @@ interface DisplayUser {
   ratings: Book[];
   isPatron: boolean;
 }
-
-export {
-  BookTag,
-  UserTag,
-  JoinedTag,
-  UserRating,
-  UserReview,
-  UserData,
-  Author,
-  BookData,
-  Campaign,
-  DisplayPatreonData,
-  PatreonTokenData,
-  avatarSelect,
-  DisplayUser,
-};

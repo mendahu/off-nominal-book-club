@@ -1,6 +1,6 @@
-import { DisplayUser, avatarSelect } from '../types/common';
+import { DisplayUser } from '../types/common';
 
-export default function userDataFormatter(user): DisplayUser {
+const userDataFormatter = (user): DisplayUser => {
   const {
     email,
     picture,
@@ -19,10 +19,8 @@ export default function userDataFormatter(user): DisplayUser {
     onbc_id,
     name: '',
     email,
+    avatar: picture,
     bio: '',
-    gravatar_avatar_url: picture,
-    patreon_avatar_url: '',
-    avatar_select: '',
     patreon: {
       state: patreonStateChecker(patreon),
     },
@@ -41,12 +39,9 @@ export default function userDataFormatter(user): DisplayUser {
       }
       return status;
     },
-    get avatar(): avatarSelect {
-      return this.avatar_select === 'patreon'
-        ? this.patreon_avatar_url
-        : this.gravatar_avatar_url;
-    },
   };
 
   return formattedUser;
-}
+};
+
+export default userDataFormatter;

@@ -1,6 +1,6 @@
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 
-export default async function me(req, res) {
+const me = async (req, res) => {
   try {
     const userProfile = await userProfileFetcher(req);
     return res.end(JSON.stringify(userProfile));
@@ -9,4 +9,6 @@ export default async function me(req, res) {
     res.status(error.status).end();
     throw error;
   }
-}
+};
+
+export default me;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { avatarSelect } from '../types/common';
+import { avatarSelect } from '../types/enums';
 
 interface ProfileData {
   avatar?: string;
