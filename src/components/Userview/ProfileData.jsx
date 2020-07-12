@@ -10,6 +10,7 @@ import axios from 'axios';
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
     width: '20px',
+    height: '20px',
     marginRight: theme.spacing(1),
   },
   patreonContainer: {
