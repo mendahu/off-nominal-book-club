@@ -5,6 +5,7 @@ import patreonProfileFetcher from './patreon/profileFetcher';
 import getAuth0UserSub from './auth0/auth0Sub';
 import userQueries from '../../db/queries/users';
 import { DisplayUser, PatreonTokenData } from '../types/common';
+import { avatarSelect } from '../types/enums';
 
 export default async function userProfileFetcher(req) {
   //Fetches the default userProfile from auth0, which containers the unique ID of user
@@ -40,13 +41,14 @@ export default async function userProfileFetcher(req) {
 
   //Fetches Patreon Data with token, adds to formatted client-side data
   let patreonData;
+  let patreonAvatar: string;
 
   try {
     if (isPatron) {
       patreonData = await patreonProfileFetcher(auth0sub, patreonToken);
       const campaignData = profileFormatter(patreonData);
       userData.patreon.campaigns = campaignData.campaigns;
-      userData.patreon_avatar_url = campaignData.image_url;
+      patreonAvatar = campaignData.image_url;
     }
   } catch (error) {
     console.error(
@@ -72,12 +74,12 @@ export default async function userProfileFetcher(req) {
 
     //check for mismatch in avatars and correct in db
     if (
-      gravatar_avatar_url !== userData.gravatar_avatar_url ||
-      patreon_avatar_url !== userData.patreon_avatar_url
+      gravatar_avatar_url !== userData.avatar ||
+      patreon_avatar_url !== patreonAvatar
     ) {
       await userQueries.users.update(userData.onbc_id, {
-        gravatar_avatar_url: userData.gravatar_avatar_url,
-        patreon_avatar_url: userData.patreon_avatar_url,
+        gravatar_avatar_url: userData.avatar,
+        patreon_avatar_url: patreonAvatar,
       });
     }
 
@@ -85,12 +87,15 @@ export default async function userProfileFetcher(req) {
       ...userData,
       name,
       bio,
-      avatar_select,
       favourites,
       reads,
       wishlist,
       ratings,
     };
+
+    if (avatar_select === avatarSelect.Patreon) {
+      userData.avatar = patreonAvatar;
+    }
   } catch (error) {
     console.error('Error at UserProfileFetcher: Fetching ONBC data', error);
     throw error;
