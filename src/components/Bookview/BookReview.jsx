@@ -3,6 +3,8 @@ import Rating from '@material-ui/lab/Rating';
 import { Box, Typography, Avatar } from '@material-ui/core';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
+import { Link as MatLink } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   reviewHeader: {
@@ -36,7 +38,11 @@ const BookReview = ({ review, rating }) => {
             {review.summary}
           </Typography>
           <Typography component="h4" variant="caption">
-            by {review.name} - {timeAgo}
+            by{' '}
+            <Link href={`/users/${review.user_id}`} passHref>
+              <MatLink color="inherit">{review.name}</MatLink>
+            </Link>{' '}
+            - {timeAgo}
           </Typography>
         </div>
       </div>
