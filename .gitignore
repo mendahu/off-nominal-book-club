@@ -17,9 +17,8 @@
 
 # misc
 .DS_Store
-.env
-.env.production
-.env.dev
+.env.local
+.env.prod_storage
 dev_config.js
 dev_config.example.js
 
