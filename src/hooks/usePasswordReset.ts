@@ -2,9 +2,9 @@ import axios from 'axios';
 
 export const usePasswordReset = (email) => {
   const sendPasswordReset = async () => {
-    const url = `https://${process.env.AUTH0_DOMAIN}/dbconnections/change_password`;
+    const url = `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/dbconnections/change_password`;
     const data = {
-      client_id: process.env.AUTHO_CLIENT_ID,
+      client_id: process.env.NEXT_PUBLIC_AUTHO_CLIENT_ID,
       email,
       connection: 'Username-Password-Authentication',
     };

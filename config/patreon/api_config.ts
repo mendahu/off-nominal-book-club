@@ -14,8 +14,8 @@ interface TokenOptions {
 }
 
 export const tokenOptions: TokenOptions = {
-  client_id: process.env.PAT_CLIENT_ID,
-  redirect_uri: process.env.PAT_REDIRECT_URI,
+  client_id: process.env.NEXT_PUBLIC_PAT_CLIENT_ID,
+  redirect_uri: process.env.NEXT_PUBLIC_PAT_REDIRECT_URI,
   scope: 'identity identity.memberships',
 };
 
