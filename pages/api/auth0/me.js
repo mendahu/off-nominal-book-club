@@ -6,11 +6,13 @@ const me = async (req, res) => {
     return res.end(JSON.stringify(userProfile));
   } catch (error) {
     const { status, message, name } = error;
-    return res.status(status).end({
-      status,
-      name,
-      message,
-    });
+    return res.status(status).end(
+      JSON.stringify({
+        status,
+        name,
+        message,
+      })
+    );
   }
 };
 
