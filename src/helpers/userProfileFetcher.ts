@@ -8,7 +8,7 @@ import { DisplayUser, PatreonTokenData } from '../types/common';
 import { avatarSelect } from '../types/enums';
 
 export default async function userProfileFetcher(req) {
-  //Fetches the default userProfile from auth0, which containers the unique ID of user
+  //Fetches the default userProfile from auth0, which contains the unique ID of user
   let auth0sub: string;
 
   try {
@@ -42,6 +42,7 @@ export default async function userProfileFetcher(req) {
   //Fetches Patreon Data with token, adds to formatted client-side data
   let patreonData;
   let patreonAvatar: string;
+  let patreonSuccess: boolean = false;
 
   try {
     if (isPatron) {
@@ -49,13 +50,13 @@ export default async function userProfileFetcher(req) {
       const campaignData = profileFormatter(patreonData);
       userData.patreon.campaigns = campaignData.campaigns;
       patreonAvatar = campaignData.image_url;
+      patreonSuccess = true;
     }
   } catch (error) {
     console.error(
       'Error at UserProfileFetcher:Fetching Patreon Profile',
       error
     );
-    throw error;
   }
 
   //Fetches onbc data
@@ -75,7 +76,7 @@ export default async function userProfileFetcher(req) {
     //check for mismatch in avatars and correct in db
     if (
       gravatar_avatar_url !== userData.avatar ||
-      patreon_avatar_url !== patreonAvatar
+      (patreon_avatar_url !== patreonAvatar && patreonSuccess === true)
     ) {
       await userQueries.users.update(userData.onbc_id, {
         gravatar_avatar_url: userData.avatar,
@@ -98,7 +99,6 @@ export default async function userProfileFetcher(req) {
     }
   } catch (error) {
     console.error('Error at UserProfileFetcher: Fetching ONBC data', error);
-    throw error;
   }
 
   return userData;
