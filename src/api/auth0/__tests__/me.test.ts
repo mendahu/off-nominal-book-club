@@ -48,6 +48,6 @@ describe('Auth0 /me', () => {
 
     userProfileFetcher.mockImplementationOnce(() => Promise.reject(mockError));
     const response = await me({}, mockRes());
-    expect(response).toEqual(mockError);
+    expect(response).toEqual(JSON.stringify(mockError));
   });
 });
