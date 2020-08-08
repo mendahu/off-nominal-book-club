@@ -13,17 +13,14 @@ export const update = async (req, res) => {
 
   return users
     .update(onbc_id, req.body)
-    .then((results) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      return res.end();
+    .then(() => {
+      return res.status(200).json({ message: 'user entry update successful' });
     })
-    .catch((err) => {
-      res.statusCode = 500;
-      return res.end();
+    .catch((error) => {
+      return res.status(500).json(error);
     });
 };
 
 export default auth0.requireAuthentication((req, res) => {
-  update(req, res);
+  return update(req, res);
 });

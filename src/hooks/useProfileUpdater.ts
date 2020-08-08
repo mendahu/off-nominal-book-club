@@ -5,7 +5,7 @@ import { avatarSelect } from '../types/enums';
 interface ProfileData {
   avatar?: string;
   name?: string;
-  bio: string;
+  bio?: string;
   avatar_select?: avatarSelect;
   patreon_avatar?: string;
   gravatar_avatar?: string;

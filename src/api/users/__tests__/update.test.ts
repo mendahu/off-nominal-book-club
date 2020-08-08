@@ -13,12 +13,14 @@ getAuth0User.mockImplementation((sub) => ({ app_metadata: { onbc_id: 1 } }));
 describe('users /update', () => {
   const mockRes = () => {
     const res: any = {};
-    res.statusCode = (code) => {
-      res.statusCode = code;
+    res.status = (code) => {
+      res.status = code;
       return res;
     };
-    res.setHeader = (header) => res;
-    res.end = () => res;
+    res.json = (response) => {
+      res.response = response;
+      return res;
+    };
     return res;
   };
 
@@ -32,7 +34,7 @@ describe('users /update', () => {
     users.update.mockImplementationOnce((id, body) => Promise.resolve());
 
     const response = await update(mockReq, mockRes());
-    expect(response.statusCode).toEqual(200);
+    expect(response.status).toEqual(200);
   });
 
   it('return failure if db call is unsuccessful', async () => {
@@ -45,6 +47,6 @@ describe('users /update', () => {
     users.update.mockImplementationOnce((id, body) => Promise.reject());
 
     const response = await update(mockReq, mockRes());
-    expect(response.statusCode).toEqual(500);
+    expect(response.status).toEqual(500);
   });
 });

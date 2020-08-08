@@ -6,6 +6,7 @@ import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
 import { usePasswordReset } from '../../hooks/usePasswordReset';
 import axios from 'axios';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
+import { SnackbarContent } from '../../hooks/useSnackbar';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -26,13 +27,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export type ProfileDataProps = {
+  patreonState: string;
+  email: string;
+  getsMail: boolean;
+  triggerSnackbar: (snackbar: SnackbarContent) => {};
+};
+
 const ProfileData = ({
   patreonState,
   email,
   getsMail,
   triggerSnackbar,
   ...rest
-}) => {
+}: ProfileDataProps) => {
   const classes = useStyles();
 
   const [patreonConnected, setPatreonConnected] = useState(
@@ -99,7 +107,6 @@ const ProfileData = ({
         </Typography>
         {patreonConnected ? (
           <Button
-            className={classes.button}
             variant="contained"
             color="secondary"
             onClick={disconnectPatreon}
@@ -114,7 +121,6 @@ const ProfileData = ({
           </Button>
         ) : (
           <Button
-            className={classes.button}
             variant="contained"
             color="secondary"
             startIcon={
@@ -134,7 +140,6 @@ const ProfileData = ({
           Password
         </Typography>
         <Button
-          className={classes.button}
           variant="contained"
           color="primary"
           onClick={handlePasswordReset}
