@@ -9,15 +9,19 @@ export interface SnackbarContent {
 }
 
 const useSnackbar = () => {
-  const [snackBarContent, triggerSnackbar] = useState<SnackbarContent>({
+  const [snackBarContent, setSnackbarContent] = useState<SnackbarContent>({
     active: false,
     message: '',
     severity: 'info',
   });
 
+  const triggerSnackbar = (payload) => {
+    setSnackbarContent(payload);
+  };
+
   const closeSnackbar = (event: SyntheticEvent<Element, Event>, reason?) => {
     if (reason === 'clickaway') return;
-    triggerSnackbar({ ...snackBarContent, active: false, message: '' });
+    setSnackbarContent({ ...snackBarContent, active: false, message: '' });
   };
 
   return { snackBarContent, triggerSnackbar, closeSnackbar };

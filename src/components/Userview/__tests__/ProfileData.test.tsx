@@ -14,12 +14,13 @@ const testUser: ProfileDataProps = {
   triggerSnackbar: mockedTriggerSnackbar,
 };
 
-describe('ProfileData', () => {
-  beforeEach(() => {
-    mockedTriggerSnackbar.mockClear();
-    mockedAxios.post.mockClear();
+const tick = () => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0);
   });
+};
 
+describe('ProfileData', () => {
   it('Should show connect button if Patreon is not connected', () => {
     const wrapper = shallow(
       <ProfileData {...testUser} patreonState="skipped" />
@@ -35,12 +36,16 @@ describe('ProfileData', () => {
   });
 
   it('should trigger successful snackbar when Patreon disconnect is clicked and API succeeds', async () => {
+    mockedTriggerSnackbar.mockClear();
+    mockedAxios.post.mockClear();
+
     const wrapper = shallow(
       <ProfileData {...testUser} patreonState="connected" />
     );
 
     mockedAxios.post.mockResolvedValueOnce({});
-    await wrapper.find(Button).first().simulate('click');
+    wrapper.find(Button).first().simulate('click');
+    await tick();
 
     expect(mockedAxios.post).toHaveBeenCalledTimes(1);
     expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
@@ -51,13 +56,17 @@ describe('ProfileData', () => {
     });
   });
 
-  it('should trigger unsuccessful snackbar when Patreon disconnect is clicked and API fails', () => {
+  it('should trigger unsuccessful snackbar when Patreon disconnect is clicked and API fails', async () => {
+    mockedTriggerSnackbar.mockClear();
+    mockedAxios.post.mockClear();
+
     const wrapper = shallow(
       <ProfileData {...testUser} patreonState="connected" />
     );
 
     mockedAxios.post.mockRejectedValueOnce({});
     wrapper.find(Button).first().simulate('click');
+    await tick();
 
     expect(mockedAxios.post).toHaveBeenCalledTimes(1);
     expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
