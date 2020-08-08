@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
     height: '20px',
     marginRight: theme.spacing(1),
   },
+  topContainer: {
+    textAlign: 'center',
+  },
   container: {
     marginTop: theme.spacing(4),
     textAlign: 'center',
@@ -85,7 +88,7 @@ const ProfileData = ({ patreonState, email, userId, getsMail, ...rest }) => {
 
   return (
     <LayoutComponent {...rest}>
-      <Box className={classes.container}>
+      <Box className={classes.topContainer}>
         <Typography paragraph component="h2" variant="h5">
           Patreon
         </Typography>
@@ -146,7 +149,7 @@ const ProfileData = ({ patreonState, email, userId, getsMail, ...rest }) => {
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <Typography paragraph component="p" variant="subtitle2">
-            Send me occasional updates about the Off-Nominal Book Club
+            Send me occasional updates about the Off-Nominal Book Club via email
           </Typography>
         </div>
       </Box>
