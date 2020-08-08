@@ -9,7 +9,6 @@ import {
   RadioGroup,
 } from '@material-ui/core';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
-import { useSnackbar, OnbcSnackbar } from '../../hooks/useSnackbar';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -33,11 +32,11 @@ const ProfileImage = ({
   onClick,
   isPatron,
   isUserAuthorized,
+  triggerSnackbar,
   ...rest
 }) => {
   const classes = useStyles();
 
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const { formData, handleFormChange, updateProfile } = useProfileUpdater({
     avatar_select,
   });
@@ -86,7 +85,6 @@ const ProfileImage = ({
           </RadioGroup>
         </FormControl>
       )}
-      <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
     </LayoutComponent>
   );
 };
