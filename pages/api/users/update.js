@@ -2,7 +2,7 @@ import auth0 from '../../../lib/auth0';
 import { users } from '../../../db/queries/users';
 import { getAuth0User } from '../../../src/helpers/auth0/auth0User';
 
-export default auth0.requireAuthentication(async function update(req, res) {
+export const update = async (req, res) => {
   const {
     user: { sub },
   } = await auth0.getSession(req);
@@ -22,4 +22,8 @@ export default auth0.requireAuthentication(async function update(req, res) {
       res.statusCode = 500;
       return res.end();
     });
+};
+
+export default auth0.requireAuthentication((req, res) => {
+  update(req, res);
 });
