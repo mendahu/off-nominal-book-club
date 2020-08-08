@@ -3,19 +3,21 @@ import ProfileData, { ProfileDataProps } from '../ProfileData';
 import { Button, Checkbox } from '@material-ui/core';
 import axios from 'axios';
 jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-const mockTriggerSnackbar = jest.fn();
+const mockedTriggerSnackbar = jest.fn();
 
 const testUser: ProfileDataProps = {
   patreonState: 'connected',
   email: 'test@test.com',
   getsMail: true,
-  triggerSnackbar: mockTriggerSnackbar,
+  triggerSnackbar: mockedTriggerSnackbar,
 };
 
 describe('ProfileData', () => {
   beforeEach(() => {
-    mockTriggerSnackbar.mockClear();
+    mockedTriggerSnackbar.mockClear();
+    mockedAxios.post.mockClear();
   });
 
   it('Should show connect button if Patreon is not connected', () => {
@@ -29,17 +31,20 @@ describe('ProfileData', () => {
     const wrapper = shallow(
       <ProfileData {...testUser} patreonState="connected" />
     );
-    expect(wrapper.find(Button).first().text()).toEqual('Connect');
+    expect(wrapper.find(Button).first().text()).toEqual('Disconnect');
   });
 
-  it('should trigger successful snackbar when Patreon disconnect is clicked and API succeeds', () => {
+  it('should trigger successful snackbar when Patreon disconnect is clicked and API succeeds', async () => {
     const wrapper = shallow(
       <ProfileData {...testUser} patreonState="connected" />
     );
-    axios.get.mockResolvedValueOnce();
-    wrapper.find(Button).first().simulate('click');
-    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
-    expect(mockTriggerSnackbar).toHaveBeenCalledWith({
+
+    mockedAxios.post.mockResolvedValueOnce({});
+    await wrapper.find(Button).first().simulate('click');
+
+    expect(mockedAxios.post).toHaveBeenCalledTimes(1);
+    expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockedTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
       message: 'Patreon Account Disconnected!',
       severity: 'success',
@@ -50,10 +55,13 @@ describe('ProfileData', () => {
     const wrapper = shallow(
       <ProfileData {...testUser} patreonState="connected" />
     );
-    axios.get.mockRejectedValueOnce();
+
+    mockedAxios.post.mockRejectedValueOnce({});
     wrapper.find(Button).first().simulate('click');
-    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
-    expect(mockTriggerSnackbar).toHaveBeenCalledWith({
+
+    expect(mockedAxios.post).toHaveBeenCalledTimes(1);
+    expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockedTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
       message: 'Something went wrong!',
       severity: 'error',

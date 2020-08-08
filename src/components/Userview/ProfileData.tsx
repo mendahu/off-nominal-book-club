@@ -83,6 +83,7 @@ const ProfileData = ({
 
   const disconnectPatreon = async () => {
     try {
+      console.log('hi from try');
       await axios.post('/api/auth0/update', { result: 'skipped' });
       setPatreonConnected(false);
       triggerSnackbar({
@@ -91,6 +92,7 @@ const ProfileData = ({
         severity: 'success',
       });
     } catch (err) {
+      console.log('hi from catch');
       triggerSnackbar({
         active: true,
         message: 'Something went wrong!',
