@@ -45,15 +45,13 @@ const ProfileImage = ({
 
   useEffect(() => {
     if (isUserAuthorized) {
-      try {
-        updateProfile();
-      } catch (error) {
+      updateProfile().catch((err) => {
         triggerSnackbar({
           active: true,
           message: 'Error updating profile picture',
           severity: 'error',
         });
-      }
+      });
     }
   }, [formData.avatar_select]);
 

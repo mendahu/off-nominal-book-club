@@ -19,7 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileHeader = ({ name, bio, isUserAuthorized, ...rest }) => {
+const ProfileHeader = ({
+  name,
+  bio,
+  isUserAuthorized,
+  triggerSnackbar,
+  ...rest
+}) => {
   const classes = useStyles();
 
   const [editMode, setEditMode] = useState(false);
@@ -30,7 +36,13 @@ const ProfileHeader = ({ name, bio, isUserAuthorized, ...rest }) => {
 
   const clickHandler = () => {
     if (editMode) {
-      updateProfile();
+      updateProfile().catch((err) => {
+        triggerSnackbar({
+          active: true,
+          message: 'Error updating profile information',
+          severity: 'error',
+        });
+      });
     }
     setEditMode(!editMode);
   };

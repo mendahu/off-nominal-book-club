@@ -16,7 +16,7 @@ export const useProfileUpdater = (profileData: ProfileData) => {
   const [formData, setFormData] = useState(profileData);
 
   const updateProfile = async () => {
-    await axios.patch('/api/users/update', { ...formData });
+    return await axios.patch('/api/users/update', { ...formData });
   };
 
   const handleFormChange = (e) => {

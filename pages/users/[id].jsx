@@ -87,6 +87,7 @@ const Userview = ({ userId }) => {
             xs={12}
             md={9}
             isUserAuthorized={isUserAuthorized}
+            triggerSnackbar={triggerSnackbar}
           />
         </Grid>
         {isUserAuthorized ? (

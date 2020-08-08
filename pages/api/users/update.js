@@ -16,11 +16,10 @@ export default auth0.requireAuthentication(async function update(req, res) {
     .then((results) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      return res.end(JSON.stringify(results));
+      return res.end();
     })
     .catch((err) => {
-      console.error(err);
       res.statusCode = 500;
-      return res.end(JSON.stringify({ success: false }));
+      return res.end();
     });
 });

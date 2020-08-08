@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 const ProfileData = ({
   patreonState,
   email,
-  userId,
   getsMail,
   triggerSnackbar,
   ...rest
@@ -46,13 +45,13 @@ const ProfileData = ({
   });
 
   useEffect(() => {
-    try {
-      updateProfile();
-    } catch (error) {
-      triggerSnackbar({
-        active: true,
-        message: 'Error updating email preferences',
-        severity: 'error',
+    if (email) {
+      updateProfile().catch((err) => {
+        triggerSnackbar({
+          active: true,
+          message: 'Error updating email preferences',
+          severity: 'error',
+        });
       });
     }
   }, [formData.gets_mail]);
