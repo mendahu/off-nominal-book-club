@@ -37,23 +37,31 @@ const ProfileImage = ({
 }) => {
   const classes = useStyles();
 
-  const { formData, handleFormChange, updateProfile } = useProfileUpdater({
+  const { formData, handleFormChange } = useProfileUpdater({
     avatar_select,
   });
 
   const isGravatar = formData.avatar_select === 'gravatar';
 
-  useEffect(() => {
+  const toggleProfilePicture = (e) => {
     if (isUserAuthorized) {
-      updateProfile().catch((err) => {
-        triggerSnackbar({
-          active: true,
-          message: 'Error updating profile picture',
-          severity: 'error',
+      handleFormChange(e, { update: true })
+        .then(() => {
+          triggerSnackbar({
+            active: true,
+            message: 'Profile Picture updated',
+            severity: 'success',
+          });
+        })
+        .catch(() => {
+          triggerSnackbar({
+            active: true,
+            message: 'Error updating profile picture',
+            severity: 'error',
+          });
         });
-      });
     }
-  }, [formData.avatar_select]);
+  };
 
   return (
     <LayoutComponent {...rest} fullHeight={true}>
@@ -68,7 +76,7 @@ const ProfileImage = ({
             aria-label="avatar"
             name="avatar_select"
             value={formData.avatar_select}
-            onChange={handleFormChange}
+            onChange={(e) => toggleProfilePicture(e)}
           >
             <FormControlLabel
               control={<Radio />}

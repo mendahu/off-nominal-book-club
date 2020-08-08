@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Checkbox } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
-import { usePasswordReset } from '../../hooks/usePasswordReset';
 import axios from 'axios';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
 import { SnackbarContent } from '../../hooks/useSnackbar';
+import sendPasswordReset from '../../helpers/sendPasswordReset';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -46,27 +46,41 @@ const ProfileData = ({
   const [patreonConnected, setPatreonConnected] = useState(
     patreonState === 'connected'
   );
-  const { sendPasswordReset } = usePasswordReset(email);
 
-  const { formData, handleFormChange, updateProfile } = useProfileUpdater({
+  const { formData, handleFormChange } = useProfileUpdater({
     gets_mail: getsMail,
   });
 
-  useEffect(() => {
+  const toggleCheckbox = (e) => {
     if (email) {
-      updateProfile().catch((err) => {
-        triggerSnackbar({
-          active: true,
-          message: 'Error updating email preferences',
-          severity: 'error',
+      handleFormChange(e, { update: true })
+        .then(() => {
+          triggerSnackbar({
+            active: true,
+            message: 'Email preference toggled!',
+            severity: 'success',
+          });
+        })
+        .catch(() => {
+          triggerSnackbar({
+            active: true,
+            message: 'Error updating email preferences',
+            severity: 'error',
+          });
         });
-      });
+    } else {
+      handleFormChange(e);
     }
-  }, [formData.gets_mail]);
+  };
 
   const handlePasswordReset = async () => {
     try {
-      await sendPasswordReset();
+      await sendPasswordReset(email);
+      triggerSnackbar({
+        active: true,
+        message: 'Password Reset Email Sent!',
+        severity: 'success',
+      });
     } catch (err) {
       triggerSnackbar({
         active: true,
@@ -74,11 +88,6 @@ const ProfileData = ({
         severity: 'error',
       });
     }
-    triggerSnackbar({
-      active: true,
-      message: 'Password Email Sent!',
-      severity: 'success',
-    });
   };
 
   const disconnectPatreon = async () => {
@@ -155,7 +164,7 @@ const ProfileData = ({
           <Checkbox
             id="gets_mail"
             checked={formData.gets_mail}
-            onChange={(e) => handleFormChange(e)}
+            onChange={(e) => toggleCheckbox(e)}
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <Typography paragraph component="p" variant="subtitle2">
