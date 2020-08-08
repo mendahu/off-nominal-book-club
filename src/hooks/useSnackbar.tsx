@@ -15,7 +15,7 @@ const useSnackbar = () => {
     severity: 'info',
   });
 
-  const triggerSnackbar = (payload) => {
+  const triggerSnackbar = (payload: SnackbarContent) => {
     setSnackbarContent(payload);
   };
 
