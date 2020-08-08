@@ -24,6 +24,7 @@ const userDataFormatter = (user): DisplayUser => {
     patreon: {
       state: patreonStateChecker(patreon),
     },
+    getsMail: true,
     favourites: [],
     reads: [],
     wishlist: [],
