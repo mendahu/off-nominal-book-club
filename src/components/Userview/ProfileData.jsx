@@ -1,11 +1,12 @@
 import LayoutComponent from '../General/LayoutComponent';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Button, Box } from '@material-ui/core';
+import { Typography, Button, Box, Checkbox } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
 import { usePasswordReset } from '../../hooks/usePasswordReset';
 import { useSnackbar, OnbcSnackbar } from '../../hooks/useSnackbar';
 import axios from 'axios';
+import { useProfileUpdater } from '../../hooks/useProfileUpdater';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -13,16 +14,17 @@ const useStyles = makeStyles((theme) => ({
     height: '20px',
     marginRight: theme.spacing(1),
   },
-  patreonContainer: {
-    textAlign: 'center',
-  },
-  passwordContainer: {
+  container: {
     marginTop: theme.spacing(4),
     textAlign: 'center',
   },
+  emailContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 }));
 
-const ProfileData = ({ patreonState, email, userId, ...rest }) => {
+const ProfileData = ({ patreonState, email, userId, getsMail, ...rest }) => {
   const classes = useStyles();
 
   const [patreonConnected, setPatreonConnected] = useState(
@@ -30,6 +32,21 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
   );
   const { sendPasswordReset } = usePasswordReset(email);
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
+  const { formData, handleFormChange, updateProfile } = useProfileUpdater({
+    gets_mail: getsMail,
+  });
+
+  useEffect(() => {
+    try {
+      updateProfile();
+    } catch (error) {
+      triggerSnackbar({
+        active: true,
+        message: 'Error updating email preferences',
+        severity: 'error',
+      });
+    }
+  }, [formData.gets_mail]);
 
   const handlePasswordReset = async () => {
     try {
@@ -68,7 +85,7 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
 
   return (
     <LayoutComponent {...rest}>
-      <Box className={classes.patreonContainer}>
+      <Box className={classes.container}>
         <Typography paragraph component="h2" variant="h5">
           Patreon
         </Typography>
@@ -104,7 +121,7 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
           </Button>
         )}
       </Box>
-      <Box className={classes.passwordContainer}>
+      <Box className={classes.container}>
         <Typography paragraph component="h2" variant="h5">
           Password
         </Typography>
@@ -116,8 +133,24 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
         >
           Send Password Reset Email
         </Button>
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
       </Box>
+      <Box className={classes.container}>
+        <Typography paragraph component="h2" variant="h5">
+          Email Preferences
+        </Typography>
+        <div className={classes.emailContainer}>
+          <Checkbox
+            id="gets_mail"
+            checked={formData.gets_mail}
+            onChange={(e) => handleFormChange(e)}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+          />
+          <Typography paragraph component="p" variant="subtitle2">
+            Send me occasional updates about the Off-Nominal Book Club
+          </Typography>
+        </div>
+      </Box>
+      <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
     </LayoutComponent>
   );
 };

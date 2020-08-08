@@ -71,6 +71,7 @@ export default async function userProfileFetcher(req) {
       reads,
       wishlist,
       ratings,
+      getsMail,
     } = await userQueries.users.getUserData(userData.onbc_id);
 
     //check for mismatch in avatars and correct in db
@@ -92,6 +93,7 @@ export default async function userProfileFetcher(req) {
       reads,
       wishlist,
       ratings,
+      getsMail,
     };
 
     if (avatar_select === avatarSelect.Patreon) {

@@ -9,6 +9,7 @@ import {
   RadioGroup,
 } from '@material-ui/core';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
+import { useSnackbar, OnbcSnackbar } from '../../hooks/useSnackbar';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -36,6 +37,7 @@ const ProfileImage = ({
 }) => {
   const classes = useStyles();
 
+  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const { formData, handleFormChange, updateProfile } = useProfileUpdater({
     avatar_select,
   });
@@ -43,8 +45,18 @@ const ProfileImage = ({
   const isGravatar = formData.avatar_select === 'gravatar';
 
   useEffect(() => {
-    updateProfile();
-  }, [formData]);
+    if (isUserAuthorized) {
+      try {
+        updateProfile();
+      } catch (error) {
+        triggerSnackbar({
+          active: true,
+          message: 'Error updating profile picture',
+          severity: 'error',
+        });
+      }
+    }
+  }, [formData.avatar_select]);
 
   return (
     <LayoutComponent {...rest} fullHeight={true}>
@@ -74,6 +86,7 @@ const ProfileImage = ({
           </RadioGroup>
         </FormControl>
       )}
+      <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
     </LayoutComponent>
   );
 };

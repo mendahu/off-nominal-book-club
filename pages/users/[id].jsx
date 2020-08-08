@@ -9,7 +9,6 @@ import Layout from '../../src/components/DefaultLayout';
 import { Typography, Grid, Box } from '@material-ui/core';
 import { useFetchUser } from '../../lib/user';
 import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
 
 const Userview = ({ userId }) => {
   const { user, loading } = useFetchUser();
@@ -94,6 +93,7 @@ const Userview = ({ userId }) => {
             md={3}
             patreonState={user?.patreon?.state}
             email={user?.email}
+            getsMail={profileData?.getsMail}
           />
         ) : (
           <Grid item xs={12} md={3} />

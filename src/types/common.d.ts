@@ -105,4 +105,5 @@ export interface DisplayUser {
   wishlist: Book[];
   ratings: Book[];
   isPatron: boolean;
+  getsMail: boolean;
 }
