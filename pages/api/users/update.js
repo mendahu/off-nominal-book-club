@@ -2,7 +2,7 @@ import auth0 from '../../../lib/auth0';
 import { users } from '../../../db/queries/users';
 import { getAuth0User } from '../../../src/helpers/auth0/auth0User';
 
-export default auth0.requireAuthentication(async function update(req, res) {
+export const update = async (req, res) => {
   const {
     user: { sub },
   } = await auth0.getSession(req);
@@ -13,14 +13,14 @@ export default auth0.requireAuthentication(async function update(req, res) {
 
   return users
     .update(onbc_id, req.body)
-    .then((results) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      return res.end(JSON.stringify(results));
+    .then(() => {
+      return res.status(200).json({ message: 'user entry update successful' });
     })
-    .catch((err) => {
-      console.error(err);
-      res.statusCode = 500;
-      return res.end(JSON.stringify({ success: false }));
+    .catch((error) => {
+      return res.status(500).json(error);
     });
+};
+
+export default auth0.requireAuthentication((req, res) => {
+  return update(req, res);
 });

@@ -1,6 +1,5 @@
 import me from '../../../../pages/api/auth0/me';
 import userProfileFetcher from '../../../helpers/userProfileFetcher';
-import DisplayUser from '../../../types/common';
 
 jest.mock('../../../helpers/userProfileFetcher');
 

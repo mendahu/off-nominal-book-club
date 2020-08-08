@@ -1,11 +1,12 @@
 import LayoutComponent from '../General/LayoutComponent';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Button, Box } from '@material-ui/core';
+import { Typography, Button, Box, Checkbox } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
-import { usePasswordReset } from '../../hooks/usePasswordReset';
-import { useSnackbar, OnbcSnackbar } from '../../hooks/useSnackbar';
 import axios from 'axios';
+import { useProfileUpdater } from '../../hooks/useProfileUpdater';
+import { SnackbarContent } from '../../hooks/useSnackbar';
+import sendPasswordReset from '../../helpers/sendPasswordReset';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -13,27 +14,73 @@ const useStyles = makeStyles((theme) => ({
     height: '20px',
     marginRight: theme.spacing(1),
   },
-  patreonContainer: {
+  topContainer: {
     textAlign: 'center',
   },
-  passwordContainer: {
+  container: {
     marginTop: theme.spacing(4),
     textAlign: 'center',
   },
+  emailContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 }));
 
-const ProfileData = ({ patreonState, email, userId, ...rest }) => {
+export type ProfileDataProps = {
+  patreonState: string;
+  email: string;
+  getsMail: boolean;
+  triggerSnackbar: (snackbar: SnackbarContent) => { return };
+};
+
+const ProfileData = ({
+  patreonState,
+  email,
+  getsMail,
+  triggerSnackbar,
+  ...rest
+}: ProfileDataProps) => {
   const classes = useStyles();
 
   const [patreonConnected, setPatreonConnected] = useState(
     patreonState === 'connected'
   );
-  const { sendPasswordReset } = usePasswordReset(email);
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
+
+  const { formData, handleFormChange } = useProfileUpdater({
+    gets_mail: getsMail,
+  });
+
+  const toggleCheckbox = (e) => {
+    if (email) {
+      handleFormChange(e, { update: true })
+        .then(() => {
+          triggerSnackbar({
+            active: true,
+            message: 'Email preference toggled!',
+            severity: 'success',
+          });
+        })
+        .catch(() => {
+          triggerSnackbar({
+            active: true,
+            message: 'Error updating email preferences',
+            severity: 'error',
+          });
+        });
+    } else {
+      handleFormChange(e);
+    }
+  };
 
   const handlePasswordReset = async () => {
     try {
-      await sendPasswordReset();
+      await sendPasswordReset(email);
+      triggerSnackbar({
+        active: true,
+        message: 'Password Reset Email Sent!',
+        severity: 'success',
+      });
     } catch (err) {
       triggerSnackbar({
         active: true,
@@ -41,11 +88,6 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
         severity: 'error',
       });
     }
-    triggerSnackbar({
-      active: true,
-      message: 'Password Email Sent!',
-      severity: 'success',
-    });
   };
 
   const disconnectPatreon = async () => {
@@ -68,13 +110,12 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
 
   return (
     <LayoutComponent {...rest}>
-      <Box className={classes.patreonContainer}>
+      <Box className={classes.topContainer}>
         <Typography paragraph component="h2" variant="h5">
           Patreon
         </Typography>
         {patreonConnected ? (
           <Button
-            className={classes.button}
             variant="contained"
             color="secondary"
             onClick={disconnectPatreon}
@@ -89,7 +130,6 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
           </Button>
         ) : (
           <Button
-            className={classes.button}
             variant="contained"
             color="secondary"
             startIcon={
@@ -104,19 +144,33 @@ const ProfileData = ({ patreonState, email, userId, ...rest }) => {
           </Button>
         )}
       </Box>
-      <Box className={classes.passwordContainer}>
+      <Box className={classes.container}>
         <Typography paragraph component="h2" variant="h5">
           Password
         </Typography>
         <Button
-          className={classes.button}
           variant="contained"
           color="primary"
           onClick={handlePasswordReset}
         >
           Send Password Reset Email
         </Button>
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
+      </Box>
+      <Box className={classes.container}>
+        <Typography paragraph component="h2" variant="h5">
+          Email Preferences
+        </Typography>
+        <div className={classes.emailContainer}>
+          <Checkbox
+            id="gets_mail"
+            checked={formData.gets_mail}
+            onChange={(e) => toggleCheckbox(e)}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+          />
+          <Typography paragraph component="p" variant="subtitle2">
+            Send me occasional updates about the Off-Nominal Book Club via email
+          </Typography>
+        </div>
       </Box>
     </LayoutComponent>
   );
