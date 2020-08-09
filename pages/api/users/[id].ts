@@ -7,13 +7,6 @@ export default (req, res) => {
 
   return users
     .getUserData(id)
-    .then((results) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      return res.end(JSON.stringify(results));
-    })
-    .catch((err) => {
-      res.statusCode = 404;
-      return res.end(JSON.stringify({ status: res.statusCode, error: err }));
-    });
+    .then((result) => res.status(200).json(result))
+    .catch((err) => res.status(404).json({ status: 404, error: err }));
 };
