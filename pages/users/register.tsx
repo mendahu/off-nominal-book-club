@@ -1,18 +1,13 @@
 import Message from '../../src/components/Utility/Message';
-import Registration from '../../src/components/Registration/Registration';
 import patreonTokenFetcher from '../../src/helpers/patreon/tokenFetcher';
 import { useFetchUser } from '../../lib/user';
 import Router from 'next/router';
-import { useState } from 'react';
 import getAuth0UserSub from '../../src/helpers/auth0/auth0Sub';
 import Layout from '../../src/components/DefaultLayout';
+import AddPatreon from '../../src/components/Registration/AddPatreon';
 
 export default function Register({ justConnectedPatreon }) {
   const { user, loading } = useFetchUser();
-  const [promptForProfile, setPromptForProfile] = useState(
-    justConnectedPatreon
-  );
-  const [patreonOverride, setPatreonOverride] = useState(false);
 
   if (loading) {
     return (
@@ -32,25 +27,18 @@ export default function Register({ justConnectedPatreon }) {
     );
   }
 
-  const promptForPatreon = user.patreon.state === 'unchecked';
+  const redirect = () => {
+    Router.replace('/');
+  };
 
-  if (promptForPatreon || promptForProfile) {
-    const handleSkip = () => {
-      setPromptForProfile(true);
-      setPatreonOverride(true);
-    };
-
+  if (user.patreon.state === 'unchecked') {
     return (
       <Layout>
-        <Registration
-          patreon={patreonOverride ? false : promptForPatreon}
-          onSkip={handleSkip}
-          user={user}
-        />
+        <AddPatreon skipProfile={redirect} />
       </Layout>
     );
   } else {
-    Router.replace('/');
+    redirect();
 
     return (
       <Layout>
