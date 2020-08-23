@@ -74,7 +74,7 @@ describe('User Registration', () => {
 
     const wrapper = shallow(<Register justConnectedPatreon={true} />);
     expect(Router.push.mock.calls.length).toBe(1);
-    expect(Router.push.mock.calls[0][0]).toBe('/users/1');
+    expect(Router.push.mock.calls[0][0]).toBe('/users/1?tutorial=true');
 
     const messageComponent = wrapper.find(Message);
     expect(messageComponent).toHaveLength(1);

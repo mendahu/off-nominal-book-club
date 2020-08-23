@@ -38,7 +38,9 @@ const Register = ({ justConnectedPatreon }: RegisterProps) => {
       </Layout>
     );
   } else {
-    Router.push(justConnectedPatreon ? `/users/${user.onbc_id}` : '/');
+    Router.push(
+      justConnectedPatreon ? `/users/${user.onbc_id}?tutorial=true` : '/'
+    );
     return renderMessage('Redirecting', 'loading');
   }
 };
