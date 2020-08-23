@@ -17,6 +17,7 @@ const Userview = ({ userId }) => {
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const [profileData, setProfileData] = useState({
     loading: true,
+    error: true,
   });
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const Userview = ({ userId }) => {
         setProfileData({
           ...data,
           loading: false,
+          error: false,
         });
       } catch (error) {
         setProfileData({
@@ -46,7 +48,7 @@ const Userview = ({ userId }) => {
     );
   }
 
-  if (!profileData.bio) {
+  if (profileData.error) {
     return (
       <Layout>
         <Typography>
