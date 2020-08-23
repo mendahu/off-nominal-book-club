@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add Patreon should render and match snapshot 1`] = `
+<WithStyles(ForwardRef(Paper))
+  className="makeStyles-root-2 makeStyles-centred-1"
+>
+  <img
+    alt="Patreon Logo"
+    className="makeStyles-patreonWordMark-4 makeStyles-centred-1"
+    src="/Patreon_White.png"
+  />
+  <WithStyles(ForwardRef(Typography))
+    variant="body1"
+  >
+    Patrons of the WeMartians Podcast and Main Engine Cut Off Podcast have special privileges at the Off-Nominal Book Club. All Patrons can:
+  </WithStyles(ForwardRef(Typography))>
+  <ul>
+    <WithStyles(ForwardRef(Typography))
+      component="li"
+      variant="body1"
+    >
+      Add books to the collection
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      component="li"
+      variant="body1"
+    >
+      Rate books
+    </WithStyles(ForwardRef(Typography))>
+    <WithStyles(ForwardRef(Typography))
+      component="li"
+      variant="body1"
+    >
+      Review books
+    </WithStyles(ForwardRef(Typography))>
+  </ul>
+  <WithStyles(ForwardRef(Typography))
+    align="center"
+    className="makeStyles-topSpace-5"
+    component="p"
+    variant="h5"
+  >
+    Already a patron?
+  </WithStyles(ForwardRef(Typography))>
+  <div
+    className="makeStyles-centredText-7"
+  >
+    <WithStyles(ForwardRef(Button))
+      className="makeStyles-button-3"
+      color="primary"
+      endIcon={<Memo(LaunchIcon) />}
+      href="https://www.patreon.com/oauth2/authorize?response_type=code&client_id=undefined&redirect_uri=undefined&scope=identity identity.memberships"
+      variant="contained"
+    >
+      Connect Patreon
+    </WithStyles(ForwardRef(Button))>
+  </div>
+  <WithStyles(ForwardRef(Typography))
+    className="makeStyles-topSpace-5"
+    paragraph={true}
+    variant="h5"
+  >
+    Not a patron?
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(Typography))
+    paragraph={true}
+    variant="body1"
+  >
+    Consider supporting us for as little as $1/month. Not only do you get access to the premium features of Off-Nominal Book Club, but you support two independent content creators helping tell the story of space exploration. Patrons get many other perks as well!
+  </WithStyles(ForwardRef(Typography))>
+  <WithStyles(ForwardRef(Grid))
+    container={true}
+    spacing={2}
+  >
+    <WithStyles(ForwardRef(Grid))
+      className="makeStyles-centredText-7"
+      item={true}
+      sm={6}
+      xs={12}
+    >
+      <WithStyles(ForwardRef(Button))
+        className="makeStyles-button-3"
+        color="secondary"
+        endIcon={<Memo(LaunchIcon) />}
+        href="http://www.wemartians.com/support"
+        variant="contained"
+      >
+        Support WeMartians
+      </WithStyles(ForwardRef(Button))>
+    </WithStyles(ForwardRef(Grid))>
+    <WithStyles(ForwardRef(Grid))
+      className="makeStyles-centredText-7"
+      item={true}
+      sm={6}
+      xs={12}
+    >
+      <WithStyles(ForwardRef(Button))
+        className="makeStyles-button-3"
+        color="secondary"
+        endIcon={<Memo(LaunchIcon) />}
+        href="http://www.mainenginecutoff.com/support"
+        variant="contained"
+      >
+        Support MECO
+      </WithStyles(ForwardRef(Button))>
+    </WithStyles(ForwardRef(Grid))>
+  </WithStyles(ForwardRef(Grid))>
+  <WithStyles(ForwardRef(Button))
+    className="makeStyles-button-3 makeStyles-topSpace-5"
+    color="default"
+    endIcon={<Memo(ForwardIcon) />}
+    onClick={[Function]}
+    variant="contained"
+  >
+    Skip for now
+  </WithStyles(ForwardRef(Button))>
+  <WithStyles(ForwardRef(Typography))
+    className="makeStyles-paragraphSpace-6"
+    component="p"
+    variant="caption"
+  >
+    Don't worry - free users can still browse the collection, mark books as read or favourites, and create wishlists.
+  </WithStyles(ForwardRef(Typography))>
+</WithStyles(ForwardRef(Paper))>
+`;
