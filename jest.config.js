@@ -24,4 +24,5 @@ module.exports = {
   globals: {
     BASEURL: 'https://books.offnominal.space',
   },
+  snapshotSerializers: ['enzyme-to-json/serializer'],
 };
