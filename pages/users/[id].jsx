@@ -6,7 +6,8 @@ import {
   ProfileBookList,
 } from '../../src/components/Userview';
 import Layout from '../../src/components/DefaultLayout';
-import { Typography, Grid, Box } from '@material-ui/core';
+import Message from '../../src/components/Utility/Message';
+import { Typography, Grid } from '@material-ui/core';
 import { useFetchUser } from '../../lib/user';
 import axios from 'axios';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
@@ -37,15 +38,15 @@ const Userview = ({ userId }) => {
     fetchData();
   }, []);
 
-  if (profileData.loading) {
+  if (profileData.loading || loading) {
     return (
       <Layout>
-        <Typography>Loading...</Typography>
+        <Message message="Loading User Profile..." variant="loading" />
       </Layout>
     );
   }
 
-  if (!profileData.name) {
+  if (!profileData.bio) {
     return (
       <Layout>
         <Typography>
