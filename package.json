@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:staging": "ENVIRONMENT=staging next dev",
     "build": "next build",
     "start": "next start -p $PORT",
     "qa": "next start",
@@ -55,6 +56,7 @@
     "babel-plugin-rewire": "^1.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.3.0",
     "react-test-renderer": "^16.13.1",

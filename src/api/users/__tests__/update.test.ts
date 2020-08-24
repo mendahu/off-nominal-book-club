@@ -35,6 +35,9 @@ describe('users /update', () => {
 
     const response = await update(mockReq, mockRes());
     expect(response.status).toEqual(200);
+    expect(response.response).toEqual({
+      message: 'user entry update successful',
+    });
   });
 
   it('return failure if db call is unsuccessful', async () => {

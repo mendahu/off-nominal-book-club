@@ -6,18 +6,93 @@ import {
   ProfileBookList,
 } from '../../src/components/Userview';
 import Layout from '../../src/components/DefaultLayout';
-import { Typography, Grid, Box } from '@material-ui/core';
+import Message from '../../src/components/Utility/Message';
+import {
+  Typography,
+  Grid,
+  Dialog,
+  DialogTitle,
+  Link,
+  Button,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from '@material-ui/core';
 import { useFetchUser } from '../../lib/user';
 import axios from 'axios';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+import WarningIcon from '@material-ui/icons/Warning';
 
-const Userview = ({ userId }) => {
+const Userview = ({ userId, showModal }) => {
   const { user, loading } = useFetchUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
+  const [modalOpen, setModalOpen] = useState(showModal);
   const [profileData, setProfileData] = useState({
     loading: true,
     error: true,
   });
+
+  const renderModal = (isPatron) => (
+    <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
+      <DialogTitle>Welcome to your Profile Page!</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Just a few more steps to complete your profile:
+        </DialogContentText>
+        <ol>
+          <DialogContentText>
+            <li>Update your name and bio at the top!</li>
+            {isPatron ? (
+              <li>
+                Choose between your{' '}
+                <Link
+                  href="https://www.gravatar.com"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Gravatar
+                </Link>{' '}
+                or the Avatar from Patreon to display here and next to your
+                reviews.
+              </li>
+            ) : (
+              <li>
+                Your profile picture comes from{' '}
+                <Link
+                  href="https://www.gravatar.com"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Gravatar
+                </Link>
+                . You can customize it there.
+              </li>
+            )}
+            <li>
+              Subscribe or unsubscribe to very occasional emails about the site.
+            </li>
+          </DialogContentText>
+        </ol>
+
+        <Grid container spacing={1} alignItems="center">
+          <Grid item xs={2} sm={1}>
+            <WarningIcon />
+          </Grid>
+          <Grid item xs={10} sm={11}>
+            <DialogContentText>
+              The content on this page is public-facing, so don't expose your
+              deepest darkest secrets here!
+            </DialogContentText>
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => setModalOpen(false)} color="primary">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,10 +114,10 @@ const Userview = ({ userId }) => {
     fetchData();
   }, []);
 
-  if (profileData.loading) {
+  if (profileData.loading || loading) {
     return (
       <Layout>
-        <Typography>Loading...</Typography>
+        <Message message="Loading User Profile..." variant="loading" />
       </Layout>
     );
   }
@@ -118,6 +193,7 @@ const Userview = ({ userId }) => {
         />
       </Grid>
       <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
+      {renderModal(user?.isPatron)}
     </Layout>
   );
 };
@@ -125,5 +201,10 @@ const Userview = ({ userId }) => {
 export default Userview;
 
 export async function getServerSideProps(context) {
-  return { props: { userId: context.params.id } };
+  return {
+    props: {
+      userId: context.params.id,
+      showModal: context.query.tutorial === 'true',
+    },
+  };
 }
