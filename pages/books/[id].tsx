@@ -34,8 +34,6 @@ const Bookview = ({ slug, book, userData }) => {
     );
   }
 
-  console.log(book);
-
   return (
     <Layout>
       <Head>
