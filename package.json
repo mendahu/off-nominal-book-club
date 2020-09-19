@@ -2,6 +2,10 @@
   "name": "book-people",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:staging": "ENVIRONMENT=staging next dev",
@@ -27,9 +31,10 @@
     "dotenv": "^8.2.0",
     "fuse.js": "^5.0.10-beta",
     "knex": "^0.20.11",
-    "mdbreact": "^4.25.4",
+    "mdbreact": "^4.27.0",
     "moment": "^2.24.0",
-    "next": "v9.5.4-canary.12",
+    "next": "v9.5.3",
+    "node-fetch": "2.6.1",
     "patreon": "^0.4.1",
     "pg": "^8.0.0",
     "prop-types": "^15.7.2",
