@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   reviewContainer: {
     marginTop: theme.spacing(1),
+    whiteSpace: 'pre-line',
   },
 }));
 
