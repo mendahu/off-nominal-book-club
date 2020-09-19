@@ -1,10 +1,10 @@
 import React from 'react';
 import Rating from '@material-ui/lab/Rating';
 import { Box, Typography, Avatar } from '@material-ui/core';
-import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
 import { Link as MatLink } from '@material-ui/core';
+import { formatDistanceToNow } from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   reviewHeader: {
@@ -25,7 +25,9 @@ const useStyles = makeStyles((theme) => ({
 const BookReview = ({ review, rating }) => {
   const classes = useStyles();
 
-  const timeAgo = moment(review.date).fromNow();
+  const timeAgo = formatDistanceToNow(new Date(review.date), {
+    addSuffix: true,
+  });
 
   return (
     <Box>
