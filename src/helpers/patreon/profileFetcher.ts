@@ -1,12 +1,13 @@
 import axios from 'axios';
 import tokenFetcher from './tokenFetcher';
-import moment from 'moment';
+import { isAfter } from 'date-fns';
 
-export default async function patreonProfileFetcher(auth0sub, token) {
+export default async function patreonProfileFetcher(auth0sub: string, token) {
   //refreshes token if it is expired
-  const expiry = moment(token.expiry_date);
-  const now = moment();
-  if (expiry.isBefore(now)) {
+  const now = new Date();
+  const expiry = new Date(token.expiry_date);
+
+  if (isAfter(now, expiry)) {
     try {
       token = await tokenFetcher(null, auth0sub, {
         refresh: true,
