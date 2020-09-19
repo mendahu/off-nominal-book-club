@@ -17,10 +17,15 @@ import Head from 'next/head';
 import Message from '../../src/components/Utility/Message';
 import { tagJoiner } from '../../src/helpers/Bookview';
 import { UserData, BookData } from '../../src/types/common';
+import { createContext } from 'react';
+import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+
+export const SnackbarContext = createContext(null);
 
 const Bookview = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
   const { user, loading } = useFetchUser();
+  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const userId = user?.onbc_id;
 
   if (!book) {
@@ -36,81 +41,84 @@ const Bookview = ({ slug, book, userData }) => {
 
   return (
     <Layout>
-      <Head>
-        <meta property="og:url" content={bookUrl} key="url" />
-        <meta
-          property="og:title"
-          content={book.title + ' - The Off-Nominal Book Club'}
-          key="title"
-        />
-        <meta
-          property="og:description"
-          content={book.description}
-          key="description"
-        />
-        <meta property="og:image" content={book.image_url} key="image" />
+      <SnackbarContext.Provider value={triggerSnackbar}>
+        <Head>
+          <meta property="og:url" content={bookUrl} key="url" />
+          <meta
+            property="og:title"
+            content={book.title + ' - The Off-Nominal Book Club'}
+            key="title"
+          />
+          <meta
+            property="og:description"
+            content={book.description}
+            key="description"
+          />
+          <meta property="og:image" content={book.image_url} key="image" />
 
-        <meta
-          name="twitter:description"
-          content={book.description.slice(0, 196) + '...'}
-          key="twitter_description"
-        />
-        <meta
-          name="twitter:title"
-          content={book.title + ' - The Off-Nominal Book Club'}
-          key="twitter_title"
-        />
-        <meta
-          name="twitter:image"
-          content={book.image_url}
-          key="twitter_image"
-        />
-        <meta
-          name="twitter:image:alt"
-          content={'Book cover for ' + book.title}
-          key="twitter_image_alt"
-        />
-      </Head>
-      <Grid container spacing={2}>
-        <BookTitleBar
-          userId={userId}
-          bookId={book.id}
-          userRead={userData.read}
-          userFav={userData.fav}
-          userWishlist={userData.wishlist}
-          reads={book.reads}
-          favs={book.favs}
-          wishes={book.wishes}
-          rating={book.rating}
-          ratings={book.ratings}
-          authors={book.authors}
-          title={book.title}
-          img={book.image_url}
-          year={book.year}
-        />
-        <BookTagList
-          userId={userId}
-          isPatron={user?.isPatron}
-          bookId={book.id}
-          tags={tagJoiner(book.tags, userData.user_tags)}
-        />
+          <meta
+            name="twitter:description"
+            content={book.description.slice(0, 196) + '...'}
+            key="twitter_description"
+          />
+          <meta
+            name="twitter:title"
+            content={book.title + ' - The Off-Nominal Book Club'}
+            key="twitter_title"
+          />
+          <meta
+            name="twitter:image"
+            content={book.image_url}
+            key="twitter_image"
+          />
+          <meta
+            name="twitter:image:alt"
+            content={'Book cover for ' + book.title}
+            key="twitter_image_alt"
+          />
+        </Head>
+        <Grid container spacing={2}>
+          <BookTitleBar
+            userId={userId}
+            bookId={book.id}
+            userRead={userData.read}
+            userFav={userData.fav}
+            userWishlist={userData.wishlist}
+            reads={book.reads}
+            favs={book.favs}
+            wishes={book.wishes}
+            rating={book.rating}
+            ratings={book.ratings}
+            authors={book.authors}
+            title={book.title}
+            img={book.image_url}
+            year={book.year}
+          />
+          <BookTagList
+            userId={userId}
+            isPatron={user?.isPatron}
+            bookId={book.id}
+            tags={tagJoiner(book.tags, userData.user_tags)}
+          />
 
-        {!user && <LoginPromote />}
-        {user &&
-          (user?.isPatron ? (
-            <DataPromote />
-          ) : (
-            <PatronPromote userId={userId} />
-          ))}
+          {!user && <LoginPromote />}
+          {user &&
+            (user?.isPatron ? (
+              <DataPromote />
+            ) : (
+              <PatronPromote userId={userId} />
+            ))}
 
-        <BookDesc desc={book.description} />
-        <BookFeedback
-          userId={userId}
-          isPatron={user?.isPatron}
-          userData={userData}
-          book={book}
-        />
-      </Grid>
+          <BookDesc desc={book.description} />
+          <BookFeedback
+            userId={userId}
+            isPatron={user?.isPatron}
+            userData={userData}
+            book={book}
+          />
+        </Grid>
+        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
+      </SnackbarContext.Provider>
     </Layout>
   );
 };

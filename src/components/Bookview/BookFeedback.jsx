@@ -86,7 +86,10 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
       }
     } catch (error) {
       console.error(error);
-      throw 'There was an error submitting.';
+      throw {
+        message: 'There was an error submitting your review.',
+        severity: 'error',
+      };
     }
 
     setPermReview(newReview);
