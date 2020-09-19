@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import profileFormatter from '../patreon/profileFormatter';
+import profileFormatter from '../profileFormatter';
 
 describe('User Profile Formatter', () => {
   const user_nometa = {

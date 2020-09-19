@@ -32,7 +32,6 @@
     "fuse.js": "^5.0.10-beta",
     "knex": "^0.20.11",
     "mdbreact": "^4.27.0",
-    "moment": "^2.24.0",
     "next": "v9.5.3",
     "node-fetch": "2.6.1",
     "patreon": "^0.4.1",
