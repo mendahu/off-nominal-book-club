@@ -129,6 +129,14 @@ module.exports = {
           ),
           knex.raw(
             `
+          ( SELECT COUNT(id)
+            FROM ratings
+            WHERE ratings.book_id = ?
+          ) as ratings`,
+            bookId
+          ),
+          knex.raw(
+            `
           ( SELECT json_agg(authors) 
           FROM (
             SELECT name 
