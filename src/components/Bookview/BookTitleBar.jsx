@@ -17,35 +17,38 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  stats: {
+  metaData: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
     justifyContent: 'space-evenly',
     order: 3,
     minWidth: 100,
     [theme.breakpoints.down('xs')]: {
       order: 2,
     },
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   content: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    flex: '1 0 300px',
+    flexGrow: '1',
     order: 2,
     [theme.breakpoints.down('xs')]: {
       order: 3,
       flex: '1 0 100%',
     },
   },
-  stat: {
-    alignItems: 'center',
-  },
-  bigStat: {
+  ratings: {
     display: 'flex',
     justifyContent: 'center',
-    paddingLeft: 4,
+    marginBottom: theme.spacing(1),
+  },
+  star: {
+    marginRight: '2px',
   },
 }));
 
@@ -91,27 +94,33 @@ const BookTitleBar = (props) => {
     ? generateAuthorString(props.authors)
     : 'Author Unknown';
 
+  const generateRatingString = (rating, count) => {
+    const score = rating || '-';
+    return `${score} (${count} rating${Number(count) === 1 ? '' : 's'})`;
+  };
+
   return (
     <Grid item xs={12}>
       <Paper className={classes.root}>
         <img src={props.img} />
 
-        <CardContent className={classes.stats}>
-          <Box className={classes.bigStat}>
-            <Star htmlColor="#ffd54f" />
-            <Typography component="h1">{props.rating || '-'}</Typography>
-          </Box>
+        <div className={classes.metaData}>
+          <div className={classes.ratings}>
+            <Star htmlColor="#ffd54f" className={classes.star} />
+            <Typography component="h1">
+              {generateRatingString(props.rating, props.ratings)}
+            </Typography>
+          </div>
 
           {userFlags.map((flag, index) => (
             <BookTitleBarMetaFlag
               userBook={userBook}
               flag={flag}
               key={index}
-              className={classes.stat}
               loggedIn={props.userId}
             />
           ))}
-        </CardContent>
+        </div>
 
         <CardContent className={classes.content}>
           <Typography variant="h5" component="h1">

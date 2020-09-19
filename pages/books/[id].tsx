@@ -34,6 +34,8 @@ const Bookview = ({ slug, book, userData }) => {
     );
   }
 
+  console.log(book);
+
   return (
     <Layout>
       <Head>
@@ -82,6 +84,7 @@ const Bookview = ({ slug, book, userData }) => {
           favs={book.favs}
           wishes={book.wishes}
           rating={book.rating}
+          ratings={book.ratings}
           authors={book.authors}
           title={book.title}
           img={book.image_url}
