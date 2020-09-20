@@ -1,11 +1,11 @@
 import LayoutComponent from '../General/LayoutComponent';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Checkbox } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
 import axios from 'axios';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
-import { SnackbarContent } from '../../hooks/useSnackbar';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 import sendPasswordReset from '../../helpers/sendPasswordReset';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,14 +31,12 @@ export type ProfileDataProps = {
   patreonState: string;
   email: string;
   getsMail: boolean;
-  triggerSnackbar: (snackbar: SnackbarContent) => { return };
 };
 
 const ProfileData = ({
   patreonState,
   email,
   getsMail,
-  triggerSnackbar,
   ...rest
 }: ProfileDataProps) => {
   const classes = useStyles();
@@ -46,7 +44,7 @@ const ProfileData = ({
   const [patreonConnected, setPatreonConnected] = useState(
     patreonState === 'connected'
   );
-
+  const triggerSnackbar = useSnackbarContext();
   const { formData, handleFormChange } = useProfileUpdater({
     gets_mail: getsMail,
   });
