@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import {
   Grid,
   Paper,
@@ -14,7 +14,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
-import { SnackbarContext } from '../../../pages/books/[id]';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   expand: {
@@ -39,7 +39,7 @@ const BookUserReview = ({ review, submitReview, setSummary, setReview }) => {
 
   const [expanded, setExpanded] = useState(false);
   const [busy, setBusy] = useState(false);
-  const triggerSnackbar = useContext(SnackbarContext);
+  const triggerSnackbar = useSnackbarContext();
 
   const handleExpandClick = () => setExpanded(!expanded);
 

@@ -17,10 +17,8 @@ import Head from 'next/head';
 import Message from '../../src/components/Utility/Message';
 import { tagJoiner } from '../../src/helpers/Bookview';
 import { UserData, BookData } from '../../src/types/common';
-import { createContext } from 'react';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
-
-export const SnackbarContext = createContext(null);
+import SnackbarContext from '../../src/contexts/SnackbarContext';
 
 const Bookview = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;

@@ -1,11 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Chip, Grid, Paper } from '@material-ui/core';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DoneIcon from '@material-ui/icons/Done';
 import BookTagItem from './BookTagItem';
-import { SnackbarContext } from '../../../pages/books/[id]';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ const BookTagList = (props) => {
   const [addMode, setAddMode] = useState(false);
   const [newTagInput, setNewTagInput] = useState('');
   const [busy, setBusy] = useState(false);
-  const triggerSnackbar = useContext(SnackbarContext);
+  const triggerSnackbar = useSnackbarContext();
 
   //helper function to check if tag count is too high
   const hasTooManyTags = () => {

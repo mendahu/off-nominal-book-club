@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Chip, Box, Tooltip } from '@material-ui/core';
 import axios from 'axios';
-import { SnackbarContext } from '../../../pages/books/[id]';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -17,7 +17,7 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
   const [userFlagId, setUserFlagId] = useState(flag.status);
   const [totalCount, setTotalCount] = useState(Number(flag.count));
   const [busy, setBusy] = useState(false);
-  const triggerSnackbar = useContext(SnackbarContext);
+  const triggerSnackbar = useSnackbarContext();
 
   const toggleData = (dataType) => {
     setBusy(true);
