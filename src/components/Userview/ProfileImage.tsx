@@ -1,5 +1,5 @@
 import { Avatar } from '@material-ui/core';
-import { useEffect } from 'react';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 import LayoutComponent from '../General/LayoutComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -32,11 +32,11 @@ const ProfileImage = ({
   onClick,
   isPatron,
   isUserAuthorized,
-  triggerSnackbar,
   ...rest
 }) => {
   const classes = useStyles();
 
+  const triggerSnackbar = useSnackbarContext();
   const { formData, handleFormChange } = useProfileUpdater({
     avatar_select,
   });

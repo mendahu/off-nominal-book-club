@@ -9,6 +9,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -19,15 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileHeader = ({
-  name,
-  bio,
-  isUserAuthorized,
-  triggerSnackbar,
-  ...rest
-}) => {
+const ProfileHeader = ({ name, bio, isUserAuthorized, ...rest }) => {
   const classes = useStyles();
 
+  const triggerSnackbar = useSnackbarContext();
   const [editMode, setEditMode] = useState(false);
   const { formData, handleFormChange, updateProfile } = useProfileUpdater({
     name,

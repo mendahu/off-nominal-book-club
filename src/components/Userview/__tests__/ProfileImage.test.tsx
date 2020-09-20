@@ -1,8 +1,12 @@
 import { shallow } from 'enzyme';
 import ProfileImage from '../ProfileImage';
 import { Avatar, FormControl, RadioGroup } from '@material-ui/core';
+import * as SnackbarContext from '../../../contexts/SnackbarContext';
 
 const mockTriggerSnackbar = jest.fn();
+jest
+  .spyOn(SnackbarContext, 'useSnackbarContext')
+  .mockImplementation(() => mockTriggerSnackbar);
 
 const testUser = {
   name: 'Test User',
@@ -11,7 +15,6 @@ const testUser = {
     'https://s.gravatar.com/avatar/673d72d2168b174d3d15b865d064ed67?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fin.png',
   patreon_avatar_url:
     'https://c10.patreonusercontent.com/3/eyJ3IjoyMDB9/patreon-media/p/user/3618298/3eec71e38b3f4524ac40e84ee6b44638/1.png?token-time=2145916800&token-hash=1QLVi0kpMgttM3cyT9r6eNFQXTYgj8IWjmrbZGuUZzY%3D',
-  triggerSnackbar: mockTriggerSnackbar,
 };
 
 const tick = () => {

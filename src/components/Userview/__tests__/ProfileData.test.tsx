@@ -3,19 +3,22 @@ import ProfileData, { ProfileDataProps } from '../ProfileData';
 import { Button, Checkbox } from '@material-ui/core';
 import axios, { AxiosResponse } from 'axios';
 import sendPasswordReset from '../../../helpers/sendPasswordReset';
+import * as SnackbarContext from '../../../contexts/SnackbarContext';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 jest.mock('../../../helpers/sendPasswordReset');
 
-const mockedTriggerSnackbar = jest.fn();
+const mockTriggerSnackbar = jest.fn();
+jest
+  .spyOn(SnackbarContext, 'useSnackbarContext')
+  .mockImplementation(() => mockTriggerSnackbar);
 
 const testUser: ProfileDataProps = {
   patreonState: 'connected',
   email: 'test@test.com',
   getsMail: true,
-  triggerSnackbar: mockedTriggerSnackbar,
 };
 
 const tick = () => {
@@ -26,7 +29,7 @@ const tick = () => {
 
 describe('ProfileData', () => {
   beforeEach(() => {
-    mockedTriggerSnackbar.mockClear();
+    mockTriggerSnackbar.mockClear();
   });
 
   it('Should show connect button if Patreon is not connected', () => {
@@ -55,8 +58,8 @@ describe('ProfileData', () => {
     await tick();
 
     expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
-    expect(mockedTriggerSnackbar).toHaveBeenCalledWith({
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
       message: 'Patreon Account Disconnected!',
       severity: 'success',
@@ -75,8 +78,8 @@ describe('ProfileData', () => {
     await tick();
 
     expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
-    expect(mockedTriggerSnackbar).toHaveBeenCalledWith({
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
       message: 'Something went wrong!',
       severity: 'error',
@@ -100,8 +103,8 @@ describe('ProfileData', () => {
     wrapper.find(Button).at(1).simulate('click');
     await tick();
 
-    expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
-    expect(mockedTriggerSnackbar).toHaveBeenCalledWith({
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
       message: 'Password Reset Email Sent!',
       severity: 'success',
@@ -125,8 +128,8 @@ describe('ProfileData', () => {
     wrapper.find(Button).at(1).simulate('click');
     await tick();
 
-    expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
-    expect(mockedTriggerSnackbar).toHaveBeenCalledWith({
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
       message: 'Something went wrong!',
       severity: 'error',
@@ -155,6 +158,6 @@ describe('ProfileData', () => {
     wrapper.find(Checkbox).simulate('change');
     await tick();
 
-    expect(mockedTriggerSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
   });
 });
