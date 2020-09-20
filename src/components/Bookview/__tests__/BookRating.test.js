@@ -1,7 +1,5 @@
 import { act, render, fireEvent } from '@testing-library/react';
 import BookRating from '../BookRating';
-import { shallow, mount } from 'enzyme';
-import Rating from '@material-ui/lab/Rating';
 import * as SnackbarContext from '../../../contexts/SnackbarContext';
 
 const mockRateBook = jest.fn();

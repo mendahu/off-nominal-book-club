@@ -21,6 +21,7 @@ import {
 import { useFetchUser } from '../../lib/user';
 import axios from 'axios';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+import SnackbarContext from '../../src/contexts/SnackbarContext';
 import WarningIcon from '@material-ui/icons/Warning';
 
 const Userview = ({ userId, showModal }) => {
@@ -145,55 +146,54 @@ const Userview = ({ userId, showModal }) => {
 
   return (
     <Layout>
-      <Grid container space={2}>
-        <Grid item container xs={12}>
-          <ProfileImage
-            name={name}
-            gravatar_avatar_url={gravatar_avatar_url}
-            patreon_avatar_url={patreon_avatar_url}
-            avatar_select={avatar_select}
-            isPatron={user?.isPatron}
-            isUserAuthorized={isUserAuthorized}
+      <SnackbarContext.Provider value={triggerSnackbar}>
+        <Grid container space={2}>
+          <Grid item container xs={12}>
+            <ProfileImage
+              name={name}
+              gravatar_avatar_url={gravatar_avatar_url}
+              patreon_avatar_url={patreon_avatar_url}
+              avatar_select={avatar_select}
+              isPatron={user?.isPatron}
+              isUserAuthorized={isUserAuthorized}
+              xs={12}
+              md={3}
+            />
+            <ProfileHeader
+              name={name}
+              bio={bio}
+              xs={12}
+              md={9}
+              isUserAuthorized={isUserAuthorized}
+            />
+          </Grid>
+          {isUserAuthorized ? (
+            <ProfileData
+              xs={12}
+              md={3}
+              patreonState={user?.patreon?.state}
+              email={user?.email}
+              getsMail={profileData?.getsMail}
+            />
+          ) : (
+            <Grid item xs={12} md={3} />
+          )}
+          <ProfileBookList
+            listTitle="Wishlist"
+            books={profileData.wishlist}
             xs={12}
-            md={3}
-            triggerSnackbar={triggerSnackbar}
+            md
           />
-          <ProfileHeader
-            name={name}
-            bio={bio}
+          <ProfileBookList
+            listTitle="Read List"
+            books={profileData.reads}
             xs={12}
-            md={9}
-            isUserAuthorized={isUserAuthorized}
-            triggerSnackbar={triggerSnackbar}
+            md
           />
         </Grid>
-        {isUserAuthorized ? (
-          <ProfileData
-            xs={12}
-            md={3}
-            patreonState={user?.patreon?.state}
-            email={user?.email}
-            getsMail={profileData?.getsMail}
-            triggerSnackbar={triggerSnackbar}
-          />
-        ) : (
-          <Grid item xs={12} md={3} />
-        )}
-        <ProfileBookList
-          listTitle="Wishlist"
-          books={profileData.wishlist}
-          xs={12}
-          md
-        />
-        <ProfileBookList
-          listTitle="Read List"
-          books={profileData.reads}
-          xs={12}
-          md
-        />
-      </Grid>
-      <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      {renderModal(user?.isPatron)}
+        {renderModal(user?.isPatron)}
+        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
+      </SnackbarContext.Provider>
     </Layout>
   );
 };
