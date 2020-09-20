@@ -14,7 +14,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
-import { useSnackbar, OnbcSnackbar } from '../../hooks/useSnackbar';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   expand: {
@@ -39,7 +39,7 @@ const BookUserReview = ({ review, submitReview, setSummary, setReview }) => {
 
   const [expanded, setExpanded] = useState(false);
   const [busy, setBusy] = useState(false);
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
+  const triggerSnackbar = useSnackbarContext();
 
   const handleExpandClick = () => setExpanded(!expanded);
 
@@ -104,10 +104,6 @@ const BookUserReview = ({ review, submitReview, setSummary, setReview }) => {
               <Button type="submit" variant="contained" color="primary">
                 {review.id ? 'Update' : 'Submit'}
               </Button>
-              <OnbcSnackbar
-                content={snackBarContent}
-                closeSnackbar={closeSnackbar}
-              />
             </Box>
           </CardContent>
         </Collapse>

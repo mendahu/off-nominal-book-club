@@ -1,8 +1,9 @@
 import { shallow, mount } from 'enzyme';
+import { act } from '@testing-library/react';
 import BookTagList from '../BookTagList';
 import BookTagItem from '../BookTagItem';
 import { Chip } from '@material-ui/core';
-import { act } from 'react-dom/test-utils';
+import SnackbarContext from '../../../contexts/SnackbarContext';
 
 const test_noUserTags = [
   { id: 1, tag_name: 'tag1', count: 2 },
@@ -24,8 +25,13 @@ const test_allUserTags = [
 
 const test_oneUserTag = { id: 2, tag_name: 'tag2', count: 5, tagRelId: 1 };
 const test_oneNonUserTag = { id: 1, tag_name: 'tag1', count: 4 };
+const mockTriggerSnackbar = jest.fn();
 
 describe('BookTagList', () => {
+  beforeEach(() => {
+    mockTriggerSnackbar.mockClear();
+  });
+
   it('Should not display any tags if tags prop is empty', () => {
     const wrapper = shallow(<BookTagList tags={[]} />);
     expect(wrapper.find(BookTagItem)).toHaveLength(0); //no user tags
@@ -77,40 +83,42 @@ describe('BookTagList', () => {
   });
 
   it('Should not allow unauthenticated users to increment tags', async () => {
-    const promise = Promise.resolve();
-    jest.spyOn(window, 'alert').mockImplementation(() => promise);
-
     const wrapper = mount(
-      <BookTagList
-        tags={[test_oneNonUserTag]}
-        userId={undefined}
-        isPatron={undefined}
-        bookId={1}
-      />
+      <SnackbarContext.Provider value={mockTriggerSnackbar}>
+        <BookTagList
+          tags={[test_oneNonUserTag]}
+          userId={undefined}
+          isPatron={undefined}
+          bookId={1}
+        />
+      </SnackbarContext.Provider>
     );
 
     const tag = wrapper.find(Chip);
-    tag.at(0).simulate('click');
+    act(() => {
+      tag.at(0).simulate('click');
+    });
     expect(tag.at(0).text()).toMatch(/4/);
-    await act(() => promise);
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
   });
 
   it('Should not allow non patron users to increment tags', async () => {
-    const promise = Promise.resolve();
-    jest.spyOn(window, 'alert').mockImplementation(() => promise);
-
     const wrapper = mount(
-      <BookTagList
-        tags={[test_oneNonUserTag]}
-        userId={1}
-        isPatron={false}
-        bookId={1}
-      />
+      <SnackbarContext.Provider value={mockTriggerSnackbar}>
+        <BookTagList
+          tags={[test_oneNonUserTag]}
+          userId={1}
+          isPatron={false}
+          bookId={1}
+        />
+      </SnackbarContext.Provider>
     );
 
     const tag = wrapper.find(Chip);
-    tag.at(0).simulate('click');
+    act(() => {
+      tag.at(0).simulate('click');
+    });
     expect(tag.at(0).text()).toMatch(/4/);
-    await act(() => promise);
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
   });
 });

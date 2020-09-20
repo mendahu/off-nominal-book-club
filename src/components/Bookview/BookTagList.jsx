@@ -5,6 +5,7 @@ import axios from 'axios';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DoneIcon from '@material-ui/icons/Done';
 import BookTagItem from './BookTagItem';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,7 @@ const BookTagList = (props) => {
   const [addMode, setAddMode] = useState(false);
   const [newTagInput, setNewTagInput] = useState('');
   const [busy, setBusy] = useState(false);
+  const triggerSnackbar = useSnackbarContext();
 
   //helper function to check if tag count is too high
   const hasTooManyTags = () => {
@@ -39,7 +41,11 @@ const BookTagList = (props) => {
 
   const incrementTag = (tag, mutableTags, index, options) => {
     if (hasTooManyTags()) {
-      alert('You can only add up to 5 tags per book.');
+      triggerSnackbar({
+        active: true,
+        message: 'You may only add up to 5 tags per book.',
+        severity: 'warning',
+      });
       throw 'user reached tag limit';
     }
 
@@ -88,9 +94,12 @@ const BookTagList = (props) => {
 
   const toggleTag = async (tag, index) => {
     if (!props.isPatron) {
-      return alert(
-        'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!'
-      );
+      return triggerSnackbar({
+        active: true,
+        message:
+          'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!',
+        severity: 'warning',
+      });
     }
 
     const mutableTags = [...tags]; //for altering state
@@ -110,9 +119,12 @@ const BookTagList = (props) => {
   const toggleAddMode = () => {
     props.isPatron
       ? setAddMode(!addMode)
-      : alert(
-          'Only logged in patrons may add tags to books. Consider supporting us for as little as $1/month!'
-        );
+      : triggerSnackbar({
+          active: true,
+          message:
+            'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!',
+          severity: 'warning',
+        });
   };
 
   const stopClick = (event) => event.stopPropagation();
@@ -125,9 +137,11 @@ const BookTagList = (props) => {
     if (!newTagInput) return toggleAddMode();
 
     if (hasTooManyTags()) {
-      alert('You can only add up to 5 tags per book.');
-      toggleAddMode();
-      setNewTagInput('');
+      triggerSnackbar({
+        active: true,
+        message: 'You may only add up to 5 tags per book.',
+        severity: 'warning',
+      });
       return;
     }
 
@@ -136,9 +150,15 @@ const BookTagList = (props) => {
     );
     if (existingTagIndex >= 0) {
       if (!tags[existingTagIndex].tagRelId) {
+        toggleAddMode();
+        setNewTagInput('');
         return toggleTag(tags[existingTagIndex], existingTagIndex);
       } else {
-        return alert("you've already added that tag!");
+        return triggerSnackbar({
+          active: true,
+          message: "You've already added that tag!",
+          severity: 'warning',
+        });
       }
     }
 
