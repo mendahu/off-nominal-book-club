@@ -26,6 +26,14 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
     const flagId = userFlagId;
     const currentCount = totalCount;
 
+    const handleError = () => {
+      triggerSnackbar({
+        active: true,
+        message: 'Error toggling this data.',
+        severity: 'error',
+      });
+    };
+
     if (userFlagId) {
       setUserFlagId(null);
       setTotalCount(currentCount - 1);
@@ -33,7 +41,7 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
       axios
         .delete(`/api/${dataType}/${userFlagId}/delete`)
         .catch((err) => {
-          console.error(err);
+          handleError();
           setUserFlagId(flagId);
           setTotalCount(currentCount);
         })
@@ -48,7 +56,7 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
           setUserFlagId(res.data[0]);
         })
         .catch((err) => {
-          console.error(err);
+          handleError();
           setUserFlagId(null);
           setTotalCount(currentCount);
         })
@@ -56,17 +64,15 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
     }
   };
 
-  const errorHandler = () => {
-    triggerSnackbar({
-      active: true,
-      message: flag.error,
-      severity: 'warning',
-    });
-  };
-
   const clickHandler = (dataType) => {
     if (busy) return;
-    loggedIn ? toggleData(dataType) : errorHandler();
+    loggedIn
+      ? toggleData(dataType)
+      : triggerSnackbar({
+          active: true,
+          message: flag.error,
+          severity: 'warning',
+        });
   };
 
   return (
