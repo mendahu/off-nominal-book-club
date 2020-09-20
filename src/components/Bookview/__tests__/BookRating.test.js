@@ -1,10 +1,22 @@
 import { act, render, fireEvent } from '@testing-library/react';
 import BookRating from '../BookRating';
+import { shallow, mount } from 'enzyme';
+import Rating from '@material-ui/lab/Rating';
+import * as SnackbarContext from '../../../contexts/SnackbarContext';
+
+const mockRateBook = jest.fn();
+const mockTriggerSnackbar = jest.fn();
+jest
+  .spyOn(SnackbarContext, 'useSnackbarContext')
+  .mockImplementation(() => mockTriggerSnackbar);
 
 describe('Book Rating', () => {
+  beforeEach(() => {
+    mockRateBook.mockClear();
+  });
+
   it('Should call the rateBook function when clicked', async () => {
     const promise = Promise.resolve();
-    const mockRateBook = jest.fn(() => promise);
 
     const { getByLabelText } = render(
       <BookRating rating={3} rateBook={mockRateBook} />

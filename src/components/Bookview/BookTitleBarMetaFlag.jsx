@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Chip, Box, Tooltip } from '@material-ui/core';
 import axios from 'axios';
+import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -16,6 +17,7 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
   const [userFlagId, setUserFlagId] = useState(flag.status);
   const [totalCount, setTotalCount] = useState(Number(flag.count));
   const [busy, setBusy] = useState(false);
+  const triggerSnackbar = useSnackbarContext();
 
   const toggleData = (dataType) => {
     setBusy(true);
@@ -24,6 +26,14 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
     const flagId = userFlagId;
     const currentCount = totalCount;
 
+    const handleError = () => {
+      triggerSnackbar({
+        active: true,
+        message: 'Error toggling this data.',
+        severity: 'error',
+      });
+    };
+
     if (userFlagId) {
       setUserFlagId(null);
       setTotalCount(currentCount - 1);
@@ -31,7 +41,7 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
       axios
         .delete(`/api/${dataType}/${userFlagId}/delete`)
         .catch((err) => {
-          console.error(err);
+          handleError();
           setUserFlagId(flagId);
           setTotalCount(currentCount);
         })
@@ -46,7 +56,7 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
           setUserFlagId(res.data[0]);
         })
         .catch((err) => {
-          console.error(err);
+          handleError();
           setUserFlagId(null);
           setTotalCount(currentCount);
         })
@@ -54,13 +64,15 @@ export default function BookTitleBarMetaFlag({ flag, loggedIn, userBook }) {
     }
   };
 
-  const errorHandler = () => {
-    alert(flag.error);
-  };
-
   const clickHandler = (dataType) => {
     if (busy) return;
-    loggedIn ? toggleData(dataType) : errorHandler();
+    loggedIn
+      ? toggleData(dataType)
+      : triggerSnackbar({
+          active: true,
+          message: flag.error,
+          severity: 'warning',
+        });
   };
 
   return (
