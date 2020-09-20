@@ -1,4 +1,4 @@
-import { Container } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import SearchBar from '../src/components/SearchBar';
 import BookList from '../src/components/Landing/BookList';
 import TagList from '../src/components/Landing/TagList';
@@ -6,11 +6,18 @@ import HeroCarousel from '../src/components/Landing/HeroCarousel';
 import React, { useState } from 'react';
 import Layout from '../src/components/LandingLayout';
 import axios from 'axios';
-const queries = require('../db/queries/books');
 import Fuse from 'fuse.js';
 import { bookOptions, tagOptions } from '../config/search.json';
+const queries = require('../db/queries/books');
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 export default function App(props) {
+  const classes = useStyles();
   const { books, tags, mostFavId, highestRatedId, randomBookIndex } = props;
 
   const bookSearch = books ? new Fuse(books, bookOptions) : null;
@@ -73,16 +80,21 @@ export default function App(props) {
           )}
         </Container>
         <Container component="main" maxWidth={false}>
-          <SearchBar
-            placeholderText={'Find your books'}
-            text={input}
-            onChange={onInputChange}
-            button={{ active: true, text: 'Clear', onClick: clearResults }}
-          />
-
-          <TagList tags={tagList} onClick={selectTag} />
-
-          <BookList books={searchResults} selectTag={selectTag} />
+          <div className={classes.container}>
+            {' '}
+            <SearchBar
+              placeholderText={'Search the Off-Nominal Book Club'}
+              text={input}
+              onChange={onInputChange}
+              button={{ text: 'Clear', onClick: clearResults }}
+            />
+          </div>
+          <div className={classes.container}>
+            <TagList tags={tagList} onClick={selectTag} />
+          </div>
+          <div className={classes.container}>
+            <BookList books={searchResults} selectTag={selectTag} />
+          </div>
         </Container>
       </Layout>
     </div>

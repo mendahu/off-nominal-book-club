@@ -1,25 +1,24 @@
-import { 
+import {
   Box,
-  Paper, 
-  Chip, 
-  Avatar, 
+  Paper,
+  Chip,
+  Avatar,
   makeStyles,
   GridList,
-  GridListTile } from "@material-ui/core";
+  GridListTile,
+} from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    marginTop: theme.spacing(-3),
-    marginBottom: theme.spacing(4),
-    margin: "auto",
-    width: "100%"
+    margin: 'auto',
+    width: '100%',
   },
   chip: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   gridList: {
     flexWrap: 'nowrap',
@@ -28,20 +27,20 @@ const useStyles = makeStyles(theme => ({
   },
   listItem: {
     height: '100%!important',
-    width: 'auto!important'
-  }
+    width: 'auto!important',
+  },
 }));
 
 export default function TagList(props) {
   const classes = useStyles();
-  const tags = props.tags || []
+  const tags = props.tags || [];
 
   return (
-    <Box component='section'>
+    <Box component="section">
       <Paper className={classes.root}>
         <GridList className={classes.gridList}>
           {tags.slice(0, 10).map((tag, index) => (
-            <GridListTile key={index} classes={{root: classes.listItem}}>
+            <GridListTile key={index} classes={{ root: classes.listItem }}>
               <Chip
                 onClick={() => props.onClick(tag.tag_name)}
                 label={'#' + tag.tag_name}
