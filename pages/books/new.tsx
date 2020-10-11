@@ -30,12 +30,18 @@ export default function New() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false)
   const [currentSelection, setCurrentSelection] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
-  const fetchGoogleResults = async (searchTerm: string): Promise<any[] | undefined> => {
-    const results = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`)
-    return results.data.items;
+  const fetchGoogleResults = (searchTerm: string): Promise<any[] | undefined> => {
+    setIsError(false)
+    return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`)
+      .then((results) => results.data.items)
+      .catch(() => {
+        setIsError(true)
+        return []
+      })
   };
 
   useEffect(() => {
@@ -163,7 +169,7 @@ export default function New() {
     renderLoadingMessage("warning", "You must be logged in and a Patron to add books.");
   }
 
-  const renderSearchingMessage = (variant, message: string) => {
+  const renderSearchMessage = (variant, message: string) => {
     return (
       <Message variant={variant} message={message} />
     )
@@ -199,7 +205,8 @@ export default function New() {
             text={searchTerm}
           />
           <div>
-            {isSearching && renderSearchingMessage("loading", "Searching Google Books...")}
+            {isSearching && renderSearchMessage("loading", "Searching Google Books...")}
+            {isError && renderSearchMessage("warning", "Error reaching Google Books")}
             {!isSearching && searchResults && searchResults.map((result) => renderSearchResult(result))}
           </div>
         </Grid>
