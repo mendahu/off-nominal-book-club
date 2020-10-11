@@ -1,6 +1,7 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { InputBase, Paper, Button } from '@material-ui/core';
 import Link from 'next/link';
+import { ChangeEvent } from 'react';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) =>
 export type SearchBarProps = {
   placeholderText: string;
   text: string;
-  onChange: () => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   button?: {
     text: string;
     href?: string;

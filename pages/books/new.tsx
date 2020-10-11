@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useFetchUser } from '../../lib/user';
 import Layout from '../../src/components/DefaultLayout';
 import Message from '../../src/components/Utility/Message';
 import { Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
+import { useDebounce } from '../../src/hooks/useDebounce'
 // import SearchResultsList from '../../src/components/New/SearchResultsList';
 // import ConfirmResults from '../../src/components/New/ConfirmResults';
-// import axios from 'axios';
 // import Router from 'next/router';
 // import urlGenerator from '../../src/helpers/urlGenerator';
 // import generateAuthorString from '../../src/helpers/generateAuthorString';
@@ -25,8 +26,29 @@ export default function New() {
   const classes = useStyles();
 
   const { user, loading } = useFetchUser();
-  // const [searchResults, setSearchResults] = useState([]);
-  // const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false)
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+
+  const fetchGoogleResults = async (searchTerm: string) => {
+    const results = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`)
+    return results.data.items;
+  };
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      setIsSearching(true);
+      fetchGoogleResults(debouncedSearchTerm).then(results => {
+        setIsSearching(false);
+        setSearchResults(results);
+      });
+    } else {
+      setSearchResults([]);
+    }
+  }, [debouncedSearchTerm])
+
   // const [isSearch, setIsSearch] = useState(true);
   // const [bookObj, setBookObj] = useState({
   //   book: {
@@ -144,7 +166,8 @@ export default function New() {
         <Grid item xs={12} sm={7}>
           <SearchBar
             placeholderText="Search Google Books"
-            onChange={() => {}}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            text={searchTerm}
           />
         </Grid>
       </Grid>
