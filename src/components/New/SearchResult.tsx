@@ -5,7 +5,7 @@ type SearchResultsProps = {
   cover: string,
   title: string,
   authors: string,
-  year: number,
+  year: number | string,
   description: string,
   clickHandler: () => void
 }
