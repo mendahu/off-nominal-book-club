@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useFetchUser } from '../../lib/user';
 import Layout from '../../src/components/DefaultLayout';
 import Message from '../../src/components/Utility/Message';
-import { Paper, Grid, CircularProgress } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
-import { useDebounce } from '../../src/hooks/useDebounce'
-import SearchResult from '../../src/components/New/SearchResult'
+// import SearchResultsList from '../../src/components/New/SearchResultsList';
 // import ConfirmResults from '../../src/components/New/ConfirmResults';
+// import axios from 'axios';
 // import Router from 'next/router';
 // import urlGenerator from '../../src/helpers/urlGenerator';
 // import generateAuthorString from '../../src/helpers/generateAuthorString';
@@ -19,46 +18,15 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     padding: theme.spacing(2),
-  }
+  },
 }));
 
 export default function New() {
   const classes = useStyles();
 
   const { user, loading } = useFetchUser();
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isSearching, setIsSearching] = useState(false)
-  const [currentSelection, setCurrentSelection] = useState(null)
-
-  const debouncedSearchTerm = useDebounce(searchTerm, 500)
-
-  const fetchGoogleResults = async (searchTerm: string): Promise<any[] | undefined> => {
-    const results = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`)
-    return results.data.items;
-  };
-
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      setIsSearching(true);
-      fetchGoogleResults(debouncedSearchTerm).then(results => {
-        setIsSearching(false);
-        setSearchResults(results);
-      });
-    } else {
-      setSearchResults([]);
-    }
-  }, [debouncedSearchTerm])
-
-  const selectBook = (book) => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth"
-    })
-    setCurrentSelection(book)
-  }
-
+  // const [searchResults, setSearchResults] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState('');
   // const [isSearch, setIsSearch] = useState(true);
   // const [bookObj, setBookObj] = useState({
   //   book: {
@@ -147,61 +115,37 @@ export default function New() {
   //   setIsSearch(true);
   // }
 
-  const renderLoadingMessage = (variant, message: string) => {
+  if (loading) {
     return (
       <Layout>
-        <Message variant={variant} message={message} />
+        <Message variant="loading" message="Validating credentials..." />
       </Layout>
-    )
-  }
-
-  if (loading) {
-    renderLoadingMessage("loading", "Validating credentials...");
+    );
   }
 
   if ((!user && !loading) || (!user?.isPatron && !loading)) {
-    renderLoadingMessage("warning", "You must be logged in and a Patron to add books.");
-  }
-
-  const renderSearchingMessage = (variant, message: string) => {
     return (
-      <Message variant={variant} message={message} />
-    )
-  }
-
-  const renderSearchResult = (book) => {
-    const { volumeInfo: { title, authors, description, publishedDate, imageLinks }} = book;
-    return (
-      <SearchResult
-        key={book.id}
-        cover={imageLinks ? imageLinks.thumbnail : "/generic_book.png"}
-        title={title}
-        authors={authors ? authors.join(', ') : "No author"}
-        year={new Date(publishedDate).getFullYear()}
-        description={description || "No description available"}
-        clickHandler={() => selectBook(book)} />
-    )
+      <Layout>
+        <Message
+          variant="warning"
+          message="You must be logged in and a Patron to add books."
+        />
+      </Layout>
+    );
   }
 
   return (
     <Layout>
       <Grid container spacing={2} className={classes.container}>
         <Grid item xs={12} sm={5}>
-          <Paper className={classes.item}>
-            {currentSelection ? <div>{currentSelection.volumeInfo.title}</div> : "Search for your book below"}
-            </Paper>
+          <Paper className={classes.item}>Test</Paper>
         </Grid>
 
         <Grid item xs={12} sm={7}>
           <SearchBar
             placeholderText="Search Google Books"
-            onChange={(event) => setSearchTerm(event.target.value)}
-            text={searchTerm}
+            onChange={() => {}}
           />
-          <div>
-            {isSearching && renderSearchingMessage("loading", "Searching Google Books...")}
-            {!isSearching && searchResults && searchResults.map((result) => renderSearchResult(result))}
-          </div>
         </Grid>
       </Grid>
       {/* {!loading &&
