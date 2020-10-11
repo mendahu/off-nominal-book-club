@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useFetchUser } from '../../lib/user';
 import Layout from '../../src/components/DefaultLayout';
 import Message from '../../src/components/Utility/Message';
-import { Paper, Grid, Typography } from '@material-ui/core';
+import { Paper, Grid, Typography, Button, FormControl, FormControlLabel, FormLabel, Checkbox, FormGroup } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
 import { useDebounce } from '../../src/hooks/useDebounce'
@@ -22,11 +22,25 @@ const useStyles = makeStyles((theme) => ({
   item: {
     padding: theme.spacing(2),
   },
-  currentSelection: {
-    display: 'flex'
+  matchedSelection: {
+    display: 'flex',
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    alignItems: 'center'
   },
   smallThumb: {
     width: "60px"
+  },
+  matchedSelectionInfoBox: {
+    marginLeft: theme.spacing(1),
+    flexGrow: 1,
+  },
+  metaDataContainer: {
+    width: "100%"
+  },
+  submitButtonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end'
   }
 }));
 
@@ -34,22 +48,26 @@ export default function New() {
   const classes = useStyles();
 
   const { user, loading } = useFetchUser();
+
   const [isSearching, setIsSearching] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const [isSearchError, setIsSearchError] = useState(false)
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+
   const [currentSelection, setCurrentSelection] = useState(null)
   const [isMatching, setIsMatching] = useState(false)
+  const [isMatchError, setIsMatchError] = useState(false)
   const [matchedResults, setMatchedResults] = useState(null)
+  const [newBookMetaData, setNewBookMetaData] = useState({fiction: false, textbook: false})
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
   const fetchGoogleResults = (searchTerm: string): Promise<any[] | undefined> => {
-    setIsError(false)
+    setIsSearchError(false)
     return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`)
       .then((results) => results.data.items)
       .catch(() => {
-        setIsError(true)
+        setIsSearchError(true)
         return []
       })
   };
@@ -70,11 +88,15 @@ export default function New() {
     if (currentSelection) {
       setMatchedResults(null)
       setIsMatching(true)
+      setIsMatchError(false)
       axios.get(
         `/api/books/new?googleid=${getGoogleId(currentSelection)}&isbn13=${getIsbn13(currentSelection)}&title=${getTitle(currentSelection)}`
       )
         .then(({data}) => {
           setMatchedResults(data.length ? data : null)
+        })
+        .catch(() => {
+          setIsMatchError(true)
         })
         .finally(() => {
           setIsMatching(false)
@@ -211,27 +233,54 @@ export default function New() {
   return (
     <Layout>
       <Grid container spacing={2} className={classes.container}>
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={12} md={6} lg={5}>
           <Paper className={classes.item}>
             <Typography component="h1" variant="h6">{currentSelection ? `Adding ${currentSelection.volumeInfo.title}...` : "Search for your book below"}</Typography>
+            <hr />
             {isMatching && <p>{"Validating your result"}</p>}
-            {matchedResults && matchedResults.map((match) => {
-              return (
-                <div className={classes.currentSelection}>
-                  <div>
-                    <img src={match.image_url} className={classes.smallThumb}/>
-                  </div>
-                  <div>
-                    <Typography component="h2" variant="h6">{match.title}</Typography>
-                    <Typography component="h2" variant="h6">{generateAuthorString(match.authors)}</Typography>
-                  </div>
+            {isMatchError && <Message variant="warning" message={"Error checking the book club database"} />}
+            {matchedResults && 
+              <>
+                <Typography component="h2" variant="subtitle1">{"Your book may already be in the book club..."}</Typography>
+                {matchedResults.map((match, index) => {
+                  if (index < 3 ) {
+                    return (
+                      <div className={classes.matchedSelection} key={index}>
+                        <div>
+                          <img src={match.image_url} className={classes.smallThumb}/>
+                        </div>
+                        <div className={classes.matchedSelectionInfoBox}>
+                          <Typography component="h3" variant="h6">{match.title}</Typography>
+                          <Typography component="h4" variant="subtitle1">{generateAuthorString(match.authors)}</Typography>
+                        </div>
+                        <div>
+                          <Button variant="contained" color="primary" href={`/books/${match.id}`}>Take me there!</Button>
+                        </div>
+                      </div>
+                    )
+                  }
+                })}
+                <hr />
+              </>
+            }
+            {!isMatching && currentSelection &&
+              <>
+                <FormControl component="fieldset" className={classes.metaDataContainer}>
+                  <FormLabel component="legend">Tell us about this book</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel control={<Checkbox checked={newBookMetaData.fiction} onChange={(event) => setNewBookMetaData({...newBookMetaData, fiction: event.target.checked})} />} label="This book is fiction" />
+                    <FormControlLabel control={<Checkbox checked={newBookMetaData.textbook} onChange={(event) => setNewBookMetaData({...newBookMetaData, textbook: event.target.checked})} />} label="This is a reference book or textbook" />
+                  </FormGroup>
+                </FormControl>
+                <div className={classes.submitButtonContainer}>
+                  <Button variant="contained" color="primary">Add Book</Button>
                 </div>
-              )
-            })}
+              </>
+            }
           </Paper>
         </Grid>
 
-        <Grid item xs={12} sm={7}>
+        <Grid item xs={12} sm={12} md={6} lg={7}>
           <SearchBar
             placeholderText="Search Google Books"
             onChange={(event) => setSearchTerm(event.target.value)}
@@ -239,7 +288,7 @@ export default function New() {
           />
           <div>
             {isSearching && <Message variant={"loading"} message={"Searching Google Books..."} />}
-            {isError && <Message variant={"warning"} message={"Error reaching Google Books"} />}
+            {isSearchError && <Message variant={"warning"} message={"Error reaching Google Books"} />}
             {!isSearching && searchResults && searchResults.map((result) => renderSearchResult(result))}
           </div>
         </Grid>
