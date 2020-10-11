@@ -49,9 +49,7 @@ module.exports = {
           .catch((err) => console.error(err))
       );
 
-      const authorsArr = bookObj.authors.map((author) => {
-        return { name: author.name };
-      });
+      const authorsArr = bookObj.authors.map((name) => { return {name}})
 
       promises.push(knex('authors').insert(authorsArr).returning('id'));
 

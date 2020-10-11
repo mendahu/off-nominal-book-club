@@ -13,8 +13,6 @@ import generateAuthorString from '../../src/helpers/generateAuthorString';
 import Router from 'next/router';
 import urlGenerator from '../../src/helpers/urlGenerator';
 
-// import ConfirmResults from '../../src/components/New/ConfirmResults';
-
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
@@ -306,35 +304,6 @@ export default function New() {
           </div>
         </Grid>
       </Grid>
-      {/* {!loading &&
-        user?.isPatron &&
-        (isSearch ? (
-          <>
-            <SearchBar
-              results={searchResults}
-              setResults={handleResults}
-              searchTerm={searchTerm}
-              setTerm={handleSearchTerm}
-              onClick={redirectToCom}
-            />
-            <SearchResultsList
-              results={searchResults}
-              selectBook={selectBook}
-              buttonText={'Add Book'}
-              isSearch={isSearch}
-            />
-          </>
-        ) : (
-          <>
-            <ConfirmResults book={bookObj} onClick={addBook} back={toSearch} />
-            <SearchResultsList
-              results={searchResults}
-              redirectToBook={redirectToBook}
-              buttonText={'Go to Book'}
-              isSearch={isSearch}
-            />
-          </>
-        ))} */}
     </Layout>
   );
 }
