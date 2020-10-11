@@ -8,12 +8,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
 import { useDebounce } from '../../src/hooks/useDebounce'
 import SearchResult from '../../src/components/New/SearchResult'
-import { getAuthorString, getThumbnail, getPublishedYear, getDescription, getTitle, getGoogleId, getIsbn13 } from '../../src/components/New/utils/newUtils'
+import { getAuthorString, getThumbnail, getPublishedYear, getDescription, getTitle, getGoogleId, getIsbn13, getAuthors } from '../../src/components/New/utils/newUtils'
 import generateAuthorString from '../../src/helpers/generateAuthorString';
+import Router from 'next/router';
+import urlGenerator from '../../src/helpers/urlGenerator';
 
 // import ConfirmResults from '../../src/components/New/ConfirmResults';
-// import Router from 'next/router';
-// import urlGenerator from '../../src/helpers/urlGenerator';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,7 +58,10 @@ export default function New() {
   const [isMatching, setIsMatching] = useState(false)
   const [isMatchError, setIsMatchError] = useState(false)
   const [matchedResults, setMatchedResults] = useState(null)
+
   const [newBookMetaData, setNewBookMetaData] = useState({fiction: false, textbook: false})
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitError, setIsSubmitError] = useState(false)
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
@@ -111,6 +114,37 @@ export default function New() {
       behavior: "smooth"
     })
     setCurrentSelection(book)
+  }
+
+  const submitBook = (book) => {
+    setIsSubmitting(true)
+    setIsSubmitError(false)
+
+    const newBook = {
+      book: {
+        user_id: user.onbc_id,
+        title: getTitle(book),
+        description: getDescription(book),
+        fiction: newBookMetaData.fiction,
+        textbook: newBookMetaData.textbook,
+        year: getPublishedYear(book),
+        image_url: getThumbnail(book),
+        google_id: getGoogleId(book),
+        isbn13: getIsbn13(book),
+      },
+      authors: getAuthors(book),
+    };
+
+    axios.post(`/api/books/new`, newBook)
+      .then(res => {
+        Router.push(urlGenerator(res.data[0], getAuthorString(newBook), getTitle(book)));
+      })
+      .catch(err => {
+        setIsSubmitError(true)
+      })
+      .finally(() => {
+        setIsSubmitting(false)
+      })
   }
 
   // const [isSearch, setIsSearch] = useState(true);
@@ -180,27 +214,6 @@ export default function New() {
   //   // setBookObj to formatted book
   //   setBookObj(selectedBook);
 
-  //   // check if book exists in database
-  //   const dbResults = await axios.get(
-  //     `/api/books/new?googleid=${selectedBook.book.google_id}&isbn13=${selectedBook.book.isbn13}&title=${selectedBook.book.title}`
-  //   );
-
-  //   // if book has hits in db, set is search to false, and set search results to db hits
-  //   if (dbResults.data.length > 0) {
-  //     setIsSearch(false);
-  //     setSearchResults(dbResults.data);
-
-  //     // if no hits, add book to database and redirect to book
-  //   } else {
-  //     addBook(selectedBook);
-  //   }
-  // }
-
-  // function toSearch() {
-  //   setSearchResults([]);
-  //   setIsSearch(true);
-  // }
-
   const renderLoadingMessage = (variant, message: string) => {
     return (
       <Layout>
@@ -254,7 +267,7 @@ export default function New() {
                           <Typography component="h4" variant="subtitle1">{generateAuthorString(match.authors)}</Typography>
                         </div>
                         <div>
-                          <Button variant="contained" color="primary" href={`/books/${match.id}`}>Take me there!</Button>
+                          <Button variant="contained" color="primary" href={urlGenerator(match.id, generateAuthorString(match.authors), match.title)}>Take me there!</Button>
                         </div>
                       </div>
                     )
@@ -273,7 +286,7 @@ export default function New() {
                   </FormGroup>
                 </FormControl>
                 <div className={classes.submitButtonContainer}>
-                  <Button variant="contained" color="primary">Add Book</Button>
+                  <Button variant="contained" color="primary" onClick={() => submitBook(currentSelection)}>Add Book</Button>
                 </div>
               </>
             }

@@ -2,6 +2,8 @@ export const getThumbnail = (book): string => book.volumeInfo.imageLinks?.thumbn
 
 export const getAuthorString = (book): string => book.volumeInfo.authors?.join(', ') || "No author";
 
+export const getAuthors = (book): string[] => book.volumeInfo.authors || [];
+
 export const getPublishedYear = (book): number | string => {
   const { volumeInfo: { publishedDate }} = book;
   return publishedDate ? new Date(publishedDate).getFullYear() : "No publication date"
