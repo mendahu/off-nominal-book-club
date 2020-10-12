@@ -3,12 +3,31 @@ import axios from 'axios';
 import { useFetchUser } from '../../lib/user';
 import Layout from '../../src/components/DefaultLayout';
 import Message from '../../src/components/Utility/Message';
-import { Paper, Grid, Typography, Button, FormControl, FormControlLabel, FormLabel, Checkbox, FormGroup } from '@material-ui/core';
+import {
+  Paper,
+  Grid,
+  Typography,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Checkbox,
+  FormGroup,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
-import { useDebounce } from '../../src/hooks/useDebounce'
-import SearchResult from '../../src/components/New/SearchResult'
-import { getAuthorString, getThumbnail, getPublishedYear, getDescription, getTitle, getGoogleId, getIsbn13, getAuthors } from '../../src/components/New/utils/newUtils'
+import { useDebounce } from '../../src/hooks/useDebounce';
+import SearchResult from '../../src/components/New/SearchResult';
+import {
+  getAuthorString,
+  getThumbnail,
+  getPublishedYear,
+  getDescription,
+  getTitle,
+  getGoogleId,
+  getIsbn13,
+  getAuthors,
+} from '../../src/components/New/utils/newUtils';
 import generateAuthorString from '../../src/helpers/generateAuthorString';
 import Router from 'next/router';
 import urlGenerator from '../../src/helpers/urlGenerator';
@@ -24,22 +43,22 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    alignItems: 'center'
+    alignItems: 'center',
   },
   smallThumb: {
-    width: "60px"
+    width: '60px',
   },
   matchedSelectionInfoBox: {
     marginLeft: theme.spacing(1),
     flexGrow: 1,
   },
   metaDataContainer: {
-    width: "100%"
+    width: '100%',
   },
   submitButtonContainer: {
     display: 'flex',
-    justifyContent: 'flex-end'
-  }
+    justifyContent: 'flex-end',
+  },
 }));
 
 export default function New() {
@@ -47,77 +66,90 @@ export default function New() {
 
   const { user, loading } = useFetchUser();
 
-  const [isSearching, setIsSearching] = useState(false)
-  const [isSearchError, setIsSearchError] = useState(false)
+  const [isSearching, setIsSearching] = useState(false);
+  const [isSearchError, setIsSearchError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const [currentSelection, setCurrentSelection] = useState(null)
-  const [isMatching, setIsMatching] = useState(false)
-  const [isMatchError, setIsMatchError] = useState(false)
-  const [matchedResults, setMatchedResults] = useState(null)
+  const [currentSelection, setCurrentSelection] = useState(null);
+  const [isMatching, setIsMatching] = useState(false);
+  const [isMatchError, setIsMatchError] = useState(false);
+  const [matchedResults, setMatchedResults] = useState(null);
 
-  const [newBookMetaData, setNewBookMetaData] = useState({fiction: false, textbook: false})
+  const [newBookMetaData, setNewBookMetaData] = useState({
+    fiction: false,
+    textbook: false,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false)
-  const [isSubmitError, setIsSubmitError] = useState(false)
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isSubmitError, setIsSubmitError] = useState(false);
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const fetchGoogleResults = (searchTerm: string): Promise<any[] | undefined> => {
-    setIsSearchError(false)
-    return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`)
+  const fetchGoogleResults = (
+    searchTerm: string
+  ): Promise<any[] | undefined> => {
+    setIsSearchError(false);
+    return axios
+      .get(
+        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`
+      )
       .then((results) => results.data.items)
       .catch(() => {
-        setIsSearchError(true)
-        return []
-      })
+        setIsSearchError(true);
+        return [];
+      });
   };
 
   useEffect(() => {
     if (debouncedSearchTerm) {
       setIsSearching(true);
-      fetchGoogleResults(debouncedSearchTerm).then(results => {
+      fetchGoogleResults(debouncedSearchTerm).then((results) => {
         setIsSearching(false);
         setSearchResults(results);
       });
     } else {
       setSearchResults([]);
     }
-  }, [debouncedSearchTerm])
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     if (currentSelection) {
-      setMatchedResults(null)
-      setIsMatching(true)
-      setIsMatchError(false)
-      axios.get(
-        `/api/books/new?googleid=${getGoogleId(currentSelection)}&isbn13=${getIsbn13(currentSelection)}&title=${getTitle(currentSelection)}`
-      )
-        .then(({data}) => {
-          setMatchedResults(data.length ? data : null)
+      setMatchedResults(null);
+      setIsMatching(true);
+      setIsMatchError(false);
+      axios
+        .get(
+          `/api/books/new?googleid=${getGoogleId(
+            currentSelection
+          )}&isbn13=${getIsbn13(currentSelection)}&title=${getTitle(
+            currentSelection
+          )}`
+        )
+        .then(({ data }) => {
+          setMatchedResults(data.length ? data : null);
         })
         .catch(() => {
-          setIsMatchError(true)
+          setIsMatchError(true);
         })
         .finally(() => {
-          setIsMatching(false)
-        })
+          setIsMatching(false);
+        });
     }
-  }, [currentSelection])
+  }, [currentSelection]);
 
   const selectBook = (book) => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth"
-    })
-    setCurrentSelection(book)
-  }
+      behavior: 'smooth',
+    });
+    setCurrentSelection(book);
+  };
 
   const submitBook = async (book) => {
-    setIsSubmitting(true)
-    setIsSubmitError(false)
+    setIsSubmitting(true);
+    setIsSubmitError(false);
 
     const newBook = {
       book: {
@@ -134,39 +166,47 @@ export default function New() {
       authors: getAuthors(book),
     };
 
+    let response;
+
     try {
-      const response = await axios.post(`/api/books/new`, newBook)
-      console.log(urlGenerator(response[0], getAuthorString(newBook), getTitle(book)))
-      setIsRedirecting(true)
-      Router.push(urlGenerator(response[0], getAuthorString(newBook), getTitle(book)));
-    } catch(error) {
-      setIsSubmitError(true)
+      response = await axios.post(`/api/books/new`, newBook);
+    } catch (error) {
+      console.log('hit catch');
+      setIsSubmitError(true);
       setTimeout(() => {
-        setIsRedirecting(true)
+        setIsRedirecting(true);
         Router.push('/books/new');
-      }, 2000)
+      }, 2000);
     }
 
+    setIsRedirecting(true);
+    Router.push(
+      urlGenerator(response.data[0], getAuthorString(book), getTitle(book))
+    );
+
     if (isRedirecting) {
-      setIsRedirecting(false)
+      setIsRedirecting(false);
     }
-    setIsSubmitting(false)
-  }
+    setIsSubmitting(false);
+  };
 
   const renderLoadingMessage = (variant, message: string) => {
     return (
       <Layout>
         <Message variant={variant} message={message} />
       </Layout>
-    )
-  }
+    );
+  };
 
   if (loading) {
-    renderLoadingMessage("loading", "Validating credentials...");
+    renderLoadingMessage('loading', 'Validating credentials...');
   }
-  
+
   if ((!user && !loading) || (!user?.isPatron && !loading)) {
-    renderLoadingMessage("warning", "You must be logged in and a Patron to add books.");
+    renderLoadingMessage(
+      'warning',
+      'You must be logged in and a Patron to add books.'
+    );
   }
 
   const renderSearchResult = (book) => {
@@ -178,57 +218,127 @@ export default function New() {
         authors={getAuthorString(book)}
         year={getPublishedYear(book)}
         description={getDescription(book)}
-        clickHandler={() => selectBook(book)} />
-    )
-  }
+        clickHandler={() => selectBook(book)}
+      />
+    );
+  };
 
   return (
     <Layout>
       <Grid container spacing={2} className={classes.container}>
         <Grid item xs={12} sm={12} md={6} lg={5}>
           <Paper className={classes.item}>
-            <Typography component="h1" variant="h6">{currentSelection ? `Adding ${currentSelection.volumeInfo.title}...` : "Search for your book below"}</Typography>
+            <Typography component="h1" variant="h6">
+              {currentSelection
+                ? `Adding ${currentSelection.volumeInfo.title}...`
+                : 'Help grow the Off-Nominal Book Club'}
+            </Typography>
             <hr />
-            {isMatching && <p>{"Validating your result"}</p>}
-            {isMatchError && <Message variant="warning" message={"Error checking the book club database"} />}
-            {matchedResults && 
+            <Typography component="p" variant="subtitle1">
+              Search Google Books for great space books that should be in our
+              collection.
+            </Typography>
+            {isMatching && <p>{'Validating your result'}</p>}
+            {isMatchError && (
+              <Message
+                variant="warning"
+                message={'Error checking the book club database'}
+              />
+            )}
+            {matchedResults && (
               <>
-                <Typography component="h2" variant="subtitle1">{"Your book may already be in the book club..."}</Typography>
+                <Typography component="h2" variant="subtitle1">
+                  {'Your book may already be in the book club...'}
+                </Typography>
                 {matchedResults.map((match, index) => {
-                  if (index < 3 ) {
+                  if (index < 3) {
                     return (
                       <div className={classes.matchedSelection} key={index}>
                         <div>
-                          <img src={match.image_url} className={classes.smallThumb}/>
+                          <img
+                            src={match.image_url}
+                            className={classes.smallThumb}
+                          />
                         </div>
                         <div className={classes.matchedSelectionInfoBox}>
-                          <Typography component="h3" variant="h6">{match.title}</Typography>
-                          <Typography component="h4" variant="subtitle1">{generateAuthorString(match.authors)}</Typography>
+                          <Typography component="h3" variant="h6">
+                            {match.title}
+                          </Typography>
+                          <Typography component="h4" variant="subtitle1">
+                            {generateAuthorString(match.authors)}
+                          </Typography>
                         </div>
                         <div>
-                          <Button variant="contained" color="primary" href={urlGenerator(match.id, generateAuthorString(match.authors), match.title)}>Take me there!</Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            href={urlGenerator(
+                              match.id,
+                              generateAuthorString(match.authors),
+                              match.title
+                            )}
+                          >
+                            Take me there!
+                          </Button>
                         </div>
                       </div>
-                    )
+                    );
                   }
                 })}
                 <hr />
               </>
-            }
-            {!isMatching && currentSelection &&
+            )}
+            {!isMatching && currentSelection && (
               <>
-                <FormControl component="fieldset" className={classes.metaDataContainer}>
-                  <FormLabel component="legend">Tell us about this book</FormLabel>
+                <FormControl
+                  component="fieldset"
+                  className={classes.metaDataContainer}
+                >
+                  <FormLabel component="legend">
+                    Tell us about this book
+                  </FormLabel>
                   <FormGroup>
-                    <FormControlLabel control={<Checkbox checked={newBookMetaData.fiction} onChange={(event) => setNewBookMetaData({...newBookMetaData, fiction: event.target.checked})} />} label="This book is fiction" />
-                    <FormControlLabel control={<Checkbox checked={newBookMetaData.textbook} onChange={(event) => setNewBookMetaData({...newBookMetaData, textbook: event.target.checked})} />} label="This is a reference book or textbook" />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={newBookMetaData.fiction}
+                          onChange={(event) =>
+                            setNewBookMetaData({
+                              ...newBookMetaData,
+                              fiction: event.target.checked,
+                            })
+                          }
+                        />
+                      }
+                      label="This book is fiction"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={newBookMetaData.textbook}
+                          onChange={(event) =>
+                            setNewBookMetaData({
+                              ...newBookMetaData,
+                              textbook: event.target.checked,
+                            })
+                          }
+                        />
+                      }
+                      label="This is a reference book or textbook"
+                    />
                   </FormGroup>
                 </FormControl>
                 <div className={classes.submitButtonContainer}>
-                  <Button variant="contained" color="primary" onClick={() => submitBook(currentSelection)}>Add Book</Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => submitBook(currentSelection)}
+                  >
+                    Add Book
+                  </Button>
                 </div>
               </>
-            }
+            )}
           </Paper>
         </Grid>
 
@@ -239,9 +349,21 @@ export default function New() {
             text={searchTerm}
           />
           <div>
-            {isSearching && <Message variant={"loading"} message={"Searching Google Books..."} />}
-            {isSearchError && <Message variant={"warning"} message={"Error reaching Google Books"} />}
-            {!isSearching && searchResults && searchResults.map((result) => renderSearchResult(result))}
+            {isSearching && (
+              <Message
+                variant={'loading'}
+                message={'Searching Google Books...'}
+              />
+            )}
+            {isSearchError && (
+              <Message
+                variant={'warning'}
+                message={'Error reaching Google Books'}
+              />
+            )}
+            {!isSearching &&
+              searchResults &&
+              searchResults.map((result) => renderSearchResult(result))}
           </div>
         </Grid>
       </Grid>
