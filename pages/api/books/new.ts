@@ -1,58 +1,78 @@
-const queries = require('../../../db/queries/books')
-import auth0 from '../../../lib/auth0'
-import userProfileFetcher from '../../../src/helpers/userProfileFetcher'
-import { NextApiRequest, NextApiResponse } from 'next'
+const queries = require('../../../db/queries/books');
+import auth0 from '../../../lib/auth0';
+import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { DisplayUser } from '../../../src/types/common';
 
 export const newBook = async (req: NextApiRequest, res: NextApiResponse) => {
+  // verify Patreon status
 
-  const userProfile = await userProfileFetcher(req)
-  if (!userProfile.isPatron) {
-    return res.status(403).end(JSON.stringify({error: "not_authenticated", message: "Access restricted to logged in patrons only."}))
+  let userProfile: DisplayUser;
+
+  try {
+    userProfile = await userProfileFetcher(req);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Server error',
+      message: 'Something went wrong authenticating your request.',
+    });
   }
 
-  const { method  } = req
-  let bookObj = {}
-  
+  if (!userProfile.isPatron) {
+    return res.status(403).json({
+      error: 'Not Authenticated',
+      message: 'Access restricted to logged in patrons only.',
+    });
+  }
+
+  const { method } = req;
+  let bookObj = {};
+
   switch (method) {
-    case 'GET' : 
-    
-      bookObj = {
-        google_id: req.query.googleid || null,
-        isbn13: req.query.isbn13 || null,
-        title: req.query.title || null,
+    case 'GET':
+      if (!req.query) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message:
+            'You are missing required query string parameters for this request',
+        });
       }
 
-      return queries
-        .books
-        .confirm(bookObj)
-        .then((results) => {
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json')
-          return res.end(JSON.stringify(results))
-        })
-        .catch(err => console.error(err))
+      const { query } = req;
+
+      bookObj = {
+        google_id: query.googleid || null,
+        isbn13: query.isbn13 || null,
+        title: query.title || null,
+      };
+
+      try {
+        const response = await queries.books.confirm(bookObj);
+        return res.status(200).json(response);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
 
     case 'POST':
-      
-      bookObj =  req.body
-       
-      return queries
-        .books
-        .add(bookObj)
-        .then((results) => {
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json')
-          return res.end(JSON.stringify(results))
-        })
-        .catch(err => console.error(err))
+      if (!req.body) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'You are missing required body for this request',
+        });
+      }
 
-      default:
-        res.setHeader('Allow', ['GET', 'POST'])
-        res.status(405).end(`Method ${method} Not Allowed`)
-        return res.redirect('/')
+      bookObj = req.body;
+
+      try {
+        const response = await queries.books.add(bookObj);
+        return res.status(200).json(response);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
+
+    default:
+      return res.status(405).json({ error: `Method ${method} Not Allowed` });
   }
 };
 
-export default auth0.requireAuthentication((req, res) => {
-  return newBook(req, res);
-});
+export default auth0.requireAuthentication((req, res) => newBook(req, res));
