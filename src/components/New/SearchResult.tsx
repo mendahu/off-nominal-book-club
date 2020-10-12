@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
   selectButton: {
     marginRight: theme.spacing(2),
   },
+  imgSize: {
+    width: '128px',
+  },
 }));
 
 const SearchResult = ({
@@ -69,7 +72,7 @@ const SearchResult = ({
   return (
     <Paper className={clsx(classes.container, classes.flexContainer)}>
       <div>
-        <img src={cover} />
+        <img src={cover} className={classes.imgSize} />
       </div>
       <div className={classes.infoBox}>
         <Typography component="h2" variant="h5">
