@@ -18,6 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
 import { useDebounce } from '../../src/hooks/useDebounce';
 import SearchResult from '../../src/components/New/SearchResult';
+import SmallListItem from '../../src/components/New/SmallListItem';
 import {
   getAuthorString,
   getThumbnail,
@@ -31,26 +32,21 @@ import {
 import generateAuthorString from '../../src/helpers/generateAuthorString';
 import Router from 'next/router';
 import urlGenerator from '../../src/helpers/urlGenerator';
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+import clsx from 'clsx';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+import SnackbarContext from '../../src/contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
   },
+  selectedContainer: {
+    marginBottom: theme.spacing(2),
+  },
   item: {
     padding: theme.spacing(2),
-  },
-  matchedSelection: {
-    display: 'flex',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    alignItems: 'center',
-  },
-  smallThumb: {
-    width: '60px',
-  },
-  matchedSelectionInfoBox: {
-    marginLeft: theme.spacing(1),
-    flexGrow: 1,
   },
   metaDataContainer: {
     width: '100%',
@@ -59,12 +55,17 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  flexContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 export default function New() {
   const classes = useStyles();
 
   const { user, loading } = useFetchUser();
+  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
   const [isSearching, setIsSearching] = useState(false);
   const [isSearchError, setIsSearchError] = useState(false);
@@ -82,7 +83,6 @@ export default function New() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [isSubmitError, setIsSubmitError] = useState(false);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -149,7 +149,6 @@ export default function New() {
 
   const submitBook = async (book) => {
     setIsSubmitting(true);
-    setIsSubmitError(false);
 
     const newBook = {
       book: {
@@ -170,24 +169,20 @@ export default function New() {
 
     try {
       response = await axios.post(`/api/books/new`, newBook);
+      setIsSubmitting(false);
+      setIsRedirecting(true);
+      Router.push(
+        urlGenerator(response.data[0], getAuthorString(book), getTitle(book))
+      );
     } catch (error) {
-      console.log('hit catch');
-      setIsSubmitError(true);
-      setTimeout(() => {
-        setIsRedirecting(true);
-        Router.push('/books/new');
-      }, 2000);
+      setIsSubmitting(false);
+      triggerSnackbar({
+        active: true,
+        message:
+          'Something went wrong adding your book. Please try again later.',
+        severity: 'error',
+      });
     }
-
-    setIsRedirecting(true);
-    Router.push(
-      urlGenerator(response.data[0], getAuthorString(book), getTitle(book))
-    );
-
-    if (isRedirecting) {
-      setIsRedirecting(false);
-    }
-    setIsSubmitting(false);
   };
 
   const renderLoadingMessage = (variant, message: string) => {
@@ -225,148 +220,162 @@ export default function New() {
 
   return (
     <Layout>
-      <Grid container spacing={2} className={classes.container}>
-        <Grid item xs={12} sm={12} md={6} lg={5}>
-          <Paper className={classes.item}>
-            <Typography component="h1" variant="h6">
-              {currentSelection
-                ? `Adding ${currentSelection.volumeInfo.title}...`
-                : 'Help grow the Off-Nominal Book Club'}
-            </Typography>
-            <hr />
-            <Typography component="p" variant="subtitle1">
-              Search Google Books for great space books that should be in our
-              collection.
-            </Typography>
-            {isMatching && <p>{'Validating your result'}</p>}
-            {isMatchError && (
-              <Message
-                variant="warning"
-                message={'Error checking the book club database'}
-              />
-            )}
-            {matchedResults && (
-              <>
-                <Typography component="h2" variant="subtitle1">
-                  {'Your book may already be in the book club...'}
+      <SnackbarContext.Provider value={triggerSnackbar}>
+        <Grid container spacing={2} className={classes.container}>
+          <Grid item xs={12} sm={12} md={6} lg={5}>
+            {currentSelection && (
+              <Paper className={clsx(classes.item, classes.selectedContainer)}>
+                <Typography component="h1" variant="h6">
+                  Adding...
                 </Typography>
-                {matchedResults.map((match, index) => {
-                  if (index < 3) {
-                    return (
-                      <div className={classes.matchedSelection} key={index}>
-                        <div>
-                          <img
-                            src={match.image_url}
-                            className={classes.smallThumb}
-                          />
-                        </div>
-                        <div className={classes.matchedSelectionInfoBox}>
-                          <Typography component="h3" variant="h6">
-                            {match.title}
-                          </Typography>
-                          <Typography component="h4" variant="subtitle1">
-                            {generateAuthorString(match.authors)}
-                          </Typography>
-                        </div>
-                        <div>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            href={urlGenerator(
-                              match.id,
-                              generateAuthorString(match.authors),
-                              match.title
-                            )}
-                          >
-                            Take me there!
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
-                <hr />
-              </>
+                <SmallListItem
+                  imageUrl={getThumbnail(currentSelection)}
+                  title={getTitle(currentSelection)}
+                  authorString={getAuthorString(currentSelection)}
+                />
+              </Paper>
             )}
-            {!isMatching && currentSelection && (
-              <>
-                <FormControl
-                  component="fieldset"
-                  className={classes.metaDataContainer}
-                >
-                  <FormLabel component="legend">
-                    Tell us about this book
-                  </FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={newBookMetaData.fiction}
-                          onChange={(event) =>
-                            setNewBookMetaData({
-                              ...newBookMetaData,
-                              fiction: event.target.checked,
-                            })
-                          }
-                        />
-                      }
-                      label="This book is fiction"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={newBookMetaData.textbook}
-                          onChange={(event) =>
-                            setNewBookMetaData({
-                              ...newBookMetaData,
-                              textbook: event.target.checked,
-                            })
-                          }
-                        />
-                      }
-                      label="This is a reference book or textbook"
-                    />
-                  </FormGroup>
-                </FormControl>
-                <div className={classes.submitButtonContainer}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => submitBook(currentSelection)}
-                  >
-                    Add Book
-                  </Button>
-                </div>
-              </>
-            )}
-          </Paper>
-        </Grid>
+            <Paper className={clsx(classes.item)}>
+              {!currentSelection && (
+                <>
+                  <Typography component="h1" variant="h6">
+                    Help grow the Off-Nominal Book Club
+                  </Typography>
+                  <hr />
+                </>
+              )}
+              {!currentSelection && (
+                <Typography component="p" variant="subtitle1">
+                  Search Google Books for great space books that should be in
+                  our collection.
+                </Typography>
+              )}
+              {isMatching && (
+                <p>{'Checking our database if this book already exists...'}</p>
+              )}
+              {isMatchError && (
+                <Message
+                  variant="warning"
+                  message={'Error checking the book club database'}
+                />
+              )}
+              {matchedResults && (
+                <>
+                  <div className={classes.flexContainer}>
+                    <WarningRoundedIcon />
+                    <Typography component="h2" variant="h6">
+                      {'Your book may already be in the book club...'}
+                    </Typography>
+                  </div>
 
-        <Grid item xs={12} sm={12} md={6} lg={7}>
-          <SearchBar
-            placeholderText="Search Google Books"
-            onChange={(event) => setSearchTerm(event.target.value)}
-            text={searchTerm}
-          />
-          <div>
-            {isSearching && (
-              <Message
-                variant={'loading'}
-                message={'Searching Google Books...'}
-              />
-            )}
-            {isSearchError && (
-              <Message
-                variant={'warning'}
-                message={'Error reaching Google Books'}
-              />
-            )}
-            {!isSearching &&
-              searchResults &&
-              searchResults.map((result) => renderSearchResult(result))}
-          </div>
+                  {matchedResults.map((match, index) => {
+                    if (index < 3) {
+                      return (
+                        <SmallListItem
+                          key={index}
+                          imageUrl={match.image_url}
+                          title={match.title}
+                          authorString={generateAuthorString(match.authors)}
+                          button={{ id: match.id }}
+                        />
+                      );
+                    }
+                  })}
+                  <hr />
+                </>
+              )}
+              {!isMatching && currentSelection && (
+                <>
+                  {matchedResults && (
+                    <Typography component="h1" variant="h6" paragraph>
+                      Nope, the book I have is new.
+                    </Typography>
+                  )}
+                  <FormControl
+                    component="fieldset"
+                    className={classes.metaDataContainer}
+                  >
+                    <FormLabel component="legend">
+                      Great! We just need a little more info before we add the
+                      book!
+                    </FormLabel>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={newBookMetaData.fiction}
+                            onChange={(event) =>
+                              setNewBookMetaData({
+                                ...newBookMetaData,
+                                fiction: event.target.checked,
+                              })
+                            }
+                          />
+                        }
+                        label="This book is fiction"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={newBookMetaData.textbook}
+                            onChange={(event) =>
+                              setNewBookMetaData({
+                                ...newBookMetaData,
+                                textbook: event.target.checked,
+                              })
+                            }
+                          />
+                        }
+                        label="This is a reference book or textbook"
+                      />
+                    </FormGroup>
+                  </FormControl>
+                  <div className={classes.submitButtonContainer}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => submitBook(currentSelection)}
+                      endIcon={
+                        (isSubmitting || isRedirecting) && <CircularProgress />
+                      }
+                    >
+                      {isSubmitting && 'Submitting...'}
+                      {isRedirecting && 'Redirecting...'}
+                      {!(isSubmitting || isRedirecting) && 'Add book'}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={6} lg={7}>
+            <SearchBar
+              placeholderText="Search Google Books"
+              onChange={(event) => setSearchTerm(event.target.value)}
+              text={searchTerm}
+            />
+            <div>
+              {isSearching && (
+                <Message
+                  variant={'loading'}
+                  message={'Searching Google Books...'}
+                />
+              )}
+              {isSearchError && (
+                <Message
+                  variant={'warning'}
+                  message={'Error reaching Google Books'}
+                />
+              )}
+              {!isSearching &&
+                searchResults &&
+                searchResults.map((result) => renderSearchResult(result))}
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
+        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
+      </SnackbarContext.Provider>
     </Layout>
   );
 }

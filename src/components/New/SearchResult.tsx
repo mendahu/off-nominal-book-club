@@ -20,14 +20,20 @@ type SearchResultsProps = {
 };
 
 const useStyles = makeStyles((theme) => ({
+  flexContainer: {
+    display: 'flex',
+  },
+  flexEnd: {
+    justifyContent: 'flex-end',
+  },
   container: {
     marginTop: theme.spacing(2),
-    display: 'flex',
   },
   infoBox: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
     marginLeft: theme.spacing(2),
+    flexGrow: 1,
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -41,8 +47,10 @@ const useStyles = makeStyles((theme) => ({
   },
   descriptionContainer: {
     paddingRight: theme.spacing(1),
-    display: 'flex',
     alignItems: 'flex-start',
+  },
+  selectButton: {
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -59,7 +67,7 @@ const SearchResult = ({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Paper className={classes.container}>
+    <Paper className={clsx(classes.container, classes.flexContainer)}>
       <div>
         <img src={cover} />
       </div>
@@ -70,7 +78,9 @@ const SearchResult = ({
         <Typography component="h3" variant="subtitle2" paragraph>
           {authors} - {year}
         </Typography>
-        <div className={classes.descriptionContainer}>
+        <div
+          className={clsx(classes.flexContainer, classes.descriptionContainer)}
+        >
           <Collapse in={!expanded} timeout={0} unmountOnExit>
             <Typography paragraph color="textSecondary">
               {description?.slice(0, 100) + '...'}
@@ -93,9 +103,16 @@ const SearchResult = ({
             <ExpandMoreIcon />
           </IconButton>
         </div>
-        <Button variant="contained" color="primary" onClick={clickHandler}>
-          Add to Book Club
-        </Button>
+        <div className={clsx(classes.flexEnd, classes.flexContainer)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={clickHandler}
+            className={classes.selectButton}
+          >
+            Select Book
+          </Button>
+        </div>
       </div>
     </Paper>
   );
