@@ -1,17 +1,20 @@
 const queries = require('../../../db/queries/books')
 import auth0 from '../../../lib/auth0'
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export default auth0.requireAuthentication(async (req, res) => {
+export const newBook = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const userProfile = await userProfileFetcher(req)
-  if (!userProfile.isPatron) return res.status(403).end(JSON.stringify({error: "not_authenticated", message: "Access restricted to logged in patrons only."}))
+  if (!userProfile.isPatron) {
+    return res.status(403).end(JSON.stringify({error: "not_authenticated", message: "Access restricted to logged in patrons only."}))
+  }
 
-  const { method } = req
+  const { method  } = req
   let bookObj = {}
   
   switch (method) {
-    case 'GET' :
+    case 'GET' : 
     
       bookObj = {
         google_id: req.query.googleid || null,
@@ -31,7 +34,7 @@ export default auth0.requireAuthentication(async (req, res) => {
 
     case 'POST':
       
-      bookObj = req.body
+      bookObj =  req.body
        
       return queries
         .books
@@ -48,4 +51,8 @@ export default auth0.requireAuthentication(async (req, res) => {
         res.status(405).end(`Method ${method} Not Allowed`)
         return res.redirect('/')
   }
+};
+
+export default auth0.requireAuthentication((req, res) => {
+  return newBook(req, res);
 });

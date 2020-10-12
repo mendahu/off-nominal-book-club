@@ -17,5 +17,6 @@ export const getGoogleId = (book): string => book.id
 
 export const getIsbn13 = (book): string | undefined => {
   const { industryIdentifiers } = book.volumeInfo
-  return industryIdentifiers && industryIdentifiers.find((identifier) => identifier.type === "ISBN_13")
+  const identifier = industryIdentifiers && industryIdentifiers.find((identifier) => identifier.type === "ISBN_13")
+  return identifier ? identifier.identifier : undefined
 }

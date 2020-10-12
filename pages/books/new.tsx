@@ -136,8 +136,9 @@ export default function New() {
 
     try {
       const response = await axios.post(`/api/books/new`, newBook)
+      console.log(urlGenerator(response[0], getAuthorString(newBook), getTitle(book)))
       setIsRedirecting(true)
-      Router.push(urlGenerator(response.data[0], getAuthorString(newBook), getTitle(book)));
+      Router.push(urlGenerator(response[0], getAuthorString(newBook), getTitle(book)));
     } catch(error) {
       setIsSubmitError(true)
       setTimeout(() => {
