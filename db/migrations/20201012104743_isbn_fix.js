@@ -1,5 +1,5 @@
 const axios = require('axios')
-const newIsbns = require('../../newIsbnData.json')
+const newIsbns = require('../migration_scripts/newIsbnData.json')
 
 exports.up = function(knex) {
   return knex.schema.alterTable('books', (table) => {
