@@ -26,6 +26,7 @@ import {
   getDescription,
   getTitle,
   getGoogleId,
+  getIsbn10,
   getIsbn13,
   getAuthors,
 } from '../../src/components/New/utils/newUtils';
@@ -58,6 +59,13 @@ const useStyles = makeStyles((theme) => ({
   flexContainer: {
     display: 'flex',
     alignItems: 'center',
+  },
+  warningIcon: {
+    marginRight: theme.spacing(1),
+    height: '100%',
+  },
+  formLegend: {
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -122,9 +130,9 @@ export default function New() {
         .get(
           `/api/books/new?googleid=${getGoogleId(
             currentSelection
-          )}&isbn13=${getIsbn13(currentSelection)}&title=${getTitle(
+          )}&isbn10=${getIsbn10(currentSelection)}&isbn13=${getIsbn13(
             currentSelection
-          )}`
+          )}&title=${getTitle(currentSelection)}`
         )
         .then(({ data }) => {
           setMatchedResults(data.length ? data : null);
@@ -251,7 +259,9 @@ export default function New() {
                 </Typography>
               )}
               {isMatching && (
-                <p>{'Checking our database if this book already exists...'}</p>
+                <Typography component="p" variant="subtitle1">
+                  {'Checking our database if this book already exists...'}
+                </Typography>
               )}
               {isMatchError && (
                 <Message
@@ -262,7 +272,7 @@ export default function New() {
               {matchedResults && (
                 <>
                   <div className={classes.flexContainer}>
-                    <WarningRoundedIcon />
+                    <WarningRoundedIcon className={classes.warningIcon} />
                     <Typography component="h2" variant="h6">
                       {'Your book may already be in the book club...'}
                     </Typography>
@@ -295,7 +305,10 @@ export default function New() {
                     component="fieldset"
                     className={classes.metaDataContainer}
                   >
-                    <FormLabel component="legend">
+                    <FormLabel
+                      component="legend"
+                      className={classes.formLegend}
+                    >
                       Great! We just need a little more info before we add the
                       book!
                     </FormLabel>
@@ -336,7 +349,9 @@ export default function New() {
                       color="primary"
                       onClick={() => submitBook(currentSelection)}
                       endIcon={
-                        (isSubmitting || isRedirecting) && <CircularProgress />
+                        (isSubmitting || isRedirecting) && (
+                          <CircularProgress color="white" size={25} />
+                        )
                       }
                     >
                       {isSubmitting && 'Submitting...'}
@@ -351,7 +366,7 @@ export default function New() {
 
           <Grid item xs={12} sm={12} md={6} lg={7}>
             <SearchBar
-              placeholderText="Search Google Books"
+              placeholderText="Search here"
               onChange={(event) => setSearchTerm(event.target.value)}
               text={searchTerm}
             />
