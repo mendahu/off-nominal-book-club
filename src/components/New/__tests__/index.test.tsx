@@ -1,10 +1,16 @@
-import { Button, Paper, Typography } from '@material-ui/core';
-import { shallow } from 'enzyme';
+import { Paper, Typography } from '@material-ui/core';
+import { mount, shallow } from 'enzyme';
 import New from '../../../../pages/books/new';
 import { useFetchUser } from '../../../../lib/user';
 import Message from '../../Utility/Message';
 import SearchBar from '../../SearchBar';
+import axios from 'axios';
+import mockGoogleResult from './mocks/mockGoogleResponse.json';
+import SearchResult from '../SearchResult';
+import { useDebounce } from '../../../hooks/useDebounce';
 jest.mock('../../../../lib/user');
+jest.mock('axios');
+jest.mock('../../../hooks/useDebounce');
 
 useFetchUser.mockImplementation(() => ({
   user: {
@@ -12,6 +18,8 @@ useFetchUser.mockImplementation(() => ({
   },
   loading: false,
 }));
+
+useDebounce.mockImplementation((term, delay) => term);
 
 describe('SearchResult should render without crashing', () => {
   it('should render an authenticating message if user is loading', () => {
@@ -50,15 +58,12 @@ describe('SearchResult should render without crashing', () => {
     expect(wrapper.find(SearchBar)).toHaveLength(1);
   });
 
-  // it('Should render no button if not passed in', () => {
-  //   const testData = { ...mockData };
-  //   const wrapper = shallow(<SmallListItem {...testData} />);
-  //   expect(wrapper.find(Button)).toHaveLength(0);
-  // });
-
-  // it('Should render a button if passed in', () => {
-  //   const testData = { ...mockData, button: mockButton };
-  //   const wrapper = shallow(<SmallListItem {...testData} />);
-  //   expect(wrapper.find(Button)).toHaveLength(1);
+  // it('should render search results when search bar changes and API call succeeds', () => {
+  //   axios.get.mockImplementationOnce(() => mockGoogleResult);
+  //   const wrapper = mount(<New />);
+  //   wrapper.find(SearchBar).simulate('change', { target: { value: 'Mars' } });
+  //   wrapper.setState({ searchTerm: 'Mars ' });
+  //   expect(axios.get).toHaveBeenCalledTimes(1);
+  //   //expect(wrapper.find(SearchResult)).toHaveLength(20);
   // });
 });

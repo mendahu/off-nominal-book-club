@@ -1,0 +1,1706 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 2089,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "w9JJAAAAMAAJ",
+      "etag": "1LVTHNbsLlQ",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/w9JJAAAAMAAJ",
+      "volumeInfo": {
+        "title": "Mars",
+        "authors": [
+          "Percival Lowell"
+        ],
+        "publishedDate": "1895",
+        "industryIdentifiers": [
+          {
+            "type": "OTHER",
+            "identifier": "UOM:39015035589889"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 228,
+        "printType": "BOOK",
+        "categories": [
+          "Mars (Planet)"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.1.1.0.full.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=w9JJAAAAMAAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=w9JJAAAAMAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=w9JJAAAAMAAJ&pg=PP1&dq=Mars&hl=&cd=1&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=w9JJAAAAMAAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=w9JJAAAAMAAJ"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FREE",
+        "isEbook": true,
+        "buyLink": "https://play.google.com/store/books/details?id=w9JJAAAAMAAJ&rdid=book-w9JJAAAAMAAJ&rdot=1&source=gbs_api"
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "ALL_PAGES",
+        "embeddable": true,
+        "publicDomain": true,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false,
+          "downloadLink": "http://books.google.ca/books/download/Mars.epub?id=w9JJAAAAMAAJ&hl=&output=epub&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "downloadLink": "http://books.google.ca/books/download/Mars.pdf?id=w9JJAAAAMAAJ&hl=&output=pdf&sig=ACfU3U3SHB_fOmCB_q0ZqSiNp0jKI9kROA&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=w9JJAAAAMAAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "FULL_PUBLIC_DOMAIN",
+        "quoteSharingAllowed": false
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "Y0-3B8x7R1gC",
+      "etag": "eUs7YxCSSTc",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/Y0-3B8x7R1gC",
+      "volumeInfo": {
+        "title": "Blue Mars",
+        "authors": [
+          "Kim Stanley Robinson"
+        ],
+        "publisher": "Spectra",
+        "publishedDate": "2003-05-27",
+        "description": "Winner of the Hugo Award for Best Novel • One of the most enthralling science fiction sagas ever written, Kim Stanley Robinson’s epic trilogy concludes with Blue Mars—a triumph of prodigious research and visionary storytelling. The red planet is no more. Now green and verdant, Mars has been dramatically altered from a desolate world into one where humans can flourish. The First Hundred settlers are being pulled into a fierce new struggle between the Reds, a group devoted to preserving Mars in its desert state, and the Green “terraformers.” Meanwhile, Earth is in peril. A great flood threatens an already overcrowded and polluted planet. With Mars the last hope for the human race, the inhabitants of the red planet are heading toward a population explosion—or interplanetary war. Praise for Blue Mars “A breakthrough even from [Robinson’s] own consistently high levels of achievement.”—The New York Times Book Review “Exhilarating . . . a complex and deeply engaging dramatization of humanity’s future.”—The Philadelphia Inquirer “[Blue Mars] brings the epic to a rousing conclusion.”—San Francisco Chronicle",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780553898293"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0553898299"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": false
+        },
+        "pageCount": 784,
+        "printType": "BOOK",
+        "categories": [
+          "Fiction"
+        ],
+        "averageRating": 4,
+        "ratingsCount": 40,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "6.31.27.0.preview.2",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=Y0-3B8x7R1gC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=Y0-3B8x7R1gC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=Y0-3B8x7R1gC&printsec=frontcover&dq=Mars&hl=&cd=2&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=Y0-3B8x7R1gC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=Y0-3B8x7R1gC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 9.99,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 9.99,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=Y0-3B8x7R1gC&rdid=book-Y0-3B8x7R1gC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 9990000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 9990000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Blue_Mars-sample-epub.acsm?id=Y0-3B8x7R1gC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=Y0-3B8x7R1gC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Praise for Blue Mars “A breakthrough even from [Robinson’s] own consistently high levels of achievement.”—The New York Times Book Review “Exhilarating . . . a complex and deeply engaging dramatization of humanity’s future ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "QqR301wsX-wC",
+      "etag": "Z79CyGb4G+I",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/QqR301wsX-wC",
+      "volumeInfo": {
+        "title": "Red Mars and Green Mars",
+        "authors": [
+          "Kim Stanley Robinson"
+        ],
+        "publisher": "Spectra",
+        "publishedDate": "2003-05-27",
+        "description": "100 Russian and American scientists have been sent on a mission to Mars; they are to establish a community for humans. In the perilous and hostile landscape, they still show many human emotions.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780553898316"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0553898310"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 592,
+        "printType": "BOOK",
+        "categories": [
+          "Fiction"
+        ],
+        "averageRating": 3.5,
+        "ratingsCount": 90,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "2.5.3.0.preview.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=QqR301wsX-wC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=QqR301wsX-wC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=QqR301wsX-wC&printsec=frontcover&dq=Mars&hl=&cd=3&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=QqR301wsX-wC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Red_Mars_and_Green_Mars.html?hl=&id=QqR301wsX-wC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=QqR301wsX-wC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "100 Russian and American scientists have been sent on a mission to Mars; they are to establish a community for humans. In the perilous and hostile landscape, they still show many human emotions."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "4W-2DwAAQBAJ",
+      "etag": "TNaxubzIPHY",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/4W-2DwAAQBAJ",
+      "volumeInfo": {
+        "title": "The Big Book of Mars",
+        "subtitle": "From Ancient Egypt to The Martian, A Deep-Space Dive into Our Obsession with the Red Planet",
+        "authors": [
+          "Marc Hartzman"
+        ],
+        "publisher": "Quirk Books",
+        "publishedDate": "2020-07-07",
+        "description": "Filled with entertaining history, archival images, pop culture ephemera, and interviews with NASA scientists, The Big Book of Mars is the most comprehensive look at our relationship with Mars—yesterday, today, and tomorrow. Mars has been a source of fascination and speculation ever since the Ancient Sumerians observed its blood-red hue and named it for their god of war and plague. But it wasn't until 1877, when \"canals\" were observed on the surface of the Red Planet, suggesting the presence of water, that scientists, novelists, filmmakers, and entrepreneurs became obsessed with the question of whether there's life on Mars. In The War of the Worlds, H.G. Wells suggested that we wouldn't need to make contact with Martians—they'd come for us—while, many years later, Nikola Tesla claimed that he did make contact. Since then, Mars has fully invaded pop culture. It has its own day of the week (Tuesday, or martis in Latin), candy bar, and iconic Looney Tunes character. It has been the subject of novels and movies, from Ray Bradbury's The Martian Chronicles to Mars Attacks! to The Martian. And it has sparked a space-race feud between Elon Musk and Jeff Bezos, who both hope to send a manned mission to Mars in the near future.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781683692102"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1683692101"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 236,
+        "printType": "BOOK",
+        "categories": [
+          "Social Science"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "1.3.2.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=4W-2DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=4W-2DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=4W-2DwAAQBAJ&printsec=frontcover&dq=Mars&hl=&cd=4&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=4W-2DwAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=4W-2DwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 33.99,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 18.35,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=4W-2DwAAQBAJ&rdid=book-4W-2DwAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 33990000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 18350000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/The_Big_Book_of_Mars-sample-epub.acsm?id=4W-2DwAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/The_Big_Book_of_Mars-sample-pdf.acsm?id=4W-2DwAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=4W-2DwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Filled with entertaining history, archival images, pop culture ephemera, and interviews with NASA scientists, The Big Book of Mars is the most comprehensive look at our relationship with Mars—yesterday, today, and tomorrow."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "BnPE37Ms5awC",
+      "etag": "Z8yZTfwxK/M",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/BnPE37Ms5awC",
+      "volumeInfo": {
+        "title": "Mars",
+        "subtitle": "Prospective Energy and Material Resources",
+        "authors": [
+          "Viorel Badescu"
+        ],
+        "publisher": "Springer Science & Business Media",
+        "publishedDate": "2009-12-07",
+        "description": "th th Mars, the Red Planet, fourth planet from the Sun, forever linked with 19 and 20 Century fantasy of a bellicose, intelligent Martian civilization. The romance and excitement of that fiction remains today, even as technologically sophisticated - botic orbiters, landers, and rovers seek to unveil Mars’ secrets; but so far, they have yet to find evidence of life. The aura of excitement, though, is justified for another reason: Mars is a very special place. It is the only planetary surface in the Solar System where humans, once free from the bounds of Earth, might hope to establish habitable, self-sufficient colonies. Endowed with an insatiable drive, focused motivation, and a keen sense of - ploration and adventure, humans will undergo the extremes of physical hardship and danger to push the envelope, to do what has not yet been done. Because of their very nature, there is little doubt that humans will in fact conquer Mars. But even earth-bound extremes, such those experienced by the early polar explorers, may seem like a walk in the park compared to future experiences on Mars.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "3642036295"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9783642036293"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 695,
+        "printType": "BOOK",
+        "categories": [
+          "Technology & Engineering"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.4.4.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=BnPE37Ms5awC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=BnPE37Ms5awC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=BnPE37Ms5awC&printsec=frontcover&dq=Mars&hl=&cd=5&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=BnPE37Ms5awC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=BnPE37Ms5awC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE_AND_RENTAL",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 213.28,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 170.62,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=BnPE37Ms5awC&rdid=book-BnPE37Ms5awC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 213280000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 170620000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          },
+          {
+            "finskyOfferType": 3,
+            "listPrice": {
+              "amountInMicros": 74650000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 67180000,
+              "currencyCode": "CAD"
+            },
+            "rentalDuration": {
+              "unit": "DAY",
+              "count": 90
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Mars-sample-epub.acsm?id=BnPE37Ms5awC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Mars-sample-pdf.acsm?id=BnPE37Ms5awC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=BnPE37Ms5awC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This book investigates the possibilities and limitations of various systems supplying manned bases on Mars with energy and other vital resources. The book collects together recent proposals and innovative options and solutions."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "ze27j5sSJVEC",
+      "etag": "9GLr+N3OKe4",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/ze27j5sSJVEC",
+      "volumeInfo": {
+        "title": "Mars",
+        "subtitle": "Maps",
+        "authors": [
+          "Hugh H. Kieffer"
+        ],
+        "publisher": "University of Arizona Press",
+        "publishedDate": "1992-10",
+        "description": "The planet Mars has been a subject of wonder for millennia, as attested by its place in mythology, by later speculation about its canals, and by the scientific and public excitement over the Viking mission. Although the scientific literature about the planet is voluminous, no comprehensive treatment of the results of modern spacecraft exploration has yet been made available. This volume fills that gap by providing a summary of what is presently known about Mars and identifying many puzzles such as polar cap variance, occurrence of dust storms, and the possible location of water. The introductory chapter cites questions, controversies, and milestones in the study of Mars, and also includes an annotated book list, basic data about the planet, and a guide to Martian seasons. A chapter on telescopic observation credits the contributions made by many amateurs that have advanced our knowledge of variations observed on Mars. A chapter on spacecraft exploration, by an American and a Russian author who have participated in all Mars missions, includes a revelation of an additional Soviet attempt. Twenty-nine technical articles cover geophysics; bedrock geology; surface; atmosphere; exosphere and magnetic field; and climate history. Two chapters address the search for life on Mars; three concluding chapters consider the Martian satellites. An indispensable reference for scientists, Mars will also serve as a complete sourcebook for serious amateur astronomers.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0816512574"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780816512577"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 1498,
+        "printType": "BOOK",
+        "categories": [
+          "Science"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.0.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=ze27j5sSJVEC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=ze27j5sSJVEC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=ze27j5sSJVEC&printsec=frontcover&dq=Mars&hl=&cd=6&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=ze27j5sSJVEC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Mars.html?hl=&id=ze27j5sSJVEC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=ze27j5sSJVEC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This volume fills that gap by providing a summary of what is presently known about Mars and identifying many puzzles such as polar cap variance, occurrence of dust storms, and the possible location of water."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "2c2-k6AvQtQC",
+      "etag": "X00XeAhZcnk",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/2c2-k6AvQtQC",
+      "volumeInfo": {
+        "title": "The Invasion From Mars",
+        "subtitle": "A Study In The Psychology Of Panic",
+        "publisher": "Transaction Publishers",
+        "publishedDate": "1940",
+        "description": "On Halloween night 1938, Orson Welles broadcast a radio adaptation of the H. G. Wells fantasy, The War of the Worlds. What listeners heard sounded so realistic that at least a million were frightened by word that \"strange creatures\" from Mars had landed in central New Jersey and were \"unleashing a deadly assault.\" Several thousand were so terrified they ran into the streets, drove away in their cars, or called the police for information about how to escape. Why did so many panic when the circumstances reported were so improbable? That is just the question Hadley Cantril, then a young social psychologist, set out to answer. Originally published in 1940, The Invasion from Mars remains a classic. The broadcast provided a unique real-life opportunity to explore why the relatively new medium of radio could have such an effect. Using a mix of research methods, Cantril shows that the impact of the broadcast had less to do with what went out over the air than with the \"standards of judgment\" people did or did not use in evaluating what they were hearing. This book is of continuing value to those interested in communications and mass behavior. \"One of the most fascinating, illuminating and provocative social documents that have been brought to public attention for some time.\"--New York Times Book Review, April 28, 1940 \"The dramatic account brings into sharp focus those factors in the situation and from the individuals conducive to critical appraisal or contagious panic behavior.\"--Muzafer Sherif, 1966 Hadley Cantril (1906-1969) was chairman of the Institute for International Social Research. Earlier he founded the Office of Public Opinion Research and was Stuart Professor of Psychology at Princeton University. He was author of nineteen books and monitored public opinion for the executive branch during World War II. Albert H. Cantril, son of Hadley Cantril, is an independent public opinion analyst. Among his books are Reading Mixed Signals: Ambivalence in American Public Opinion about Government (with Susan Davis Cantril). He also worked on the White House staff during the Johnson administration and later served in the Bureaus of East Asian and Pacific Affairs and Public Affairs of the Department of State.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "1412826586"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781412826587"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 224,
+        "printType": "BOOK",
+        "categories": [
+          "Psychology"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "0.0.2.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=2c2-k6AvQtQC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=2c2-k6AvQtQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=2c2-k6AvQtQC&pg=PP1&dq=Mars&hl=&cd=7&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=2c2-k6AvQtQC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=2c2-k6AvQtQC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 39.93,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 31.15,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=2c2-k6AvQtQC&rdid=book-2c2-k6AvQtQC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 39930000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 31150000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/The_Invasion_From_Mars-sample-epub.acsm?id=2c2-k6AvQtQC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/The_Invasion_From_Mars-sample-pdf.acsm?id=2c2-k6AvQtQC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=2c2-k6AvQtQC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This book is of continuing value to those interested in communications and mass behavior. &quot;One of the most fascinating, illuminating and provocative social documents that have been brought to public attention for some time."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "U5yBMeV3cxEC",
+      "etag": "YUrGVZ0MEnk",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/U5yBMeV3cxEC",
+      "volumeInfo": {
+        "title": "Mars",
+        "authors": [
+          "Thomas K. Adamson"
+        ],
+        "publisher": "Capstone",
+        "publishedDate": "2007-08",
+        "description": "Visit the Red Planet! Find out how it might be possible to live on Mars someday.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "1429607378"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781429607377"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 24,
+        "printType": "BOOK",
+        "categories": [
+          "Juvenile Nonfiction"
+        ],
+        "averageRating": 5,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "1.2.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=U5yBMeV3cxEC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=U5yBMeV3cxEC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=U5yBMeV3cxEC&printsec=frontcover&dq=Mars&hl=&cd=8&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=U5yBMeV3cxEC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Mars.html?hl=&id=U5yBMeV3cxEC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=U5yBMeV3cxEC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Visit the Red Planet! Find out how it might be possible to live on Mars someday."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "30NImj-DxIYC",
+      "etag": "wchRomt6nAM",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/30NImj-DxIYC",
+      "volumeInfo": {
+        "title": "The Mars Project",
+        "authors": [
+          "Wernher Von Braun"
+        ],
+        "publisher": "University of Illinois Press",
+        "publishedDate": "1991",
+        "description": "This classic on space travel was first published in 1953, when interplanetary space flight was considered science fiction by most of those who considered it at all. Here the German-born scientist Wernher von Braun detailed what he believed were the problems and possibilities inherent in a projected expedition to Mars. Today von Braun is recognized as the person most responsible for laying the groundwork for public acceptance of America's space program. When President Bush directed NASA in 1989 to prepare plans for an orbiting space station, lunar research bases, and human exploration of Mars, he was largely echoing what von Braun proposed in The Mars Project.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0252062272"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780252062278"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 91,
+        "printType": "BOOK",
+        "categories": [
+          "Fiction"
+        ],
+        "averageRating": 3,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.0.2.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=30NImj-DxIYC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=30NImj-DxIYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=30NImj-DxIYC&printsec=frontcover&dq=Mars&hl=&cd=9&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=30NImj-DxIYC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/The_Mars_Project.html?hl=&id=30NImj-DxIYC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=30NImj-DxIYC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "When President Bush directed NASA in 1989 to prepare plans for an orbiting space station, lunar research bases, and human exploration of Mars, he was largely echoing what von Braun proposed in The Mars Project."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "o8SVQscnVEQC",
+      "etag": "v2D4ugjI7uM",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/o8SVQscnVEQC",
+      "volumeInfo": {
+        "title": "Water on Mars and Life",
+        "authors": [
+          "Tetsuya Tokano"
+        ],
+        "publisher": "Springer Science & Business Media",
+        "publishedDate": "2004-09-14",
+        "description": "Growing evidence, based on observations from orbiters, landers and telescopes, indicates that Mars may still have numerous hidden water reservoirs. \"Water on Mars and Life\" surveys recent advances made in research into water on Mars together with its astrobiological implications. Addresses not only scientists working in the field but also nonspecialists and students in search of a high-level but accessible introduction to this exciting field of research.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "3540206248"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9783540206248"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 331,
+        "printType": "BOOK",
+        "categories": [
+          "Science"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.1.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=o8SVQscnVEQC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=o8SVQscnVEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=o8SVQscnVEQC&pg=PA68&dq=Mars&hl=&cd=10&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=o8SVQscnVEQC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Water_on_Mars_and_Life.html?hl=&id=o8SVQscnVEQC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Water_on_Mars_and_Life-sample-pdf.acsm?id=o8SVQscnVEQC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=o8SVQscnVEQC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "hydrated on the surface of \u003cb\u003eMars\u003c/b\u003e [13]. Many nanophase minerals thought to be \u003cbr\u003e\npresent on \u003cb\u003eMars\u003c/b\u003e (e.g. poorly crystalline phyllosilicates. opal, some ferric oxide- \u003cbr\u003e\nbearing minerals) are hydrated because of their large surface areas and are \u003cbr\u003e\nmore&nbsp;..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "1mNCDAAAQBAJ",
+      "etag": "draJb8z/txQ",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/1mNCDAAAQBAJ",
+      "volumeInfo": {
+        "title": "Mars One",
+        "authors": [
+          "Jonathan Maberry"
+        ],
+        "publisher": "Simon and Schuster",
+        "publishedDate": "2017-04-04",
+        "description": "Go on the adventure of a lifetime with a teen and his family after they are selected to colonize Mars in this thrilling new novel from multiple Bram Stoker Award–winning author Jonathan Maberry. Tristan has known that he and his family were going to be on the first mission to colonize Mars since he was twelve years old, and he has been training ever since. However, knowing that he would be leaving for Mars with no plan to return didn’t stop him from falling in love with Izzy. But now, at sixteen, it’s time to leave Earth, and he’s forced to face what he must leave behind in exchange for an uncertain future. When the news hits that another ship is already headed to colonize Mars, and the NeoLuddite terrorist group begins threatening the Mars One project, the mission’s purpose is called into question. Is this all worth it?",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781481461634"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "148146163X"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": false
+        },
+        "pageCount": 448,
+        "printType": "BOOK",
+        "categories": [
+          "Young Adult Fiction"
+        ],
+        "averageRating": 3,
+        "ratingsCount": 3,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": true,
+        "contentVersion": "1.5.3.0.preview.2",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=1mNCDAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=1mNCDAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=1mNCDAAAQBAJ&printsec=frontcover&dq=Mars&hl=&cd=11&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=1mNCDAAAQBAJ&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=1mNCDAAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 16.99,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 16.99,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=1mNCDAAAQBAJ&rdid=book-1mNCDAAAQBAJ&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 16990000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 16990000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Mars_One-sample-epub.acsm?id=1mNCDAAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=1mNCDAAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Go on the adventure of a lifetime with a teen and his family after they are selected to colonize Mars in this thrilling new novel from multiple Bram Stoker Award–winning author Jonathan Maberry."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "gfYolGeTePkC",
+      "etag": "lUBAWdQYMIk",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/gfYolGeTePkC",
+      "volumeInfo": {
+        "title": "Human Missions to Mars",
+        "subtitle": "Enabling Technologies for Exploring the Red Planet",
+        "authors": [
+          "Donald Rapp"
+        ],
+        "publisher": "Springer Science & Business Media",
+        "publishedDate": "2007-10-24",
+        "description": "This book presents a highly readable yet realistic view of the possibilities for human missions to Mars. It provides for the first time a ‘level-headed’ assessment of plans for human exploration of Mars to counteract the tendency of space agencies to take an over-optimistic approach to such interplanetary missions. The author presents a detailed analysis of why, in his opinion, the current NASA approach will fail to send humans to Mars before 2080.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9783540729396"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "3540729399"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 520,
+        "printType": "BOOK",
+        "categories": [
+          "Technology & Engineering"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "2.2.0.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=gfYolGeTePkC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=gfYolGeTePkC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=gfYolGeTePkC&pg=PA71&dq=Mars&hl=&cd=12&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=gfYolGeTePkC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=gfYolGeTePkC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE_AND_RENTAL",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 228.52,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 182.82,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=gfYolGeTePkC&rdid=book-gfYolGeTePkC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 228520000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 182820000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          },
+          {
+            "finskyOfferType": 3,
+            "listPrice": {
+              "amountInMicros": 79990000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 71990000,
+              "currencyCode": "CAD"
+            },
+            "rentalDuration": {
+              "unit": "DAY",
+              "count": 90
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Human_Missions_to_Mars-sample-pdf.acsm?id=gfYolGeTePkC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=gfYolGeTePkC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "3.9 GEAR RATIOS 3.9.1 Introduction Almost any conceivable human mission to \u003cbr\u003e\n\u003cb\u003eMars\u003c/b\u003e involves transfer of some assets to \u003cb\u003eMars\u003c/b\u003e orbit, and some assets to the \u003cb\u003eMars\u003c/b\u003e \u003cbr\u003e\nsurface. A widely accepted surrogate for estimating mission cost for human&nbsp;..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "nO_YHTh3XQYC",
+      "etag": "KvOxY3/QpSA",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/nO_YHTh3XQYC",
+      "volumeInfo": {
+        "title": "Mars",
+        "authors": [
+          "Adele Richardson"
+        ],
+        "publisher": "Capstone",
+        "publishedDate": "2005",
+        "description": "\"Discusses the orbit, atmosphere, surface features, and exploration of the planet Mars\"--T.p. verso.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0736851690"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780736851695"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 24,
+        "printType": "BOOK",
+        "categories": [
+          "Juvenile Nonfiction"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.1.2.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=nO_YHTh3XQYC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=nO_YHTh3XQYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=nO_YHTh3XQYC&printsec=frontcover&dq=Mars&hl=&cd=13&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=nO_YHTh3XQYC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Mars.html?hl=&id=nO_YHTh3XQYC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=nO_YHTh3XQYC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "&quot;Discusses the orbit, atmosphere, surface features, and exploration of the planet Mars&quot;--T.p. verso."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "abIKvmDXh_kC",
+      "etag": "ndCKsmO4r34",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/abIKvmDXh_kC",
+      "volumeInfo": {
+        "title": "Expedition Mars",
+        "authors": [
+          "Martin J.L. Turner"
+        ],
+        "publisher": "Springer Science & Business Media",
+        "publishedDate": "2004-01-09",
+        "description": "For those interested in the human conquest of space and exploration of the planets, Martin Turner describers the challenges that will be presented by the next \"giant leap\" in the human exploration of our Solar System--a return journey to the Red Planet. The author begins by describing how the very latest rocket propulsion and spacecraft technology, and planned developments in nuclear and electric propulsion technologies, are the key factors that will enable a human expedition to Mars. Of particular importance are the challenges of transporting cargo to Mars and in providing necessary life support for the crew, including supply of consumables, such as food, water, air and fuel, for the return journey.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "1852337354"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781852337353"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 321,
+        "printType": "BOOK",
+        "categories": [
+          "Nature"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "1.1.2.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=abIKvmDXh_kC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=abIKvmDXh_kC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=abIKvmDXh_kC&pg=PA123&dq=Mars&hl=&cd=14&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=abIKvmDXh_kC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Expedition_Mars.html?hl=&id=abIKvmDXh_kC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Expedition_Mars-sample-epub.acsm?id=abIKvmDXh_kC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Expedition_Mars-sample-pdf.acsm?id=abIKvmDXh_kC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=abIKvmDXh_kC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Having transferred the explorers from Earth to the waiting \u003cb\u003eMars\u003c/b\u003e spacecraft \u003cbr\u003e\ncomplex using, for example, the Space Shuttle, the mission begins with \u003cbr\u003e\nmanoeuvre 1, the boost from low Earth orbit into \u003cb\u003eMars\u003c/b\u003e transfer orbit. The vehicle, \u003cbr\u003e\nABCD, consists&nbsp;..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "2hNsJTfUsmMC",
+      "etag": "JWs+FjW/vPs",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/2hNsJTfUsmMC",
+      "volumeInfo": {
+        "title": "Lakes on Mars",
+        "authors": [
+          "Nathalie A. Cabrol",
+          "Edmond A. Grin"
+        ],
+        "publisher": "Elsevier",
+        "publishedDate": "2010-09-15",
+        "description": "On Earth, lakes provide favorable environments for the development of life and its preservation as fossils. They are extremely sensitive to climate fluctuations and to conditions within their watersheds. As such, lakes are unique markers of the impact of environmental changes. Past and current missions have now demonstrated that water once flowed at the surface of Mars early in its history. Evidence of ancient ponding has been uncovered at scales ranging from a few kilometers to possibly that of the Arctic ocean. Whether life existed on Mars is still unknown; upcoming missions may find critical evidence to address this question in ancient lakebeds as clues about Mars’ climate evolution and its habitability potential are still preserved in their sedimentary record. Lakes on Mars is the first review on this subject. It is written by leading planetary scientists who have dedicated their careers to searching and exploring the questions of water, lakes, and oceans on Mars through their involvement in planetary exploration, and the analysis of orbital and ground data beginning with Viking up to the most recent missions. In thirteen chapters, Lakes on Mars critically discusses new data and explores the role that water played in the evolution of the surface of Mars, the past hydrological provinces of the planet, the possibility of heated lake habitats through enhanced geothermal flux associated with volcanic activity and impact cratering. The book also explores alternate hypotheses to explain the geological record. Topographic, morphologic, stratigraphic, and mineralogic evidence are presented that suggest successions of ancient lake environments in Valles Marineris and Hellas. The existence of large lakes and/or small oceans in Elysium and the Northern Plains is supported both by the global distribution of deltaic deposits and by equipotential surfaces that may reflect their past margins. Whether those environments were conducive to life has yet to be demonstrated but from comparison with our planet, their sedimentary deposits may provide the best opportunity to find its record, if any. The final chapters explore the impact of climate variability on declining lake habitats in one of the closest terrestrial analogs to Mars at the Noachian/Hesperian transition, identify the geologic, morphologic and mineralogic signatures of ancient lakes to be searched for on Mars, and present the case for landing the Mars Science Laboratory mission in such an environment. First review on the subject by worldwide leading authorities in the field New studies with most recent data, new images, figures, and maps Most recent results from research in terrestrial analogs",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0080931626"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780080931623"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 410,
+        "printType": "BOOK",
+        "categories": [
+          "Science"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "1.5.4.0.preview.3",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=2hNsJTfUsmMC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=2hNsJTfUsmMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=2hNsJTfUsmMC&printsec=frontcover&dq=Mars&hl=&cd=15&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=2hNsJTfUsmMC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=2hNsJTfUsmMC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 205,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 164,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=2hNsJTfUsmMC&rdid=book-2hNsJTfUsmMC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 205000000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 164000000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Lakes_on_Mars-sample-epub.acsm?id=2hNsJTfUsmMC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Lakes_on_Mars-sample-pdf.acsm?id=2hNsJTfUsmMC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=2hNsJTfUsmMC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Lakes on Mars is the first review on this subject."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "HGw6YZLfOSgC",
+      "etag": "iBIIq3SBC3U",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/HGw6YZLfOSgC",
+      "volumeInfo": {
+        "title": "Mars",
+        "authors": [
+          "Jason Glaser",
+          "Laurel Bowman"
+        ],
+        "publisher": "Capstone",
+        "publishedDate": "2005",
+        "description": "Provides an introduction to Mars and his role in Roman mythology, including his connection with the Trojan War and such figures as Venus and Hercules.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0736826610"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780736826617"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 24,
+        "printType": "BOOK",
+        "categories": [
+          "Juvenile Nonfiction"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.2.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=HGw6YZLfOSgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=HGw6YZLfOSgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=HGw6YZLfOSgC&printsec=frontcover&dq=Mars&hl=&cd=16&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=HGw6YZLfOSgC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Mars.html?hl=&id=HGw6YZLfOSgC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=HGw6YZLfOSgC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Provides an introduction to Mars and his role in Roman mythology, including his connection with the Trojan War and such figures as Venus and Hercules."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "0QY0U6qJKFUC",
+      "etag": "p6Yv6xu9MXE",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/0QY0U6qJKFUC",
+      "volumeInfo": {
+        "title": "Mars - A Warmer, Wetter Planet",
+        "authors": [
+          "Jeffrey S. Kargel"
+        ],
+        "publisher": "Springer Science & Business Media",
+        "publishedDate": "2004-07-23",
+        "description": "Mars is the Solar System's other wild, wet, water world. Long believed to have become cold, dead, and dry aeons ago, we now having striking new proof, not only that Mars was a relatively warm and wet place in geologically recent times, but that even today there are vast reserves of water frozen beneath the planet's surface. This compelling new evidence may well boost the chances of a manned mission to Mars sooner, rather than later. The discovery is also forcing a complete rethink about the mechanisms of global planetary change. What does the drastic turn of events on Mars mean for Earth's climate system? Could life have thrived on Mars very recently, and might it survive today in short-term hibernation? Will humans soon be capable of living off the natural resources that Martian hydrogeology has naturally offered us? Will humans one day be capable of setting off the same chain of events that nature has repeatedly triggered to set off warm, wet episodes on Mars? How could Mars be terraformed into a New World? (And should we even contemplate doing so?) This book offers a visually beautiful, scientifically detailed and accurate presentation of the evidence that has forced this new revolution in Mars science. From the reviews:\"Long believed to have been cold, dead and dry for eons, there is now striking new proof that not only was Mars a relatively warm and wet place in geologically recent times, but that even today there are vast reserves of water frozen beneath the planet's surface. In this absorbing, beautifully illustrated book, Kargel describes the still-unfolding revolution in our knowledge about the Red Planet and how future concepts of Mars will continue to be molded by new revelations of four billion years of geology\". (LUNAR AND PLANETARY INFORMATION BULLETIN)nbsp; From the reviews:\" This exhaustive, effusive, and enthusiastic book conveys the excitement of frontline scientific research about as well as can be done. Kargel describes himself as a member of the \"Tucson Mafia,\" a group of scientists in full rebellion against the \"Mars Establishment\" and its belief in a cold, dry Mars. His ideas are presented in meticulous detail, supported by hundreds of superb pictures, many taken by the author himself. Some--perhaps most--of his ideas are controversial and may ultimately prove to be wrong, as he himself often points out, but we have to applaud the (sometimes career-risking) courage with which he has pursued them. In spite of the large amount of rather technical information, the reader is swept along by the author's enthusiasm in conveying it and ability to integrate it into a coherent vision. The reader also learns about the process of science: the thrill of having a new idea and discussing it with others at conferences and cafes (and bars), the drudgery often involved in pursuing the idea, the perils of the formal review process for publications and grant applications, and the roles played by personality conflicts and power politics. Summing Up: Enthusiastically recommended. All levels. \"nbsp;(T. Barker, CHOICE, March 2005)",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "1852335688"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9781852335687"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 557,
+        "printType": "BOOK",
+        "categories": [
+          "Science"
+        ],
+        "averageRating": 5,
+        "ratingsCount": 1,
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "0.0.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=0QY0U6qJKFUC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=0QY0U6qJKFUC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=0QY0U6qJKFUC&pg=PA100&dq=Mars&hl=&cd=17&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=0QY0U6qJKFUC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Mars_A_Warmer_Wetter_Planet.html?hl=&id=0QY0U6qJKFUC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.ca/books/download/Mars_A_Warmer_Wetter_Planet-sample-pdf.acsm?id=0QY0U6qJKFUC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=0QY0U6qJKFUC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "THE FAINT-YOING-SIN PARADOX The emerging vision of a once-watery \u003cb\u003eMars\u003c/b\u003e \u003cbr\u003e\nposed a serious dilemma. \u003cb\u003eMars\u003c/b\u003e is now so remote from the Sun that water is \u003cbr\u003e\nfrozen solid (in equilibrium with the barest trace of water vapor). and the radiation\u003cbr\u003e\n&nbsp;..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "G2Dxb17WvvEC",
+      "etag": "Bw4EiQnKT3M",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/G2Dxb17WvvEC",
+      "volumeInfo": {
+        "title": "Preservation of Random Megascale Events on Mars and Earth",
+        "subtitle": "Influence on Geologic History",
+        "authors": [
+          "Mary G. Chapman",
+          "Laszlo P. Keszthelyi"
+        ],
+        "publisher": "Geological Society of America",
+        "publishedDate": "2009",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780813724539"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0813724538"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 86,
+        "printType": "BOOK",
+        "categories": [
+          "Science"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=G2Dxb17WvvEC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=G2Dxb17WvvEC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=G2Dxb17WvvEC&pg=PA1&dq=Mars&hl=&cd=18&source=gbs_api",
+        "infoLink": "https://play.google.com/store/books/details?id=G2Dxb17WvvEC&source=gbs_api",
+        "canonicalVolumeLink": "https://play.google.com/store/books/details?id=G2Dxb17WvvEC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 13.55,
+          "currencyCode": "CAD"
+        },
+        "retailPrice": {
+          "amount": 9.99,
+          "currencyCode": "CAD"
+        },
+        "buyLink": "https://play.google.com/store/books/details?id=G2Dxb17WvvEC&rdid=book-G2Dxb17WvvEC&rdot=1&source=gbs_api",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 13550000,
+              "currencyCode": "CAD"
+            },
+            "retailPrice": {
+              "amountInMicros": 9990000,
+              "currencyCode": "CAD"
+            },
+            "giftable": true
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": true
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=G2Dxb17WvvEC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "\u003cb\u003eMars\u003c/b\u003e: An. unusual. laboratory. that. preserves. a. record. of. catastrophic. and. \u003cbr\u003e\nunusual. events. Mary G. Chapman* Astrogeology Team, U.S. Geological Survey, \u003cbr\u003e\n2255 N. Gemini Drive, Flagstaff, Arizona 86001, USA ABSTRACT Catastrophic&nbsp;..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "2vn2DwAAQBAJ",
+      "etag": "vwnYVFl4E6c",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/2vn2DwAAQBAJ",
+      "volumeInfo": {
+        "title": "Mars",
+        "authors": [
+          "Jody S. Rake"
+        ],
+        "publisher": "Pebble",
+        "publishedDate": "2020-08",
+        "description": "Mars is famous for its coloring, but the fourth planet from the sun has more than that going for it. Discover more interesting facts and secrets about the famous \"red planet.\"",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781977129161"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1977129161"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 32,
+        "printType": "BOOK",
+        "categories": [
+          "Juvenile Nonfiction"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=2vn2DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=2vn2DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=2vn2DwAAQBAJ&pg=PP1&dq=Mars&hl=&cd=19&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=2vn2DwAAQBAJ&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Mars.html?hl=&id=2vn2DwAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=2vn2DwAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Mars is famous for its coloring, but the fourth planet from the sun has more than that going for it. Discover more interesting facts and secrets about the famous &quot;red planet.&quot;"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "IuYyaXfu3ikC",
+      "etag": "9tYewNn887k",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/IuYyaXfu3ikC",
+      "volumeInfo": {
+        "title": "Mars",
+        "authors": [
+          "Dana Meachen Rau"
+        ],
+        "publisher": "Capstone",
+        "publishedDate": "2002",
+        "description": "Presents information learned by past and present observers of Mars, the fourth planet from the sun, and briefly describes the scientific missions that have been sent there.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_10",
+            "identifier": "0756501997"
+          },
+          {
+            "type": "ISBN_13",
+            "identifier": "9780756501990"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 32,
+        "printType": "BOOK",
+        "categories": [
+          "Juvenile Nonfiction"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "1.2.1.0.preview.1",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=IuYyaXfu3ikC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=IuYyaXfu3ikC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.ca/books?id=IuYyaXfu3ikC&printsec=frontcover&dq=Mars&hl=&cd=20&source=gbs_api",
+        "infoLink": "http://books.google.ca/books?id=IuYyaXfu3ikC&dq=Mars&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Mars.html?hl=&id=IuYyaXfu3ikC"
+      },
+      "saleInfo": {
+        "country": "CA",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "CA",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=IuYyaXfu3ikC&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Presents information learned by past and present observers of Mars, the fourth planet from the sun, and briefly describes the scientific missions that have been sent there."
+      }
+    }
+  ]
+}

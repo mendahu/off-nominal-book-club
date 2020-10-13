@@ -75,9 +75,9 @@ export default function New() {
   const { user, loading } = useFetchUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
+  const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isSearchError, setIsSearchError] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
   const [currentSelection, setCurrentSelection] = useState(null);
@@ -95,12 +95,12 @@ export default function New() {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const fetchGoogleResults = (
-    searchTerm: string
+    searchString: string
   ): Promise<any[] | undefined> => {
     setIsSearchError(false);
     return axios
       .get(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=20`
+        `https://www.googleapis.com/books/v1/volumes?q=${searchString}&maxResults=20`
       )
       .then((results) => results.data.items)
       .catch(() => {
@@ -348,7 +348,7 @@ export default function New() {
                       onClick={() => submitBook(currentSelection)}
                       endIcon={
                         (isSubmitting || isRedirecting) && (
-                          <CircularProgress color="white" size={25} />
+                          <CircularProgress color="inherit" size={20} />
                         )
                       }
                     >
