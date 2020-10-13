@@ -4,7 +4,7 @@ import { Link, Typography } from '@material-ui/core';
 
 const testBook = {
   title: 'The Best Book',
-  author: 'Jake',
+  authors: [{ name: 'Jake'}],
   id: 1,
   image_url:
     'http://books.google.com/books/content?id=MQeHAAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',

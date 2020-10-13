@@ -103,20 +103,20 @@ module.exports = {
         knex.raw(
           `
           SELECT 
-            b.id,
-            b.title,
-            b.image_url,
-            author
-          FROM books b
-          LEFT JOIN (
-            SELECT book_id, max(name) AS author
-            FROM authors a
-              JOIN books_authors ba ON a.id = ba.author_id
-              JOIN books AS b ON ba.book_id = b.id
-            GROUP BY book_id
-          ) as author_names on author_names.book_id = b.id
-          JOIN favourites f on f.book_id = b.id
-          WHERE f.user_id = ?
+          b.id,
+          b.title,
+          b.image_url,
+          ( SELECT json_agg(authors) 
+              FROM (
+                SELECT name 
+                FROM authors
+                  JOIN books_authors ON authors.id = books_authors.author_id
+                WHERE books_authors.book_id = b.id
+              ) authors ) AS authors
+        FROM books b
+          JOIN favourites r on r.book_id = b.id
+        WHERE r.user_id = ?
+        GROUP BY b.id
         `,
           userId
         )
@@ -129,17 +129,17 @@ module.exports = {
           b.id,
           b.title,
           b.image_url,
-          author
+          ( SELECT json_agg(authors) 
+              FROM (
+                SELECT name 
+                FROM authors
+                  JOIN books_authors ON authors.id = books_authors.author_id
+                WHERE books_authors.book_id = b.id
+              ) authors ) AS authors
         FROM books b
-        LEFT JOIN (
-          SELECT book_id, max(name) AS author
-          FROM authors a
-            JOIN books_authors ba ON a.id = ba.author_id
-            JOIN books AS b ON ba.book_id = b.id
-          GROUP BY book_id
-        ) as author_names on author_names.book_id = b.id
-        JOIN reads r on r.book_id = b.id
+          JOIN reads r on r.book_id = b.id
         WHERE r.user_id = ?
+        GROUP BY b.id
         `,
           userId
         )
@@ -149,20 +149,20 @@ module.exports = {
         knex.raw(
           `
           SELECT 
-            b.id,
-            b.title,
-            b.image_url,
-            author
-          FROM books b
-          LEFT JOIN (
-            SELECT book_id, max(name) AS author
-            FROM authors a
-              JOIN books_authors ba ON a.id = ba.author_id
-              JOIN books AS b ON ba.book_id = b.id
-            GROUP BY book_id
-          ) as author_names on author_names.book_id = b.id
-          JOIN wishlist w on w.book_id = b.id
-          WHERE w.user_id = ?
+          b.id,
+          b.title,
+          b.image_url,
+          ( SELECT json_agg(authors) 
+              FROM (
+                SELECT name 
+                FROM authors
+                  JOIN books_authors ON authors.id = books_authors.author_id
+                WHERE books_authors.book_id = b.id
+              ) authors ) AS authors
+        FROM books b
+          JOIN wishlist r on r.book_id = b.id
+        WHERE r.user_id = ?
+        GROUP BY b.id
         `,
           userId
         )
@@ -171,17 +171,18 @@ module.exports = {
       promises.push(
         knex.raw(
           `
-        SELECT b.id, b.title, b.image_url, author, rating
-          FROM books b
-          LEFT JOIN (
-            SELECT book_id, max(name) AS author
-            FROM authors a
-              JOIN books_authors ba ON a.id = ba.author_id
-              JOIN books AS b ON ba.book_id = b.id
-            GROUP BY book_id
-          ) as author_names on author_names.book_id = b.id
+        SELECT b.id, b.title, b.image_url, rating,
+        ( SELECT json_agg(authors) 
+        FROM (
+          SELECT name 
+          FROM authors
+            JOIN books_authors ON authors.id = books_authors.author_id
+          WHERE books_authors.book_id = b.id
+        ) authors ) AS authors
+        FROM books b
           JOIN ratings on ratings.book_id = b.id
-          WHERE ratings.user_id = ?
+        WHERE ratings.user_id = ?
+        GROUP BY b.id, ratings.rating
         `,
           userId
         )

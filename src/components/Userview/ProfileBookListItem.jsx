@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Link } from '@material-ui/core';
 import urlGenerator from '../../helpers/urlGenerator';
+import generateAuthorString from '../../helpers/generateAuthorString'
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 export const ProfileBookListItem = ({ book }) => {
   const classes = useStyles();
 
-  const bookUrl = urlGenerator(book.id, book.author, book.title);
+  const authorString = generateAuthorString(book.authors)
+  const bookUrl = urlGenerator(book.id, authorString, book.title);
 
   return (
     <li className={classes.listItem}>
@@ -53,7 +55,7 @@ export const ProfileBookListItem = ({ book }) => {
             variant="caption"
             className={classes.author}
           >
-            {book.author}
+            {authorString}
           </Typography>
         </div>
       </div>
