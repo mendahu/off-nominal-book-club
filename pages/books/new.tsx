@@ -250,13 +250,11 @@ export default function New() {
                     Help grow the Off-Nominal Book Club
                   </Typography>
                   <hr />
+                  <Typography component="p" variant="subtitle1">
+                    Search Google Books for great space books that should be in
+                    our collection.
+                  </Typography>
                 </>
-              )}
-              {!currentSelection && (
-                <Typography component="p" variant="subtitle1">
-                  Search Google Books for great space books that should be in
-                  our collection.
-                </Typography>
               )}
               {isMatching && (
                 <Typography component="p" variant="subtitle1">
