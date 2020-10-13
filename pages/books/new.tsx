@@ -202,11 +202,11 @@ export default function New() {
   };
 
   if (loading) {
-    renderLoadingMessage('loading', 'Validating credentials...');
+    return renderLoadingMessage('loading', 'Validating credentials...');
   }
 
   if ((!user && !loading) || (!user?.isPatron && !loading)) {
-    renderLoadingMessage(
+    return renderLoadingMessage(
       'warning',
       'You must be logged in and a Patron to add books.'
     );
