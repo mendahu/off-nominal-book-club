@@ -142,6 +142,8 @@ const Userview = ({ userId, showModal }) => {
     patreon_avatar_url,
   } = profileData;
 
+  console.log(profileData)
+
   const isUserAuthorized = !!user && user.onbc_id === Number(userId);
 
   return (
