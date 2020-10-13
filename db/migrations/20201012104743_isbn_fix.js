@@ -17,10 +17,6 @@ exports.up = function(knex) {
         const currentOnbcId = currentBook.id
         const newData = newIsbns[onbcres[i].id]
 
-        console.log("working on book", currentBook)
-        console.log("with id", currentOnbcId)
-        console.log("its new data is", newData)
-
         const newIsbn13 = newData.isbn13 || null
         const newIsbn10 = newData.isbn10 || null
 
@@ -32,11 +28,8 @@ exports.up = function(knex) {
         promises.push(update)
       }
 
-      console.log('end of loop')
-
       Promise.all(promises)
         .then((responses) => {
-          console.log('responses', responses)
         })
     })
   })

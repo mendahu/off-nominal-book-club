@@ -45,7 +45,6 @@ getOnbc()
     looper = setInterval(() => {
 
       if (!res[index]) {
-        console.log('Ending setInterval')
         clearInterval(looper)
         Promise.all(promises)
         .then(() => {
@@ -53,9 +52,7 @@ getOnbc()
         })
       } else {
         const id = res[index].id
-        console.log(id)
         const googleId = res[index].google_id
-        console.log(`Requesting book ${index + 1} of ${res.length}`)
         const newGoogleReq = googleFetcher(googleId)
           .then(googleResponse => {
             finalJson.addObj(id, googleResponse)
@@ -73,7 +70,6 @@ getOnbc()
     })
   .then((res) => {
     stringifiedJson = JSON.stringify(res, null, 2)
-    console.log("writing")
     fs.writeFileSync('newIsbnData.json', stringifiedJson)
   })
   .catch(err => {
