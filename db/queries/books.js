@@ -49,9 +49,7 @@ module.exports = {
           .catch((err) => console.error(err))
       );
 
-      const authorsArr = bookObj.authors.map((author) => {
-        return { name: author.name };
-      });
+      const authorsArr = bookObj.authors.map((name) => { return {name}})
 
       promises.push(knex('authors').insert(authorsArr).returning('id'));
 
@@ -106,6 +104,7 @@ module.exports = {
           'books.title',
           'books.fiction',
           'books.google_id',
+          'books.isbn10',
           'books.isbn13',
           'books.description',
           'books.year',
@@ -187,6 +186,7 @@ module.exports = {
             b.title,
             b.fiction,
             b.google_id,
+            b.isbn10,
             b.isbn13,
             b.description,
             b.year,
