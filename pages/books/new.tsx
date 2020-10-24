@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useFetchUser } from '../../lib/user';
+import { useUser } from '../../lib/user';
 import Layout from '../../src/components/DefaultLayout';
 import Message from '../../src/components/Utility/Message';
 import {
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 export default function New() {
   const classes = useStyles();
 
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
   const [searchTerm, setSearchTerm] = useState('');

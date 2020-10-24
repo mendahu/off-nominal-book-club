@@ -1,5 +1,5 @@
 import Message from '../../src/components/Utility/Message';
-import { useFetchUser } from '../../lib/user';
+import { useUser } from '../../lib/user';
 import Router from 'next/router';
 import Layout from '../../src/components/DefaultLayout';
 import AddPatreon from '../../src/components/Registration/AddPatreon';
@@ -19,7 +19,7 @@ const renderMessage = (message, variant) => {
 };
 
 const Register = ({ justConnectedPatreon }: RegisterProps) => {
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
 
   if (loading) {
     return renderMessage('Validating Credentials', 'loading');

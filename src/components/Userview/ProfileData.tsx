@@ -1,5 +1,4 @@
 import LayoutComponent from '../General/LayoutComponent';
-import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Checkbox } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
@@ -7,6 +6,7 @@ import axios from 'axios';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
 import { useSnackbarContext } from '../../contexts/SnackbarContext';
 import sendPasswordReset from '../../helpers/sendPasswordReset';
+import { useUser } from '../../../lib/user';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -27,27 +27,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type ProfileDataProps = {
-  patreonState: string;
-  email: string;
-  getsMail: boolean;
-};
-
-const ProfileData = ({
-  patreonState,
-  email,
-  getsMail,
-  ...rest
-}: ProfileDataProps) => {
+const ProfileData = ({ ...rest }) => {
   const classes = useStyles();
 
-  const [patreonConnected, setPatreonConnected] = useState(
-    patreonState === 'connected'
-  );
+  const { user, resetUserPatreonState } = useUser();
+  const getsMail = user && user.getsMail;
+  const email = user && user.email;
+
   const triggerSnackbar = useSnackbarContext();
   const { formData, handleFormChange } = useProfileUpdater({
     gets_mail: getsMail,
   });
+
+  const patreonConnected = user?.patreon.state === 'connected';
 
   const toggleCheckbox = (e) => {
     if (email) {
@@ -91,7 +83,7 @@ const ProfileData = ({
   const disconnectPatreon = async () => {
     try {
       await axios.post('/api/auth0/update', { result: 'skipped' });
-      setPatreonConnected(false);
+      resetUserPatreonState();
       triggerSnackbar({
         active: true,
         message: 'Patreon Account Disconnected!',

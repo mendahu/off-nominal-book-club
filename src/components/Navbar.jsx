@@ -12,7 +12,7 @@ import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Link from 'next/link';
 import { Link as MatLink } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useFetchUser } from '../../lib/user';
+import { useUser } from '../../lib/user';
 import DrawerContents from './Navbar/DrawerContents';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = () => {
   const classes = useStyles();
 
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open) => (event) => {

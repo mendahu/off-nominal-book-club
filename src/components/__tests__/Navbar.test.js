@@ -1,13 +1,13 @@
 import { shallow } from 'enzyme';
 import Navbar from '../Navbar';
 import { Button, Box } from '@material-ui/core';
-import { useFetchUser } from '../../../lib/user';
+import { useUser } from '../../../lib/user';
 import DrawerContents from '../Navbar/DrawerContents';
 jest.mock('../../../lib/user');
 
 describe('Navbar', () => {
   it('should render one button, Box and Drawer Contents for unauthenticated user', () => {
-    useFetchUser.mockImplementationOnce(() => {
+    useUser.mockImplementationOnce(() => {
       return { user: undefined, loading: false };
     });
 
@@ -18,7 +18,7 @@ describe('Navbar', () => {
   });
 
   it('should render an add Book button for Patrons', () => {
-    useFetchUser.mockImplementationOnce(() => {
+    useUser.mockImplementationOnce(() => {
       return {
         user: {
           isPatron: true,

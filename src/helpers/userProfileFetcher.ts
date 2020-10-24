@@ -5,7 +5,7 @@ import patreonProfileFetcher from './patreon/profileFetcher';
 import getAuth0UserSub from './auth0/auth0Sub';
 import userQueries from '../../db/queries/users';
 import { DisplayUser, PatreonTokenData } from '../types/common';
-import { avatarSelect } from '../types/enums';
+import { AvatarSelect } from '../types/enums';
 
 export default async function userProfileFetcher(req) {
   //Fetches the default userProfile from auth0, which contains the unique ID of user
@@ -96,7 +96,7 @@ export default async function userProfileFetcher(req) {
       getsMail,
     };
 
-    if (avatar_select === avatarSelect.Patreon) {
+    if (avatar_select === AvatarSelect.Patreon) {
       userData.avatar = patreonAvatar;
     }
   } catch (error) {

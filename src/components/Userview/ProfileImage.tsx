@@ -8,7 +8,9 @@ import {
   Radio,
   RadioGroup,
 } from '@material-ui/core';
+import { useUser } from '../../../lib/user';
 import { useProfileUpdater } from '../../hooks/useProfileUpdater';
+import { AvatarSelect } from '../../types/enums';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -24,17 +26,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export type ProfileImageProps = {
+  name: string;
+  gravatar_avatar_url: string;
+  patreon_avatar_url: string;
+  avatar_select: AvatarSelect;
+  isUserAuthorized: boolean;
+};
+
 const ProfileImage = ({
   name,
   gravatar_avatar_url,
   patreon_avatar_url,
   avatar_select,
-  onClick,
-  isPatron,
   isUserAuthorized,
   ...rest
-}) => {
+}: ProfileImageProps) => {
   const classes = useStyles();
+
+  const { user } = useUser();
+  const isPatron = user && user.isPatron;
 
   const triggerSnackbar = useSnackbarContext();
   const { formData, handleFormChange } = useProfileUpdater({

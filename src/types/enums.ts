@@ -1,4 +1,4 @@
-export enum avatarSelect {
+export enum AvatarSelect {
   Gravatar = 'gravatar',
   Patreon = 'patreon',
 }

@@ -1,12 +1,12 @@
 import { Paper, Typography } from '@material-ui/core';
 import { shallow } from 'enzyme';
 import New from '../../../../pages/books/new';
-import { useFetchUser } from '../../../../lib/user';
+import { useUser } from '../../../../lib/user';
 import Message from '../../Utility/Message';
 import SearchBar from '../../SearchBar';
 jest.mock('../../../../lib/user');
 
-useFetchUser.mockImplementation(() => ({
+useUser.mockImplementation(() => ({
   user: {
     isPatron: true,
   },
@@ -15,7 +15,7 @@ useFetchUser.mockImplementation(() => ({
 
 describe('SearchResult should render without crashing', () => {
   it('should render an authenticating message if user is loading', () => {
-    useFetchUser.mockImplementationOnce(() => ({
+    useUser.mockImplementationOnce(() => ({
       user: undefined,
       loading: true,
     }));
@@ -27,7 +27,7 @@ describe('SearchResult should render without crashing', () => {
   });
 
   it('should render an error message if user is not authenticated', () => {
-    useFetchUser.mockImplementationOnce(() => ({
+    useUser.mockImplementationOnce(() => ({
       user: undefined,
       loading: false,
     }));

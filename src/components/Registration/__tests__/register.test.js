@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import Register, { getServerSideProps } from '../../../../pages/users/register';
 import Message from '../../Utility/Message';
-import { useFetchUser } from '../../../../lib/user';
+import { useUser } from '../../../../lib/user';
 import Router from 'next/router';
 import AddPatreon from '../AddPatreon';
 import getAuth0USerSub from '../../../helpers/auth0/auth0Sub';
@@ -20,7 +20,7 @@ describe('User Registration', () => {
   });
 
   it('Should render a Message if loading', () => {
-    useFetchUser.mockReturnValue({
+    useUser.mockReturnValue({
       loading: true,
       user: undefined,
     });
@@ -32,7 +32,7 @@ describe('User Registration', () => {
   });
 
   it('Should render a Message if no longer loading but no user, and should redirect user to /', () => {
-    useFetchUser.mockReturnValue({
+    useUser.mockReturnValue({
       loading: false,
       user: null,
     });
@@ -47,7 +47,7 @@ describe('User Registration', () => {
   });
 
   it('Should render AddPatreon if patreon status is unchecked', () => {
-    useFetchUser.mockReturnValue({
+    useUser.mockReturnValue({
       loading: false,
       user: {
         onbc_id: 1,
@@ -62,7 +62,7 @@ describe('User Registration', () => {
   });
 
   it('Should redirect to users page if patreon was just connected', () => {
-    useFetchUser.mockReturnValue({
+    useUser.mockReturnValue({
       loading: false,
       user: {
         onbc_id: 1,
@@ -82,7 +82,7 @@ describe('User Registration', () => {
   });
 
   it('Should redirect to / page if authed user is just logging in', () => {
-    useFetchUser.mockReturnValue({
+    useUser.mockReturnValue({
       loading: false,
       user: {
         onbc_id: 1,

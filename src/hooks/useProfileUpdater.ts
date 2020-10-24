@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { avatarSelect } from '../types/enums';
+import { AvatarSelect } from '../types/enums';
 
 interface ProfileData {
   avatar?: string;
   name?: string;
   bio?: string;
-  avatar_select?: avatarSelect;
+  avatar_select?: AvatarSelect;
   patreon_avatar?: string;
   gravatar_avatar?: string;
   gets_mail?: boolean;

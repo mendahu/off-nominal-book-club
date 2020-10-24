@@ -4,7 +4,11 @@ import axios from 'axios';
 // Use a global to save the user, so we don't have to fetch it again after page navigations
 let userState;
 
-const User = React.createContext({ user: null, loading: false });
+const User = React.createContext({
+  user: null,
+  loading: false,
+  resetUserPatreonState: () => {},
+});
 
 export const fetchUser = async () => {
   if (userState !== undefined) {
@@ -63,5 +67,18 @@ export const useFetchUser = () => {
     };
   }, [userState]);
 
-  return data;
+  const resetUserPatreonState = () => {
+    //sets user state to match removal of Patreon for page render where user is
+    setUser({
+      user: { ...data.user, patreon: { state: 'skipped' }, isPatron: false },
+      loading: false,
+    });
+
+    //triggers an API call on next page navigation to ensure state is correct
+    userState = undefined;
+  };
+
+  const { user, loading } = data;
+
+  return { user, loading, resetUserPatreonState };
 };
