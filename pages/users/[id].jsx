@@ -18,14 +18,14 @@ import {
   DialogContentText,
   DialogActions,
 } from '@material-ui/core';
-import { useFetchUser } from '../../lib/user';
+import { useUser } from '../../lib/user';
 import axios from 'axios';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 import WarningIcon from '@material-ui/icons/Warning';
 
 const Userview = ({ userId, showModal }) => {
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const [modalOpen, setModalOpen] = useState(showModal);
   const [profileData, setProfileData] = useState({
@@ -154,7 +154,6 @@ const Userview = ({ userId, showModal }) => {
               gravatar_avatar_url={gravatar_avatar_url}
               patreon_avatar_url={patreon_avatar_url}
               avatar_select={avatar_select}
-              isPatron={user?.isPatron}
               isUserAuthorized={isUserAuthorized}
               xs={12}
               md={3}
@@ -168,13 +167,7 @@ const Userview = ({ userId, showModal }) => {
             />
           </Grid>
           {isUserAuthorized ? (
-            <ProfileData
-              xs={12}
-              md={3}
-              patreonState={user?.patreon?.state}
-              email={user?.email}
-              getsMail={profileData?.getsMail}
-            />
+            <ProfileData xs={12} md={3}/>
           ) : (
             <Grid item xs={12} md={3} />
           )}

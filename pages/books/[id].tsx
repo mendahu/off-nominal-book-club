@@ -12,7 +12,7 @@ import {
 } from '../../src/components/Bookview';
 import userProfileFetcher from '../../src/helpers/userProfileFetcher';
 import { Grid } from '@material-ui/core';
-import { useFetchUser } from '../../lib/user';
+import { useUser } from '../../lib/user';
 import Head from 'next/head';
 import Message from '../../src/components/Utility/Message';
 import { tagJoiner } from '../../src/helpers/Bookview';
@@ -22,7 +22,7 @@ import SnackbarContext from '../../src/contexts/SnackbarContext';
 
 const Bookview = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
-  const { user, loading } = useFetchUser();
+  const { user, loading } = useUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const userId = user?.onbc_id;
 
