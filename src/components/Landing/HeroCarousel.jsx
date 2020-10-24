@@ -43,21 +43,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function HeroCarousel(props) {
+export default function HeroCarousel({ randomBook, mostFavBook, highestRatedBook }) {
 
   const classes = useStyles();
 
   const carouselItems = [];
 
-  if (props.randomBook) carouselItems.push({ ...props.randomBook, headline: "Try a random book!", subline: "Chosen from our collection" })
-  if (props.mostFavBook) carouselItems.push({ ...props.mostFavBook, headline: "Community Favourite", subline: "The community's favourite this month" })
-  if (props.highestRatedBook) carouselItems.push({ ...props.highestRatedBook, headline: "Community's Highest Rated", subline: "Best rated this month" })
+  if (randomBook) carouselItems.push({ ...randomBook, headline: "Try a random book!", subline: "Chosen from our collection" })
+  if (mostFavBook) carouselItems.push({ ...mostFavBook, headline: "Community Favourite", subline: "The community's favourite this month" })
+  if (highestRatedBook) carouselItems.push({ ...highestRatedBook, headline: "Community's Highest Rated", subline: "Best rated this month" })
 
   return (
     <MDBContainer className={classes.root}>
       <MDBCarousel
         activeItem={1}
-        length={3}
+        length={carouselItems.length}
         showControls={false}
         showIndicators={false}
         className="z-depth-1"
