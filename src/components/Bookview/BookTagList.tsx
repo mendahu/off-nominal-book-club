@@ -1,11 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Chip, Grid, Paper } from '@material-ui/core';
+import { Avatar, Chip, Grid, Paper } from '@material-ui/core';
 import { useState } from 'react';
 import axios from 'axios';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import DoneIcon from '@material-ui/icons/Done';
-import BookTagItem from './BookTagItem';
 import { useSnackbarContext } from '../../contexts/SnackbarContext';
+import BookTagInput from './BookTagInput';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,13 +14,16 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     backgroundColor: '#f0f0f0',
   },
+  chip: {
+    margin: theme.spacing(0.5),
+  },
 }));
 
 const BookTagList = (props) => {
   const classes = useStyles();
 
   const [tags, setTags] = useState(props.tags || []);
-  const [addMode, setAddMode] = useState(false);
+  // const [addMode, setAddMode] = useState(false);
   const [newTagInput, setNewTagInput] = useState('');
   const [busy, setBusy] = useState(false);
   const triggerSnackbar = useSnackbarContext();
@@ -116,19 +117,6 @@ const BookTagList = (props) => {
     }
   };
 
-  const toggleAddMode = () => {
-    props.isPatron
-      ? setAddMode(!addMode)
-      : triggerSnackbar({
-          active: true,
-          message:
-            'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!',
-          severity: 'warning',
-        });
-  };
-
-  const stopClick = (event) => event.stopPropagation();
-
   const addTag = async (e) => {
     e.preventDefault();
 
@@ -196,49 +184,18 @@ const BookTagList = (props) => {
     <Grid item xs={12}>
       <Paper className={classes.root}>
         {tags.length > 0 &&
-          tags.map((t, index) => {
-            if (t.count) {
-              return (
-                <BookTagItem
-                  key={index}
-                  tagData={t}
-                  handleClick={() => toggleTag(t, index)}
-                />
-              );
-            }
-          })}
+          tags.map((t, index) => (
+            <Chip
+              key={index}
+              className={classes.chip}
+              label={t.tag_name}
+              avatar={<Avatar>{t.count}</Avatar>}
+              onClick={() => toggleTag(t, index)}
+              color={t.tagRelId >= 0 ? 'primary' : 'default'}
+            />
+          ))}
 
-        <Chip
-          key={'add'}
-          label={
-            addMode ? (
-              <form onSubmit={(e) => addTag(e)}>
-                <span>
-                  #
-                  <input
-                    autoFocus
-                    type="text"
-                    id="tagInputField"
-                    className={classes.tagInput}
-                    value={newTagInput}
-                    onChange={(e) =>
-                      setNewTagInput(e.target.value.toLowerCase())
-                    }
-                    onClick={(e) => stopClick(e)}
-                  ></input>
-                  <button type="submit" hidden></button>
-                </span>
-              </form>
-            ) : (
-              'Add Tag'
-            )
-          }
-          icon={
-            addMode ? <DoneIcon></DoneIcon> : <AddCircleIcon></AddCircleIcon>
-          }
-          onClick={addMode ? (e) => addTag(e) : toggleAddMode}
-          className={classes.chip}
-        ></Chip>
+        <BookTagInput addTag={addTag} />
       </Paper>
     </Grid>
   );
