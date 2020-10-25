@@ -15,7 +15,7 @@ import { Grid } from '@material-ui/core';
 import { useUser } from '../../lib/user';
 import Head from 'next/head';
 import Message from '../../src/components/Utility/Message';
-import { tagJoiner } from '../../src/helpers/Bookview';
+import { buildInitialTagState } from '../../src/reducers/bookTagReducer';
 import { UserData, BookData } from '../../src/types/common';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
@@ -93,10 +93,8 @@ const Bookview = ({ slug, book, userData }) => {
             year={book.year}
           />
           <BookTagList
-            userId={userId}
-            isPatron={user?.isPatron}
             bookId={book.id}
-            tags={tagJoiner(book.tags, userData.user_tags)}
+            tags={buildInitialTagState(book.tags, userData.user_tags)}
           />
 
           {!user && <LoginPromote />}

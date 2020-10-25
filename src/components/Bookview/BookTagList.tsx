@@ -1,201 +1,177 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Chip, Grid, Paper } from '@material-ui/core';
-import { useState } from 'react';
+import { Avatar, Chip, CircularProgress, Grid, Paper } from '@material-ui/core';
+import { useReducer, useState } from 'react';
 import axios from 'axios';
 import { useSnackbarContext } from '../../contexts/SnackbarContext';
 import BookTagInput from './BookTagInput';
+import {
+  BookTagActionType,
+  BookTagAction,
+  bookTagReducer,
+} from '../../reducers/bookTagReducer';
+import { useUser } from '../../../lib/user';
+import { JoinedTag } from '../../types/common';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(0.5),
-  },
-  tagInput: {
-    borderRadius: '2px',
-    border: 'none',
-    backgroundColor: '#f0f0f0',
   },
   chip: {
     margin: theme.spacing(0.5),
   },
 }));
 
-const BookTagList = (props) => {
+export type BookTagListProps = {
+  bookId: string;
+  tags: JoinedTag[];
+};
+
+const BookTagList = ({ bookId, tags }: BookTagListProps) => {
   const classes = useStyles();
 
-  const [tags, setTags] = useState(props.tags || []);
-  // const [addMode, setAddMode] = useState(false);
-  const [newTagInput, setNewTagInput] = useState('');
-  const [busy, setBusy] = useState(false);
+  const { user } = useUser();
+  const [state, dispatch] = useReducer(bookTagReducer, tags);
+  const userId = user?.onbc_id;
   const triggerSnackbar = useSnackbarContext();
+  const [inputLoading, setInputLoading] = useState(false);
 
-  //helper function to check if tag count is too high
-  const hasTooManyTags = () => {
+  const hasTooManyTags = (tags) => {
     const userTags = tags.filter((tag) => tag.tagRelId);
     return userTags.length >= 5;
   };
 
-  //default tag object to submit new tag relationship
-  const userTagBook = {
-    userId: props.userId,
-    bookId: props.bookId,
-  };
-
-  const incrementTag = (tag, mutableTags, index, options) => {
-    if (hasTooManyTags()) {
-      triggerSnackbar({
-        active: true,
-        message: 'You may only add up to 5 tags per book.',
-        severity: 'warning',
-      });
-      throw 'user reached tag limit';
-    }
-
-    const { increment } = options;
-    const { tag_id } = tag;
-
-    const targetTag = tag[index] ? { ...tags[index] } : tag;
-
-    if (increment) {
-      //short circuit for when creating a new tag and there is an earlier setState that accomplishes this
-      targetTag.count++;
-      targetTag.tagRelId = true;
-      mutableTags[index] = targetTag;
-      setTags(mutableTags);
-    }
-
-    return axios
-      .post(`/api/tagRels/new`, { ...userTagBook, tag_id })
-      .then((res) => {
-        targetTag.tagRelId = res.data[0];
-        mutableTags[index] = targetTag;
-        return setTags(mutableTags);
-      })
-      .catch((err) => {
-        throw err;
-      });
-  };
-
-  const decrementTag = (tagRelId, mutableTags, index) => {
-    const targetTag = { ...tags[index] };
-
-    if (targetTag.count > 1) {
-      targetTag.count--;
-      delete targetTag.tagRelId;
-      mutableTags[index] = targetTag;
-    } else {
-      mutableTags.splice(index, 1);
-    }
-
-    setTags(mutableTags);
-
-    return axios.delete(`/api/tagRels/${tagRelId}/delete`).catch((err) => {
-      throw err;
+  const triggerTooManyTagsSnackbar = () => {
+    triggerSnackbar({
+      active: true,
+      message: 'You may only add up to 5 tags per book.',
+      severity: 'warning',
     });
   };
 
-  const toggleTag = async (tag, index) => {
-    if (!props.isPatron) {
-      return triggerSnackbar({
-        active: true,
-        message:
-          'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!',
-        severity: 'warning',
-      });
-    }
-
-    const mutableTags = [...tags]; //for altering state
-    const backupTags = [...tags]; //in case db fails we can reset state and stay in sync
-
-    //two control flows for if we are adding or removing a tag Relationship
-    try {
-      return (await tag.tagRelId)
-        ? decrementTag(tag.tagRelId, mutableTags, index)
-        : incrementTag(tag, mutableTags, index, { increment: true });
-    } catch (error) {
-      setTags(backupTags); //reverts changes to state to keep db in sync
-      throw error;
-    }
+  const triggerAPIErrorSnackbar = () => {
+    triggerSnackbar({
+      active: true,
+      message: 'Something went wrong saving your book tag change.',
+      severity: 'warning',
+    });
   };
 
-  const addTag = async (e) => {
-    e.preventDefault();
+  const generateProcessingAction = (
+    tagId: number,
+    status: 'start' | 'stop'
+  ): BookTagAction => {
+    return {
+      type:
+        status === 'start'
+          ? BookTagActionType.START_PROCESSING
+          : BookTagActionType.COMPLETE_PROCESSING,
+      payload: { tagId },
+    };
+  };
 
-    if (busy) return;
-
-    if (!newTagInput) return toggleAddMode();
-
-    if (hasTooManyTags()) {
-      triggerSnackbar({
-        active: true,
-        message: 'You may only add up to 5 tags per book.',
-        severity: 'warning',
+  const addTag = async (tagName, userId) => {
+    let tagId;
+    if (hasTooManyTags(state)) {
+      return triggerTooManyTagsSnackbar();
+    }
+    try {
+      setInputLoading(true);
+      const tagIdResponse = await axios.post(`/api/tags/new`, { tagName });
+      tagId = await tagIdResponse.data[0];
+      const tagRelIdResponse = await axios.post(`/api/tagRels/new`, {
+        tagId,
+        userId,
+        bookId,
       });
+      const tagRelId = await tagRelIdResponse.data[0];
+      dispatch({
+        type: BookTagActionType.ADD_TAG,
+        payload: {
+          tagName,
+          tagId,
+          tagRelId,
+        },
+      });
+    } catch {
+      triggerAPIErrorSnackbar();
+    }
+    dispatch(generateProcessingAction(tagId, 'stop'));
+    setInputLoading(false);
+  };
+
+  const toggleTag = async (tag: JoinedTag, userId: number) => {
+    if (tag.loading) {
       return;
     }
 
-    const existingTagIndex = tags.findIndex(
-      (tag) => tag.tag_name === newTagInput
-    );
-    if (existingTagIndex >= 0) {
-      if (!tags[existingTagIndex].tagRelId) {
-        toggleAddMode();
-        setNewTagInput('');
-        return toggleTag(tags[existingTagIndex], existingTagIndex);
-      } else {
-        return triggerSnackbar({
-          active: true,
-          message: "You've already added that tag!",
-          severity: 'warning',
+    if (tag.tagRelId) {
+      try {
+        dispatch(generateProcessingAction(tag.tag_id, 'start'));
+        await axios.delete(`/api/tagRels/${tag.tagRelId}/delete`);
+        dispatch({
+          type:
+            tag.count === 1
+              ? BookTagActionType.REMOVE_TAG
+              : BookTagActionType.DECREMENT_TAG,
+          payload: { tagId: tag.tag_id },
         });
+      } catch {
+        triggerAPIErrorSnackbar();
       }
+      dispatch(generateProcessingAction(tag.tag_id, 'stop'));
+    } else {
+      if (hasTooManyTags(state)) {
+        return triggerTooManyTagsSnackbar();
+      }
+      try {
+        dispatch(generateProcessingAction(tag.tag_id, 'start'));
+        const response = await axios.post(`/api/tagRels/new`, {
+          tagId: tag.tag_id,
+          userId,
+          bookId,
+        });
+        const newTagRelId = response.data;
+        dispatch({
+          type: BookTagActionType.INCREMENT_TAG,
+          payload: {
+            tagId: tag.tag_id,
+            tagRelId: newTagRelId,
+          },
+        });
+      } catch {
+        triggerAPIErrorSnackbar();
+      }
+      dispatch(generateProcessingAction(tag.tag_id, 'stop'));
     }
-
-    setBusy(true);
-
-    const newTagIndex = tags.length;
-    const backupTags = [...tags];
-    const newTag = {
-      tag_id: true,
-      tag_name: newTagInput,
-      count: 1,
-      tagRelId: true,
-    };
-    const mutableTags = [...tags, newTag];
-
-    setTags(mutableTags);
-    toggleAddMode();
-
-    try {
-      const tagId = await axios.post(`/api/tags/new`, { tagName: newTagInput });
-      newTag.tag_id = tagId.data[0];
-      await incrementTag(newTag, mutableTags, newTagIndex, {
-        increment: false,
-      });
-    } catch (error) {
-      setTags(backupTags);
-      console.error(error);
-    }
-
-    setNewTagInput('');
-    setBusy(false);
   };
 
   return (
     <Grid item xs={12}>
       <Paper className={classes.root}>
-        {tags.length > 0 &&
-          tags.map((t, index) => (
-            <Chip
-              key={index}
-              className={classes.chip}
-              label={t.tag_name}
-              avatar={<Avatar>{t.count}</Avatar>}
-              onClick={() => toggleTag(t, index)}
-              color={t.tagRelId >= 0 ? 'primary' : 'default'}
-            />
-          ))}
+        {state.length > 0 &&
+          state.map((tag, index) => {
+            const avatar = (
+              <Avatar>
+                {tag.loading ? (
+                  <CircularProgress size={18} color="inherit" />
+                ) : (
+                  tag.count
+                )}
+              </Avatar>
+            );
+            return (
+              <Chip
+                key={index}
+                className={classes.chip}
+                label={tag.tag_name}
+                avatar={avatar}
+                onClick={() => toggleTag(tag, userId)}
+                color={tag.tagRelId >= 0 ? 'primary' : 'default'}
+              />
+            );
+          })}
 
-        <BookTagInput addTag={addTag} />
+        <BookTagInput addTag={addTag} loading={inputLoading} />
       </Paper>
     </Grid>
   );

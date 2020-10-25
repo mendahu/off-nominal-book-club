@@ -1,4 +1,4 @@
-import { ButtonBase } from '@material-ui/core';
+import { ButtonBase, CircularProgress } from '@material-ui/core';
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -11,24 +11,31 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(0.5),
   },
+  // tagInput: {
+  //   borderRadius: '2px',
+  //   border: 'none',
+  //   backgroundColor: '#f0f0f0',
+  // },
 }));
 
 export type BookTagInputProps = {
-  addTag: () => {};
+  addTag: (tagName: string, userId: number) => void;
+  loading: boolean;
 };
 
-const BookTagInput = ({ addTag }: BookTagInputProps) => {
+const BookTagInput = ({ addTag, loading }: BookTagInputProps) => {
   const classes = useStyles();
 
   const [addMode, setAddMode] = useState(false);
   const { user } = useUser();
   const triggerSnackbar = useSnackbarContext();
+  const userId = user?.onbc_id;
 
   // const stopClick = (event) => event.stopPropagation();
 
   const toggleAddMode = () => {
     if (addMode) {
-      addTag();
+      addTag('space', userId);
       setAddMode(false);
     } else {
       user && user.isPatron
@@ -54,7 +61,15 @@ const BookTagInput = ({ addTag }: BookTagInputProps) => {
         </>
       ) : (
         <>
-          <AddCircleIcon className={'MuiChip-icon'} />
+          {loading ? (
+            <CircularProgress
+              className={'MuiChip-icon'}
+              size={18}
+              color="inherit"
+            />
+          ) : (
+            <AddCircleIcon className={'MuiChip-icon'} />
+          )}
           <span className={'MuiChip-label'}>Add Tag</span>
         </>
       )}
