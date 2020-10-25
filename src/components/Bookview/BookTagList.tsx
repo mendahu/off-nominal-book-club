@@ -70,10 +70,10 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
   };
 
   const addTag = async (tagName, userId) => {
-    let tagId;
     if (hasTooManyTags(state)) {
       return triggerTooManyTagsSnackbar();
     }
+    let tagId;
     try {
       setInputLoading(true);
       const tagIdResponse = await axios.post(`/api/tags/new`, { tagName });

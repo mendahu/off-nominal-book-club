@@ -11,11 +11,6 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     margin: theme.spacing(0.5),
   },
-  // tagInput: {
-  //   borderRadius: '2px',
-  //   border: 'none',
-  //   backgroundColor: '#f0f0f0',
-  // },
 }));
 
 export type BookTagInputProps = {
@@ -30,8 +25,6 @@ const BookTagInput = ({ addTag, loading }: BookTagInputProps) => {
   const { user } = useUser();
   const triggerSnackbar = useSnackbarContext();
   const userId = user?.onbc_id;
-
-  // const stopClick = (event) => event.stopPropagation();
 
   const toggleAddMode = () => {
     if (addMode) {
@@ -57,7 +50,22 @@ const BookTagInput = ({ addTag, loading }: BookTagInputProps) => {
       {addMode ? (
         <>
           <DoneIcon className={'MuiChip-icon'} />
-          <span className={'MuiChip-label'}>Submit Tag</span>
+
+          {/* <form onSubmit={(e) => addTag(e)}>
+            <span>
+              #
+              <input
+                autoFocus
+                type="text"
+                id="tagInputField"
+                className={classes.tagInput}
+                value={newTagInput}
+                onChange={(e) => setNewTagInput(e.target.value.toLowerCase())}
+                onClick={(e) => stopClick(e)}
+              ></input>
+              <button type="submit" hidden></button>
+            </span>
+          </form> */}
         </>
       ) : (
         <>
@@ -78,61 +86,3 @@ const BookTagInput = ({ addTag, loading }: BookTagInputProps) => {
 };
 
 export default BookTagInput;
-
-// label={
-//   addMode ? (
-//     <form onSubmit={(e) => addTag(e)}>
-//       <span>
-//         #
-//         <input
-//           autoFocus
-//           type="text"
-//           id="tagInputField"
-//           className={classes.tagInput}
-//           value={newTagInput}
-//           onChange={(e) => setNewTagInput(e.target.value.toLowerCase())}
-//           onClick={(e) => stopClick(e)}
-//         ></input>
-//         <button type="submit" hidden></button>
-//       </span>
-//     </form>
-//   ) : (
-//     'Add Tag'
-//   )
-// }
-// icon={addMode ? <DoneIcon></DoneIcon> : <AddCircleIcon></AddCircleIcon>}
-// onClick={addMode ? (e) => addTag(e) : toggleAddMode}
-
-{
-  /* <Chip
-          key={'add'}
-          label={
-            addMode ? (
-              <form onSubmit={(e) => addTag(e)}>
-                <span>
-                  #
-                  <input
-                    autoFocus
-                    type="text"
-                    id="tagInputField"
-                    className={classes.tagInput}
-                    value={newTagInput}
-                    onChange={(e) =>
-                      setNewTagInput(e.target.value.toLowerCase())
-                    }
-                    onClick={(e) => stopClick(e)}
-                  ></input>
-                  <button type="submit" hidden></button>
-                </span>
-              </form>
-            ) : (
-              'Add Tag'
-            )
-          }
-          icon={
-            addMode ? <DoneIcon></DoneIcon> : <AddCircleIcon></AddCircleIcon>
-          }
-          onClick={addMode ? (e) => addTag(e) : toggleAddMode}
-          className={classes.chip}
-        ></Chip> */
-}
