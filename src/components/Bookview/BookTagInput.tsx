@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { useSnackbarContext } from '../../contexts/SnackbarContext';
 import { useUser } from '../../../lib/user';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { AutocompleteTag } from '../../types/apiTypes';
 
 const useStyles = makeStyles((theme: Theme) => ({
   chip: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export type BookTagInputProps = {
   addTag: (tagName: string, userId: number) => void;
   loading: boolean;
+  tagList: AutocompleteTag[];
 };
 
 type TagOption = {
@@ -36,15 +38,7 @@ type TagOption = {
   count?: number;
 };
 
-const tagOptions: TagOption[] = [
-  { id: 31, label: 'space', count: 6 },
-  { id: 1, label: 'mars', count: 5 },
-  { id: 2, label: 'rovers', count: 4 },
-  { id: 6, label: 'planetary science', count: 3 },
-  { id: 17, label: 'opportunity', count: 2 },
-];
-
-const BookTagInput = ({ addTag, loading }: BookTagInputProps) => {
+const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
   const classes = useStyles();
 
   const [tagValue, setTagValue] = useState<TagOption>(null);
@@ -92,7 +86,7 @@ const BookTagInput = ({ addTag, loading }: BookTagInputProps) => {
           <DoneIcon className={'MuiChip-icon'} />
           <Autocomplete
             value={tagValue}
-            options={tagOptions}
+            options={tagList}
             onChange={(event, newValue: string | null) => {
               setTagValue({
                 label: newValue,

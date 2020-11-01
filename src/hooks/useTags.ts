@@ -1,6 +1,6 @@
 import { AutocompleteTag } from '../types/apiTypes';
 import { JoinedTag } from '../types/common';
-import { useState, useReducer } from 'react';
+import { useState, useReducer, useEffect } from 'react';
 import {
   bookTagReducer,
   BookTagActionType,
@@ -8,13 +8,16 @@ import {
 } from '../reducers/bookTagReducer';
 import axios from 'axios';
 
-export const useTags = (
-  tags: JoinedTag[],
-  tagList: AutocompleteTag[],
-  bookId: number
-) => {
+export const useTags = (tags: JoinedTag[], bookId: number) => {
   const [inputLoading, setInputLoading] = useState(false);
   const [state, dispatch] = useReducer(bookTagReducer, tags);
+  const [tagList, setTagList] = useState<AutocompleteTag[]>([]);
+
+  useEffect(() => {
+    axios.get('/api/tags').then((res) => {
+      setTagList(res.data);
+    });
+  }, []);
 
   const generateProcessingAction = (
     tagId: number,
@@ -49,6 +52,12 @@ export const useTags = (
           tagRelId,
         },
       });
+      const newTag = {
+        id: tagId,
+        count: 1,
+        label: tagName,
+      };
+      setTagList([...tagList, newTag]);
       return tagRelId;
     } catch {
       throw new Error();
@@ -111,6 +120,7 @@ export const useTags = (
 
   return {
     state,
+    tagList,
     inputLoading,
     addTag,
     incrementTag,

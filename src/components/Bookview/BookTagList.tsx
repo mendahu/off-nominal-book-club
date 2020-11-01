@@ -19,20 +19,22 @@ const useStyles = makeStyles((theme) => ({
 export type BookTagListProps = {
   bookId: number;
   tags: JoinedTag[];
-  tagList: AutocompleteTag[];
 };
 
-const BookTagList = ({ bookId, tags, tagList }: BookTagListProps) => {
+const BookTagList = ({ bookId, tags }: BookTagListProps) => {
   const classes = useStyles();
 
   const { user } = useUser();
   const userId = user?.onbc_id;
   const triggerSnackbar = useSnackbarContext();
-  const { state, inputLoading, addTag, incrementTag, decrementTag } = useTags(
-    tags,
+  const {
+    state,
     tagList,
-    bookId
-  );
+    inputLoading,
+    addTag,
+    incrementTag,
+    decrementTag,
+  } = useTags(tags, bookId);
 
   const triggerTooManyTagsSnackbar = () => {
     triggerSnackbar({
@@ -106,7 +108,11 @@ const BookTagList = ({ bookId, tags, tagList }: BookTagListProps) => {
             );
           })}
 
-        <BookTagInput addTag={handleAddTag} loading={inputLoading} />
+        <BookTagInput
+          addTag={handleAddTag}
+          loading={inputLoading}
+          tagList={tagList}
+        />
       </Paper>
     </Grid>
   );
