@@ -1,4 +1,4 @@
-const queries = require('../../../db/queries/tags')
+import { add } from '../../../db/queries/tags'
 import auth0 from '../../../lib/auth0'
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher'
 
@@ -9,9 +9,7 @@ export default auth0.requireAuthentication(async (req, res) => {
 
   const { tagName } = req.body
 
-  return queries
-    .tags
-    .add(tagName)
+  return add(tagName)
     .then((results) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json')

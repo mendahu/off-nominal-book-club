@@ -19,6 +19,9 @@ import { buildInitialTagState } from '../../src/reducers/bookTagReducer';
 import { UserData, BookData } from '../../src/types/common';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { AutocompleteTag } from '../../src/types/apiTypes';
 
 const Bookview = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
@@ -36,6 +39,14 @@ const Bookview = ({ slug, book, userData }) => {
       </Layout>
     );
   }
+
+  let tagList: AutocompleteTag[];
+
+  useEffect(() => {
+    axios.get('/api/tags').then((res) => {
+      tagList = res.data;
+    });
+  }, []);
 
   return (
     <Layout>
@@ -95,6 +106,7 @@ const Bookview = ({ slug, book, userData }) => {
           <BookTagList
             bookId={book.id}
             tags={buildInitialTagState(book.tags, userData.user_tags)}
+            tagList={tagList}
           />
 
           {!user && <LoginPromote />}
