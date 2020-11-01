@@ -1,10 +1,10 @@
-const queries = require('../../../db/queries/tagRels');
 import { NextApiRequest, NextApiResponse } from 'next';
+import { add, getTagIdByName } from '../../../db/queries/tags';
 import auth0 from '../../../lib/auth0';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 import { DisplayUser } from '../../../src/types/common';
 
-export const newTagRel = async (req: NextApiRequest, res: NextApiResponse) => {
+export const newTag = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method !== 'POST') {
@@ -13,13 +13,13 @@ export const newTagRel = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  const { userId, tagId, bookId } = req.body;
+  const { tagName } = req.body;
 
-  if (!userId || !tagId || !bookId) {
+  if (!tagName || typeof tagName !== 'string') {
     return res.status(400).json({
       error: 'missing_body_paramaters',
       message:
-        'One or more of the required body parameters for this endpoint is missing.',
+        'This endpoint requires a tag name in the body parameters. It is either missing or not a string.',
     });
   }
 
@@ -42,15 +42,20 @@ export const newTagRel = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   let response;
+  const lowerCaseTagName = tagName.toLowerCase();
 
   try {
-    response = await queries.tagRels.add(userId, tagId, bookId);
-    return res.status(200).json(response);
+    response = await getTagIdByName(lowerCaseTagName);
+    if (response.length) {
+      return res.status(200).json(response[0]);
+    }
+    response = await add(lowerCaseTagName);
+    return res.status(200).json({ id: response[0] });
   } catch (err) {
     return res.status(500).json({ message: 'Error adding tag to database.' });
   }
 };
 
 export default auth0.requireAuthentication(
-  (req: NextApiRequest, res: NextApiResponse) => newTagRel(req, res)
+  (req: NextApiRequest, res: NextApiResponse) => newTag(req, res)
 );

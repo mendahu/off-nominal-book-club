@@ -58,6 +58,48 @@ describe('tagRels /newTagRel', () => {
     expect(response.status).toEqual(405);
   });
 
+  it('should return 400 if userId is missing', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'POST',
+      body: {
+        tagId: '5',
+        bookId: '10',
+      },
+    };
+
+    const response = await newTagRel(mockReq, mockRes());
+    expect(response.status).toEqual(400);
+    expect(response.response).toHaveProperty('message');
+  });
+
+  it('should return 400 if tagId is missing', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'POST',
+      body: {
+        userId: '5',
+        bookId: '10',
+      },
+    };
+
+    const response = await newTagRel(mockReq, mockRes());
+    expect(response.status).toEqual(400);
+    expect(response.response).toHaveProperty('message');
+  });
+
+  it('should return 400 if bookId is missing', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'POST',
+      body: {
+        tagId: '5',
+        userId: '10',
+      },
+    };
+
+    const response = await newTagRel(mockReq, mockRes());
+    expect(response.status).toEqual(400);
+    expect(response.response).toHaveProperty('message');
+  });
+
   it('should return authentication error if user authentication has error', async () => {
     const mockReq: Partial<NextApiRequest> = {
       method: 'POST',

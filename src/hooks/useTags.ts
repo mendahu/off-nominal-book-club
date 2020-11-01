@@ -37,7 +37,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
     try {
       setInputLoading(true);
       const tagIdResponse = await axios.post(`/api/tags/new`, { tagName });
-      tagId = await tagIdResponse.data[0];
+      tagId = await tagIdResponse.data.id;
       const tagRelIdResponse = await axios.post(`/api/tagRels/new`, {
         tagId,
         userId,

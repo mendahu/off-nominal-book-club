@@ -1,24 +1,11 @@
 import knex from '../../knex';
 
-export const add = (input: string) => {
-  if (!input) {
-    throw new Error('Cannot add tag of null value');
-  }
+export const getTagIdByName = (name: string) => {
+  return knex.select('id').from('tags').where('name', name);
+};
 
-  const tagName = input.toLowerCase();
-
-  return knex
-    .select('id')
-    .from('tags')
-    .where('name', tagName)
-    .then((res) =>
-      res.length
-        ? [res[0].id]
-        : knex('tags').returning('id').insert({ name: tagName })
-    )
-    .catch((err) => {
-      throw new Error(err);
-    });
+export const add = (name: string) => {
+  return knex('tags').returning('id').insert({ name });
 };
 
 export const getAllTags = () => {
@@ -35,6 +22,7 @@ export const getAllTags = () => {
 };
 
 export default {
+  getTagIdByName,
   add,
   getAllTags,
 };
