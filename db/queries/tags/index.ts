@@ -22,9 +22,8 @@ export const add = (input: string) => {
 };
 
 export const getAllTags = () => {
-  return knex
-    .raw(
-      `
+  return knex.raw(
+    `
       SELECT t.id, t.name AS label, COUNT(tr.id) as count
         FROM tags as t
         JOIN user_tag_book as tr
@@ -32,10 +31,7 @@ export const getAllTags = () => {
         GROUP BY t.id
         ORDER BY t.name
       `
-    )
-    .catch(() => {
-      throw new Error('Error reading database.');
-    });
+  );
 };
 
 export default {

@@ -8,7 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json(response.rows as AutocompleteTag[]);
   } catch (err) {
     res.status(500).json({
-      message: err.message as string,
+      message: 'Error reading database.',
     });
   }
 };
