@@ -1,11 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Chip, CircularProgress, Grid, Paper } from '@material-ui/core';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
-import BookTagInput from './BookTagInput';
-import { useUser } from '../../../lib/user';
-import { JoinedTag } from '../../types/common';
-import { AutocompleteTag } from '../../types/apiTypes';
-import { useTags } from '../../hooks/useTags';
+import { useSnackbarContext } from '../../../../contexts/SnackbarContext';
+import BookTagInput from '../BookTagInput/BookTagInput';
+import { useUser } from '../../../../../lib/user';
+import { JoinedTag } from '../../../../types/common';
+import { useTags } from '../../../../hooks/useTags';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
-import Bookview, { getServerSideProps } from '../../../../pages/books/[id]';
-import Message from '../../Utility/Message';
+import BookPage, { getServerSideProps } from '../../../../pages/books/[id]';
+import Message from '../../../components/Utility/Message';
 
 //Default userData from serverSideProps
 let userData = {
@@ -55,9 +55,9 @@ const testBook = {
   ],
 };
 
-describe('Bookview', () => {
+describe('BookPage', () => {
   it('Should render error message if book data is null', () => {
-    const wrapper = shallow(<Bookview book={null} />);
+    const wrapper = shallow(<BookPage book={null} />);
     expect(wrapper.find(Message)).toHaveLength(1);
   });
 
@@ -67,12 +67,12 @@ describe('Bookview', () => {
       description: 'a test book about books',
     };
 
-    const wrapper = shallow(<Bookview book={testBook} userData={userData} />);
+    const wrapper = shallow(<BookPage book={testBook} userData={userData} />);
     expect(wrapper.find(Message)).toHaveLength(0);
   });
 });
 
-describe('Bookview ServerSide Props', () => {
+describe('BookPage ServerSide Props', () => {
   it('should pass slug and null data for a non-existant url', async () => {
     const context = {
       params: {
@@ -85,7 +85,7 @@ describe('Bookview ServerSide Props', () => {
 
     expect(props).toEqual({
       slug: 'wrong-url-slug',
-      book,
+      book: null,
       userData: null,
     });
   });

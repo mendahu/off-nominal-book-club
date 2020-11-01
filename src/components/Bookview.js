@@ -1,5 +1,4 @@
 import BookTitleBar from "./Bookview/BookTitleBar";
-import BookTagList from "./Bookview/BookTagList";
 import BookDesc from "./Bookview/BookDesc";
 import BookFeedback from "./Bookview/BookFeedback";
 import ReadingButton from "./Bookview/ReadingButton";
@@ -9,7 +8,6 @@ import DataPromote from "./Bookview/DataPromote"
 
 export {
   BookTitleBar,
-  BookTagList,
   BookDesc,
   BookFeedback,
   ReadingButton,

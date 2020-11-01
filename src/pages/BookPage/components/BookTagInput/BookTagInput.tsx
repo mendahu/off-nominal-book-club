@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DoneIcon from '@material-ui/icons/Done';
 import clsx from 'clsx';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
-import { useUser } from '../../../lib/user';
+import { useSnackbarContext } from '../../../../contexts/SnackbarContext';
+import { useUser } from '../../../../../lib/user';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { AutocompleteTag } from '../../types/apiTypes';
+import { AutocompleteTag } from '../../../../types/apiTypes';
 
 const useStyles = makeStyles((theme: Theme) => ({
   chip: {
@@ -116,6 +116,7 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
                   type="text"
                   placeholder="Enter tag"
                   autoFocus={true}
+                  name="new-tag-input"
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>

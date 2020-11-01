@@ -3,13 +3,13 @@ const userQueries = require('../../db/queries/users');
 import Layout from '../../src/components/DefaultLayout';
 import {
   BookTitleBar,
-  BookTagList,
   BookDesc,
   BookFeedback,
   PatronPromote,
   LoginPromote,
   DataPromote,
 } from '../../src/components/Bookview';
+import { BookTagList } from '../../src/pages/BookPage/components/';
 import userProfileFetcher from '../../src/helpers/userProfileFetcher';
 import { Grid } from '@material-ui/core';
 import { useUser } from '../../lib/user';
@@ -20,7 +20,7 @@ import { UserData, BookData } from '../../src/types/common';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 
-const Bookview = ({ slug, book, userData }) => {
+const BookPage = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
   const { user, loading } = useUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
@@ -158,4 +158,4 @@ export async function getServerSideProps(context) {
   return { props: { slug, book, userData } };
 }
 
-export default Bookview;
+export default BookPage;
