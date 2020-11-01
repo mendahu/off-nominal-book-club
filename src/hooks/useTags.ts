@@ -44,20 +44,30 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
         bookId,
       });
       const tagRelId = await tagRelIdResponse.data[0];
-      dispatch({
-        type: BookTagActionType.ADD_TAG,
-        payload: {
-          tagName,
-          tagId,
-          tagRelId,
-        },
-      });
-      const newTag = {
-        id: tagId,
-        count: 1,
-        label: tagName,
-      };
-      setTagList([...tagList, newTag]);
+      if (state.some((tag) => tag.tag_id === tagId)) {
+        dispatch({
+          type: BookTagActionType.INCREMENT_TAG,
+          payload: {
+            tagId,
+            tagRelId,
+          },
+        });
+      } else {
+        dispatch({
+          type: BookTagActionType.ADD_TAG,
+          payload: {
+            tagName,
+            tagId,
+            tagRelId,
+          },
+        });
+        const newTag = {
+          id: tagId,
+          count: 1,
+          label: tagName,
+        };
+        setTagList([...tagList, newTag]);
+      }
       return tagRelId;
     } catch {
       throw new Error();
