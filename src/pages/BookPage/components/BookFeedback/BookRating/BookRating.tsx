@@ -2,7 +2,7 @@ import { Grid, Paper, Box, Typography } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
+import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +41,6 @@ const BookRating = ({ rating, rateBook }) => {
         message: 'Something went wrong with your book rating!',
         severity: 'error',
       });
-      //console.error(error);
     }
 
     setBusy(false);

@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import BookReview from '../BookReview';
+import BookReview from '../BookReview/BookReview';
 import BookReviewList from '../BookReviewList';
 
 describe('BookReviewList', () => {

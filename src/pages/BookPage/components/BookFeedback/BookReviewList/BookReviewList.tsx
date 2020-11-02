@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Paper, CardContent, Typography } from '@material-ui/core';
-import BookReview from './BookReview';
+import BookReview from './BookReview/BookReview';
 
 const BookReviewList = ({ userRating, userReview, reviews }) => {
   return (

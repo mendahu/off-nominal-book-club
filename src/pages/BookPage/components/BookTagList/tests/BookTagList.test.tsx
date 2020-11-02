@@ -1,11 +1,11 @@
 import { shallow } from 'enzyme';
-import { BookTagInput, BookTagList } from '../..';
+import { BookTagList } from '../..';
 import { BookTagListProps } from '../BookTagList';
 import { useUser } from '../../../../../../lib/user';
 import { Chip } from '@material-ui/core';
 import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
 import { JoinedTag } from '../../../../../types/common';
-import { useTags } from '../../../../../hooks/useTags/useTags';
+import BookTagInput from '../BookTagInput/BookTagInput';
 
 jest.mock('../../../../../../lib/user');
 jest.mock('../../../../../contexts/SnackbarContext');
@@ -32,9 +32,6 @@ const test_oneNonUserTag: JoinedTag = {
 };
 
 const mockTriggerSnackbar = jest.fn();
-const mockIncrementTag = jest.fn();
-const mockDecrementTag = jest.fn();
-const mockAddTag = jest.fn();
 
 const defaultProps: BookTagListProps = {
   bookId: 5,

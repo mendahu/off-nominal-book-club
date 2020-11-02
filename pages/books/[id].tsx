@@ -8,8 +8,8 @@ import {
   PatronPromote,
   LoginPromote,
   DataPromote,
-} from '../../src/components/Bookview';
-import { BookTagList } from '../../src/pages/BookPage/components/';
+  BookTagList,
+} from '../../src/pages/BookPage/components';
 import userProfileFetcher from '../../src/helpers/userProfileFetcher';
 import { Grid } from '@material-ui/core';
 import { useUser } from '../../lib/user';

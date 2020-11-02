@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Chip, Box, Tooltip } from '@material-ui/core';
 import axios from 'axios';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
-
+import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({

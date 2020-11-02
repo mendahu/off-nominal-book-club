@@ -1,6 +1,6 @@
 import { act, render, fireEvent } from '@testing-library/react';
 import BookRating from '../BookRating';
-import * as SnackbarContext from '../../../contexts/SnackbarContext';
+import * as SnackbarContext from '../../../../../../contexts/SnackbarContext';
 
 const mockRateBook = jest.fn();
 const mockTriggerSnackbar = jest.fn();

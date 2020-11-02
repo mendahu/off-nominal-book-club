@@ -3,11 +3,11 @@ import { shallow } from 'enzyme';
 import BookTagInput, { BookTagInputProps } from '../BookTagInput';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DoneIcon from '@material-ui/icons/Done';
-import { useUser } from '../../../../../../lib/user';
-import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
+import { useUser } from '../../../../../../../lib/user';
+import { useSnackbarContext } from '../../../../../../contexts/SnackbarContext';
 
-jest.mock('../../../../../../lib/user');
-jest.mock('../../../../../contexts/SnackbarContext');
+jest.mock('../../../../../../../lib/user');
+jest.mock('../../../../../../contexts/SnackbarContext');
 
 const mockAddTag = jest.fn();
 const mockTriggerSnackbar = jest.fn();

@@ -14,7 +14,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
+import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   expand: {

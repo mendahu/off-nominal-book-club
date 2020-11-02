@@ -7,8 +7,8 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import Star from '@material-ui/icons/Star';
-import BookTitleBarMetaFlag from './BookTitleBarMetaFlag';
-import generateAuthorString from '../../helpers/generateAuthorString';
+import BookTitleBarMetaFlag from './BookTitleBarMetaFlag/BookTitleBarMetaFlag';
+import generateAuthorString from '../../../../helpers/generateAuthorString';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,17 +31,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    flexGrow: '1',
-    order: 2,
-    [theme.breakpoints.down('xs')]: {
-      order: 3,
-      flex: '1 0 100%',
-    },
-  },
   ratings: {
     display: 'flex',
     justifyContent: 'center',
@@ -49,6 +38,17 @@ const useStyles = makeStyles((theme) => ({
   },
   star: {
     marginRight: '2px',
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    flexGrow: 1,
+    order: 2,
+    [theme.breakpoints.down('xs')]: {
+      order: 3,
+      flex: '1 0 100%',
+    },
   },
 }));
 
@@ -122,15 +122,11 @@ const BookTitleBar = (props) => {
           ))}
         </div>
 
-        <CardContent className={classes.content}>
+        <CardContent className={classes.title}>
           <Typography variant="h5" component="h1">
             {props.title}
           </Typography>
-          <Typography
-            variant="body2"
-            className={classes.authors}
-            color="textSecondary"
-          >
+          <Typography variant="body2" color="textSecondary">
             {authorString} - {props.year}
           </Typography>
         </CardContent>

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import BookReviewList from './BookReviewList';
+import BookReviewList from './BookReviewList/BookReviewList';
 import axios from 'axios';
-import BookRating from './BookRating';
-import BookUserReview from './BookUserReview';
+import BookRating from './BookRating/BookRating';
+import BookUserReview from './BookUserReview/BookUserReview';
 
 const BookFeedback = ({ userId, userData, book, isPatron }) => {
   const { id: bookId, reviews } = book;
