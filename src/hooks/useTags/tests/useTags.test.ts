@@ -165,6 +165,7 @@ describe('useTags', () => {
 
     expect(result.current.tagList).toEqual(tagList);
   });
+
   it('should increment a tag', async () => {
     axios.post.mockResolvedValueOnce({ data: 2 });
 
