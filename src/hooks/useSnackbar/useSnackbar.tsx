@@ -1,6 +1,6 @@
 import { useState, SyntheticEvent } from 'react';
 import { Color } from '@material-ui/lab';
-import OnbcSnackbar from '../components/Utility/OnbcSnackbar';
+import OnbcSnackbar from '../../components/Utility/OnbcSnackbar';
 
 export interface SnackbarContent {
   active: boolean;

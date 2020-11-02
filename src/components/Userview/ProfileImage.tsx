@@ -9,7 +9,7 @@ import {
   RadioGroup,
 } from '@material-ui/core';
 import { useUser } from '../../../lib/user';
-import { useProfileUpdater } from '../../hooks/useProfileUpdater';
+import { useProfileUpdater } from '../../hooks/useProfileUpdater/useProfileUpdater';
 import { AvatarSelect } from '../../types/enums';
 
 const useStyles = makeStyles((theme) => ({

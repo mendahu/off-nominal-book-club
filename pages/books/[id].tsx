@@ -17,7 +17,10 @@ import Head from 'next/head';
 import Message from '../../src/components/Utility/Message';
 import { buildInitialTagState } from '../../src/reducers/bookTagReducer/bookTagReducer';
 import { UserData, BookData } from '../../src/types/common';
-import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+import {
+  useSnackbar,
+  OnbcSnackbar,
+} from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 
 const BookPage = ({ slug, book, userData }) => {

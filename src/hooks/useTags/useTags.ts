@@ -1,11 +1,11 @@
-import { AutocompleteTag } from '../types/apiTypes';
-import { JoinedTag } from '../types/common';
+import { AutocompleteTag } from '../../types/apiTypes';
+import { JoinedTag } from '../../types/common';
 import { useState, useReducer, useEffect } from 'react';
 import {
   bookTagReducer,
   BookTagActionType,
   BookTagAction,
-} from '../reducers/bookTagReducer/bookTagReducer';
+} from '../../reducers/bookTagReducer/bookTagReducer';
 import axios from 'axios';
 
 export const useTags = (tags: JoinedTag[], bookId: number) => {
@@ -14,9 +14,10 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
   const [tagList, setTagList] = useState<AutocompleteTag[]>([]);
 
   useEffect(() => {
-    axios.get('/api/tags').then((res) => {
-      setTagList(res.data);
-    });
+    (async function tagFetcher() {
+      const response = await axios.get('/api/tags');
+      setTagList(response.data);
+    })();
   }, []);
 
   const generateProcessingAction = (
@@ -30,6 +31,22 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
           : BookTagActionType.COMPLETE_PROCESSING,
       payload: { tagId },
     };
+  };
+
+  const changeTagListCount = (
+    list: AutocompleteTag[],
+    tagId: number,
+    increment: boolean
+  ) => {
+    return list.map((tag) => {
+      if (tag.id === tagId) {
+        const newTag = { ...tag };
+        increment ? newTag.count++ : newTag.count--;
+        return newTag;
+      } else {
+        return tag;
+      }
+    });
   };
 
   const addTag = async (tagName: string, userId: number) => {
@@ -52,6 +69,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
             tagRelId,
           },
         });
+        setTagList(changeTagListCount(tagList, tagId, true));
       } else {
         dispatch({
           type: BookTagActionType.ADD_TAG,
@@ -66,7 +84,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
           count: 1,
           label: tagName,
         };
-        setTagList([...tagList, newTag]);
+        setTagList((prevState) => [...prevState, newTag]);
       }
       return tagRelId;
     } catch {
@@ -88,7 +106,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
         userId,
         bookId,
       });
-      const newTagRelId = response.data;
+      const newTagRelId = await response.data;
       dispatch({
         type: BookTagActionType.INCREMENT_TAG,
         payload: {
@@ -96,6 +114,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
           tagRelId: newTagRelId,
         },
       });
+      setTagList(changeTagListCount(tagList, tag.tag_id, true));
       return newTagRelId;
     } catch {
       throw new Error();
@@ -120,6 +139,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
             : BookTagActionType.DECREMENT_TAG,
         payload: { tagId: tag.tag_id },
       });
+      setTagList(changeTagListCount(tagList, tag.tag_id, false));
       return response;
     } catch {
       throw new Error();

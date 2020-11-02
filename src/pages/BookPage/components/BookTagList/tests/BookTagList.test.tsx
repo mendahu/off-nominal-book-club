@@ -5,7 +5,7 @@ import { useUser } from '../../../../../../lib/user';
 import { Chip } from '@material-ui/core';
 import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
 import { JoinedTag } from '../../../../../types/common';
-import { useTags } from '../../../../../hooks/useTags';
+import { useTags } from '../../../../../hooks/useTags/useTags';
 
 jest.mock('../../../../../../lib/user');
 jest.mock('../../../../../contexts/SnackbarContext');

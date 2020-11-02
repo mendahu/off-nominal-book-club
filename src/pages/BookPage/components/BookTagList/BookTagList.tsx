@@ -4,7 +4,7 @@ import { useSnackbarContext } from '../../../../contexts/SnackbarContext';
 import BookTagInput from '../BookTagInput/BookTagInput';
 import { useUser } from '../../../../../lib/user';
 import { JoinedTag } from '../../../../types/common';
-import { useTags } from '../../../../hooks/useTags';
+import { useTags } from '../../../../hooks/useTags/useTags';
 
 const useStyles = makeStyles((theme) => ({
   root: {

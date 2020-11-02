@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 import { useUser } from '../../lib/user';
 import axios from 'axios';
-import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 import WarningIcon from '@material-ui/icons/Warning';
 

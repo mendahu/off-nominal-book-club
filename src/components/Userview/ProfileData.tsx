@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Checkbox } from '@material-ui/core';
 import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
 import axios from 'axios';
-import { useProfileUpdater } from '../../hooks/useProfileUpdater';
+import { useProfileUpdater } from '../../hooks/useProfileUpdater/useProfileUpdater';
 import { useSnackbarContext } from '../../contexts/SnackbarContext';
 import sendPasswordReset from '../../helpers/sendPasswordReset';
 import { useUser } from '../../../lib/user';
