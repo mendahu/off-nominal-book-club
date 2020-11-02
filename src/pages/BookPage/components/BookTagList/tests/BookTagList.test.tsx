@@ -2,53 +2,39 @@ import { shallow } from 'enzyme';
 import { BookTagInput, BookTagList } from '../..';
 import { BookTagListProps } from '../BookTagList';
 import { useUser } from '../../../../../../lib/user';
-import { Chip, CircularProgress } from '@material-ui/core';
+import { Chip } from '@material-ui/core';
+import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
 import { JoinedTag } from '../../../../../types/common';
-// import SnackbarContext from '../../../../../contexts/SnackbarContext';
+import { useTags } from '../../../../../hooks/useTags';
 
 jest.mock('../../../../../../lib/user');
+jest.mock('../../../../../contexts/SnackbarContext');
 
-const test_noUserTags = [
-  { loading: false, tag_id: 1, tag_name: 'tag1', count: 2 },
-  { loading: false, tag_id: 2, tag_name: 'tag2', count: 1 },
-  { loading: false, tag_id: 3, tag_name: 'tag3', count: 3 },
+const test_maxUserTags: JoinedTag[] = [
+  { loading: false, tag_id: 1, tag_name: 'tag1', count: 2, tagRelId: 3 },
+  { loading: false, tag_id: 2, tag_name: 'tag2', count: 1, tagRelId: 1 },
+  { loading: false, tag_id: 3, tag_name: 'tag3', count: 3, tagRelId: 2 },
+  { loading: false, tag_id: 4, tag_name: 'tag4', count: 2, tagRelId: 7 },
+  { loading: false, tag_id: 5, tag_name: 'tag5', count: 6, tagRelId: 8 },
 ];
 
-const test_someUserTags = [
+const test_someUserTags: JoinedTag[] = [
   { loading: false, tag_id: 1, tag_name: 'tag1', count: 4 },
   { loading: false, tag_id: 2, tag_name: 'tag2', count: 5, tagRelId: 1 },
   { loading: false, tag_id: 3, tag_name: 'tag3', count: 6, tagRelId: 2 },
 ];
 
-const test_allUserTags = [
-  { loading: false, tag_id: 1, tag_name: 'tag1', count: 2, tagRelId: 3 },
-  { loading: false, tag_id: 2, tag_name: 'tag2', count: 1, tagRelId: 1 },
-  { loading: false, tag_id: 3, tag_name: 'tag3', count: 3, tagRelId: 2 },
-];
-
-const test_oneUserTag: JoinedTag = {
-  loading: false,
-  tag_id: 4,
-  tag_name: 'tag4',
-  count: 5,
-  tagRelId: 4,
-};
 const test_oneNonUserTag: JoinedTag = {
   loading: false,
-  tag_id: 5,
-  tag_name: 'tag5',
+  tag_id: 1,
+  tag_name: 'tag1',
   count: 4,
 };
 
-const test_oneLoadingUserTag: JoinedTag = {
-  loading: true,
-  tag_id: 6,
-  tag_name: 'tag6',
-  count: 5,
-  tagRelId: 5,
-};
-
 const mockTriggerSnackbar = jest.fn();
+const mockIncrementTag = jest.fn();
+const mockDecrementTag = jest.fn();
+const mockAddTag = jest.fn();
 
 const defaultProps: BookTagListProps = {
   bookId: 5,
@@ -64,6 +50,8 @@ describe('BookTagList', () => {
       loading: false,
       resetUserPatreonState: jest.fn(),
     }));
+
+    useSnackbarContext.mockImplementation(() => mockTriggerSnackbar);
   });
 
   it('should render correct amount and colors of tags', () => {
@@ -83,53 +71,26 @@ describe('BookTagList', () => {
     expect(wrapper.find(BookTagInput)).toHaveLength(1);
   });
 
-  // it('calls the toggleTag function when clicked', () => {
-  //   const handleClick = jest.fn();
-  //   const wrapper = shallow(
-  //     <BookTagItem tagData={test_oneUserTag} handleClick={handleClick} />
-  //   );
+  it('Should trigger snackbar if user not logged in and tag clicked', () => {
+    useUser.mockImplementationOnce(() => ({
+      user: null,
+      loading: false,
+      resetUserPatreonState: jest.fn(),
+    }));
 
-  //   wrapper.find(Chip).simulate('click');
-  //   expect(handleClick).toHaveBeenCalledTimes(1);
-  // });
+    const wrapper = shallow(<BookTagList {...defaultProps} />);
+    wrapper.find(Chip).at(0).simulate('click');
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
+  });
 
-  // it('Should not allow unauthenticated users to increment tags', async () => {
-  //   const wrapper = mount(
-  //     <SnackbarContext.Provider value={mockTriggerSnackbar}>
-  //       <BookTagList
-  //         tags={[test_oneNonUserTag]}
-  //         userId={undefined}
-  //         isPatron={undefined}
-  //         bookId={1}
-  //       />
-  //     </SnackbarContext.Provider>
-  //   );
-
-  //   const tag = wrapper.find(Chip);
-  //   act(() => {
-  //     tag.at(0).simulate('click');
-  //   });
-  //   expect(tag.at(0).text()).toMatch(/4/);
-  //   expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
-  // });
-
-  // it('Should not allow non patron users to increment tags', async () => {
-  //   const wrapper = mount(
-  //     <SnackbarContext.Provider value={mockTriggerSnackbar}>
-  //       <BookTagList
-  //         tags={[test_oneNonUserTag]}
-  //         userId={1}
-  //         isPatron={false}
-  //         bookId={1}
-  //       />
-  //     </SnackbarContext.Provider>
-  //   );
-
-  //   const tag = wrapper.find(Chip);
-  //   act(() => {
-  //     tag.at(0).simulate('click');
-  //   });
-  //   expect(tag.at(0).text()).toMatch(/4/);
-  //   expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
-  // });
+  it('Should trigger snackbar if user increments when already has five tags', () => {
+    const wrapper = shallow(
+      <BookTagList
+        {...defaultProps}
+        tags={[test_oneNonUserTag, ...test_maxUserTags]}
+      />
+    );
+    wrapper.find(Chip).at(0).simulate('click');
+    expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
+  });
 });

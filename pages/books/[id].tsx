@@ -15,7 +15,7 @@ import { Grid } from '@material-ui/core';
 import { useUser } from '../../lib/user';
 import Head from 'next/head';
 import Message from '../../src/components/Utility/Message';
-import { buildInitialTagState } from '../../src/reducers/bookTagReducer';
+import { buildInitialTagState } from '../../src/reducers/bookTagReducer/bookTagReducer';
 import { UserData, BookData } from '../../src/types/common';
 import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';

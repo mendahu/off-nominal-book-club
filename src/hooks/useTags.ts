@@ -5,7 +5,7 @@ import {
   bookTagReducer,
   BookTagActionType,
   BookTagAction,
-} from '../reducers/bookTagReducer';
+} from '../reducers/bookTagReducer/bookTagReducer';
 import axios from 'axios';
 
 export const useTags = (tags: JoinedTag[], bookId: number) => {

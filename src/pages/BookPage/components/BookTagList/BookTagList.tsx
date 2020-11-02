@@ -51,14 +51,27 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
     });
   };
 
-  const hasTooManyTags = (tags) => {
+  const triggerNotLoggedInSnackbar = () => {
+    triggerSnackbar({
+      active: true,
+      message:
+        'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!',
+      severity: 'warning',
+    });
+  };
+
+  const hasMaxAmountOfTags = (tags: JoinedTag[]) => {
     const userTags = tags.filter((tag) => tag.tagRelId);
     return userTags.length >= 5;
   };
 
   const handleClick = async (tag, shouldDecrement) => {
+    if (!user || !user.isPatron) {
+      return triggerNotLoggedInSnackbar();
+    }
+
     try {
-      if (!shouldDecrement && hasTooManyTags(state)) {
+      if (!shouldDecrement && hasMaxAmountOfTags(state)) {
         return triggerTooManyTagsSnackbar();
       }
       shouldDecrement
@@ -70,8 +83,12 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
   };
 
   const handleAddTag = async (tagName, userId) => {
+    if (!user || !user.isPatron) {
+      return triggerNotLoggedInSnackbar();
+    }
+
     try {
-      if (hasTooManyTags(state)) {
+      if (hasMaxAmountOfTags(state)) {
         return triggerTooManyTagsSnackbar();
       }
       await addTag(tagName, userId);

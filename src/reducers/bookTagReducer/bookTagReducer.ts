@@ -1,4 +1,4 @@
-import { BookTag, UserTag, JoinedTag } from '../types/common';
+import { BookTag, UserTag, JoinedTag } from '../../types/common';
 
 export enum BookTagActionType {
   INCREMENT_TAG = 'INCREMENT_TAG',
