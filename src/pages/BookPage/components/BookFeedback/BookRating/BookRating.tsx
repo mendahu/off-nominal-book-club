@@ -23,7 +23,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BookRating = ({ rating, rateBook }) => {
+type BookRatingProps = {
+  rating: {
+    id: number;
+    user_rating: number;
+  };
+  rateBook: (value: number) => void;
+};
+
+const BookRating = ({ rating, rateBook }: BookRatingProps) => {
   const classes = useStyles();
 
   const [busy, setBusy] = useState(false);
@@ -61,7 +69,7 @@ const BookRating = ({ rating, rateBook }) => {
           <Rating
             name="simple-controlled"
             value={Number(rating?.user_rating || 0)}
-            onChange={(e) => handleClick(e.target.value)}
+            onChange={(event, newValue) => handleClick(newValue)}
           />
         </Box>
       </Paper>
