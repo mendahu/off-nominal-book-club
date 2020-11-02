@@ -51,6 +51,14 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
     });
   };
 
+  const triggerAlreadyAddedSnackbar = () => {
+    triggerSnackbar({
+      active: true,
+      message: "You've already added this tag.",
+      severity: 'warning',
+    });
+  };
+
   const triggerNotLoggedInSnackbar = () => {
     triggerSnackbar({
       active: true,
@@ -78,6 +86,7 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
         ? await decrementTag(tag, userId)
         : await incrementTag(tag, userId);
     } catch (err) {
+      console.log(err);
       triggerAPIErrorSnackbar();
     }
   };
@@ -92,8 +101,13 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
         return triggerTooManyTagsSnackbar();
       }
       await addTag(tagName, userId);
-    } catch {
-      triggerAPIErrorSnackbar();
+    } catch (err) {
+      console.error(err);
+      if (err === 'already-added') {
+        triggerAlreadyAddedSnackbar();
+      } else {
+        triggerAPIErrorSnackbar();
+      }
     }
   };
 

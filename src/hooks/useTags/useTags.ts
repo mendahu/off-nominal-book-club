@@ -33,6 +33,44 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
     };
   };
 
+  const generateIncrementTagAction = (
+    tagId: number,
+    tagRelId: number
+  ): BookTagAction => {
+    return {
+      type: BookTagActionType.INCREMENT_TAG,
+      payload: { tagId, tagRelId },
+    };
+  };
+
+  const generateDecrementTagAction = (
+    count: number,
+    tagId: number
+  ): BookTagAction => {
+    return {
+      type:
+        count === 1
+          ? BookTagActionType.REMOVE_TAG
+          : BookTagActionType.DECREMENT_TAG,
+      payload: { tagId },
+    };
+  };
+
+  const generateAddTagAction = (
+    tagName: string,
+    tagId: number,
+    tagRelId: number
+  ): BookTagAction => {
+    return {
+      type: BookTagActionType.ADD_TAG,
+      payload: {
+        tagName,
+        tagId,
+        tagRelId,
+      },
+    };
+  };
+
   const changeTagListCount = (
     list: AutocompleteTag[],
     tagId: number,
@@ -51,34 +89,40 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
 
   const addTag = async (tagName: string, userId: number) => {
     let tagId;
+    setInputLoading(true);
     try {
-      setInputLoading(true);
-      const tagIdResponse = await axios.post(`/api/tags/new`, { tagName });
-      tagId = await tagIdResponse.data.id;
-      const tagRelIdResponse = await axios.post(`/api/tagRels/new`, {
-        tagId,
-        userId,
-        bookId,
-      });
-      const tagRelId = await tagRelIdResponse.data[0];
-      if (state.some((tag) => tag.tag_id === tagId)) {
-        dispatch({
-          type: BookTagActionType.INCREMENT_TAG,
-          payload: {
-            tagId,
-            tagRelId,
-          },
+      try {
+        const tagIdResponse = await axios.post(`/api/tags/new`, { tagName });
+        tagId = await tagIdResponse.data.id;
+      } catch (err) {
+        throw 'api-error';
+      }
+
+      const existingTag = state.find((tag) => tag.tag_id === tagId);
+      const bookAlreadyTaggedByUser = existingTag?.tagRelId;
+
+      if (bookAlreadyTaggedByUser) {
+        throw 'already-added';
+      }
+
+      let tagRelId: number;
+
+      try {
+        const tagRelIdResponse = await axios.post(`/api/tagRels/new`, {
+          tagId,
+          userId,
+          bookId,
         });
+        tagRelId = await tagRelIdResponse.data[0];
+      } catch (err) {
+        throw 'api-error';
+      }
+
+      if (existingTag) {
+        dispatch(generateIncrementTagAction(tagId, tagRelId));
         setTagList(changeTagListCount(tagList, tagId, true));
       } else {
-        dispatch({
-          type: BookTagActionType.ADD_TAG,
-          payload: {
-            tagName,
-            tagId,
-            tagRelId,
-          },
-        });
+        dispatch(generateAddTagAction(tagName, tagId, tagRelId));
         const newTag = {
           id: tagId,
           count: 1,
@@ -87,8 +131,8 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
         setTagList((prevState) => [...prevState, newTag]);
       }
       return tagRelId;
-    } catch {
-      throw new Error();
+    } catch (err) {
+      throw err;
     } finally {
       dispatch(generateProcessingAction(tagId, 'stop'));
       setInputLoading(false);
@@ -107,13 +151,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
         bookId,
       });
       const newTagRelId = await response.data;
-      dispatch({
-        type: BookTagActionType.INCREMENT_TAG,
-        payload: {
-          tagId: tag.tag_id,
-          tagRelId: newTagRelId,
-        },
-      });
+      dispatch(generateIncrementTagAction(tag.tag_id, newTagRelId));
       setTagList(changeTagListCount(tagList, tag.tag_id, true));
       return newTagRelId;
     } catch {
@@ -132,13 +170,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
       const response = await axios.delete(
         `/api/tagRels/${tag.tagRelId}/delete`
       );
-      dispatch({
-        type:
-          tag.count === 1
-            ? BookTagActionType.REMOVE_TAG
-            : BookTagActionType.DECREMENT_TAG,
-        payload: { tagId: tag.tag_id },
-      });
+      dispatch(generateDecrementTagAction(tag.count, tag.tag_id));
       setTagList(changeTagListCount(tagList, tag.tag_id, false));
       return response;
     } catch {
