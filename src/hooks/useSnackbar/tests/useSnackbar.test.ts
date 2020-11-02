@@ -54,4 +54,22 @@ describe('useSnackbar', () => {
       message: '',
     });
   });
+
+  it('should return just return if close reason is clickaway', () => {
+    const { result } = renderHook(() => useSnackbar());
+
+    expect(result.current.snackBarContent).toEqual(defaultState);
+
+    act(() => {
+      result.current.triggerSnackbar(warningState);
+    });
+
+    expect(result.current.snackBarContent).toEqual(warningState);
+
+    act(() => {
+      result.current.closeSnackbar({} as SyntheticEvent, 'clickaway');
+    });
+
+    expect(result.current.snackBarContent).toEqual(warningState);
+  });
 });
