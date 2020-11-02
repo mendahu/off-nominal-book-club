@@ -3,24 +3,27 @@ const userQueries = require('../../db/queries/users');
 import Layout from '../../src/components/DefaultLayout';
 import {
   BookTitleBar,
-  BookTagList,
   BookDesc,
   BookFeedback,
   PatronPromote,
   LoginPromote,
   DataPromote,
-} from '../../src/components/Bookview';
+  BookTagList,
+} from '../../src/pages/BookPage/components';
 import userProfileFetcher from '../../src/helpers/userProfileFetcher';
 import { Grid } from '@material-ui/core';
 import { useUser } from '../../lib/user';
 import Head from 'next/head';
 import Message from '../../src/components/Utility/Message';
-import { tagJoiner } from '../../src/helpers/Bookview';
+import { buildInitialTagState } from '../../src/reducers/bookTagReducer/bookTagReducer';
 import { UserData, BookData } from '../../src/types/common';
-import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+import {
+  useSnackbar,
+  OnbcSnackbar,
+} from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 
-const Bookview = ({ slug, book, userData }) => {
+const BookPage = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
   const { user, loading } = useUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
@@ -93,10 +96,8 @@ const Bookview = ({ slug, book, userData }) => {
             year={book.year}
           />
           <BookTagList
-            userId={userId}
-            isPatron={user?.isPatron}
             bookId={book.id}
-            tags={tagJoiner(book.tags, userData.user_tags)}
+            tags={buildInitialTagState(book.tags, userData.user_tags)}
           />
 
           {!user && <LoginPromote />}
@@ -160,4 +161,4 @@ export async function getServerSideProps(context) {
   return { props: { slug, book, userData } };
 }
 
-export default Bookview;
+export default BookPage;

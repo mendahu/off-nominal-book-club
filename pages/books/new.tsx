@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
-import { useDebounce } from '../../src/hooks/useDebounce';
+import { useDebounce } from '../../src/hooks/useDebounce/useDebounce';
 import SearchResult from '../../src/components/New/SearchResult';
 import SmallListItem from '../../src/components/New/SmallListItem';
 import {
@@ -36,7 +36,10 @@ import urlGenerator from '../../src/helpers/urlGenerator';
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import clsx from 'clsx';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar';
+import {
+  useSnackbar,
+  OnbcSnackbar,
+} from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({

@@ -14,6 +14,7 @@ export interface JoinedTag {
   tag_name: string;
   count: number;
   tagRelId?: number;
+  loading: boolean;
 }
 
 export interface UserRating {
