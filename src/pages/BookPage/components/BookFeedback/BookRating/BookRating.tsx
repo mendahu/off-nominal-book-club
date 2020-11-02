@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   rateBox: {
     padding: theme.spacing(1.25, 0, 0.5, 0),
     textAlign: 'center',
-    [theme.breakpoints.up('790')]: {
+    [theme.breakpoints.up(790)]: {
       minWidth: '100%',
     },
   },
