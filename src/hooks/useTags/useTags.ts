@@ -71,7 +71,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
     };
   };
 
-  const changeTagListCount = (
+  const generateNewTagList = (
     list: AutocompleteTag[],
     tagId: number,
     increment: boolean,
@@ -133,15 +133,10 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
 
       if (existingTag) {
         dispatch(generateIncrementTagAction(tagId, tagRelId));
-        setTagList(changeTagListCount(tagList, tagId, true));
+        setTagList(generateNewTagList(tagList, tagId, true));
       } else {
         dispatch(generateAddTagAction(tagName, tagId, tagRelId));
-        const newTag = {
-          id: tagId,
-          count: 1,
-          label: tagName,
-        };
-        setTagList(changeTagListCount(tagList, tagId, true, tagName));
+        setTagList(generateNewTagList(tagList, tagId, true, tagName));
       }
       return tagRelId;
     } catch (err) {
@@ -165,7 +160,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
       });
       const newTagRelId = await response.data;
       dispatch(generateIncrementTagAction(tag.tag_id, newTagRelId));
-      setTagList(changeTagListCount(tagList, tag.tag_id, true));
+      setTagList(generateNewTagList(tagList, tag.tag_id, true));
       return newTagRelId;
     } catch {
       throw new Error();
@@ -184,7 +179,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
         `/api/tagRels/${tag.tagRelId}/delete`
       );
       dispatch(generateDecrementTagAction(tag.count, tag.tag_id));
-      setTagList(changeTagListCount(tagList, tag.tag_id, false));
+      setTagList(generateNewTagList(tagList, tag.tag_id, false));
       return response;
     } catch {
       throw new Error();
