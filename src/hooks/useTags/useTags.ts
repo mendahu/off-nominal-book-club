@@ -74,17 +74,30 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
   const changeTagListCount = (
     list: AutocompleteTag[],
     tagId: number,
-    increment: boolean
+    increment: boolean,
+    newTagName?: string
   ) => {
-    return list.map((tag) => {
+    let hasChanged = false;
+    const newTagList = list.map((tag) => {
       if (tag.id === tagId) {
         const newTag = { ...tag };
         increment ? newTag.count++ : newTag.count--;
+        hasChanged = true;
         return newTag;
       } else {
         return tag;
       }
     });
+    if (hasChanged) {
+      return newTagList;
+    } else {
+      newTagList.push({
+        count: 1,
+        id: tagId,
+        label: newTagName,
+      });
+      return newTagList;
+    }
   };
 
   const addTag = async (tagName: string, userId: number) => {
@@ -120,6 +133,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
 
       if (existingTag) {
         dispatch(generateIncrementTagAction(tagId, tagRelId));
+        console.log(tagList, tagId);
         setTagList(changeTagListCount(tagList, tagId, true));
       } else {
         dispatch(generateAddTagAction(tagName, tagId, tagRelId));
@@ -128,7 +142,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
           count: 1,
           label: tagName,
         };
-        setTagList((prevState) => [...prevState, newTag]);
+        setTagList(changeTagListCount(tagList, tagId, true, tagName));
       }
       return tagRelId;
     } catch (err) {
