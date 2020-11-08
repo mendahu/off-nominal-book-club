@@ -133,7 +133,6 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
 
       if (existingTag) {
         dispatch(generateIncrementTagAction(tagId, tagRelId));
-        console.log(tagList, tagId);
         setTagList(changeTagListCount(tagList, tagId, true));
       } else {
         dispatch(generateAddTagAction(tagName, tagId, tagRelId));
