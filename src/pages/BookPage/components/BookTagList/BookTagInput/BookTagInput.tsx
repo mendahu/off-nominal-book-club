@@ -105,7 +105,7 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
               setInput(newInputValue);
             }}
             id="new-tag-input"
-            getOptionLabel={(option): string => {
+            getOptionLabel={(option) => {
               if (typeof option === 'string') {
                 return option;
               }
