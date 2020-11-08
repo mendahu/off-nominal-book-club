@@ -86,7 +86,6 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
         ? await decrementTag(tag, userId)
         : await incrementTag(tag, userId);
     } catch (err) {
-      console.log(err);
       triggerAPIErrorSnackbar();
     }
   };

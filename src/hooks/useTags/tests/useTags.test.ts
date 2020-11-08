@@ -74,6 +74,8 @@ describe('useTags', () => {
       useTags(initialState, 1)
     );
 
+    await waitForNextUpdate(); // lets useEffect populate taglist
+
     act(() => {
       result.current.addTag('rockets', 2);
     });

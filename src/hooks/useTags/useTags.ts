@@ -71,20 +71,33 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
     };
   };
 
-  const changeTagListCount = (
+  const generateNewTagList = (
     list: AutocompleteTag[],
     tagId: number,
-    increment: boolean
+    increment: boolean,
+    newTagName?: string
   ) => {
-    return list.map((tag) => {
+    let hasChanged = false;
+    const newTagList = list.map((tag) => {
       if (tag.id === tagId) {
         const newTag = { ...tag };
         increment ? newTag.count++ : newTag.count--;
+        hasChanged = true;
         return newTag;
       } else {
         return tag;
       }
     });
+    if (hasChanged) {
+      return newTagList;
+    } else {
+      newTagList.push({
+        count: 1,
+        id: tagId,
+        label: newTagName,
+      });
+      return newTagList;
+    }
   };
 
   const addTag = async (tagName: string, userId: number) => {
@@ -120,15 +133,10 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
 
       if (existingTag) {
         dispatch(generateIncrementTagAction(tagId, tagRelId));
-        setTagList(changeTagListCount(tagList, tagId, true));
+        setTagList(generateNewTagList(tagList, tagId, true));
       } else {
         dispatch(generateAddTagAction(tagName, tagId, tagRelId));
-        const newTag = {
-          id: tagId,
-          count: 1,
-          label: tagName,
-        };
-        setTagList((prevState) => [...prevState, newTag]);
+        setTagList(generateNewTagList(tagList, tagId, true, tagName));
       }
       return tagRelId;
     } catch (err) {
@@ -152,7 +160,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
       });
       const newTagRelId = await response.data;
       dispatch(generateIncrementTagAction(tag.tag_id, newTagRelId));
-      setTagList(changeTagListCount(tagList, tag.tag_id, true));
+      setTagList(generateNewTagList(tagList, tag.tag_id, true));
       return newTagRelId;
     } catch {
       throw new Error();
@@ -171,7 +179,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
         `/api/tagRels/${tag.tagRelId}/delete`
       );
       dispatch(generateDecrementTagAction(tag.count, tag.tag_id));
-      setTagList(changeTagListCount(tagList, tag.tag_id, false));
+      setTagList(generateNewTagList(tagList, tag.tag_id, false));
       return response;
     } catch {
       throw new Error();
