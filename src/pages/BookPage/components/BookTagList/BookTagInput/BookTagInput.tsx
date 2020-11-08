@@ -91,10 +91,14 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
           <Autocomplete
             value={tagValue}
             options={tagList}
-            onChange={(event, newValue: string | null) => {
-              setTagValue({
-                label: newValue,
-              });
+            onChange={(event, newValue: string | TagOption | null) => {
+              if (typeof newValue === 'string') {
+                setTagValue({
+                  label: newValue,
+                });
+              } else if (newValue?.label) {
+                setTagValue(newValue);
+              }
             }}
             inputValue={input}
             onInputChange={(event, newInputValue) => {
