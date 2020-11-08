@@ -91,12 +91,12 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
           <Autocomplete
             value={tagValue}
             options={tagList}
-            onChange={(event, newValue: string | TagOption | null) => {
+            onChange={(event, newValue: string | TagOption) => {
               if (typeof newValue === 'string') {
                 setTagValue({
                   label: newValue,
                 });
-              } else if (newValue?.label) {
+              } else {
                 setTagValue(newValue);
               }
             }}
@@ -105,14 +105,16 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
               setInput(newInputValue);
             }}
             id="new-tag-input"
-            getOptionLabel={(option) => {
+            getOptionLabel={(option): string => {
               if (typeof option === 'string') {
                 return option;
               }
               return option.label;
             }}
             renderOption={(option) => {
-              return `${option.label} (${option.count})`;
+              return `${(option as TagOption).label} (${
+                (option as TagOption).count
+              })`;
             }}
             freeSolo
             style={{ width: 168 }}
