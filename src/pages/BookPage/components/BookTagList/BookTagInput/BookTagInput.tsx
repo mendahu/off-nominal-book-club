@@ -79,11 +79,15 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
   return (
     <ButtonBase
       className={clsx(classes.chip, 'MuiChip-root', 'MuiChip-clickable')}
-      onClick={toggleAddMode}
+      onClick={() => {
+        if (!addMode) {
+          toggleAddMode();
+        }
+      }}
     >
       {addMode ? (
         <>
-          <DoneIcon className={'MuiChip-icon'} />
+          <DoneIcon className={'MuiChip-icon'} onClick={toggleAddMode} />
           <Autocomplete
             value={tagValue}
             options={tagList}
@@ -132,7 +136,7 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
               color="inherit"
             />
           ) : (
-            <AddCircleIcon className={'MuiChip-icon'} />
+            <AddCircleIcon className={'MuiChip-icon'} onClick={toggleAddMode} />
           )}
           <span className={'MuiChip-label'}>
             {loading ? 'Adding Tag...' : 'Add Tag'}
