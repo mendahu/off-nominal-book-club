@@ -5,12 +5,14 @@ import { useUser } from '../../../../lib/user';
 import DrawerContents from '../Drawer/DrawerContents';
 jest.mock('../../../../lib/user');
 
-describe('Navbar', () => {
-  it('should render one button, Box and Drawer Contents for unauthenticated user', () => {
-    useUser.mockImplementationOnce(() => {
-      return { user: undefined, loading: false };
-    });
+useUser.mockImplementation(() => ({ user: undefined, loading: false }));
 
+describe('Navbar', () => {
+  beforeEach(() => {
+    useUser.mockClear();
+  });
+
+  it('should render one button, Box and Drawer Contents for unauthenticated user', () => {
     const wrapper = shallow(<Navbar />);
     expect(wrapper.find(Button)).toHaveLength(1);
     expect(wrapper.find(Box)).toHaveLength(1);
@@ -18,14 +20,12 @@ describe('Navbar', () => {
   });
 
   it('should render an add Book button for Patrons', () => {
-    useUser.mockImplementationOnce(() => {
-      return {
-        user: {
-          isPatron: true,
-        },
-        loading: false,
-      };
-    });
+    useUser.mockImplementationOnce(() => ({
+      user: {
+        isPatron: true,
+      },
+      loading: false,
+    }));
 
     const wrapper = shallow(<Navbar />);
     const buttons = wrapper.find(Button);
