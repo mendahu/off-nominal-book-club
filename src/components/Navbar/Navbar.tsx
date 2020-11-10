@@ -34,22 +34,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const keyDownGate = (callback) => (open: boolean) => (event) => {
+  if (
+    event.type === 'keydown' &&
+    (event.key === 'Tab' || event.key === 'Shift')
+  ) {
+    return;
+  }
+
+  callback(open);
+};
+
 const Navbar = () => {
   const classes = useStyles();
 
   const { user, loading } = useUser();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = (open: boolean) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-
-    setDrawerOpen(open);
-  };
+  const toggleDrawer = keyDownGate(setDrawerOpen);
 
   return (
     <AppBar position="sticky">

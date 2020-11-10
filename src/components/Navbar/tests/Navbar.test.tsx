@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import Navbar from '../Navbar';
+import Navbar, { keyDownGate } from '../Navbar';
 import { Button, Box } from '@material-ui/core';
 import { useUser } from '../../../../lib/user';
 import DrawerContents from '../Drawer/DrawerContents';
@@ -31,5 +31,38 @@ describe('Navbar', () => {
     const buttons = wrapper.find(Button);
     expect(buttons).toHaveLength(2);
     expect(buttons.at(1).text()).toEqual('Add a Book');
+  });
+});
+
+describe('keyDownGate', () => {
+  const mockDrawerToggle = jest.fn();
+
+  beforeEach(() => {
+    mockDrawerToggle.mockClear();
+  });
+
+  it('should fire callback if a click', () => {
+    keyDownGate(mockDrawerToggle)(true)({ type: 'click' });
+    expect(mockDrawerToggle).toHaveBeenCalledTimes(1);
+  });
+
+  it('should fire callback if an enter keystroke', () => {
+    keyDownGate(mockDrawerToggle)(true)({ type: 'keydown', key: 'Enter' });
+    expect(mockDrawerToggle).toHaveBeenCalledTimes(1);
+  });
+
+  it('should fire callback if a space keystroke', () => {
+    keyDownGate(mockDrawerToggle)(true)({ type: 'keydown', key: ' ' });
+    expect(mockDrawerToggle).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not fire callback if a tab keystroke', () => {
+    keyDownGate(mockDrawerToggle)(true)({ type: 'keydown', key: 'Tab' });
+    expect(mockDrawerToggle).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not fire callback if a shift keystroke', () => {
+    keyDownGate(mockDrawerToggle)(true)({ type: 'keydown', key: 'Shift' });
+    expect(mockDrawerToggle).toHaveBeenCalledTimes(0);
   });
 });
