@@ -11,12 +11,14 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonIcon from '@material-ui/icons/Person';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+import HomeIcon from '@material-ui/icons/Home';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Link from 'next/link';
 import DrawerItem from './DrawerItem';
+import { useUser } from '../../../../lib/user';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   list: {
     width: 250,
   },
@@ -28,18 +30,32 @@ const useStyles = makeStyles((theme) => ({
     height: '10vh',
     margin: '1em auto 1em auto',
   },
+  lowerPadding: {
+    paddingBottom: theme.spacing(1),
+  },
 }));
 
-const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
+export type DrawerContentsProps = {
+  logInUrl: string;
+  logOutUrl: string;
+  toggleDrawer: (open: boolean) => (event) => void;
+};
+
+const profileItems = [
+  { display: 'READS', query: 'reads' },
+  { display: 'FAVOURITES', query: 'favourites' },
+  { display: 'WISHLIST', query: 'wishlist' },
+];
+
+const DrawerContents = ({
+  logInUrl,
+  logOutUrl,
+  toggleDrawer,
+}: DrawerContentsProps) => {
   const classes = useStyles();
+  const { user, loading } = useUser();
 
   const profileLink = `/users/${user?.onbc_id}`;
-
-  const profileItems = [
-    { display: 'READS', query: 'reads' },
-    { display: 'FAVOURITES', query: 'favourites' },
-    { display: 'WISHLIST', query: 'wishlist' },
-  ];
 
   return (
     <div
@@ -81,20 +97,19 @@ const DrawerContents = ({ user, logInUrl, logOutUrl, toggleDrawer }) => {
         </>
       )}
 
-      {user?.isPatron && (
-        <>
-          <List>
+      <List>
+        {user?.isPatron && (
+          <>
             <DrawerItem
               url="/books/new"
               text="Add Book"
               icon={<LibraryAddIcon color="primary" />}
+              extraPadding={true}
             />
-          </List>
-          <Divider />
-        </>
-      )}
-
-      <List>
+            <Divider />
+          </>
+        )}
+        <DrawerItem url="/" text="Home" icon={<HomeIcon />} />
         <DrawerItem url="/about" text="About" icon={<ContactSupportIcon />} />
         {user?.onbc_id ? (
           <DrawerItem url={logOutUrl} text="Log out" icon={<ExitToAppIcon />} />
