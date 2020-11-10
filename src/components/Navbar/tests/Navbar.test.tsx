@@ -1,9 +1,9 @@
 import { shallow } from 'enzyme';
 import Navbar from '../Navbar';
 import { Button, Box } from '@material-ui/core';
-import { useUser } from '../../../lib/user';
-import DrawerContents from '../Navbar/DrawerContents';
-jest.mock('../../../lib/user');
+import { useUser } from '../../../../lib/user';
+import DrawerContents from '../Drawer/DrawerContents';
+jest.mock('../../../../lib/user');
 
 describe('Navbar', () => {
   it('should render one button, Box and Drawer Contents for unauthenticated user', () => {

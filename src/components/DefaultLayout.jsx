@@ -1,4 +1,4 @@
-import Navbar from '../../src/components/Navbar'
+import Navbar from './Navbar/Navbar'
 import { Container } from "@material-ui/core";
 
 const Layout = props => {

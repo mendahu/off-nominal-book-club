@@ -1,12 +1,16 @@
 import { shallow } from 'enzyme';
-import DrawerContents from '../DrawerContents';
+import DrawerContents, { DrawerContentsProps } from '../DrawerContents';
 import DrawerItem from '../DrawerItem';
 import { Avatar, Typography } from '@material-ui/core';
+import { useUser } from '../../../../../lib/user';
+jest.mock('../../../../../lib/user');
 
 const testToggle = jest.fn();
 
-const defaultProps = {
+const defaultProps: DrawerContentsProps = {
   toggleDrawer: testToggle,
+  logInUrl: '/',
+  logOutUrl: '/',
 };
 
 const defaultUser = {
@@ -16,6 +20,7 @@ const defaultUser = {
   reads: [],
   favourites: [],
   wishlist: [],
+  isPatron: false,
 };
 
 describe('Drawer Contents', () => {
@@ -23,32 +28,39 @@ describe('Drawer Contents', () => {
     testToggle.mockClear();
   });
 
-  it('should render an about page link and a log out link for unauthenticated users', () => {
+  it('should render a home page link, an about page link and a log out link for unauthenticated users', () => {
+    useUser.mockImplementationOnce(() => ({ user: undefined, loading: false }));
     const wrapper = shallow(<DrawerContents {...defaultProps} />);
-    expect(wrapper.find(DrawerItem)).toHaveLength(2);
+    expect(wrapper.find(DrawerItem)).toHaveLength(3);
   });
 
   it('should not render an avatar for unauthenticated users', () => {
+    useUser.mockImplementationOnce(() => ({ user: undefined, loading: false }));
     const wrapper = shallow(<DrawerContents {...defaultProps} />);
     expect(wrapper.find(Avatar)).toHaveLength(0);
   });
 
   it('should not render user text for unauthenticated users', () => {
+    useUser.mockImplementationOnce(() => ({ user: undefined, loading: false }));
     const wrapper = shallow(<DrawerContents {...defaultProps} />);
     expect(wrapper.find(Typography)).toHaveLength(0);
   });
 
   it('should render a profile image for an authenticated user', () => {
-    const wrapper = shallow(
-      <DrawerContents {...defaultProps} user={defaultUser} />
-    );
+    useUser.mockImplementationOnce(() => ({
+      user: defaultUser,
+      loading: false,
+    }));
+    const wrapper = shallow(<DrawerContents {...defaultProps} />);
     expect(wrapper.find(Avatar)).toHaveLength(1);
   });
 
   it('should render user text for authenticated users', () => {
-    const wrapper = shallow(
-      <DrawerContents {...defaultProps} user={defaultUser} />
-    );
+    useUser.mockImplementationOnce(() => ({
+      user: defaultUser,
+      loading: false,
+    }));
+    const wrapper = shallow(<DrawerContents {...defaultProps} />);
     const text = wrapper.find(Typography);
     expect(text).toHaveLength(4);
     expect(text.at(0).text()).toEqual('Jake');
@@ -58,12 +70,11 @@ describe('Drawer Contents', () => {
   });
 
   it('should render an add book icon for patrons', () => {
-    const wrapper = shallow(
-      <DrawerContents
-        {...defaultProps}
-        user={{ ...defaultUser, isPatron: true }}
-      />
-    );
-    expect(wrapper.find(DrawerItem)).toHaveLength(3);
+    useUser.mockImplementationOnce(() => ({
+      user: { ...defaultUser, isPatron: true },
+      loading: false,
+    }));
+    const wrapper = shallow(<DrawerContents {...defaultProps} />);
+    expect(wrapper.find(DrawerItem)).toHaveLength(4);
   });
 });

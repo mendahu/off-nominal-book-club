@@ -12,8 +12,8 @@ import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import Link from 'next/link';
 import { Link as MatLink } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useUser } from '../../lib/user';
-import DrawerContents from './Navbar/DrawerContents';
+import { useUser } from '../../../lib/user';
+import DrawerContents from './Drawer/DrawerContents';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -40,7 +40,7 @@ const Navbar = () => {
   const { user, loading } = useUser();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (open: boolean) => (event) => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
@@ -59,7 +59,6 @@ const Navbar = () => {
         </Button>
         <Drawer anchor={'left'} open={drawerOpen} onClose={toggleDrawer(false)}>
           <DrawerContents
-            user={user}
             logInUrl="/api/auth0/login"
             logOutUrl="/api/auth0/logout"
             toggleDrawer={toggleDrawer}

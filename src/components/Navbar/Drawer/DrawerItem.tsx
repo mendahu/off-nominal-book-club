@@ -1,7 +1,13 @@
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import Link from 'next/link';
 
-const DrawerItem = ({ url, text, icon }) => {
+export type DrawerItemProps = {
+  url: string;
+  text: string;
+  icon: JSX.Element;
+};
+
+const DrawerItem = ({ url, text, icon }: DrawerItemProps) => {
   return (
     <Link href={url} passHref>
       <ListItem button>
