@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '10vh',
     margin: '1em auto 1em auto',
   },
+  lowerPadding: {
+    paddingBottom: theme.spacing(1),
+  },
 }));
 
 export type DrawerContentsProps = {
@@ -101,6 +104,7 @@ const DrawerContents = ({
               url="/books/new"
               text="Add Book"
               icon={<LibraryAddIcon color="primary" />}
+              extraPadding={true}
             />
             <Divider />
           </>
