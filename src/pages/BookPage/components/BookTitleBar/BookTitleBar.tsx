@@ -1,11 +1,11 @@
 import { Paper, CardContent, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Star from '@material-ui/icons/Star';
 import MetaFlags, {
   MetaFlagData,
 } from '../../../../components/MetaFlags/MetaFlags';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: theme.spacing(1, 0, 0, 0),
     display: 'flex',
