@@ -25,7 +25,11 @@ export const useMetaFlags = (
       severity: 'error',
     });
 
-  const markFlag = async (dataType: Flag, state: MetaFlagDatum, setter) => {
+  const markFlag = async (
+    dataType: Flag,
+    state: MetaFlagDatum,
+    setter: Dispatch<SetStateAction<MetaFlagDatum>>
+  ) => {
     setter({ ...state, loading: true });
     try {
       const response = await axios.post(`/api/${dataType}/new`, {
@@ -41,10 +45,14 @@ export const useMetaFlags = (
     }
   };
 
-  const unMarkFlag = async (dataType: Flag, state: MetaFlagDatum, setter) => {
+  const unMarkFlag = async (
+    dataType: Flag,
+    state: MetaFlagDatum,
+    setter: Dispatch<SetStateAction<MetaFlagDatum>>
+  ) => {
     setter({ ...state, loading: true });
     try {
-      const response = await axios.post(`/api/${dataType}/${state.id}/delete`);
+      await axios.post(`/api/${dataType}/${state.id}/delete`);
       const newCount = state.count - 1;
       setter({ count: newCount, id: undefined, loading: false });
     } catch {

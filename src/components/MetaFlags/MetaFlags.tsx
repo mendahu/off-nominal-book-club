@@ -13,7 +13,7 @@ import { useSnackbarContext } from '../../contexts/SnackbarContext';
 
 export type MetaFlagDatum = {
   count: number;
-  id: number;
+  id?: number;
   loading: boolean;
 };
 
