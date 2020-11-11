@@ -1,14 +1,9 @@
-import { Paper, CardContent, Box, Grid, Typography } from '@material-ui/core';
+import { Paper, CardContent, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import Star from '@material-ui/icons/Star';
-import BookTitleBarMetaFlag from './BookTitleBarMetaFlag/BookTitleBarMetaFlag';
-import generateAuthorString from '../../../../helpers/generateAuthorString';
+import MetaFlags, {
+  MetaFlagData,
+} from '../../../../components/MetaFlags/MetaFlags';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,82 +47,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BookTitleBar = (props) => {
+export type BookTitleBarProps = {
+  bookId: number;
+  metaData: MetaFlagData;
+  authorString: string;
+  thumbnail: string;
+  ratingString: string;
+  title: string;
+  year: string;
+};
+
+const BookTitleBar = ({
+  metaData,
+  bookId,
+  authorString,
+  thumbnail,
+  ratingString,
+  title,
+  year,
+}) => {
   const classes = useStyles();
-
-  const userBook = {
-    bookId: props.bookId,
-    userId: props.userId,
-  };
-
-  const userFlags = [
-    {
-      type: 'reads',
-      count: props.reads,
-      status: props.userRead,
-      icon_active: <CheckCircleIcon />,
-      icon_inactive: <CheckCircleOutlineIcon />,
-      error: 'You must be logged in to mark books as read.',
-      tooltip: 'Mark as read',
-    },
-    {
-      type: 'wishlist',
-      count: props.wishes,
-      status: props.userWishlist,
-      icon_active: <BookmarkIcon />,
-      icon_inactive: <BookmarkBorderIcon />,
-      error: 'You must be logged in to add books to your wishlist.',
-      tooltip: 'Add to your wishlist',
-    },
-    {
-      type: 'favourites',
-      count: props.favs,
-      status: props.userFav,
-      icon_active: <FavoriteIcon />,
-      icon_inactive: <FavoriteBorderIcon />,
-      error: 'You must be logged in to mark books favourites.',
-      tooltip: 'Add to your favourites',
-    },
-  ];
-
-  const authorString = props.authors
-    ? generateAuthorString(props.authors)
-    : 'Author Unknown';
-
-  const generateRatingString = (rating, count) => {
-    const score = rating || '-';
-    return `${score} (${count} rating${Number(count) === 1 ? '' : 's'})`;
-  };
 
   return (
     <Grid item xs={12}>
       <Paper className={classes.root}>
-        <img src={props.img} />
+        <img src={thumbnail} />
 
         <div className={classes.metaData}>
           <div className={classes.ratings}>
             <Star htmlColor="#ffd54f" className={classes.star} />
-            <Typography component="h1">
-              {generateRatingString(props.rating, props.ratings)}
-            </Typography>
+            <Typography component="h1">{ratingString}</Typography>
           </div>
 
-          {userFlags.map((flag, index) => (
-            <BookTitleBarMetaFlag
-              userBook={userBook}
-              flag={flag}
-              key={index}
-              loggedIn={props.userId}
-            />
-          ))}
+          <MetaFlags metaData={metaData} bookId={bookId} />
         </div>
 
         <CardContent className={classes.title}>
           <Typography variant="h5" component="h1">
-            {props.title}
+            {title}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {authorString} - {props.year}
+            {authorString} - {year}
           </Typography>
         </CardContent>
       </Paper>

@@ -22,6 +22,33 @@ import {
   OnbcSnackbar,
 } from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
+import generateAuthorString from '../../src/helpers/generateAuthorString';
+import { MetaFlagData } from '../../src/components/MetaFlags/MetaFlags';
+
+export const generateMetaData = (bookData, userData): MetaFlagData => {
+  return {
+    reads: {
+      count: Number(bookData.reads),
+      id: userData.read,
+      loading: false,
+    },
+    wishlist: {
+      count: Number(bookData.wishes),
+      id: userData.wishlist,
+      loading: false,
+    },
+    favourites: {
+      count: Number(bookData.favs),
+      id: userData.fav,
+      loading: false,
+    },
+  };
+};
+
+export const generateRatingString = (rating, count) => {
+  const score = rating || '-';
+  return `${score} (${count} rating${Number(count) === 1 ? '' : 's'})`;
+};
 
 const BookPage = ({ slug, book, userData }) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
@@ -80,19 +107,12 @@ const BookPage = ({ slug, book, userData }) => {
         </Head>
         <Grid container spacing={2}>
           <BookTitleBar
-            userId={userId}
             bookId={book.id}
-            userRead={userData.read}
-            userFav={userData.fav}
-            userWishlist={userData.wishlist}
-            reads={book.reads}
-            favs={book.favs}
-            wishes={book.wishes}
-            rating={book.rating}
-            ratings={book.ratings}
-            authors={book.authors}
+            metaData={generateMetaData(book, userData)}
+            ratingString={generateRatingString(book.rating, book.ratings)}
+            authorString={generateAuthorString(book.authors)}
             title={book.title}
-            img={book.image_url}
+            thumbnail={book.image_url}
             year={book.year}
           />
           <BookTagList
