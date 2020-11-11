@@ -1,9 +1,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import axios from 'axios';
-import {
-  Flag,
-  MetaFlagData,
-} from '../../../components/BookStats/MetaFlags/MetaFlags';
+import { Flag, MetaFlagData } from '../../MetaFlags';
 import { useMetaFlags } from '../useMetaFlags';
 jest.mock('axios');
 

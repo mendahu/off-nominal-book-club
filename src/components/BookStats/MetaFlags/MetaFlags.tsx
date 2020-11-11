@@ -6,7 +6,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import { tooltip } from './config.json';
-import { useMetaFlags } from '../../../hooks/useMetaFlags/useMetaFlags';
+import { useMetaFlags } from './useMetaFlags/useMetaFlags';
 import { makeStyles } from '@material-ui/core/styles';
 import { useUser } from '../../../../lib/user';
 import { useSnackbarContext } from '../../../contexts/SnackbarContext';

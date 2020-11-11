@@ -1,11 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import {
-  Flag,
-  MetaFlagData,
-  MetaFlagDatum,
-} from '../../components/BookStats/MetaFlags/MetaFlags';
-import { SnackbarContent } from '../useSnackbar/useSnackbar';
-import { errorMessages } from '../../components/BookStats/MetaFlags/config.json';
+import { Flag, MetaFlagData, MetaFlagDatum } from '../MetaFlags';
+import { SnackbarContent } from '../../../../hooks/useSnackbar/useSnackbar';
+import { errorMessages } from '../config.json';
 import axios from 'axios';
 
 export const useMetaFlags = (
