@@ -27,6 +27,8 @@ export type Recommendation = {
   };
   authorString: string;
   slug: string;
+  headline: string;
+  subline: string;
 };
 
 export const useCarousel = () => {

@@ -80,65 +80,56 @@ export const Carousel = () => {
                     </Grid>
                   </Grid>
 
-                  {/* <ThemeProvider theme={theme}>
-                    <Grid
-                      className={classes.carouselTextContainer}
-                      justify="space-around"
-                      alignItems="flex-end"
-                      direction="column"
-                      container
-                      mr={2}
-                    >
-                      <Grid item>
-                        <Typography align="right" variant="h4" componet="h1">
-                          {item.headline}
-                        </Typography>
-                        <Typography
-                          gutterBottom={true}
-                          align="right"
-                          variant="h6"
-                          componet="h2"
-                        >
-                          {item.subline}
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Link
-                          href={`/books/[id]`}
-                          as={`/books/${urlGenerator(
-                            item.id,
-                            JSON.parse(item.authors).join(', '),
-                            item.title
-                          )}`}
-                          passHref
-                        >
-                          <Button
-                            size="large"
-                            component="a"
-                            className={classes.button}
-                            variant="contained"
-                          >
-                            Check it Out
-                          </Button>
-                        </Link>
-                      </Grid>
-                      <Grid item>
-                        <Typography align="right" variant="h5" componet="h2">
-                          {item.title}
-                        </Typography>
-                        {JSON.parse(item.authors).map((author, index) => (
-                          <Typography
-                            align="right"
-                            variant="overline"
-                            component="h3"
-                            key={index}
-                          >
-                            {author}
-                          </Typography>
-                        ))}
-                      </Grid>
+                  <Grid
+                    className={classes.carouselTextContainer}
+                    justify="space-around"
+                    alignItems="flex-end"
+                    direction="column"
+                    container
+                  >
+                    <Grid item>
+                      <Typography align="right" variant="h4" component="h1">
+                        {item.headline}
+                      </Typography>
+                      <Typography
+                        gutterBottom={true}
+                        align="right"
+                        variant="h6"
+                        component="h2"
+                      >
+                        {item.subline}
+                      </Typography>
                     </Grid>
-                  </ThemeProvider> */}
+                    <Grid item>
+                      <Link
+                        href={`/books/[id]`}
+                        as={`/books/${item.slug}`}
+                        passHref
+                      >
+                        <Button
+                          size="large"
+                          component="a"
+                          className={classes.button}
+                          variant="contained"
+                        >
+                          Check it Out
+                        </Button>
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Typography align="right" variant="h5" component="h2">
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        align="right"
+                        variant="overline"
+                        component="h3"
+                        key={index}
+                      >
+                        {item.authorString}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </MDBView>
             </MDBCarouselItem>
