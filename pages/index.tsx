@@ -1,7 +1,7 @@
 import { Container, makeStyles } from '@material-ui/core';
 import SearchBar from '../src/components/SearchBar';
 import TagList from '../src/components/Landing/TagList';
-import { Carousel } from '../src/pages/LandingPage/Carousel/HeroCarousel';
+import { Carousel } from '../src/pages/LandingPage/Carousel/Carousel';
 import { useState, useEffect } from 'react';
 import Layout from '../src/components/LandingLayout';
 import axios from 'axios';
