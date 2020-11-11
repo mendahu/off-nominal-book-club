@@ -66,32 +66,6 @@ module.exports = {
       });
     },
 
-    getMostFavourite: function () {
-      return knex
-        .select('books.id', knex.raw(`count(favourites.id) as favs`))
-        .from('books')
-        .join('favourites', 'favourites.book_id', '=', 'books.id')
-        .where(
-          knex.raw(`favourites.created_at >= current_date - interval '30' day`)
-        )
-        .groupBy('books.id')
-        .orderBy('favs', 'desc')
-        .limit('1');
-    },
-
-    getHighestRated: function () {
-      return knex
-        .select('books.id', knex.raw(`AVG(ratings.rating) as rating`))
-        .from('books')
-        .join('ratings', 'ratings.book_id', '=', 'books.id')
-        .where(
-          knex.raw(`ratings.created_at >= current_date - interval '30' day`)
-        )
-        .groupBy('books.id')
-        .orderBy('rating', 'desc')
-        .limit('1');
-    },
-
     fetch: function (bookId, userId = 0) {
       const params = {
         bookId,
