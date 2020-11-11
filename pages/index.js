@@ -1,6 +1,5 @@
 import { Container, makeStyles } from '@material-ui/core';
 import SearchBar from '../src/components/SearchBar';
-import BookList from '../src/components/Landing/BookList';
 import TagList from '../src/components/Landing/TagList';
 import HeroCarousel from '../src/components/Landing/HeroCarousel';
 import React, { useState } from 'react';
@@ -8,6 +7,7 @@ import Layout from '../src/components/LandingLayout';
 import axios from 'axios';
 import Fuse from 'fuse.js';
 import { bookOptions, tagOptions } from '../config/search.json';
+import SearchResults from '../src/pages/LandingPage/SearchResults/SearchResults';
 const queries = require('../db/queries/books');
 
 const useStyles = makeStyles((theme) => ({
@@ -93,7 +93,7 @@ export default function App(props) {
             <TagList tags={tagList} onClick={selectTag} />
           </div>
           <div className={classes.container}>
-            <BookList books={searchResults} selectTag={selectTag} />
+            <SearchResults books={searchResults} selectTag={selectTag} />
           </div>
         </Container>
       </Layout>

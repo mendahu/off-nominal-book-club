@@ -197,7 +197,8 @@ module.exports = {
             max(tags_info.tags:: text) as tags,
             max(tags_info.tag_string) as tags_string,
             max(fav_count.count) as fav_count,
-            max(read_count.count) as read_count
+            max(read_count.count) as read_count,
+            max(wishlist_count.count) as wishlist_count
           FROM books b
           LEFT JOIN (
             SELECT book_id, string_agg(name::character varying, ',') AS names, json_agg(name) AS names_json
@@ -233,6 +234,12 @@ module.exports = {
             JOIN reads on books.id = reads.book_id
             GROUP BY book_id
           ) as read_count on read_count.book_id = b.id
+          LEFT JOIN (
+            SELECT book_id,  count(wishlist.book_id) as count
+            FROM books
+            JOIN wishlist on books.id = wishlist.book_id
+            GROUP BY book_id
+          ) as wishlist_count on wishlist_count.book_id = b.id
             WHERE b.title ILIKE ?
               OR author_names.names ILIKE ?
               OR tags_info.tag_string ILIKE ? 

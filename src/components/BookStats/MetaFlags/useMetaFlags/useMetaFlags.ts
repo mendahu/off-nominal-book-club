@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { Flag, MetaFlagData, MetaFlagDatum } from '../MetaFlags';
 import { SnackbarContent } from '../../../../hooks/useSnackbar/useSnackbar';
 import { errorMessages } from '../config.json';
@@ -13,6 +13,12 @@ export const useMetaFlags = (
   const [reads, setReads] = useState(data.reads);
   const [wishlist, setWishlist] = useState(data.wishlist);
   const [favourites, setFavourites] = useState(data.favourites);
+
+  useEffect(() => {
+    setReads(data.reads);
+    setWishlist(data.wishlist);
+    setFavourites(data.favourites);
+  }, [data]);
 
   const triggerApiError = () =>
     errorHandler({
