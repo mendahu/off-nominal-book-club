@@ -65,81 +65,84 @@ const BookPage = ({ slug, book, userData }) => {
         />
       </Layout>
     );
+  } else {
+    return (
+      <Layout>
+        <SnackbarContext.Provider value={triggerSnackbar}>
+          <Head>
+            <meta property="og:url" content={bookUrl} key="url" />
+            <meta
+              property="og:title"
+              content={book.title + ' - The Off-Nominal Book Club'}
+              key="title"
+            />
+            <meta
+              property="og:description"
+              content={book.description}
+              key="description"
+            />
+            <meta property="og:image" content={book.image_url} key="image" />
+
+            <meta
+              name="twitter:description"
+              content={book.description.slice(0, 196) + '...'}
+              key="twitter_description"
+            />
+            <meta
+              name="twitter:title"
+              content={book.title + ' - The Off-Nominal Book Club'}
+              key="twitter_title"
+            />
+            <meta
+              name="twitter:image"
+              content={book.image_url}
+              key="twitter_image"
+            />
+            <meta
+              name="twitter:image:alt"
+              content={'Book cover for ' + book.title}
+              key="twitter_image_alt"
+            />
+          </Head>
+          <Grid container spacing={2}>
+            <BookTitleBar
+              bookId={book.id}
+              metaData={generateMetaData(book, userData)}
+              ratingString={generateRatingString(book.rating, book.ratings)}
+              authorString={generateAuthorString(book.authors)}
+              title={book.title}
+              thumbnail={book.image_url}
+              year={book.year}
+            />
+            <BookTagList
+              bookId={book.id}
+              tags={buildInitialTagState(book.tags, userData.user_tags)}
+            />
+
+            {!user && <LoginPromote />}
+            {user &&
+              (user?.isPatron ? (
+                <DataPromote />
+              ) : (
+                <PatronPromote userId={userId} />
+              ))}
+
+            <BookDesc desc={book.description} />
+            <BookFeedback
+              userId={userId}
+              isPatron={user?.isPatron}
+              userData={userData}
+              book={book}
+            />
+          </Grid>
+          <OnbcSnackbar
+            content={snackBarContent}
+            closeSnackbar={closeSnackbar}
+          />
+        </SnackbarContext.Provider>
+      </Layout>
+    );
   }
-
-  return (
-    <Layout>
-      <SnackbarContext.Provider value={triggerSnackbar}>
-        <Head>
-          <meta property="og:url" content={bookUrl} key="url" />
-          <meta
-            property="og:title"
-            content={book.title + ' - The Off-Nominal Book Club'}
-            key="title"
-          />
-          <meta
-            property="og:description"
-            content={book.description}
-            key="description"
-          />
-          <meta property="og:image" content={book.image_url} key="image" />
-
-          <meta
-            name="twitter:description"
-            content={book.description.slice(0, 196) + '...'}
-            key="twitter_description"
-          />
-          <meta
-            name="twitter:title"
-            content={book.title + ' - The Off-Nominal Book Club'}
-            key="twitter_title"
-          />
-          <meta
-            name="twitter:image"
-            content={book.image_url}
-            key="twitter_image"
-          />
-          <meta
-            name="twitter:image:alt"
-            content={'Book cover for ' + book.title}
-            key="twitter_image_alt"
-          />
-        </Head>
-        <Grid container spacing={2}>
-          <BookTitleBar
-            bookId={book.id}
-            metaData={generateMetaData(book, userData)}
-            ratingString={generateRatingString(book.rating, book.ratings)}
-            authorString={generateAuthorString(book.authors)}
-            title={book.title}
-            thumbnail={book.image_url}
-            year={book.year}
-          />
-          <BookTagList
-            bookId={book.id}
-            tags={buildInitialTagState(book.tags, userData.user_tags)}
-          />
-
-          {!user && <LoginPromote />}
-          {user &&
-            (user?.isPatron ? (
-              <DataPromote />
-            ) : (
-              <PatronPromote userId={userId} />
-            ))}
-
-          <BookDesc desc={book.description} />
-          <BookFeedback
-            userId={userId}
-            isPatron={user?.isPatron}
-            userData={userData}
-            book={book}
-          />
-        </Grid>
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      </SnackbarContext.Provider>
-    </Layout>
-  );
 };
 
 export async function getServerSideProps(context) {

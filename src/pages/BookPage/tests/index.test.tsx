@@ -57,17 +57,16 @@ const testBook = {
 
 describe('BookPage', () => {
   it('Should render error message if book data is null', () => {
-    const wrapper = shallow(<BookPage book={null} />);
+    const wrapper = shallow(
+      <BookPage book={null} userData={userData} slug={'bananarama'} />
+    );
     expect(wrapper.find(Message)).toHaveLength(1);
   });
 
   it('Should not render error message if book does exist', () => {
-    const testBook = {
-      id: 1,
-      description: 'a test book about books',
-    };
-
-    const wrapper = shallow(<BookPage book={testBook} userData={userData} />);
+    const wrapper = shallow(
+      <BookPage book={testBook} userData={userData} slug={'4-roving-mars'} />
+    );
     expect(wrapper.find(Message)).toHaveLength(0);
   });
 });
