@@ -1,7 +1,6 @@
 import { Typography } from '@material-ui/core';
-import { Star } from '@material-ui/icons';
 import { shallow } from 'enzyme';
-import MetaFlags from '../../../../../components/MetaFlags/MetaFlags';
+import { BookStats } from '../../../../../components/BookStats/BookStats';
 import BookTitleBar, { BookTitleBarProps } from '../BookTitleBar';
 
 describe('BooktitleBar', () => {
@@ -32,15 +31,13 @@ describe('BooktitleBar', () => {
 
   it('Should render stuff without crashing', () => {
     const wrapper = shallow(<BookTitleBar {...defaultProps} />);
-    expect(wrapper.find(Star)).toHaveLength(1);
-    expect(wrapper.find(MetaFlags)).toHaveLength(1);
+    expect(wrapper.find(BookStats)).toHaveLength(1);
 
     const textFields = wrapper.find(Typography);
-    expect(textFields).toHaveLength(3);
+    expect(textFields).toHaveLength(2);
 
-    expect(textFields.at(0).text()).toEqual(defaultProps.ratingString);
-    expect(textFields.at(1).text()).toEqual(defaultProps.title);
-    expect(textFields.at(2).text()).toEqual(
+    expect(textFields.at(0).text()).toEqual(defaultProps.title);
+    expect(textFields.at(1).text()).toEqual(
       `${defaultProps.authorString} - ${defaultProps.year}`
     );
   });

@@ -3,9 +3,9 @@ import {
   Flag,
   MetaFlagData,
   MetaFlagDatum,
-} from '../../components/MetaFlags/MetaFlags';
+} from '../../components/BookStats/MetaFlags/MetaFlags';
 import { SnackbarContent } from '../useSnackbar/useSnackbar';
-import { errorMessages } from '../../components/MetaFlags/config.json';
+import { errorMessages } from '../../components/BookStats/MetaFlags/config.json';
 import axios from 'axios';
 
 export const useMetaFlags = (

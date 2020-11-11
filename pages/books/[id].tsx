@@ -23,7 +23,7 @@ import {
 } from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 import generateAuthorString from '../../src/helpers/generateAuthorString';
-import { MetaFlagData } from '../../src/components/MetaFlags/MetaFlags';
+import { MetaFlagData } from '../../src/components/BookStats/MetaFlags/MetaFlags';
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
   return {
