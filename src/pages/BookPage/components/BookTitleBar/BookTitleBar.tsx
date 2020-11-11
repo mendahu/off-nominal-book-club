@@ -65,7 +65,7 @@ const BookTitleBar = ({
   ratingString,
   title,
   year,
-}) => {
+}: BookTitleBarProps) => {
   const classes = useStyles();
 
   return (
