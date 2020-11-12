@@ -1,5 +1,5 @@
 import SearchResult from './SearchResult/SearchResult';
-import { Box } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
 import { useUser } from '../../../../lib/user';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -12,8 +12,8 @@ export const metaFlagMapper = (flagArray) => {
   });
 };
 
-export const SearchResults = (props) => {
-  const { user, loading } = useUser();
+export const SearchResults = ({ results, loading }) => {
+  const { user } = useUser();
   const [userMetaData, setUserMetaData] = useState({});
 
   const userId = user?.onbc_id;
@@ -28,15 +28,18 @@ export const SearchResults = (props) => {
 
   return (
     <Box component="section">
-      {props.books &&
-        props.books.map((book, index) => (
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        results.map((book, index) => (
           <SearchResult
             key={index}
             book={book}
-            selectTag={props.selectTag}
+            selectTag={() => {}}
             userMetaData={userMetaData[book.id]}
           />
-        ))}
+        ))
+      )}
     </Box>
   );
 };

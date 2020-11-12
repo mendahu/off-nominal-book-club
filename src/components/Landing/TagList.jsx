@@ -42,8 +42,8 @@ export default function TagList(props) {
           {tags.slice(0, 10).map((tag, index) => (
             <GridListTile key={index} classes={{ root: classes.listItem }}>
               <Chip
-                onClick={() => props.onClick(tag.tag_name)}
-                label={'#' + tag.tag_name}
+                onClick={() => props.onClick(tag.label)}
+                label={'#' + tag.label}
                 avatar={<Avatar>{tag.count}</Avatar>}
                 className={classes.chip}
               />

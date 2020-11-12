@@ -2,12 +2,9 @@ import { Container, makeStyles } from '@material-ui/core';
 import SearchBar from '../src/components/SearchBar';
 import TagList from '../src/components/Landing/TagList';
 import { Carousel } from '../src/pages/LandingPage/Carousel/Carousel';
-import { useState, useEffect } from 'react';
 import Layout from '../src/components/LandingLayout';
-import axios from 'axios';
-import Fuse from 'fuse.js';
-import { bookOptions, tagOptions } from '../config/search.json';
 import SearchResults from '../src/pages/LandingPage/SearchResults/SearchResults';
+import useSearch from '../src/pages/LandingPage/useSearch/useSearch';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -15,12 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function App(props) {
+export const LandingPage = () => {
   const classes = useStyles();
 
-  const [searchResults, setSearchResults] = useState([]);
-  const [tagList, setTagList] = useState();
-  const [input, setInput] = useState('');
+  const { search, input, tags } = useSearch();
 
   // let bookSearch;
 
@@ -60,12 +55,13 @@ export default function App(props) {
   //     : setSearchResults(books);
   // };
 
-  // const clearResults = (e) => {
-  //   e.preventDefault();
-  //   setTagList(tags);
-  //   setInput('');
-  //   setSearchResults(books);
-  // };
+  const handleClear = (e) => {
+    e.preventDefault();
+    input.set('');
+    // setTagList(tags);
+    // setInput('');
+    // setSearchResults(books);
+  };
 
   return (
     <Layout>
@@ -76,18 +72,20 @@ export default function App(props) {
         <div className={classes.container}>
           <SearchBar
             placeholderText={'Search the Book Club'}
-            text={input}
-            onChange={() => {}}
-            button={{ text: 'Clear', onClick: () => {} }}
+            text={input.value}
+            onChange={(e) => input.set(e.target.value)}
+            button={{ text: 'Clear', onClick: handleClear }}
           />
         </div>
         <div className={classes.container}>
-          <TagList tags={tagList} />
+          <TagList tags={tags.tags} />
         </div>
         <div className={classes.container}>
-          <SearchResults books={searchResults} />
+          <SearchResults results={search.results} loading={search.loading} />
         </div>
       </Container>
     </Layout>
   );
-}
+};
+
+export default LandingPage;
