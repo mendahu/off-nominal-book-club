@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'absolute',
     left: '0',
     height: '100%',
+    zIndex: -1,
   },
   cover: {
     transform: 'rotate(-7deg)',

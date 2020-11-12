@@ -68,29 +68,26 @@ export default function App(props) {
   // };
 
   return (
-    <div>
-      <Layout>
-        <Container component="section" disableGutters={true} maxWidth={false}>
-          <Carousel />
-        </Container>
-        <Container component="main" maxWidth={false}>
-          <div className={classes.container}>
-            {' '}
-            <SearchBar
-              placeholderText={'Search the Off-Nominal Book Club'}
-              text={input}
-              onChange={() => {}}
-              button={{ text: 'Clear', onClick: () => {} }}
-            />
-          </div>
-          <div className={classes.container}>
-            <TagList tags={tagList} />
-          </div>
-          <div className={classes.container}>
-            <SearchResults books={searchResults} />
-          </div>
-        </Container>
-      </Layout>
-    </div>
+    <Layout>
+      <Container component="section" disableGutters={true} maxWidth={false}>
+        <Carousel />
+      </Container>
+      <Container component="main" maxWidth={false}>
+        <div className={classes.container}>
+          <SearchBar
+            placeholderText={'Search the Book Club'}
+            text={input}
+            onChange={() => {}}
+            button={{ text: 'Clear', onClick: () => {} }}
+          />
+        </div>
+        <div className={classes.container}>
+          <TagList tags={tagList} />
+        </div>
+        <div className={classes.container}>
+          <SearchResults books={searchResults} />
+        </div>
+      </Container>
+    </Layout>
   );
 }
