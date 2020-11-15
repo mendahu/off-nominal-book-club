@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { newBook } from '../../../pages/api/books/new';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
-import { books } from '../../../db/queries/books';
+import { addBook } from '../../../db/queries/books';
+import { confirmBook } from '../../../db/queries/books';
 
-jest.mock('../../../db/queries/books');
+jest.mock('../../../db/queries/books/books');
 jest.mock('../../../src/helpers/userProfileFetcher');
 
 userProfileFetcher.mockImplementation((req) => ({ isPatron: true }));
@@ -79,7 +80,7 @@ describe('users /update', () => {
 
     const mockResponse = { message: 'success' };
 
-    books.confirm.mockImplementationOnce(() => mockResponse);
+    confirmBook.mockImplementationOnce(() => mockResponse);
 
     const response = await newBook(mockReq, mockRes());
     expect(response.status).toEqual(200);
@@ -97,7 +98,7 @@ describe('users /update', () => {
       },
     };
 
-    books.confirm.mockRejectedValueOnce('error');
+    confirmBook.mockRejectedValueOnce('error');
 
     const response = await newBook(mockReq, mockRes());
     expect(response.status).toEqual(500);
@@ -125,7 +126,7 @@ describe('users /update', () => {
 
     const mockResponse = { message: 'success' };
 
-    books.add.mockImplementationOnce(() => mockResponse);
+    addBook.mockImplementationOnce(() => mockResponse);
 
     const response: NextApiResponse = await newBook(mockReq, mockRes());
     expect(response.status).toEqual(200);
@@ -141,7 +142,7 @@ describe('users /update', () => {
       },
     };
 
-    books.add.mockRejectedValueOnce('error');
+    addBook.mockRejectedValueOnce('error');
 
     const response = await newBook(mockReq, mockRes());
     expect(response.status).toEqual(500);
