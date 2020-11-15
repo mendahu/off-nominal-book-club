@@ -10,11 +10,40 @@ const useStyles = makeStyles((theme) => ({
 export const TagListSkeleton = () => {
   const classes = useStyles();
 
-  const skeleton = (
-    <Skeleton variant="text" width={100} height={33} className={classes.chip} />
+  return (
+    <>
+      <Skeleton
+        variant="text"
+        width={100}
+        height={33}
+        className={classes.chip}
+      />
+      <Skeleton
+        variant="text"
+        width={100}
+        height={33}
+        className={classes.chip}
+      />
+      <Skeleton
+        variant="text"
+        width={100}
+        height={33}
+        className={classes.chip}
+      />
+      <Skeleton
+        variant="text"
+        width={100}
+        height={33}
+        className={classes.chip}
+      />
+      <Skeleton
+        variant="text"
+        width={100}
+        height={33}
+        className={classes.chip}
+      />
+    </>
   );
-  const skeletonArray = [skeleton, skeleton, skeleton, skeleton, skeleton];
-  return <>{skeletonArray.map((item) => item)}</>;
 };
 
 export default TagListSkeleton;

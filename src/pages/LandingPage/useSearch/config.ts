@@ -25,6 +25,7 @@ export default {
   } as Fuse.IFuseOptions<Book>,
   tagOptions: {
     threshold: 0.4,
+    findAllMatches: true,
     keys: [
       {
         name: 'label',

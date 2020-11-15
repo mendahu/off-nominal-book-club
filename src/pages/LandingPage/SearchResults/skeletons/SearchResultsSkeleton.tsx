@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('xs')]: {
       order: 2,
     },
+    marginRight: theme.spacing(3),
   },
   chipContainer: {
     display: 'flex',
@@ -88,7 +89,13 @@ export const SearchResultsSkeleton = () => {
   );
 
   const skeletonArray = [skeleton, skeleton, skeleton];
-  return <>{skeletonArray.map((item) => item)}</>;
+  return (
+    <>
+      {skeleton}
+      {skeleton}
+      {skeleton}
+    </>
+  );
 };
 
 export default SearchResultsSkeleton;
