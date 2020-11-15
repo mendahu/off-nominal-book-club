@@ -1,0 +1,33 @@
+{
+  "bookOptions": 
+    {
+      "threshold": 0.7,
+      "keys": [
+        {
+          "name": "title",
+          "weight": 0.5
+        },
+        {
+          "name": "tags_string",
+          "weight": 0.3
+        },
+        {
+          "name": "authors_string",
+          "weight": 0.1
+        },
+        {
+          "name": "description",
+          "weight": 0.1
+        }
+      ]
+    },
+  "tagOptions": 
+    {
+      "shouldSort": true,
+      "threshold": 0.9,
+      "location": 0,
+      "distance": 100,
+      "minMatchCharLength": 2,
+      "keys": ["tag_name"]
+    }
+}
