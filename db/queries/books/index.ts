@@ -1,3 +1,5 @@
+import { QueryResult } from 'pg';
+import { Book } from '../../../src/types/apiTypes';
 import knex from '../../knex';
 
 export const confirmBook = (bookObj) => {
@@ -144,7 +146,7 @@ export const fetchBook = (bookId, userId = 0) => {
 };
 
 export const getAllBooks = () => {
-  return knex.raw(
+  return knex.raw<QueryResult<Book>>(
     `
       SELECT
         b.id,
@@ -155,10 +157,10 @@ export const getAllBooks = () => {
         b.textbook,
         b.image_url as thumbnail,
 
-        max(fav_count.count) as favourites,
-        max(read_count.count) as reads,
-        max(wishlist_count.count) as wishlist,
-        ROUND(max(ratings.avg_rating),1) as avg_rating,
+        max(fav_count.count)::integer as favourites,
+        max(read_count.count)::integer as reads,
+        max(wishlist_count.count)::integer as wishlist,
+        ROUND(max(ratings.avg_rating),1)::float as rating,
         
         ( SELECT string_agg(authors.name, ', ') 
           FROM (

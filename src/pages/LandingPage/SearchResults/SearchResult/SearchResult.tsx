@@ -6,7 +6,7 @@ import MatLink from '@material-ui/core/Link';
 import urlGenerator from '../../../../helpers/urlGenerator';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
-import { AutocompleteTag } from '../../../../types/apiTypes';
+import { Tag } from '../../../../types/apiTypes';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -82,7 +82,7 @@ export type SearchResultProps = {
   authorString: string;
   thumbnail: string;
   year: string;
-  tags: AutocompleteTag[];
+  tags: Tag[];
   rating: string;
   metaData: MetaData;
   userMetaData: MetaData;
@@ -142,7 +142,7 @@ export const SearchResult = ({
                 className={classes.chip}
                 key={index}
                 label={`#${tag.label}`}
-                onClick={selectTag}
+                onClick={() => selectTag(tag.label)}
                 avatar={<Avatar>{tag.count}</Avatar>}
               />
             ))}

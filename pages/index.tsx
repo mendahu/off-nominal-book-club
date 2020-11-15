@@ -1,6 +1,6 @@
 import { Container, makeStyles } from '@material-ui/core';
 import SearchBar from '../src/components/SearchBar';
-import TagList from '../src/components/Landing/TagList';
+import TagList from '../src/pages/LandingPage/TagList/TagList';
 import { Carousel } from '../src/pages/LandingPage/Carousel/Carousel';
 import Layout from '../src/components/LandingLayout';
 import SearchResults from '../src/pages/LandingPage/SearchResults/SearchResults';
@@ -45,7 +45,11 @@ export const LandingPage = () => {
           />
         </div>
         <div className={classes.container}>
-          <SearchResults results={books.books} loading={books.loading} />
+          <SearchResults
+            results={books.books}
+            loading={books.loading}
+            tagClickHandler={selectTag}
+          />
         </div>
       </Container>
     </Layout>

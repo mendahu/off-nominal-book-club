@@ -4,6 +4,7 @@ import { useUser } from '../../../../lib/user';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SearchResultsSkeleton from './skeletons/SearchResultsSkeleton';
+import { Book } from '../../../types/apiTypes';
 
 export const metaFlagMapper = (flagArray) => {
   const flagMap = {};
@@ -13,7 +14,17 @@ export const metaFlagMapper = (flagArray) => {
   });
 };
 
-export const SearchResults = ({ results, loading }) => {
+export type SearchResultsProps = {
+  results: Book[];
+  loading: boolean;
+  tagClickHandler: (label: string) => void;
+};
+
+export const SearchResults = ({
+  results,
+  loading,
+  tagClickHandler,
+}: SearchResultsProps) => {
   const { user } = useUser();
   const [userMetaData, setUserMetaData] = useState({});
 
@@ -48,7 +59,7 @@ export const SearchResults = ({ results, loading }) => {
               wishlist: book.wishlist,
               favourites: book.favourites,
             }}
-            selectTag={() => {}}
+            selectTag={tagClickHandler}
             userMetaData={userMetaData[book.id]}
           />
         ))

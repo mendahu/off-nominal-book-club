@@ -1,3 +1,5 @@
+import { QueryResult } from 'pg';
+import { Tag } from '../../../src/types/apiTypes';
 import knex from '../../knex';
 
 export const getTagIdByName = (name: string) => {
@@ -9,7 +11,7 @@ export const addTag = (name: string) => {
 };
 
 export const getAllTags = () => {
-  return knex.raw(
+  return knex.raw<QueryResult<Tag>>(
     `
       SELECT t.id, t.name AS label, COUNT(tr.id) as count
         FROM tags as t
