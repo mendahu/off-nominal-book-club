@@ -7,6 +7,13 @@ import { useDebounce } from '../../../hooks/useDebounce/useDebounce';
 let bookSearcher;
 let tagSearcher;
 
+export type SearchTag = {
+  id: number;
+  label: string;
+  count: number;
+  selected?: boolean;
+};
+
 export const useSearch = () => {
   const initialSearch = {
     loading: true,
@@ -15,7 +22,7 @@ export const useSearch = () => {
 
   const initialTags = {
     loading: true,
-    tags: [],
+    tags: [] as SearchTag[],
   };
 
   let bookSource = useRef([]);
@@ -23,6 +30,7 @@ export const useSearch = () => {
 
   const [books, setBooks] = useState(initialSearch);
   const [tags, setTags] = useState(initialTags);
+  const [selectedTag, setSelectedTag] = useState<string>();
 
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 200);
@@ -35,7 +43,17 @@ export const useSearch = () => {
       .search(term, { limit: 10 })
       .map((item) => item.item);
 
-    const tagResults = await tagSearch.search(term).map((tag) => tag.item);
+    const tagResults = await tagSearch.search(term).map((result) => {
+      const { item } = result;
+      console.log(item);
+
+      if (item.label === selectedTag) {
+        return { ...item, selected: true };
+      }
+      return item;
+    });
+
+    console.log(tagResults);
 
     setBooks({ loading: false, books: bookResults });
     setTags({ loading: false, tags: tagResults });
@@ -69,6 +87,11 @@ export const useSearch = () => {
     }
   }, [debouncedSearchTerm]);
 
+  const selectTag = (label: string) => {
+    setSelectedTag(label);
+    setSearchTerm(label);
+  };
+
   return {
     books,
     input: {
@@ -76,6 +99,7 @@ export const useSearch = () => {
       value: searchTerm,
     },
     tags,
+    selectTag,
   };
 };
 

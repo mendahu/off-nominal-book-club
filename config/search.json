@@ -1,7 +1,7 @@
 {
   "bookOptions": 
     {
-      "threshold": 0.7,
+      "threshold": 0.6,
       "keys": [
         {
           "name": "title",
@@ -23,10 +23,16 @@
     },
   "tagOptions": 
     {
-      "threshold": 0.9,
-      "location": 0,
-      "distance": 100,
-      "minMatchCharLength": 2,
-      "keys": ["tag_name"]
+      "threshold": 0.4,
+      "keys": [        
+        {
+          "name": "label",
+          "weight": 0.9
+        },
+        {
+          "name": "count",
+          "weight": 0.1
+        }
+      ]
     }
 }

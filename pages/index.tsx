@@ -15,11 +15,12 @@ const useStyles = makeStyles((theme) => ({
 export const LandingPage = () => {
   const classes = useStyles();
 
-  const { books, input, tags } = useSearch();
+  const { books, input, tags, selectTag } = useSearch();
 
   const handleClear = (e) => {
     e.preventDefault();
     input.set('');
+    selectTag('');
   };
 
   return (
@@ -37,7 +38,7 @@ export const LandingPage = () => {
           />
         </div>
         <div className={classes.container}>
-          <TagList tags={tags.tags} />
+          <TagList tags={tags.tags} clickHandler={selectTag} />
         </div>
         <div className={classes.container}>
           <SearchResults results={books.books} loading={books.loading} />
