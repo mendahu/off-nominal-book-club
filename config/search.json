@@ -1,11 +1,7 @@
 {
   "bookOptions": 
     {
-      "shouldSort": true,
       "threshold": 0.7,
-      "location": 0,
-      "distance": 100,
-      "minMatchCharLength": 2,
       "keys": [
         {
           "name": "title",
@@ -17,7 +13,11 @@
         },
         {
           "name": "authors_string",
-          "weight": 0.2
+          "weight": 0.1
+        },
+        {
+          "name": "description",
+          "weight": 0.1
         }
       ]
     },

@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Fuse from 'fuse.js';
 import { bookOptions, tagOptions } from '../../../../config/search.json';
 import { useDebounce } from '../../../hooks/useDebounce/useDebounce';
 
+let bookSearcher;
+let tagSearcher;
+
 export const useSearch = () => {
   const initialSearch = {
     loading: true,
-    results: [],
+    books: [],
   };
 
   const initialTags = {
@@ -15,34 +18,31 @@ export const useSearch = () => {
     tags: [],
   };
 
-  const [search, setSearch] = useState(initialSearch);
+  let bookSource = useRef([]);
+  let tagSource = useRef([]);
+
+  const [books, setBooks] = useState(initialSearch);
   const [tags, setTags] = useState(initialTags);
 
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 200);
 
-  let allBooks = [];
-  let allTags = [];
-
-  let bookSearcher;
-  let tagSearcher;
-
   const getSearchResults = async (term, bookSearch, tagSearch) => {
-    setSearch({ ...search, loading: true });
+    setBooks({ ...books, loading: true });
     setTags({ ...tags, loading: true });
 
-    const bookData = await bookSearch
+    const bookResults = await bookSearch
       .search(term)
       .slice(0, 5)
       .map((item) => {
         return item.item;
       });
-    const tagsData = await tagSearch.search(term).map((tag) => {
+    const tagResults = await tagSearch.search(term).map((tag) => {
       return tag.item;
     });
 
-    setSearch({ loading: false, results: bookData });
-    setTags({ loading: false, tags: tagsData });
+    setBooks({ loading: false, books: bookResults });
+    setTags({ loading: false, tags: tagResults });
   };
 
   useEffect(() => {
@@ -53,24 +53,28 @@ export const useSearch = () => {
       const books = res[0].data;
       const tags = res[1].data;
 
-      allBooks = [...books];
-      allTags = [...tags];
+      bookSource.current = books;
+      tagSource.current = tags;
 
-      bookSearcher = new Fuse(allBooks, bookOptions);
-      tagSearcher = new Fuse(allTags, tagOptions);
+      bookSearcher = new Fuse(books, bookOptions);
+      tagSearcher = new Fuse(tags, tagOptions);
 
-      setSearch({ loading: false, results: books });
+      setBooks({ loading: false, books });
       setTags({ loading: false, tags });
     });
   }, []);
 
   useEffect(() => {
-    debouncedSearchTerm &&
+    if (debouncedSearchTerm) {
       getSearchResults(debouncedSearchTerm, bookSearcher, tagSearcher);
+    } else {
+      setBooks({ loading: false, books: bookSource.current });
+      setTags({ loading: false, tags: tagSource.current });
+    }
   }, [debouncedSearchTerm]);
 
   return {
-    search,
+    books,
     input: {
       set: setSearchTerm,
       value: searchTerm,

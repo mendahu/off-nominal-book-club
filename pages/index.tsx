@@ -15,52 +15,11 @@ const useStyles = makeStyles((theme) => ({
 export const LandingPage = () => {
   const classes = useStyles();
 
-  const { search, input, tags } = useSearch();
-
-  // let bookSearch;
-
-  // useEffect(() => {
-  //   axios.get('/api/books/').then((res) => {
-  //     setSearchResults(res.data);
-  //     bookSearch = new Fuse(res.data, bookOptions);
-  //   });
-  // }, []);
-
-  // const tagSearch = tags ? new Fuse(tags, tagOptions) : null;
-
-  // async function getSearchResults(term) {
-  //   const bookData = await bookSearch
-  //     .search(term)
-  //     .slice(0, 5)
-  //     .map((item) => {
-  //       return item.item;
-  //     });
-  //   const tagsData = await tagSearch.search(term).map((tag) => {
-  //     return tag.item;
-  //   });
-
-  //   setSearchResults(bookData);
-  //   setTagList(tagsData);
-  // }
-
-  // async function selectTag(tag) {
-  //   const bookData = await axios.get(`/api/tags/${tag}`);
-  //   setSearchResults(bookData.data);
-  // }
-
-  // const onInputChange = (event) => {
-  //   setInput(event.target.value);
-  //   event.target.value !== ''
-  //     ? getSearchResults(event.target.value)
-  //     : setSearchResults(books);
-  // };
+  const { books, input, tags } = useSearch();
 
   const handleClear = (e) => {
     e.preventDefault();
     input.set('');
-    // setTagList(tags);
-    // setInput('');
-    // setSearchResults(books);
   };
 
   return (
@@ -81,7 +40,7 @@ export const LandingPage = () => {
           <TagList tags={tags.tags} />
         </div>
         <div className={classes.container}>
-          <SearchResults results={search.results} loading={search.loading} />
+          <SearchResults results={books.books} loading={books.loading} />
         </div>
       </Container>
     </Layout>
