@@ -43,24 +43,16 @@ export const useSearch = () => {
       .search(term, { limit: 10 })
       .map((item) => item.item);
 
-    const tagResults = await tagSearch.search(term).map((result) => {
-      const { item } = result;
-      console.log(item);
-
-      if (item.label === selectedTag) {
-        return { ...item, selected: true };
-      }
-      return item;
+    const tagResults = await tagSearch.search(term).map(({ item }) => {
+      return item.label === selectedTag ? { ...item, selected: true } : item;
     });
-
-    console.log(tagResults);
 
     setBooks({ loading: false, books: bookResults });
     setTags({ loading: false, tags: tagResults });
   };
 
   useEffect(() => {
-    const booksResponse = axios.get('/api/books/');
+    const booksResponse = axios.get('/api/books');
     const tagResponse = axios.get('/api/tags');
 
     Promise.all([booksResponse, tagResponse]).then((res) => {

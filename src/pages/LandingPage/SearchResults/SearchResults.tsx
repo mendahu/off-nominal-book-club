@@ -1,8 +1,9 @@
 import SearchResult from './SearchResult/SearchResult';
-import { Box, CircularProgress } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { useUser } from '../../../../lib/user';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import SearchResultsSkeleton from './skeletons/SearchResultsSkeleton';
 
 export const metaFlagMapper = (flagArray) => {
   const flagMap = {};
@@ -29,7 +30,7 @@ export const SearchResults = ({ results, loading }) => {
   return (
     <Box component="section">
       {loading ? (
-        <CircularProgress />
+        <SearchResultsSkeleton />
       ) : (
         results.map((book, index) => (
           <SearchResult

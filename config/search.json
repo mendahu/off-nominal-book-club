@@ -5,11 +5,11 @@
       "keys": [
         {
           "name": "title",
-          "weight": 0.4
+          "weight": 0.35
         },
         {
           "name": "tags.label",
-          "weight": 0.4
+          "weight": 0.45
         },
         {
           "name": "authors_string",

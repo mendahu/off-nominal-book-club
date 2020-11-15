@@ -38,7 +38,11 @@ export const LandingPage = () => {
           />
         </div>
         <div className={classes.container}>
-          <TagList tags={tags.tags} clickHandler={selectTag} />
+          <TagList
+            tags={tags.tags}
+            clickHandler={selectTag}
+            loading={tags.loading}
+          />
         </div>
         <div className={classes.container}>
           <SearchResults results={books.books} loading={books.loading} />
