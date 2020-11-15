@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Avatar, Chip, Typography, Paper } from '@material-ui/core';
 import Link from 'next/link';
 import MatLink from '@material-ui/core/Link';
@@ -8,7 +8,7 @@ import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
 import { AutocompleteTag } from '../../../../types/apiTypes';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: theme.spacing(2, 0),
     display: 'flex',
@@ -46,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const generateMetaData = (metaData, userData?): MetaFlagData => {
+const generateMetaData = (
+  metaData: MetaData,
+  userData?: MetaData
+): MetaFlagData => {
   return {
     reads: {
       id: userData?.reads,
@@ -66,6 +69,12 @@ const generateMetaData = (metaData, userData?): MetaFlagData => {
   };
 };
 
+export type MetaData = {
+  reads: number;
+  wishlist: number;
+  favourites: number;
+};
+
 export type SearchResultProps = {
   id: number;
   title: string;
@@ -75,16 +84,8 @@ export type SearchResultProps = {
   year: string;
   tags: AutocompleteTag[];
   rating: string;
-  metaData: {
-    reads: number;
-    wishlist: number;
-    favourites: number;
-  };
-  userMetaData: {
-    reads: number;
-    wishlist: number;
-    favourites: number;
-  };
+  metaData: MetaData;
+  userMetaData: MetaData;
   selectTag: () => void;
 };
 
