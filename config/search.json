@@ -5,11 +5,11 @@
       "keys": [
         {
           "name": "title",
-          "weight": 0.5
+          "weight": 0.4
         },
         {
-          "name": "tags_string",
-          "weight": 0.3
+          "name": "tags.label",
+          "weight": 0.4
         },
         {
           "name": "authors_string",
@@ -23,7 +23,6 @@
     },
   "tagOptions": 
     {
-      "shouldSort": true,
       "threshold": 0.9,
       "location": 0,
       "distance": 100,

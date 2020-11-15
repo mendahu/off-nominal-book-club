@@ -32,14 +32,10 @@ export const useSearch = () => {
     setTags({ ...tags, loading: true });
 
     const bookResults = await bookSearch
-      .search(term)
-      .slice(0, 5)
-      .map((item) => {
-        return item.item;
-      });
-    const tagResults = await tagSearch.search(term).map((tag) => {
-      return tag.item;
-    });
+      .search(term, { limit: 10 })
+      .map((item) => item.item);
+
+    const tagResults = await tagSearch.search(term).map((tag) => tag.item);
 
     setBooks({ loading: false, books: bookResults });
     setTags({ loading: false, tags: tagResults });
