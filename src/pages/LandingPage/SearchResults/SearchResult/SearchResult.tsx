@@ -1,18 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Avatar,
-  Chip,
-  Typography,
-  CardContent,
-  Card,
-  Box,
-} from '@material-ui/core';
+import { Avatar, Chip, Typography, Paper } from '@material-ui/core';
 import Link from 'next/link';
 import MatLink from '@material-ui/core/Link';
 import urlGenerator from '../../../../helpers/urlGenerator';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
+import { AutocompleteTag } from '../../../../types/apiTypes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,14 +15,12 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  flex: {
-    display: 'flex',
-  },
   content: {
+    padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    flex: '1 0 300px',
+    flex: '1 0 293px',
     order: 2,
     [theme.breakpoints.down('xs')]: {
       order: 3,
@@ -44,37 +36,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '1.5rem',
     },
   },
-  authors: {
-    fontSize: '0.875rem',
-    fontStyle: 'italic',
-    [theme.breakpoints.up('sm')]: {
-      fontSize: '1.2rem',
-    },
-  },
-  stats: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'space-evenly',
-    order: 3,
-    minWidth: 100,
-    [theme.breakpoints.down('xs')]: {
-      order: 2,
-    },
-  },
-  stat: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    margin: theme.spacing(1),
-  },
-  statNumber: {
-    marginLeft: 4,
-    fontSize: '1rem',
-    [theme.breakpoints.up('sm')]: {
-      fontSize: '1.2rem',
-    },
-  },
   chip: {
     margin: theme.spacing(0.5, 0.5),
   },
@@ -85,44 +46,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const generateMetaData = (book, userData?): MetaFlagData => {
-  const metaData = {
+const generateMetaData = (metaData, userData?): MetaFlagData => {
+  return {
     reads: {
       id: userData?.reads,
-      count: Number(book.read_count) || 0,
+      count: Number(metaData.reads) || 0,
       loading: false,
     },
     wishlist: {
       id: userData?.wishlist,
-      count: Number(book.wishlist_count) || 0,
+      count: Number(metaData.wishlist) || 0,
       loading: false,
     },
     favourites: {
       id: userData?.favourites,
-      count: Number(book.fav_count) || 0,
+      count: Number(metaData.favourites) || 0,
       loading: false,
     },
   };
-  return metaData;
 };
 
-export const SearchResult = (props) => {
+export type SearchResultProps = {
+  id: number;
+  title: string;
+  description: string;
+  authorString: string;
+  thumbnail: string;
+  year: string;
+  tags: AutocompleteTag[];
+  rating: string;
+  metaData: {
+    reads: number;
+    wishlist: number;
+    favourites: number;
+  };
+  userMetaData: {
+    reads: number;
+    wishlist: number;
+    favourites: number;
+  };
+  selectTag: () => void;
+};
+
+export const SearchResult = ({
+  id,
+  title,
+  description,
+  authorString,
+  thumbnail,
+  year,
+  tags,
+  rating,
+  metaData,
+  userMetaData,
+  selectTag,
+}) => {
   const classes = useStyles();
 
-  const authorString = JSON.parse(props.book.authors).join(', ');
-  const description = props.book.description.slice(0, 100) + '...';
-
-  const urlString = urlGenerator(props.book.id, authorString, props.book.title);
+  const truncatedDescription = description.slice(0, 100) + '...';
+  const urlString = authorString && urlGenerator(id, authorString, title);
 
   return (
-    <Card className={classes.root}>
+    <Paper className={classes.root}>
       <Link href={`/books/[id]`} as={`/books/${urlString}`} passHref>
         <a>
-          <img src={props.book.image_url} alt={props.book.title} />
+          <img src={thumbnail} alt={title} />
         </a>
       </Link>
 
-      <CardContent className={classes.content}>
+      <div className={classes.content}>
         <Link href={`/books/[id]`} as={`/books/${urlString}`} passHref>
           <MatLink color="inherit" underline="none">
             <Typography
@@ -130,45 +122,38 @@ export const SearchResult = (props) => {
               component="h2"
               className={classes.title}
             >
-              {props.book.title}
+              {title}
             </Typography>
           </MatLink>
         </Link>
-        <Typography
-          variant="body2"
-          paragraph={true}
-          className={classes.authors}
-          color="textSecondary"
-        >
-          {authorString} - {props.book.year}
+        <Typography variant="body2" paragraph={true} color="textSecondary">
+          {authorString} - {year}
         </Typography>
         <Typography paragraph={true} className={classes.desc}>
-          {description}
+          {truncatedDescription}
         </Typography>
 
-        <Box>
-          {props.book.tags &&
-            JSON.parse(props.book.tags)
-              .slice(0, 4)
-              .map((tag, index) => (
-                <Chip
-                  size="small"
-                  className={classes.chip}
-                  key={index}
-                  label={`#${tag.tag_name}`}
-                  onClick={() => props.selectTag(tag.tag_name)}
-                  avatar={<Avatar>{tag.count}</Avatar>}
-                />
-              ))}
-        </Box>
-      </CardContent>
+        <div>
+          {tags &&
+            tags.map((tag, index) => (
+              <Chip
+                size="small"
+                className={classes.chip}
+                key={index}
+                label={`#${tag.label}`}
+                onClick={selectTag}
+                avatar={<Avatar>{tag.count}</Avatar>}
+              />
+            ))}
+        </div>
+      </div>
 
       <BookStats
-        ratingString={props.book.avg_rating || '-'}
-        bookId={props.book.id}
-        metaData={generateMetaData(props.book, props.userMetaData)}
+        ratingString={rating || '-'}
+        bookId={id}
+        metaData={generateMetaData(metaData, userMetaData)}
       />
-    </Card>
+    </Paper>
   );
 };
 

@@ -34,7 +34,19 @@ export const SearchResults = ({ results, loading }) => {
         results.map((book, index) => (
           <SearchResult
             key={index}
-            book={book}
+            id={book.id}
+            title={book.title}
+            description={book.description}
+            authorString={book.authors_string}
+            thumbnail={book.thumbnail}
+            year={book.year}
+            tags={book.tags}
+            rating={book.rating}
+            metaData={{
+              reads: book.reads,
+              wishlist: book.wishlist,
+              favourites: book.favourites,
+            }}
             selectTag={() => {}}
             userMetaData={userMetaData[book.id]}
           />
