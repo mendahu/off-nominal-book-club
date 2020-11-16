@@ -4,7 +4,7 @@ import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 import { addBook } from '../../../db/queries/books';
 import { confirmBook } from '../../../db/queries/books';
 
-jest.mock('../../../db/queries/books/books');
+jest.mock('../../../db/queries/books');
 jest.mock('../../../src/helpers/userProfileFetcher');
 
 userProfileFetcher.mockImplementation((req) => ({ isPatron: true }));
