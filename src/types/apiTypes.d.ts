@@ -1,3 +1,8 @@
+export type ErrorResponse = {
+  message?: string;
+  error?: string;
+};
+
 export type Tag = {
   id: number;
   label: string;

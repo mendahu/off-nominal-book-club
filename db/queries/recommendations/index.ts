@@ -1,4 +1,3 @@
-import { ReadStream } from 'fs';
 import knex from '../../knex';
 
 export const getRandom = () => {
@@ -130,10 +129,4 @@ export const getHighestRated = () => {
       LIMIT 1
     `
   );
-};
-
-export default {
-  getRandom,
-  getFavourite,
-  getHighestRated,
 };

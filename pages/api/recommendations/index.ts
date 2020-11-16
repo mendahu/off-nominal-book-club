@@ -7,10 +7,7 @@ import {
 import generateAuthorString from '../../../src/helpers/generateAuthorString';
 import urlGenerator from '../../../src/helpers/urlGenerator';
 
-export const recommendations = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
 
   if (method !== 'GET') {
@@ -97,5 +94,3 @@ export const recommendations = async (
       return res.status(500).json('womp');
     });
 };
-
-export default recommendations;

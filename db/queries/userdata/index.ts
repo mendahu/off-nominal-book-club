@@ -30,7 +30,3 @@ export const getUserData = (userId: string, bookId?: string) => {
       }
     });
 };
-
-export default {
-  getUserData,
-};

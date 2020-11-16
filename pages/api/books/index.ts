@@ -1,16 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getAllBooks } from '../../../db/queries/books';
-import { Book } from '../../../src/types/apiTypes';
+import { Book, ErrorResponse } from '../../../src/types/apiTypes';
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<Book[] | { message: string }>
+  res: NextApiResponse<Book[] | ErrorResponse>
 ) => {
+  const { method } = req;
+
+  if (method !== 'GET') {
+    return res.status(405).json({
+      error: `Method ${method} Not Allowed`,
+    });
+  }
+
   try {
     const response = await getAllBooks();
     return await res.status(200).json(response.rows);
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };
