@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getUserData } from '../../db/queries/userdata';
-import auth0 from '../../lib/auth0';
+import { getUserData } from '../../../db/queries/userdata';
+import auth0 from '../../../lib/auth0';
 
 export const userdata = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
