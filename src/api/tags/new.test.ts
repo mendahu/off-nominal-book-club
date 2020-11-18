@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { newTag } from '../../../pages/api/tags/new';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
-import { add, getTagIdByName } from '../../../db/queries/tags/';
+import { addTag, getTagIdByName } from '../../../db/queries/tags/';
 
 jest.mock('../../../db/queries/tags');
 jest.mock('../../../src/helpers/userProfileFetcher');
@@ -128,7 +128,7 @@ describe('tags /newTag', () => {
     const mockResponse = [1];
 
     getTagIdByName.mockImplementationOnce(() => []);
-    add.mockImplementationOnce(() => mockResponse);
+    addTag.mockImplementationOnce(() => mockResponse);
 
     const response = await newTag(mockReq, mockRes());
     expect(response.status).toEqual(200);
@@ -159,7 +159,7 @@ describe('tags /newTag', () => {
     };
 
     getTagIdByName.mockImplementationOnce(() => []);
-    add.mockRejectedValueOnce();
+    addTag.mockRejectedValueOnce();
 
     const response = await newTag(mockReq, mockRes());
     expect(response.status).toEqual(500);

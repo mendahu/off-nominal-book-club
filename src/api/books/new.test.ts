@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { newBook } from '../../../pages/api/books/new';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
-import { addBook } from '../../../db/queries/books';
-import { confirmBook } from '../../../db/queries/books';
+import { confirmBook, addBook } from '../../../db/queries/books';
 
 jest.mock('../../../db/queries/books');
 jest.mock('../../../src/helpers/userProfileFetcher');
 
-userProfileFetcher.mockImplementation((req) => ({ isPatron: true }));
+(userProfileFetcher as jest.Mock).mockImplementation(() => ({
+  isPatron: true,
+}));
 
 describe('users /update', () => {
   const mockRes = () => {
@@ -23,6 +24,10 @@ describe('users /update', () => {
     return res;
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should return server error if user authentication has error', async () => {
     const mockReq: Partial<NextApiRequest> = {
       query: {
@@ -32,9 +37,9 @@ describe('users /update', () => {
       },
     };
 
-    userProfileFetcher.mockRejectedValueOnce('error');
+    (userProfileFetcher as jest.Mock).mockRejectedValueOnce('error');
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(500);
     expect(response.response).toHaveProperty('error');
     expect(response.response).toHaveProperty('message');
@@ -49,9 +54,11 @@ describe('users /update', () => {
       },
     };
 
-    userProfileFetcher.mockImplementationOnce((req) => ({ isPatron: false }));
+    (userProfileFetcher as jest.Mock).mockImplementationOnce(() => ({
+      isPatron: false,
+    }));
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(403);
     expect(response.response).toHaveProperty('error');
     expect(response.response).toHaveProperty('message');
@@ -62,7 +69,7 @@ describe('users /update', () => {
       method: 'GET',
     };
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(400);
     expect(response.response).toHaveProperty('error');
     expect(response.response).toHaveProperty('message');
@@ -80,9 +87,9 @@ describe('users /update', () => {
 
     const mockResponse = { message: 'success' };
 
-    confirmBook.mockImplementationOnce(() => mockResponse);
+    (confirmBook as jest.Mock).mockImplementationOnce(() => mockResponse);
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(200);
     expect(response.response).toHaveProperty('message');
     expect(response.response).toEqual(mockResponse);
@@ -98,9 +105,9 @@ describe('users /update', () => {
       },
     };
 
-    confirmBook.mockRejectedValueOnce('error');
+    (confirmBook as jest.Mock).mockRejectedValueOnce('error');
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(500);
     expect(response.response).toEqual('error');
   });
@@ -110,7 +117,7 @@ describe('users /update', () => {
       method: 'POST',
     };
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(400);
     expect(response.response).toHaveProperty('error');
     expect(response.response).toHaveProperty('message');
@@ -126,9 +133,12 @@ describe('users /update', () => {
 
     const mockResponse = { message: 'success' };
 
-    addBook.mockImplementationOnce(() => mockResponse);
+    (addBook as jest.Mock).mockImplementationOnce(() => mockResponse);
 
-    const response: NextApiResponse = await newBook(mockReq, mockRes());
+    const response: NextApiResponse = await newBook(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(200);
     expect(response.response).toHaveProperty('message');
     expect(response.response).toEqual(mockResponse);
@@ -142,9 +152,9 @@ describe('users /update', () => {
       },
     };
 
-    addBook.mockRejectedValueOnce('error');
+    (addBook as jest.Mock).mockRejectedValueOnce('error');
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(500);
     expect(response.response).toEqual('error');
   });
@@ -154,7 +164,7 @@ describe('users /update', () => {
       method: 'PUT',
     };
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
   it('should return 405 if PATCH method used', async () => {
@@ -162,7 +172,7 @@ describe('users /update', () => {
       method: 'PATCH',
     };
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
   it('should return 405 if DELETE method used', async () => {
@@ -170,7 +180,7 @@ describe('users /update', () => {
       method: 'DELETE',
     };
 
-    const response = await newBook(mockReq, mockRes());
+    const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 });

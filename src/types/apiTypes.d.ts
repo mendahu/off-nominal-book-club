@@ -9,7 +9,7 @@ export type Tag = {
   count: number;
 };
 
-export type Book = {
+export class Book {
   id: number;
   title: string;
   description: string;
@@ -22,5 +22,5 @@ export type Book = {
   wishlist: number;
   rating: number;
   authors_string: string;
-  tags: AutocompleteTag[];
-};
+  tags: Tag[];
+}

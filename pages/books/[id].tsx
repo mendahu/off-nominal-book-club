@@ -33,12 +33,12 @@ export const generateMetaData = (bookData, userData): MetaFlagData => {
       loading: false,
     },
     wishlist: {
-      count: Number(bookData.wishes),
+      count: Number(bookData.wishlist),
       id: userData.wishlist,
       loading: false,
     },
     favourites: {
-      count: Number(bookData.favs),
+      count: Number(bookData.favourites),
       id: userData.fav,
       loading: false,
     },
@@ -50,7 +50,13 @@ export const generateRatingString = (rating, count) => {
   return `${score} (${count} rating${Number(count) === 1 ? '' : 's'})`;
 };
 
-const BookPage = ({ slug, book, userData }) => {
+export type BookPageProps = {
+  slug: string;
+  book: BookData;
+  userData: UserData;
+};
+
+const BookPage = ({ slug, book, userData }: BookPageProps) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
   const { user, loading } = useUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
@@ -81,7 +87,7 @@ const BookPage = ({ slug, book, userData }) => {
               content={book.description}
               key="description"
             />
-            <meta property="og:image" content={book.image_url} key="image" />
+            <meta property="og:image" content={book.thumbnail} key="image" />
 
             <meta
               name="twitter:description"
@@ -95,7 +101,7 @@ const BookPage = ({ slug, book, userData }) => {
             />
             <meta
               name="twitter:image"
-              content={book.image_url}
+              content={book.thumbnail}
               key="twitter_image"
             />
             <meta
@@ -111,7 +117,7 @@ const BookPage = ({ slug, book, userData }) => {
               ratingString={generateRatingString(book.rating, book.ratings)}
               authorString={generateAuthorString(book.authors)}
               title={book.title}
-              thumbnail={book.image_url}
+              thumbnail={book.thumbnail}
               year={book.year}
             />
             <BookTagList
@@ -170,8 +176,9 @@ export async function getServerSideProps(context) {
     name: '',
   };
 
-  const bookResults: BookData[] = await fetchBook(bookId, userId);
-  const book: BookData = bookResults.length ? bookResults[0] : null;
+  const bookResults = await fetchBook(bookId, userId);
+  console.log(bookResults);
+  const book = bookResults.length ? bookResults[0] : null;
 
   if (userId) {
     const [results] = await fetchUser(userId, bookId);

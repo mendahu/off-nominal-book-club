@@ -1,5 +1,6 @@
 import { QueryResult } from 'pg';
 import { Book } from '../../../src/types/apiTypes';
+import { BookData } from '../../../src/types/common';
 import knex from '../../knex';
 
 export const confirmBook = (bookObj) => {
@@ -59,31 +60,32 @@ export const addBook = (bookObj) => {
   });
 };
 
-export const fetchBook = (bookId, userId = 0) => {
+export const fetchBook = (bookId: number, userId: number = 0) => {
   const params = {
     bookId,
     userId,
   };
 
   return knex
-    .select(
+    .select<BookData[]>(
       'books.id',
       'books.title',
       'books.fiction',
+      'books.textbook',
       'books.google_id',
       'books.isbn10',
       'books.isbn13',
       'books.description',
       'books.year',
-      'books.image_url',
+      'books.image_url as thumbnail',
       knex.raw(
         `(SELECT COUNT(reads.id) from reads where reads.book_id = books.id) as reads`
       ),
       knex.raw(
-        `(SELECT count(favourites.id) from favourites where favourites.book_id = books.id) as favs`
+        `(SELECT count(favourites.id) from favourites where favourites.book_id = books.id) as favourites`
       ),
       knex.raw(
-        `(SELECT count(wishlist.id) from wishlist where wishlist.book_id = books.id) as wishes`
+        `(SELECT count(wishlist.id) from wishlist where wishlist.book_id = books.id) as wishlist`
       ),
       knex.raw(
         `
