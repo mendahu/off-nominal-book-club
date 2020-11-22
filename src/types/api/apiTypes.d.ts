@@ -1,3 +1,5 @@
+import { Author } from '../common';
+
 export type ApiErrorResponse = {
   message?: string;
   error?: string;
@@ -25,6 +27,15 @@ export class ApiBook {
   tags: Tag[];
 }
 
+export type ApiConfirmBook = {
+  id: number;
+  description: string;
+  fiction: boolean;
+  thumbnail: string;
+  title: string;
+  authors: Author[];
+};
+
 export type ApiMetadatum = {
   reads: number | null;
   wishlist: number | null;
@@ -34,3 +45,9 @@ export type ApiMetadatum = {
 export interface ApiUserMetadata {
   [key: number]: ApiMetadatum;
 }
+
+export type ApiConfirmBookObj = {
+  title: string | null;
+  isbn13: string | null;
+  google_id: string | null;
+};

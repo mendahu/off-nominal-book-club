@@ -3,11 +3,14 @@ import auth0 from '../../../lib/auth0';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DisplayUser } from '../../../src/types/common';
-import { ApiErrorResponse } from '../../../src/types/api/apiTypes';
+import {
+  ApiConfirmBookObj,
+  ApiErrorResponse,
+} from '../../../src/types/api/apiTypes';
 
 export const newBook = async (
   req: NextApiRequest,
-  res: NextApiResponse<ApiErrorResponse>
+  res: NextApiResponse<ApiConfirmBookObj | ApiErrorResponse>
 ) => {
   // verify Patreon status
 
@@ -30,7 +33,7 @@ export const newBook = async (
   }
 
   const { method } = req;
-  let bookObj = {};
+  let bookObj: ApiConfirmBookObj;
 
   switch (method) {
     case 'GET':
@@ -44,8 +47,36 @@ export const newBook = async (
 
       const { query } = req;
 
+      if (
+        typeof query.google_id !== 'string' &&
+        typeof query.google_id !== 'undefined'
+      ) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'Query parameters must be strings.',
+        });
+      }
+      if (
+        typeof query.isbn13 !== 'string' &&
+        typeof query.isbn13 !== 'undefined'
+      ) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'Query parameters must be strings.',
+        });
+      }
+      if (
+        typeof query.title !== 'string' &&
+        typeof query.title !== 'undefined'
+      ) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'Query parameters must be strings.',
+        });
+      }
+
       bookObj = {
-        google_id: query.googleid || null,
+        google_id: query.google_id || null,
         isbn13: query.isbn13 || null,
         title: query.title || null,
       };

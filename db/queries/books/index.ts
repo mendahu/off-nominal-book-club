@@ -1,17 +1,17 @@
 import { QueryResult } from 'pg';
-import { ApiBook } from '../../../src/types/api/apiTypes';
+import { ApiBook, ApiConfirmBookObj } from '../../../src/types/api/apiTypes';
 import { BookData } from '../../../src/types/common';
 import knex from '../../knex';
 
-export const confirmBook = (bookObj) => {
+export const confirmBook = (bookObj: ApiConfirmBookObj) => {
   const lowerTitle = bookObj.title.toLowerCase();
 
   return knex
-    .select(
+    .select<ApiConfirmBookObj>(
       'description',
       'fiction',
       'id',
-      'image_url',
+      'image_url as thumbnail',
       'title',
       knex.raw(
         `
