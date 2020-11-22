@@ -7,14 +7,6 @@ import SearchResultsSkeleton from './skeletons/SearchResultsSkeleton';
 import { ApiBook } from '../../../types/api/apiTypes';
 import Message from '../../../components/Utility/Message';
 
-export const metaFlagMapper = (flagArray) => {
-  const flagMap = {};
-
-  flagArray.forEach((flag) => {
-    flagMap[flag.id];
-  });
-};
-
 export type SearchResultsProps = {
   results: ApiBook[];
   loading: boolean;

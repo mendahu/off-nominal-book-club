@@ -85,7 +85,7 @@ export type SearchResultProps = {
   tags: ApiTag[];
   rating: string;
   metaData: MetaData;
-  userMetaData: MetaData;
+  userMetaData: MetaData | undefined;
   selectTag: () => void;
 };
 
