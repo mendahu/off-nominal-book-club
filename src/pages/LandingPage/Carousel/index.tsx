@@ -13,7 +13,7 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from '@material-ui/core/styles';
-import { useCarousel } from './useCarousel/useCarousel';
+import { useCarousel } from './useCarousel';
 import clsx from 'clsx';
 
 let theme = createMuiTheme();

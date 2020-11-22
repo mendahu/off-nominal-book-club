@@ -1,7 +1,7 @@
 import { Container, makeStyles } from '@material-ui/core';
 import SearchBar from '../src/components/SearchBar';
 import TagList from '../src/pages/LandingPage/TagList/TagList';
-import { Carousel } from '../src/pages/LandingPage/Carousel/Carousel';
+import Carousel from '../src/pages/LandingPage/Carousel';
 import Layout from '../src/components/LandingLayout';
 import SearchResults from '../src/pages/LandingPage/SearchResults/SearchResults';
 import useSearch from '../src/pages/LandingPage/useSearch/useSearch';

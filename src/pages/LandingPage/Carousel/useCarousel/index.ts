@@ -16,15 +16,16 @@ export type Recommendation = {
   thumbnail: string;
   year: string;
   authors: Author[];
-  userData: {
+  userdata: {
     reads: number;
     wishlist: number;
     favourites: number;
     rating: {
-      average: number | null;
+      avg: number | null;
       count: number;
     };
   };
+  favs?: string;
   authorString: string;
   slug: string;
   headline: string;
