@@ -51,21 +51,23 @@ export const useCarousel = () => {
     },
   };
 
+  const fetchRecommendations = async () => {
+    try {
+      const response = await axios.get('/api/recommendations');
+      const recommends = await response.data.map((reco) => ({
+        ...reco,
+        headline: config[reco.type].headline,
+        subline: config[reco.type].subline,
+      }));
+      setCaoruselItems(recommends);
+    } catch (err) {
+      // fail silently
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    axios
-      .get('/api/recommendations')
-      .then((res) => {
-        const recommends = res.data.map((reco) => ({
-          ...reco,
-          headline: config[reco.type].headline,
-          subline: config[reco.type].subline,
-        }));
-        setCaoruselItems(recommends);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
+    fetchRecommendations();
   }, []);
 
   return { carouselItems, loading };
