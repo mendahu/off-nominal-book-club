@@ -70,6 +70,7 @@ export const useSearch = () => {
       setBooks({ loading: false, books });
       setTags({ loading: false, tags });
     });
+    //TODO add catch
   }, []);
 
   useEffect(() => {

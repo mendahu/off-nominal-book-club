@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SearchResultsSkeleton from './skeletons/SearchResultsSkeleton';
 import { ApiBook } from '../../../types/api/apiTypes';
+import Message from '../../../components/Utility/Message';
 
 export const metaFlagMapper = (flagArray) => {
   const flagMap = {};
@@ -21,7 +22,7 @@ export type SearchResultsProps = {
 };
 
 export const SearchResults = ({
-  results,
+  results = [],
   loading,
   tagClickHandler,
 }: SearchResultsProps) => {
@@ -32,7 +33,7 @@ export const SearchResults = ({
 
   useEffect(() => {
     if (userId) {
-      axios.get(`/api/userdata/?userId=${userId}`).then((res) => {
+      axios.get(`/api/userdata?userId=${userId}`).then((res) => {
         setUserMetaData(res.data);
       });
     }
@@ -42,7 +43,7 @@ export const SearchResults = ({
     <Box component="section">
       {loading ? (
         <SearchResultsSkeleton />
-      ) : (
+      ) : results.length ? (
         results.map((book, index) => (
           <SearchResult
             key={index}
@@ -63,6 +64,8 @@ export const SearchResults = ({
             userMetaData={userMetaData[book.id]}
           />
         ))
+      ) : (
+        <Message variant="warning" message="No results." />
       )}
     </Box>
   );
