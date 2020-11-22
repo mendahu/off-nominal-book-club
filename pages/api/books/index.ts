@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getAllBooks } from '../../../db/queries/books';
-import { ApiBook, ApiErrorResponse } from '../../../src/types/apiTypes';
+import { ApiBook, ApiErrorResponse } from '../../../src/types/api/apiTypes';
 
 export default async (
   req: NextApiRequest,

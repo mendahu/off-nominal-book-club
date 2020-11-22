@@ -1,4 +1,4 @@
-import { ApiTag } from '../../types/apiTypes';
+import { ApiTag } from '../../types/api/apiTypes';
 import { JoinedTag } from '../../types/common';
 import { useState, useReducer, useEffect } from 'react';
 import {

@@ -2,7 +2,7 @@ import { shallow } from 'enzyme';
 import LandingPage from '../../../../pages/';
 import SearchBar from '../../../components/SearchBar';
 import { OnbcSnackbar } from '../../../hooks/useSnackbar/useSnackbar';
-import SearchResults from '../SearchResults/SearchResults';
+import SearchResults from '../SearchResults';
 import TagList from '../TagList/TagList';
 
 describe('LandingPage', () => {

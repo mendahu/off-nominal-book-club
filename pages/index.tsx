@@ -3,7 +3,7 @@ import SearchBar from '../src/components/SearchBar';
 import TagList from '../src/pages/LandingPage/TagList/TagList';
 import Carousel from '../src/pages/LandingPage/Carousel';
 import Layout from '../src/components/LandingLayout';
-import SearchResults from '../src/pages/LandingPage/SearchResults/SearchResults';
+import SearchResults from '../src/pages/LandingPage/SearchResults';
 import useSearch from '../src/pages/LandingPage/useSearch/useSearch';
 import SnackbarContext from '../src/contexts/SnackbarContext';
 import {

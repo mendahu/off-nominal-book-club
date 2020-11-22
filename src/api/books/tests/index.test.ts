@@ -2,7 +2,7 @@ import { NextApiRequest } from 'next';
 import { QueryResult } from 'pg';
 import { getAllBooks } from '../../../../db/queries/books';
 import books from '../../../../pages/api/books';
-import { Book } from '../../../types/apiTypes';
+import { ApiBook } from '../../../types/api/apiTypes';
 jest.mock('../../../../db/queries/books');
 
 describe('/pages/api/books', () => {
@@ -60,7 +60,7 @@ describe('/pages/api/books', () => {
       method: 'GET',
     };
 
-    const sampleBook: Book = {
+    const sampleBook: ApiBook = {
       id: 5,
       title: 'a book',
       description: 'a long description of a book',
@@ -88,7 +88,7 @@ describe('/pages/api/books', () => {
       oid: 3,
       command: 'GET',
       fields: [],
-    } as QueryResult<Book>);
+    } as QueryResult<ApiBook>);
 
     const response = await books(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(200);

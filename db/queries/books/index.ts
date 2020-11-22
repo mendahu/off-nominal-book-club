@@ -1,5 +1,5 @@
 import { QueryResult } from 'pg';
-import { Book } from '../../../src/types/apiTypes';
+import { ApiBook } from '../../../src/types/api/apiTypes';
 import { BookData } from '../../../src/types/common';
 import knex from '../../knex';
 
@@ -148,7 +148,7 @@ export const fetchBook = (bookId: number, userId: number = 0) => {
 };
 
 export const getAllBooks = () => {
-  return knex.raw<QueryResult<Book>>(
+  return knex.raw<QueryResult<ApiBook>>(
     `
       SELECT
         b.id,

@@ -6,7 +6,7 @@ import MatLink from '@material-ui/core/Link';
 import urlGenerator from '../../../../helpers/urlGenerator';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
-import { ApiTag } from '../../../../types/apiTypes';
+import { ApiTag } from '../../../../types/api/apiTypes';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

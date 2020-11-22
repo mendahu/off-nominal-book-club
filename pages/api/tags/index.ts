@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getAllTags } from '../../../db/queries/tags';
-import { Tag } from '../../../src/types/apiTypes';
+import { ApiTag } from '../../../src/types/api/apiTypes';
 
 export const tags = async (
   req: NextApiRequest,
-  res: NextApiResponse<Tag[] | { message: string }>
+  res: NextApiResponse<ApiTag[] | { message: string }>
 ) => {
   const { method } = req;
 

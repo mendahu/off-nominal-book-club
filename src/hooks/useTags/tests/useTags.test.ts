@@ -2,7 +2,7 @@ import { useTags } from '../useTags';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { JoinedTag } from '../../../types/common';
 import axios from 'axios';
-import { ApiTag } from '../../../types/apiTypes';
+import { ApiTag } from '../../../types/api/apiTypes';
 import React from 'react';
 import { BookTagActionType } from '../../../reducers/bookTagReducer/bookTagReducer';
 jest.mock('axios');

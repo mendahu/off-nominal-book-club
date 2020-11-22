@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getUserData } from '../../../db/queries/userdata';
 import auth0 from '../../../lib/auth0';
-import { ApiUserMetadata, ApiErrorResponse } from '../../../src/types/apiTypes';
+import {
+  ApiUserMetadata,
+  ApiErrorResponse,
+} from '../../../src/types/api/apiTypes';
 
 export const userdata = async (
   req: NextApiRequest,

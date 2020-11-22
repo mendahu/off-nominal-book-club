@@ -1,7 +1,7 @@
 import { NextApiRequest } from 'next';
 import { getUserData } from '../../../../db/queries/userdata';
 import { userdata } from '../../../../pages/api/userdata';
-import { ApiUserMetadata } from '../../../types/apiTypes';
+import { ApiUserMetadata } from '../../../types/api/apiTypes';
 import { QueryUserMetadatum } from '../../../types/query';
 
 jest.mock('../../../../db/queries/userdata');

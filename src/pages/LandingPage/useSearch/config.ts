@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js';
-import { Book, Tag } from '../../../types/apiTypes';
+import { ApiBook, ApiTag } from '../../../types/api/apiTypes';
 
 export default {
   bookOptions: {
@@ -22,7 +22,7 @@ export default {
         weight: 0.1,
       },
     ],
-  } as Fuse.IFuseOptions<Book>,
+  } as Fuse.IFuseOptions<ApiBook>,
   tagOptions: {
     threshold: 0.4,
     findAllMatches: true,
@@ -36,5 +36,5 @@ export default {
         weight: 0.1,
       },
     ],
-  } as Fuse.IFuseOptions<Tag>,
+  } as Fuse.IFuseOptions<ApiTag>,
 };

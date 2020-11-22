@@ -3,7 +3,7 @@ import auth0 from '../../../lib/auth0';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DisplayUser } from '../../../src/types/common';
-import { ApiErrorResponse } from '../../../src/types/apiTypes';
+import { ApiErrorResponse } from '../../../src/types/api/apiTypes';
 
 export const newBook = async (
   req: NextApiRequest,

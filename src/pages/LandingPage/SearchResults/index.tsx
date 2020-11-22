@@ -4,7 +4,7 @@ import { useUser } from '../../../../lib/user';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SearchResultsSkeleton from './skeletons/SearchResultsSkeleton';
-import { Book } from '../../../types/apiTypes';
+import { ApiBook } from '../../../types/api/apiTypes';
 
 export const metaFlagMapper = (flagArray) => {
   const flagMap = {};
@@ -15,7 +15,7 @@ export const metaFlagMapper = (flagArray) => {
 };
 
 export type SearchResultsProps = {
-  results: Book[];
+  results: ApiBook[];
   loading: boolean;
   tagClickHandler: (label: string) => void;
 };

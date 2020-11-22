@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Fuse from 'fuse.js';
 import { useDebounce } from '../../../hooks/useDebounce/useDebounce';
-import { ApiBook, ApiTag } from '../../../types/apiTypes';
+import { ApiBook, ApiTag } from '../../../types/api/apiTypes';
 import fuseConfig from './config';
 
 export interface SearchTag extends ApiTag {
