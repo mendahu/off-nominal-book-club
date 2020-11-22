@@ -3,7 +3,7 @@ import LandingPage from '../../../../pages/';
 import SearchBar from '../../../components/SearchBar';
 import { OnbcSnackbar } from '../../../hooks/useSnackbar/useSnackbar';
 import SearchResults from '../SearchResults';
-import TagList from '../TagList/TagList';
+import TagList from '../TagList';
 
 describe('LandingPage', () => {
   it('should render without crashing', () => {
