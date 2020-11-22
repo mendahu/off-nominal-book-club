@@ -37,7 +37,7 @@ export default function About() {
 
   return (
     <Layout>
-      <Grid container space={2} className={classes.root}>
+      <Grid container spacing={2} className={classes.root}>
         <Grid item xs={12} sm={10} md={8} lg={6}>
           <Paper>
             <CardContent className={classes.content}>
