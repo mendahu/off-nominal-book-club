@@ -18,7 +18,6 @@ export default async (
     const response = await getAllBooks();
     return res.status(200).json(response.rows);
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };

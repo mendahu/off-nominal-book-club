@@ -2,7 +2,7 @@ import { useTags } from '../useTags';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { JoinedTag } from '../../../types/common';
 import axios from 'axios';
-import { AutocompleteTag } from '../../../types/apiTypes';
+import { ApiTag } from '../../../types/apiTypes';
 import React from 'react';
 import { BookTagActionType } from '../../../reducers/bookTagReducer/bookTagReducer';
 jest.mock('axios');
@@ -15,7 +15,7 @@ React.useReducer.mockImplementation((reducer, state) => {
 
 describe('useTags', () => {
   let initialState: JoinedTag[];
-  let tagList: AutocompleteTag[];
+  let tagList: ApiTag[];
 
   beforeEach(() => {
     initialState = [
@@ -47,20 +47,15 @@ describe('useTags', () => {
       },
     ];
 
+    jest.clearAllMocks();
     axios.get.mockResolvedValue({ data: tagList });
-
-    mockDispatch.mockClear();
   });
 
-  it('should be render initial value', () => {
-    const { result } = renderHook(() => useTags(initialState, 1));
-    expect(result.current.state).toEqual(initialState);
-  });
-
-  it('should return tagList', async () => {
+  it('should render initial state', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
       useTags(initialState, 1)
     );
+    expect(result.current.state).toEqual(initialState);
     await waitForNextUpdate();
     expect(result.current.tagList).toEqual(tagList);
   });
@@ -214,6 +209,131 @@ describe('useTags', () => {
       {
         id: 2,
         count: 4,
+        label: 'mars',
+      },
+    ]);
+  });
+
+  it('should not decrement a tag when loading', async () => {
+    initialState[0].loading = true;
+
+    axios.delete.mockResolvedValueOnce('nice');
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useTags(initialState, 1)
+    );
+
+    await waitForNextUpdate();
+
+    act(() => {
+      result.current.decrementTag(initialState[0]);
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(0);
+    expect(axios.delete).toHaveBeenCalledTimes(0);
+
+    expect(result.current.tagList).toEqual(tagList);
+  });
+
+  it('should remove a tag when it is a single count and decremented', async () => {
+    axios.delete.mockResolvedValueOnce('nice');
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useTags(initialState, 1)
+    );
+
+    await waitForNextUpdate();
+
+    act(() => {
+      result.current.decrementTag(initialState[0]);
+    });
+
+    await waitForNextUpdate();
+
+    expect(mockDispatch.mock.calls[0][0]).toEqual({
+      type: BookTagActionType.START_PROCESSING,
+      payload: {
+        tagId: 1,
+      },
+    });
+
+    expect(axios.delete).toHaveBeenCalledTimes(1);
+
+    expect(mockDispatch.mock.calls[1][0]).toEqual({
+      type: BookTagActionType.REMOVE_TAG,
+      payload: {
+        tagId: 1,
+      },
+    });
+
+    expect(mockDispatch.mock.calls[2][0]).toEqual({
+      type: BookTagActionType.COMPLETE_PROCESSING,
+      payload: {
+        tagId: 1,
+      },
+    });
+
+    expect(result.current.tagList).toEqual([
+      {
+        id: 1,
+        count: 0,
+        label: 'space',
+      },
+      {
+        id: 2,
+        count: 3,
+        label: 'mars',
+      },
+    ]);
+  });
+
+  it('should decrement a tag', async () => {
+    axios.delete.mockResolvedValueOnce('nice');
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useTags(initialState, 1)
+    );
+
+    await waitForNextUpdate();
+
+    act(() => {
+      result.current.decrementTag(initialState[1]);
+    });
+
+    await waitForNextUpdate();
+
+    expect(mockDispatch.mock.calls[0][0]).toEqual({
+      type: BookTagActionType.START_PROCESSING,
+      payload: {
+        tagId: 2,
+      },
+    });
+
+    expect(axios.delete).toHaveBeenCalledTimes(1);
+
+    expect(mockDispatch.mock.calls[1][0]).toEqual({
+      type: BookTagActionType.DECREMENT_TAG,
+      payload: {
+        tagId: 2,
+      },
+    });
+
+    expect(mockDispatch.mock.calls[2][0]).toEqual({
+      type: BookTagActionType.COMPLETE_PROCESSING,
+      payload: {
+        tagId: 2,
+      },
+    });
+
+    expect(result.current.tagList).toEqual([
+      {
+        id: 1,
+        count: 1,
+        label: 'space',
+      },
+      {
+        id: 2,
+        count: 2,
         label: 'mars',
       },
     ]);

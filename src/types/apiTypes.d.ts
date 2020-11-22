@@ -3,7 +3,7 @@ export type ApiErrorResponse = {
   error?: string;
 };
 
-export type Tag = {
+export type ApiTag = {
   id: number;
   label: string;
   count: number;

@@ -1,4 +1,4 @@
-import Layout from '../src/components/DefaultLayout';
+import Layout from '../../src/components/DefaultLayout';
 import {
   Grid,
   Paper,

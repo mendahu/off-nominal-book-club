@@ -1,4 +1,4 @@
-import { Tag } from '../../types/apiTypes';
+import { ApiTag } from '../../types/apiTypes';
 import { JoinedTag } from '../../types/common';
 import { useState, useReducer, useEffect } from 'react';
 import {
@@ -11,7 +11,7 @@ import axios from 'axios';
 export const useTags = (tags: JoinedTag[], bookId: number) => {
   const [inputLoading, setInputLoading] = useState(false);
   const [state, dispatch] = useReducer(bookTagReducer, tags);
-  const [tagList, setTagList] = useState<Tag[]>([]);
+  const [tagList, setTagList] = useState<ApiTag[]>([]);
 
   useEffect(() => {
     (async function tagFetcher() {
@@ -72,7 +72,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
   };
 
   const generateNewTagList = (
-    list: Tag[],
+    list: ApiTag[],
     tagId: number,
     increment: boolean,
     newTagName?: string
@@ -138,11 +138,11 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
         dispatch(generateAddTagAction(tagName, tagId, tagRelId));
         setTagList(generateNewTagList(tagList, tagId, true, tagName));
       }
+      dispatch(generateProcessingAction(tagId, 'stop'));
       return tagRelId;
     } catch (err) {
       throw err;
     } finally {
-      dispatch(generateProcessingAction(tagId, 'stop'));
       setInputLoading(false);
     }
   };
@@ -169,7 +169,7 @@ export const useTags = (tags: JoinedTag[], bookId: number) => {
     }
   };
 
-  const decrementTag = async (tag: JoinedTag, userId: number) => {
+  const decrementTag = async (tag: JoinedTag) => {
     if (tag.loading) {
       return;
     }
