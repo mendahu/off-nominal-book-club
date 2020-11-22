@@ -1,4 +1,4 @@
-import SearchResult from './SearchResult/SearchResult';
+import SearchResult from './SearchResult';
 import { Box } from '@material-ui/core';
 import { useUser } from '../../../../lib/user';
 import { useEffect, useState } from 'react';

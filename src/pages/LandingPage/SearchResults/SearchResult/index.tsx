@@ -6,7 +6,7 @@ import MatLink from '@material-ui/core/Link';
 import urlGenerator from '../../../../helpers/urlGenerator';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
-import { Tag } from '../../../../types/apiTypes';
+import { ApiTag } from '../../../../types/apiTypes';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -70,9 +70,9 @@ const generateMetaData = (
 };
 
 export type MetaData = {
-  reads: number;
-  wishlist: number;
-  favourites: number;
+  reads: number | null;
+  wishlist: number | null;
+  favourites: number | null;
 };
 
 export type SearchResultProps = {
@@ -82,7 +82,7 @@ export type SearchResultProps = {
   authorString: string;
   thumbnail: string;
   year: string;
-  tags: Tag[];
+  tags: ApiTag[];
   rating: string;
   metaData: MetaData;
   userMetaData: MetaData;
@@ -109,7 +109,7 @@ export const SearchResult = ({
 
   return (
     <Paper className={classes.root}>
-      <Link href={`/books/[id]`} as={`/books/${urlString}`} passHref>
+      <Link href={`/books/${id}`} as={`/books/${urlString}`} passHref>
         <a>
           <img src={thumbnail} alt={title} />
         </a>

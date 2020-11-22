@@ -9,7 +9,7 @@ export type ApiTag = {
   count: number;
 };
 
-export class Book {
+export class ApiBook {
   id: number;
   title: string;
   description: string;

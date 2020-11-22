@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Fuse from 'fuse.js';
 import { useDebounce } from '../../../hooks/useDebounce/useDebounce';
-import { Book, Tag } from '../../../types/apiTypes';
+import { ApiBook, ApiTag } from '../../../types/apiTypes';
 import fuseConfig from './config';
 
-export interface SearchTag extends Tag {
+export interface SearchTag extends ApiTag {
   selected?: boolean;
 }
 
@@ -15,7 +15,7 @@ let tagSearcher;
 export const useSearch = () => {
   const initialSearch = {
     loading: true,
-    books: [] as Book[],
+    books: [] as ApiBook[],
   };
 
   const initialTags = {
@@ -23,8 +23,8 @@ export const useSearch = () => {
     tags: [] as SearchTag[],
   };
 
-  let bookSource = useRef([] as Book[]);
-  let tagSource = useRef([] as Tag[]);
+  let bookSource = useRef([] as ApiBook[]);
+  let tagSource = useRef([] as ApiTag[]);
 
   const [books, setBooks] = useState(initialSearch);
   const [tags, setTags] = useState(initialTags);
@@ -35,8 +35,8 @@ export const useSearch = () => {
 
   const getSearchResults = async (
     term,
-    bookSearch: Fuse<Book>,
-    tagSearch: Fuse<Tag>
+    bookSearch: Fuse<ApiBook>,
+    tagSearch: Fuse<ApiTag>
   ) => {
     setBooks({ ...books, loading: true });
     setTags({ ...tags, loading: true });
@@ -54,8 +54,8 @@ export const useSearch = () => {
   };
 
   useEffect(() => {
-    const booksResponse = axios.get<Book[]>('/api/books');
-    const tagResponse = axios.get<Tag[]>('/api/tags');
+    const booksResponse = axios.get<ApiBook[]>('/api/books');
+    const tagResponse = axios.get<ApiTag[]>('/api/tags');
 
     Promise.all([booksResponse, tagResponse]).then((res) => {
       const books = res[0].data;
@@ -76,8 +76,8 @@ export const useSearch = () => {
     if (debouncedSearchTerm) {
       getSearchResults(
         debouncedSearchTerm,
-        bookSearcher as Fuse<Book>,
-        tagSearcher as Fuse<Tag>
+        bookSearcher as Fuse<ApiBook>,
+        tagSearcher as Fuse<ApiTag>
       );
     } else {
       setBooks({ ...books, books: bookSource.current });
