@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest } from 'next';
 import {
   getFavourite,
   getRandom,
@@ -76,7 +76,11 @@ describe('tags API', () => {
       method: 'DELETE',
     };
 
-    const response = await recommendations(mockReq, mockRes());
+
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(405);
   });
 
@@ -85,7 +89,11 @@ describe('tags API', () => {
       method: 'PUT',
     };
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
+
     expect(response.status).toEqual(405);
   });
 
@@ -94,7 +102,10 @@ describe('tags API', () => {
       method: 'POST',
     };
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(405);
   });
 
@@ -103,7 +114,11 @@ describe('tags API', () => {
       method: 'PATCH',
     };
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
+
     expect(response.status).toEqual(405);
   });
 
@@ -115,7 +130,10 @@ describe('tags API', () => {
       },
     };
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(400);
   });
 
@@ -129,7 +147,11 @@ describe('tags API', () => {
 
     getRandom.mockResolvedValueOnce(mockRandomResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
+
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
     expect(getFavourite).toHaveBeenCalledTimes(0);
@@ -147,7 +169,11 @@ describe('tags API', () => {
 
     getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
+
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(0);
     expect(getFavourite).toHaveBeenCalledTimes(1);
@@ -165,7 +191,10 @@ describe('tags API', () => {
 
     getHighestRated.mockResolvedValueOnce(mockHighestRatedResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(0);
     expect(getFavourite).toHaveBeenCalledTimes(0);
@@ -184,7 +213,10 @@ describe('tags API', () => {
     getHighestRated.mockResolvedValueOnce(mockHighestRatedResponse);
     getRandom.mockResolvedValueOnce(mockRandomResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
     expect(getFavourite).toHaveBeenCalledTimes(0);
@@ -205,7 +237,10 @@ describe('tags API', () => {
     getRandom.mockResolvedValueOnce(mockRandomResponse);
     getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
     expect(getFavourite).toHaveBeenCalledTimes(1);
@@ -225,7 +260,10 @@ describe('tags API', () => {
     getRandom.mockResolvedValueOnce(mockRandomResponse);
     getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
     expect(getFavourite).toHaveBeenCalledTimes(1);
@@ -247,7 +285,10 @@ describe('tags API', () => {
     getRandom.mockResolvedValueOnce(mockRandomResponse);
     getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
     expect(getFavourite).toHaveBeenCalledTimes(1);
@@ -265,7 +306,10 @@ describe('tags API', () => {
       },
     };
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
 
     expect(getRandom).toHaveBeenCalledTimes(0);
     expect(getFavourite).toHaveBeenCalledTimes(0);
@@ -285,7 +329,10 @@ describe('tags API', () => {
     getRandom.mockResolvedValueOnce(mockRandomResponse);
     getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
 
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
@@ -310,7 +357,10 @@ describe('tags API', () => {
     getRandom.mockResolvedValueOnce(emptyResponse);
     getFavourite.mockResolvedValueOnce(emptyResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
 
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
@@ -331,7 +381,10 @@ describe('tags API', () => {
     getRandom.mockResolvedValueOnce(mockRandomResponse);
     getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
 
-    const response = await recommendations(mockReq, mockRes());
+    const response = await recommendations(
+      mockReq as NextApiRequest,
+      mockRes()
+    );
 
     expect(response.status).toEqual(500);
   });

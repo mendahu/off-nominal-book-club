@@ -54,11 +54,12 @@ export interface BookData {
   isbn13: string;
   description: string;
   year: string;
-  image_url: string;
+  thumbnail: string;
   reads: number;
-  favs: number;
-  wishes: number;
+  favouritess: number;
+  wishlist: number;
   rating: number;
+  ratings: number;
   authors: Author[];
   tags: BookTag[];
   reviews: UserReview[];

@@ -41,6 +41,7 @@ import {
   OnbcSnackbar,
 } from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
+import { ApiConfirmBook } from '../../src/types/api/apiTypes';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -86,7 +87,7 @@ export default function New() {
   const [currentSelection, setCurrentSelection] = useState(null);
   const [isMatching, setIsMatching] = useState(false);
   const [isMatchError, setIsMatchError] = useState(false);
-  const [matchedResults, setMatchedResults] = useState(null);
+  const [matchedResults, setMatchedResults] = useState<ApiConfirmBook[]>(null);
 
   const [newBookMetaData, setNewBookMetaData] = useState({
     fiction: false,
@@ -284,7 +285,7 @@ export default function New() {
                       return (
                         <SmallListItem
                           key={index}
-                          imageUrl={match.image_url}
+                          imageUrl={match.thumbnail}
                           title={match.title}
                           authorString={generateAuthorString(match.authors)}
                           button={{ id: match.id }}

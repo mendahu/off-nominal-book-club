@@ -1,9 +1,7 @@
 import { Paper, CardContent, Grid, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import Star from '@material-ui/icons/Star';
-import MetaFlags, {
-  MetaFlagData,
-} from '../../../../components/MetaFlags/MetaFlags';
+import { BookStats } from '../../../../components/BookStats/BookStats';
+import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -11,28 +9,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-  },
-  metaData: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    justifyContent: 'space-evenly',
-    order: 3,
-    minWidth: 100,
-    [theme.breakpoints.down('xs')]: {
-      order: 2,
-    },
-    marginRight: theme.spacing(2),
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-  ratings: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: theme.spacing(1),
-  },
-  star: {
-    marginRight: '2px',
   },
   title: {
     display: 'flex',
@@ -73,14 +49,11 @@ const BookTitleBar = ({
       <Paper className={classes.root}>
         <img src={thumbnail} />
 
-        <div className={classes.metaData}>
-          <div className={classes.ratings}>
-            <Star htmlColor="#ffd54f" className={classes.star} />
-            <Typography component="h1">{ratingString}</Typography>
-          </div>
-
-          <MetaFlags metaData={metaData} bookId={bookId} />
-        </div>
+        <BookStats
+          metaData={metaData}
+          bookId={bookId}
+          ratingString={ratingString}
+        />
 
         <CardContent className={classes.title}>
           <Typography variant="h5" component="h1">

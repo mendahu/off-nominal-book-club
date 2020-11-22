@@ -83,7 +83,7 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
         return triggerTooManyTagsSnackbar();
       }
       shouldDecrement
-        ? await decrementTag(tag, userId)
+        ? await decrementTag(tag)
         : await incrementTag(tag, userId);
     } catch (err) {
       triggerAPIErrorSnackbar();

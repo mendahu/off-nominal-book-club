@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { add, getTagIdByName } from '../../../db/queries/tags';
+import { addTag, getTagIdByName } from '../../../db/queries/tags';
 import auth0 from '../../../lib/auth0';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 import { DisplayUser } from '../../../src/types/common';
@@ -49,7 +49,7 @@ export const newTag = async (req: NextApiRequest, res: NextApiResponse) => {
     if (response.length) {
       return res.status(200).json(response[0]);
     }
-    response = await add(lowerCaseTagName);
+    response = await addTag(lowerCaseTagName);
     return res.status(200).json({ id: response[0] });
   } catch (err) {
     return res.status(500).json({ message: 'Error adding tag to database.' });

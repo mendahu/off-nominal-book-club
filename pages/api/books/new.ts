@@ -1,10 +1,17 @@
-const queries = require('../../../db/queries/books');
+import { addBook, confirmBook } from '../../../db/queries/books';
 import auth0 from '../../../lib/auth0';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DisplayUser } from '../../../src/types/common';
+import {
+  ApiConfirmBookObj,
+  ApiErrorResponse,
+} from '../../../src/types/api/apiTypes';
 
-export const newBook = async (req: NextApiRequest, res: NextApiResponse) => {
+export const newBook = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ApiConfirmBookObj | ApiErrorResponse>
+) => {
   // verify Patreon status
 
   let userProfile: DisplayUser;
@@ -26,7 +33,7 @@ export const newBook = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { method } = req;
-  let bookObj = {};
+  let bookObj: ApiConfirmBookObj;
 
   switch (method) {
     case 'GET':
@@ -40,14 +47,42 @@ export const newBook = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const { query } = req;
 
+      if (
+        typeof query.google_id !== 'string' &&
+        typeof query.google_id !== 'undefined'
+      ) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'Query parameters must be strings.',
+        });
+      }
+      if (
+        typeof query.isbn13 !== 'string' &&
+        typeof query.isbn13 !== 'undefined'
+      ) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'Query parameters must be strings.',
+        });
+      }
+      if (
+        typeof query.title !== 'string' &&
+        typeof query.title !== 'undefined'
+      ) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'Query parameters must be strings.',
+        });
+      }
+
       bookObj = {
-        google_id: query.googleid || null,
+        google_id: query.google_id || null,
         isbn13: query.isbn13 || null,
         title: query.title || null,
       };
 
       try {
-        const response = await queries.books.confirm(bookObj);
+        const response = await confirmBook(bookObj);
         return res.status(200).json(response);
       } catch (error) {
         return res.status(500).json(error);
@@ -64,7 +99,7 @@ export const newBook = async (req: NextApiRequest, res: NextApiResponse) => {
       bookObj = req.body;
 
       try {
-        const response = await queries.books.add(bookObj);
+        const response = await addBook(bookObj);
         return res.status(200).json(response);
       } catch (error) {
         return res.status(500).json(error);

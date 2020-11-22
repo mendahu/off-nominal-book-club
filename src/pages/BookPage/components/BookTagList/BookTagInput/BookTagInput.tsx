@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
 import { useUser } from '../../../../../../lib/user';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { AutocompleteTag } from '../../../../../types/apiTypes';
+import { ApiTag } from '../../../../../types/api/apiTypes';
 
 const useStyles = makeStyles((theme: Theme) => ({
   chip: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export type BookTagInputProps = {
   addTag: (tagName: string, userId: number) => void;
   loading: boolean;
-  tagList: AutocompleteTag[];
+  tagList: ApiTag[];
 };
 
 type TagOption = {

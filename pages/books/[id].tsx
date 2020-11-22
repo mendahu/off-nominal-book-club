@@ -1,4 +1,3 @@
-const bookQueries = require('../../db/queries/books');
 const userQueries = require('../../db/queries/users');
 import Layout from '../../src/components/DefaultLayout';
 import {
@@ -23,7 +22,8 @@ import {
 } from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 import generateAuthorString from '../../src/helpers/generateAuthorString';
-import { MetaFlagData } from '../../src/components/MetaFlags/MetaFlags';
+import { MetaFlagData } from '../../src/components/BookStats/MetaFlags/MetaFlags';
+import { fetchBook } from '../../db/queries/books';
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
   return {
@@ -33,12 +33,12 @@ export const generateMetaData = (bookData, userData): MetaFlagData => {
       loading: false,
     },
     wishlist: {
-      count: Number(bookData.wishes),
+      count: Number(bookData.wishlist),
       id: userData.wishlist,
       loading: false,
     },
     favourites: {
-      count: Number(bookData.favs),
+      count: Number(bookData.favourites),
       id: userData.fav,
       loading: false,
     },
@@ -50,7 +50,13 @@ export const generateRatingString = (rating, count) => {
   return `${score} (${count} rating${Number(count) === 1 ? '' : 's'})`;
 };
 
-const BookPage = ({ slug, book, userData }) => {
+export type BookPageProps = {
+  slug: string;
+  book: BookData;
+  userData: UserData;
+};
+
+const BookPage = ({ slug, book, userData }: BookPageProps) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
   const { user, loading } = useUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
@@ -81,7 +87,7 @@ const BookPage = ({ slug, book, userData }) => {
               content={book.description}
               key="description"
             />
-            <meta property="og:image" content={book.image_url} key="image" />
+            <meta property="og:image" content={book.thumbnail} key="image" />
 
             <meta
               name="twitter:description"
@@ -95,7 +101,7 @@ const BookPage = ({ slug, book, userData }) => {
             />
             <meta
               name="twitter:image"
-              content={book.image_url}
+              content={book.thumbnail}
               key="twitter_image"
             />
             <meta
@@ -111,7 +117,7 @@ const BookPage = ({ slug, book, userData }) => {
               ratingString={generateRatingString(book.rating, book.ratings)}
               authorString={generateAuthorString(book.authors)}
               title={book.title}
-              thumbnail={book.image_url}
+              thumbnail={book.thumbnail}
               year={book.year}
             />
             <BookTagList
@@ -157,7 +163,6 @@ export async function getServerSideProps(context) {
   const userProfile = await userProfileFetcher(context.req);
   const userId = userProfile?.onbc_id;
 
-  const fetchBook = bookQueries.books.fetch;
   const fetchUser = userQueries.users.fetch;
 
   //Default user Data
@@ -171,8 +176,8 @@ export async function getServerSideProps(context) {
     name: '',
   };
 
-  const bookResults: BookData[] = await fetchBook(bookId, userId);
-  const book: BookData = bookResults.length ? bookResults[0] : null;
+  const bookResults = await fetchBook(bookId, userId);
+  const book = bookResults.length ? bookResults[0] : null;
 
   if (userId) {
     const [results] = await fetchUser(userId, bookId);
