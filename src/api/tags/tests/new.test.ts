@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { newTag } from '../../../pages/api/tags/new';
-import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
-import { addTag, getTagIdByName } from '../../../db/queries/tags/';
+import { NextApiRequest } from 'next';
+import { newTag } from '../../../../pages/api/tags/new';
+import userProfileFetcher from '../../../../src/helpers/userProfileFetcher';
+import { addTag, getTagIdByName } from '../../../../db/queries/tags/';
 
-jest.mock('../../../db/queries/tags');
-jest.mock('../../../src/helpers/userProfileFetcher');
+jest.mock('../../../../db/queries/tags');
+jest.mock('../../../../src/helpers/userProfileFetcher');
 
 userProfileFetcher.mockImplementation((req) => ({ isPatron: true }));
 

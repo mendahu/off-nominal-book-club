@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { tags } from '../../../pages/api/tags';
-import { getAllTags } from '../../../db/queries/tags';
+import { NextApiRequest } from 'next';
+import { tags } from '../../../../pages/api/tags';
+import { getAllTags } from '../../../../db/queries/tags';
 
-jest.mock('../../../db/queries/tags');
+jest.mock('../../../../db/queries/tags');
 
 describe('tags API', () => {
   const mockRes = () => {

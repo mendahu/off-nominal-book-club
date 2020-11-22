@@ -1,9 +1,9 @@
 import { NextApiRequest } from 'next';
 import { QueryResult } from 'pg';
-import { getAllBooks } from '../../../db/queries/books';
-import books from '../../../pages/api/books';
-import { Book } from '../../types/apiTypes';
-jest.mock('../../../db/queries/books');
+import { getAllBooks } from '../../../../db/queries/books';
+import books from '../../../../pages/api/books';
+import { Book } from '../../../types/apiTypes';
+jest.mock('../../../../db/queries/books');
 
 describe('/pages/api/books', () => {
   const mockRes = () => {

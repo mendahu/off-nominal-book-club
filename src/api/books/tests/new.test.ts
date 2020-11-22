@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { newBook } from '../../../pages/api/books/new';
-import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
-import { confirmBook, addBook } from '../../../db/queries/books';
+import { newBook } from '../../../../pages/api/books/new';
+import userProfileFetcher from '../../../../src/helpers/userProfileFetcher';
+import { confirmBook, addBook } from '../../../../db/queries/books';
 
-jest.mock('../../../db/queries/books');
-jest.mock('../../../src/helpers/userProfileFetcher');
+jest.mock('../../../../db/queries/books');
+jest.mock('../../../../src/helpers/userProfileFetcher');
 
 (userProfileFetcher as jest.Mock).mockImplementation(() => ({
   isPatron: true,
