@@ -4,6 +4,7 @@ import Fuse from 'fuse.js';
 import { useDebounce } from '../../../hooks/useDebounce/useDebounce';
 import { ApiBook, ApiTag } from '../../../types/api/apiTypes';
 import fuseConfig from './config';
+import { set } from 'date-fns';
 
 export interface SearchTag extends ApiTag {
   selected?: boolean;
@@ -57,20 +58,27 @@ export const useSearch = () => {
     const booksResponse = axios.get<ApiBook[]>('/api/books');
     const tagResponse = axios.get<ApiTag[]>('/api/tags');
 
-    Promise.all([booksResponse, tagResponse]).then((res) => {
-      const books = res[0].data;
-      const tags = res[1].data;
+    booksResponse
+      .then((res) => {
+        const books = res.data;
+        bookSource.current = books;
+        bookSearcher = new Fuse(books, fuseConfig.bookOptions);
+        setBooks({ loading: false, books });
+      })
+      .catch((err) => {
+        setBooks({ loading: false, books: [] });
+      });
 
-      bookSource.current = books;
-      tagSource.current = tags;
-
-      bookSearcher = new Fuse(books, fuseConfig.bookOptions);
-      tagSearcher = new Fuse(tags, fuseConfig.tagOptions);
-
-      setBooks({ loading: false, books });
-      setTags({ loading: false, tags });
-    });
-    //TODO add catch
+    tagResponse
+      .then((res) => {
+        const tags = res.data;
+        tagSource.current = tags;
+        tagSearcher = new Fuse(tags, fuseConfig.tagOptions);
+        setTags({ loading: false, tags });
+      })
+      .catch((err) => {
+        setTags({ loading: false, tags: [] });
+      });
   }, []);
 
   useEffect(() => {
