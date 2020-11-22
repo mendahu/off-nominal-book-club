@@ -1,6 +1,8 @@
 import { NextApiRequest } from 'next';
 import { getUserData } from '../../../../db/queries/userdata';
 import { userdata } from '../../../../pages/api/userdata';
+import { ApiUserMetadata } from '../../../types/apiTypes';
+import { QueryUserMetadatum } from '../../../types/query';
 
 jest.mock('../../../../db/queries/userdata');
 
@@ -27,7 +29,7 @@ describe('tags API', () => {
       method: 'DELETE',
     };
 
-    const response = await userdata(mockReq, mockRes());
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
@@ -36,7 +38,7 @@ describe('tags API', () => {
       method: 'PUT',
     };
 
-    const response = await userdata(mockReq, mockRes());
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
@@ -45,7 +47,7 @@ describe('tags API', () => {
       method: 'POST',
     };
 
-    const response = await userdata(mockReq, mockRes());
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
@@ -54,236 +56,136 @@ describe('tags API', () => {
       method: 'PATCH',
     };
 
-    const response = await userdata(mockReq, mockRes());
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
-  // it('should return 400 if type query string is not a string', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: ['hello'],
-  //     },
-  //   };
+  it('should return 400 if bookId query string is not a string', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'GET',
+      query: {
+        userId: '3',
+        bookId: ['hello'],
+      },
+    };
 
-  //   const response = await userdata(mockReq, mockRes());
-  //   expect(response.status).toEqual(400);
-  // });
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
+    expect(response.status).toEqual(400);
+  });
 
-  // it('should return random recommendation if random specified', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'random',
-  //     },
-  //   };
+  it('should return 400 if userId query string is not a string', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'GET',
+      query: {
+        userId: ['hello'],
+      },
+    };
 
-  //   getRandom.mockResolvedValueOnce(mockRandomResponse);
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
+    expect(response.status).toEqual(400);
+  });
 
-  //   const response = await recommendations(mockReq, mockRes());
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(1);
-  //   expect(getFavourite).toHaveBeenCalledTimes(0);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(0);
-  //   expect(response.response).toEqual(mockRandomResponse.rows);
-  // });
+  it('should return correctly formatted userdata', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'GET',
+      query: {
+        userId: '2',
+      },
+    };
 
-  // it('should return favourite recommendation if favourite specified', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'favourite',
-  //     },
-  //   };
+    const queryResponse: QueryUserMetadatum[] = [
+      {
+        book_id: 5,
+        reads_id: 4,
+        favourites_id: 1,
+        wishlist_id: null,
+      },
+      {
+        book_id: 3,
+        reads_id: null,
+        favourites_id: null,
+        wishlist_id: null,
+      },
+      {
+        book_id: 1,
+        reads_id: null,
+        favourites_id: null,
+        wishlist_id: 4,
+      },
+    ];
 
-  //   getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
+    getUserData.mockResolvedValueOnce(queryResponse);
 
-  //   const response = await recommendations(mockReq, mockRes());
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(0);
-  //   expect(getFavourite).toHaveBeenCalledTimes(1);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(0);
-  //   expect(response.response).toEqual(mockFavouriteResponse.rows);
-  // });
+    const expectedResponse: ApiUserMetadata = {
+      5: {
+        reads: 4,
+        favourites: 1,
+        wishlist: null,
+      },
+      3: {
+        reads: null,
+        favourites: null,
+        wishlist: null,
+      },
+      1: {
+        reads: null,
+        favourites: null,
+        wishlist: 4,
+      },
+    };
 
-  // it('should return highest rated recommendation if highest rated specified', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'highestrate',
-  //     },
-  //   };
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
+    expect(getUserData).toHaveBeenCalledTimes(1);
+    expect(response.status).toEqual(200);
+    expect(response.response).toEqual(expectedResponse);
+  });
 
-  //   getHighestRated.mockResolvedValueOnce(mockHighestRatedResponse);
+  it('should return correctly formatted userdata', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'GET',
+      query: {
+        userId: '2',
+        bookId: '5',
+      },
+    };
 
-  //   const response = await recommendations(mockReq, mockRes());
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(0);
-  //   expect(getFavourite).toHaveBeenCalledTimes(0);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(1);
-  //   expect(response.response).toEqual(mockHighestRatedResponse.rows);
-  // });
+    const queryResponse: QueryUserMetadatum[] = [
+      {
+        book_id: 5,
+        reads_id: 4,
+        favourites_id: 1,
+        wishlist_id: null,
+      },
+    ];
 
-  // it('should return highest rated and random recommendation if highest rated and random specified', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'highestrate,random',
-  //     },
-  //   };
+    getUserData.mockResolvedValueOnce(queryResponse);
 
-  //   getHighestRated.mockResolvedValueOnce(mockHighestRatedResponse);
-  //   getRandom.mockResolvedValueOnce(mockRandomResponse);
+    const expectedResponse: ApiUserMetadata = {
+      5: {
+        reads: 4,
+        favourites: 1,
+        wishlist: null,
+      },
+    };
 
-  //   const response = await recommendations(mockReq, mockRes());
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(1);
-  //   expect(getFavourite).toHaveBeenCalledTimes(0);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(1);
-  //   expect(response.response).toContain(mockHighestRatedResponse.rows[0]);
-  //   expect(response.response).toContain(mockRandomResponse.rows[0]);
-  // });
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
+    expect(getUserData).toHaveBeenCalledTimes(1);
+    expect(response.status).toEqual(200);
+    expect(response.response).toEqual(expectedResponse);
+  });
 
-  // it('should return random, highest rated, favourite recommendation if all three are specified', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'highestrate,random,favourite',
-  //     },
-  //   };
+  it('should return error if db read fails', async () => {
+    const mockReq: Partial<NextApiRequest> = {
+      method: 'GET',
+      query: {
+        bookId: '3',
+        userId: '2',
+      },
+    };
 
-  //   getHighestRated.mockResolvedValueOnce(mockHighestRatedResponse);
-  //   getRandom.mockResolvedValueOnce(mockRandomResponse);
-  //   getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
+    getUserData.mockRejectedValueOnce('blurp');
 
-  //   const response = await recommendations(mockReq, mockRes());
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(1);
-  //   expect(getFavourite).toHaveBeenCalledTimes(1);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(1);
-  //   expect(response.response).toContain(mockHighestRatedResponse.rows[0]);
-  //   expect(response.response).toContain(mockRandomResponse.rows[0]);
-  //   expect(response.response).toContain(mockFavouriteResponse.rows[0]);
-  // });
-
-  // it('should return all recommendations if no query string specified', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {},
-  //   };
-
-  //   getHighestRated.mockResolvedValueOnce(mockHighestRatedResponse);
-  //   getRandom.mockResolvedValueOnce(mockRandomResponse);
-  //   getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
-
-  //   const response = await recommendations(mockReq, mockRes());
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(1);
-  //   expect(getFavourite).toHaveBeenCalledTimes(1);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(1);
-  //   expect(response.response).toContain(mockHighestRatedResponse.rows[0]);
-  //   expect(response.response).toContain(mockRandomResponse.rows[0]);
-  //   expect(response.response).toContain(mockFavouriteResponse.rows[0]);
-  // });
-
-  // it('should return all recommendations if all supplied', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'all',
-  //     },
-  //   };
-
-  //   getHighestRated.mockResolvedValueOnce(mockHighestRatedResponse);
-  //   getRandom.mockResolvedValueOnce(mockRandomResponse);
-  //   getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
-
-  //   const response = await recommendations(mockReq, mockRes());
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(1);
-  //   expect(getFavourite).toHaveBeenCalledTimes(1);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(1);
-  //   expect(response.response).toContain(mockHighestRatedResponse.rows[0]);
-  //   expect(response.response).toContain(mockRandomResponse.rows[0]);
-  //   expect(response.response).toContain(mockFavouriteResponse.rows[0]);
-  // });
-
-  // it('should return error if query string has no match', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'banana',
-  //     },
-  //   };
-
-  //   const response = await recommendations(mockReq, mockRes());
-
-  //   expect(getRandom).toHaveBeenCalledTimes(0);
-  //   expect(getFavourite).toHaveBeenCalledTimes(0);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(0);
-  //   expect(response.status).toEqual(400);
-  // });
-
-  // it('should not return a recommend if db returns none', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'all',
-  //     },
-  //   };
-
-  //   getHighestRated.mockResolvedValueOnce({ rows: [] });
-  //   getRandom.mockResolvedValueOnce(mockRandomResponse);
-  //   getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
-
-  //   const response = await recommendations(mockReq, mockRes());
-
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(1);
-  //   expect(getFavourite).toHaveBeenCalledTimes(1);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(1);
-  //   expect(response.response).toContain(mockRandomResponse.rows[0]);
-  //   expect(response.response).toContain(mockFavouriteResponse.rows[0]);
-  //   expect(response.response).toHaveLength(2);
-  // });
-
-  // it('should return empty array if no recommends', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'all',
-  //     },
-  //   };
-
-  //   const emptyResponse = { rows: [] };
-
-  //   getHighestRated.mockResolvedValueOnce(emptyResponse);
-  //   getRandom.mockResolvedValueOnce(emptyResponse);
-  //   getFavourite.mockResolvedValueOnce(emptyResponse);
-
-  //   const response = await recommendations(mockReq, mockRes());
-
-  //   expect(response.status).toEqual(200);
-  //   expect(getRandom).toHaveBeenCalledTimes(1);
-  //   expect(getFavourite).toHaveBeenCalledTimes(1);
-  //   expect(getHighestRated).toHaveBeenCalledTimes(1);
-  //   expect(response.response).toHaveLength(0);
-  // });
-
-  // it('should return error if db read fails', async () => {
-  //   const mockReq: Partial<NextApiRequest> = {
-  //     method: 'GET',
-  //     query: {
-  //       type: 'all',
-  //     },
-  //   };
-
-  //   getHighestRated.mockRejectedValueOnce('blurp');
-  //   getRandom.mockResolvedValueOnce(mockRandomResponse);
-  //   getFavourite.mockResolvedValueOnce(mockFavouriteResponse);
-
-  //   const response = await recommendations(mockReq, mockRes());
-
-  //   expect(response.status).toEqual(500);
-  // });
+    const response = await userdata(mockReq as NextApiRequest, mockRes());
+    expect(response.status).toEqual(500);
+  });
 });

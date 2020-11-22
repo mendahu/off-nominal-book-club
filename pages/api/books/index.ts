@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getAllBooks } from '../../../db/queries/books';
-import { Book, ErrorResponse } from '../../../src/types/apiTypes';
+import { Book, ApiErrorResponse } from '../../../src/types/apiTypes';
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<Book[] | ErrorResponse>
+  res: NextApiResponse<Book[] | ApiErrorResponse>
 ) => {
   const { method } = req;
 

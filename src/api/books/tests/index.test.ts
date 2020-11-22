@@ -24,7 +24,7 @@ describe('/pages/api/books', () => {
       method: 'DELETE',
     };
 
-    const response = await books(mockReq, mockRes());
+    const response = await books(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
@@ -33,7 +33,7 @@ describe('/pages/api/books', () => {
       method: 'PUT',
     };
 
-    const response = await books(mockReq, mockRes());
+    const response = await books(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
@@ -42,7 +42,7 @@ describe('/pages/api/books', () => {
       method: 'POST',
     };
 
-    const response = await books(mockReq, mockRes());
+    const response = await books(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
@@ -51,7 +51,7 @@ describe('/pages/api/books', () => {
       method: 'PATCH',
     };
 
-    const response = await books(mockReq, mockRes());
+    const response = await books(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
 
@@ -90,7 +90,7 @@ describe('/pages/api/books', () => {
       fields: [],
     } as QueryResult<Book>);
 
-    const response = await books(mockReq, mockRes());
+    const response = await books(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(200);
     expect(response.response).toEqual([sampleBook]);
   });
@@ -102,7 +102,7 @@ describe('/pages/api/books', () => {
 
     getAllBooks.mockRejectedValueOnce('womp');
 
-    const response = await books(mockReq, mockRes());
+    const response = await books(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(500);
     expect(response.response).toEqual({ message: 'Something went wrong' });
   });

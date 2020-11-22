@@ -3,11 +3,11 @@ import auth0 from '../../../lib/auth0';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { DisplayUser } from '../../../src/types/common';
-import { ErrorResponse } from '../../../src/types/apiTypes';
+import { ApiErrorResponse } from '../../../src/types/apiTypes';
 
 export const newBook = async (
   req: NextApiRequest,
-  res: NextApiResponse<ErrorResponse>
+  res: NextApiResponse<ApiErrorResponse>
 ) => {
   // verify Patreon status
 

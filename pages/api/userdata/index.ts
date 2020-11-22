@@ -1,8 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getUserData } from '../../../db/queries/userdata';
 import auth0 from '../../../lib/auth0';
+import { ApiUserMetadata, ApiErrorResponse } from '../../../src/types/apiTypes';
 
-export const userdata = async (req: NextApiRequest, res: NextApiResponse) => {
+export const userdata = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ApiUserMetadata | ApiErrorResponse>
+) => {
   const { method } = req;
 
   if (method !== 'GET') {
@@ -27,9 +31,9 @@ export const userdata = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const response = await getUserData(userId, bookId);
 
-    const metaData = {};
+    const metaData: ApiUserMetadata = {};
 
-    await response.forEach((datum) => {
+    response.forEach((datum) => {
       metaData[datum.book_id] = {
         reads: datum.reads_id,
         favourites: datum.favourites_id,
@@ -39,8 +43,9 @@ export const userdata = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json(metaData);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json('womp womp');
+    return res.status(500).json({
+      error: 'Could not fetch data from database.',
+    });
   }
 };
 

@@ -1,4 +1,4 @@
-export type ErrorResponse = {
+export type ApiErrorResponse = {
   message?: string;
   error?: string;
 };
@@ -23,4 +23,14 @@ export class Book {
   rating: number;
   authors_string: string;
   tags: Tag[];
+}
+
+export type ApiMetadatum = {
+  reads: number | null;
+  wishlist: number | null;
+  favourites: number | null;
+};
+
+export interface ApiUserMetadata {
+  [key: number]: ApiMetadatum;
 }
