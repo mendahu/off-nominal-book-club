@@ -76,6 +76,7 @@ describe('tags API', () => {
       method: 'DELETE',
     };
 
+
     const response = await recommendations(
       mockReq as NextApiRequest,
       mockRes()
@@ -92,6 +93,7 @@ describe('tags API', () => {
       mockReq as NextApiRequest,
       mockRes()
     );
+
     expect(response.status).toEqual(405);
   });
 
@@ -116,6 +118,7 @@ describe('tags API', () => {
       mockReq as NextApiRequest,
       mockRes()
     );
+
     expect(response.status).toEqual(405);
   });
 
@@ -148,6 +151,7 @@ describe('tags API', () => {
       mockReq as NextApiRequest,
       mockRes()
     );
+
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(1);
     expect(getFavourite).toHaveBeenCalledTimes(0);
@@ -169,6 +173,7 @@ describe('tags API', () => {
       mockReq as NextApiRequest,
       mockRes()
     );
+
     expect(response.status).toEqual(200);
     expect(getRandom).toHaveBeenCalledTimes(0);
     expect(getFavourite).toHaveBeenCalledTimes(1);
