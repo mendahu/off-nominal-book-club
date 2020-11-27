@@ -50,6 +50,7 @@ export interface BookData {
   id: number;
   title: string;
   fiction: boolean;
+  textbook: boolean;
   google_id: string;
   isbn13: string;
   description: string;

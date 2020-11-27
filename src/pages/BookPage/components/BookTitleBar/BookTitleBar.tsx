@@ -1,4 +1,4 @@
-import { Paper, CardContent, Grid, Typography } from '@material-ui/core';
+import { Paper, Grid, Typography, Chip } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'space-between',
   },
   title: {
+    padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
@@ -20,6 +21,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       order: 3,
       flex: '1 0 100%',
     },
+  },
+  chip: {
+    marginRight: theme.spacing(1),
+  },
+  chipContainer: {
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -31,6 +38,8 @@ export type BookTitleBarProps = {
   ratingString: string;
   title: string;
   year: string;
+  isFiction: boolean;
+  isTextbook: boolean;
 };
 
 const BookTitleBar = ({
@@ -41,6 +50,8 @@ const BookTitleBar = ({
   ratingString,
   title,
   year,
+  isFiction,
+  isTextbook,
 }: BookTitleBarProps) => {
   const classes = useStyles();
 
@@ -55,14 +66,24 @@ const BookTitleBar = ({
           ratingString={ratingString}
         />
 
-        <CardContent className={classes.title}>
+        <div className={classes.title}>
           <Typography variant="h5" component="h1">
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {authorString} - {year}
           </Typography>
-        </CardContent>
+          <div className={classes.chipContainer}>
+            <Chip
+              label={isFiction ? 'Fiction' : 'Non-fiction'}
+              size="small"
+              className={classes.chip}
+            />
+            {isTextbook && (
+              <Chip label="Textbook" size="small" className={classes.chip} />
+            )}
+          </div>
+        </div>
       </Paper>
     </Grid>
   );
