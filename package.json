@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:staging": "ENVIRONMENT=staging next dev",
+    "dev:production": "ENVIRONMENT=production next dev",
     "build": "next build",
     "start": "next start -p $PORT",
     "qa": "next start",

@@ -119,8 +119,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
               title={book.title}
               thumbnail={book.thumbnail}
               year={book.year}
-              isFiction={book.fiction}
-              isTextbook={book.textbook}
+              type={book.type}
             />
             <BookTagList
               bookId={book.id}

@@ -1,6 +1,7 @@
 import { Chip, Typography } from '@material-ui/core';
 import { shallow } from 'enzyme';
 import { BookStats } from '../../../../../components/BookStats/BookStats';
+import { BookType } from '../../../../../types/common.d';
 import BookTitleBar, { BookTitleBarProps } from '../BookTitleBar';
 
 describe('BooktitleBar', () => {
@@ -27,8 +28,7 @@ describe('BooktitleBar', () => {
     ratingString: '3.5 (2 ratings)',
     title: 'a book title',
     year: '1995',
-    isFiction: true,
-    isTextbook: false,
+    type: BookType.fiction,
   };
 
   it('Should render stuff without crashing', () => {
@@ -45,22 +45,11 @@ describe('BooktitleBar', () => {
     );
   });
 
-  it('Should fiction but not textbook', () => {
+  it('Should show fiction chip', () => {
     const wrapper = shallow(<BookTitleBar {...defaultProps} />);
 
     const chips = wrapper.find(Chip);
     expect(chips).toHaveLength(1);
-    expect(chips.at(0).props().label).toEqual('Fiction');
-  });
-
-  it('Should non-fiction and textbook', () => {
-    const wrapper = shallow(
-      <BookTitleBar {...defaultProps} isFiction={false} isTextbook={true} />
-    );
-
-    const chips = wrapper.find(Chip);
-    expect(chips).toHaveLength(2);
-    expect(chips.at(0).props().label).toEqual('Non-fiction');
-    expect(chips.at(1).props().label).toEqual('Textbook');
+    expect(chips.at(0).props().label).toEqual(BookType.fiction);
   });
 });
