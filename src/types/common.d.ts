@@ -22,6 +22,12 @@ export interface UserRating {
   user_rating: number;
 }
 
+export enum BookType {
+  fiction = 'Fiction',
+  nonFiction = 'Non-Fiction',
+  textbook = 'Textbook',
+}
+
 export interface UserReview {
   id: number;
   user_id: number;
