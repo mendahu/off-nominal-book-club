@@ -11,8 +11,8 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Checkbox,
-  FormGroup,
+  RadioGroup,
+  Radio,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from '../../src/components/SearchBar';
@@ -42,6 +42,7 @@ import {
 } from '../../src/hooks/useSnackbar/useSnackbar';
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 import { ApiConfirmBook } from '../../src/types/api/apiTypes';
+import { BookType } from '../../src/types/common.d';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -89,10 +90,7 @@ export default function New() {
   const [isMatchError, setIsMatchError] = useState(false);
   const [matchedResults, setMatchedResults] = useState<ApiConfirmBook[]>(null);
 
-  const [newBookMetaData, setNewBookMetaData] = useState({
-    fiction: false,
-    textbook: false,
-  });
+  const [newBookMetaData, setNewBookMetaData] = useState(BookType.nonFiction);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -167,8 +165,9 @@ export default function New() {
         user_id: user.onbc_id,
         title: getTitle(book),
         description: getDescription(book),
-        fiction: newBookMetaData.fiction,
-        textbook: newBookMetaData.textbook,
+        fiction: newBookMetaData === BookType.fiction ? true : false,
+        textbook: newBookMetaData === BookType.textbook ? true : false,
+        type: newBookMetaData,
         year: getPublishedYear(book),
         image_url: getThumbnail(book),
         google_id: getGoogleId(book),
@@ -228,6 +227,10 @@ export default function New() {
         clickHandler={() => selectBook(book)}
       />
     );
+  };
+
+  const handleMetaDataFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewBookMetaData((e.target as HTMLInputElement).value as BookType);
   };
 
   return (
@@ -311,39 +314,28 @@ export default function New() {
                       component="legend"
                       className={classes.formLegend}
                     >
-                      Great! We just need a little more info before we add the
-                      book!
+                      This book is best described as:
                     </FormLabel>
-                    <FormGroup>
+                    <RadioGroup
+                      value={newBookMetaData}
+                      onChange={handleMetaDataFormChange}
+                    >
                       <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={newBookMetaData.fiction}
-                            onChange={(event) =>
-                              setNewBookMetaData({
-                                ...newBookMetaData,
-                                fiction: event.target.checked,
-                              })
-                            }
-                          />
-                        }
+                        value={BookType.fiction}
+                        control={<Radio />}
                         label="This book is fiction"
                       />
                       <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={newBookMetaData.textbook}
-                            onChange={(event) =>
-                              setNewBookMetaData({
-                                ...newBookMetaData,
-                                textbook: event.target.checked,
-                              })
-                            }
-                          />
-                        }
+                        value={BookType.nonFiction}
+                        control={<Radio />}
+                        label="This book is non-fiction"
+                      />
+                      <FormControlLabel
+                        value={BookType.textbook}
+                        control={<Radio />}
                         label="This is a reference book or textbook"
                       />
-                    </FormGroup>
+                    </RadioGroup>
                   </FormControl>
                   <div className={classes.submitButtonContainer}>
                     <Button
