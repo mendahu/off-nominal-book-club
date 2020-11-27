@@ -56,7 +56,7 @@ export const useSearch = () => {
 
   useEffect(() => {
     const booksResponse = axios.get<ApiBook[]>('/api/books');
-    const tagResponse = axios.get<ApiTag[]>('/api/tags');
+    const tagResponse = axios.get<ApiTag[]>('/api/tags?sort=count');
 
     booksResponse
       .then((res) => {
