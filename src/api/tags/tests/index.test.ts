@@ -95,6 +95,24 @@ describe('tags API', () => {
       expect(response.response).toEqual(mockResponse);
     });
 
+    it('should return results ordered by label if undefined query string passed', async () => {
+      const mockReq: Partial<NextApiRequest> = {
+        method: 'GET',
+        query: {
+          sort: undefined,
+        },
+      };
+
+      const mockResponse = [{ tag1: 1 }, { tag: 2 }];
+
+      getAllTags.mockImplementationOnce(() => mockResponse);
+
+      const response = await tags(mockReq as NextApiRequest, mockRes());
+      expect(getAllTags).toHaveBeenCalledWith(SortBy.label);
+      expect(response.status).toEqual(200);
+      expect(response.response).toEqual(mockResponse);
+    });
+
     it('should return results ordered by label if label query string passed', async () => {
       const mockReq: Partial<NextApiRequest> = {
         method: 'GET',
