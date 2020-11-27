@@ -13,7 +13,8 @@
     "start": "next start -p $PORT",
     "qa": "next start",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "ngrok": "ngrok http --subdomain onbc 3000"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.11.0",

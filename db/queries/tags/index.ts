@@ -10,15 +10,16 @@ export const addTag = (name: string) => {
   return knex('tags').returning('id').insert({ name });
 };
 
-export const getAllTags = () => {
-  return knex.raw<QueryResult<ApiTag>>(
-    `
-      SELECT t.id, t.name AS label, COUNT(tr.id) as count
-        FROM tags as t
-      JOIN user_tag_book as tr
-        ON tr.tag_id = t.id
-      GROUP BY t.id
-      ORDER BY t.name
-    `
-  );
+export enum SortBy {
+  label = 'label',
+  count = 'count',
+}
+
+export const getAllTags = (sortBy = SortBy.label) => {
+  return knex<ApiTag[]>('tags as t')
+    .join<ApiTag[]>('user_tag_book as tr', 'tr.tag_id', 't.id')
+    .select<ApiTag[]>('t.id', 't.name as label')
+    .count<ApiTag[]>('tr.id as count')
+    .groupBy<ApiTag[]>('t.id')
+    .orderBy(sortBy, sortBy === SortBy.count ? 'DESC' : 'ASC');
 };
