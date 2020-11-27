@@ -14,25 +14,30 @@ export const tags = async (
     });
   }
 
-  const { sort } = query;
   let sortBy: SortBy;
 
-  if (Array.isArray(sort)) {
-    return res.status(400).json({
-      message: `Query strings as arrays are not supported.`,
-    });
-  }
+  if (query) {
+    const { sort } = query;
 
-  if (sort !== SortBy.count && sort !== SortBy.label && sort !== undefined) {
-    return res.status(400).json({
-      message: `Query string value for sort (${sort}) is not supported.`,
-    });
-  }
+    if (Array.isArray(sort)) {
+      return res.status(400).json({
+        message: `Query strings as arrays are not supported.`,
+      });
+    }
 
-  if (sort === undefined) {
-    sortBy = SortBy.label;
+    if (sort !== SortBy.count && sort !== SortBy.label && sort !== undefined) {
+      return res.status(400).json({
+        message: `Query string value for sort (${sort}) is not supported.`,
+      });
+    }
+
+    if (sort === undefined) {
+      sortBy = SortBy.label;
+    } else {
+      sortBy = sort as SortBy;
+    }
   } else {
-    sortBy = sort as SortBy;
+    sortBy = SortBy.label;
   }
 
   try {
