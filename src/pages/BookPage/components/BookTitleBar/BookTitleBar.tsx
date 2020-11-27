@@ -2,6 +2,7 @@ import { Paper, Grid, Typography, Chip } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
+import { BookType } from '../../../../types/common.d';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -23,10 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   chip: {
-    marginRight: theme.spacing(1),
-  },
-  chipContainer: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -38,8 +36,7 @@ export type BookTitleBarProps = {
   ratingString: string;
   title: string;
   year: string;
-  isFiction: boolean;
-  isTextbook: boolean;
+  type: BookType;
 };
 
 const BookTitleBar = ({
@@ -50,8 +47,7 @@ const BookTitleBar = ({
   ratingString,
   title,
   year,
-  isFiction,
-  isTextbook,
+  type,
 }: BookTitleBarProps) => {
   const classes = useStyles();
 
@@ -73,15 +69,8 @@ const BookTitleBar = ({
           <Typography variant="body2" color="textSecondary">
             {authorString} - {year}
           </Typography>
-          <div className={classes.chipContainer}>
-            <Chip
-              label={isFiction ? 'Fiction' : 'Non-fiction'}
-              size="small"
-              className={classes.chip}
-            />
-            {isTextbook && (
-              <Chip label="Textbook" size="small" className={classes.chip} />
-            )}
+          <div>
+            <Chip label={type} size="small" className={classes.chip} />
           </div>
         </div>
       </Paper>

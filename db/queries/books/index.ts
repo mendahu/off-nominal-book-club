@@ -70,8 +70,7 @@ export const fetchBook = (bookId: number, userId: number = 0) => {
     .select<BookData[]>(
       'books.id',
       'books.title',
-      'books.fiction',
-      'books.textbook',
+      'books.type',
       'books.google_id',
       'books.isbn10',
       'books.isbn13',

@@ -55,8 +55,7 @@ export interface Author {
 export interface BookData {
   id: number;
   title: string;
-  fiction: boolean;
-  textbook: boolean;
+  type: BookType;
   google_id: string;
   isbn13: string;
   description: string;
