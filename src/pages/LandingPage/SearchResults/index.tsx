@@ -44,6 +44,7 @@ export const SearchResults = ({
             description={book.description}
             authorString={book.authors_string}
             thumbnail={book.thumbnail}
+            type={book.type}
             year={book.year}
             tags={book.tags}
             rating={book.rating}
