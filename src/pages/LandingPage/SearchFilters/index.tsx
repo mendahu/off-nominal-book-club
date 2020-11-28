@@ -1,4 +1,4 @@
-import { Chip, Paper, Typography, makeStyles, Avatar } from '@material-ui/core';
+import { Chip, Paper, makeStyles, Avatar } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import { BookType } from '../../../types/common.d';
