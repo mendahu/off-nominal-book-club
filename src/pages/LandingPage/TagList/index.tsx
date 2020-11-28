@@ -7,7 +7,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     overflow: 'hidden',
-    width: '100%',
+    [theme.breakpoints.up('lg')]: {
+      flexWrap: 'wrap',
+      padding: theme.spacing(1),
+    },
   },
   chip: {
     margin: theme.spacing(1),

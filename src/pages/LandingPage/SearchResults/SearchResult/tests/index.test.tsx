@@ -4,6 +4,7 @@ import Link from 'next/link';
 import SearchResult, { SearchResultProps } from '../';
 import { BookStats } from '../../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../../components/BookStats/MetaFlags/MetaFlags';
+import { BookType } from '../../../../../types/common.d';
 
 describe('SearchResul', () => {
   const defaultProps: SearchResultProps = {
@@ -13,6 +14,7 @@ describe('SearchResul', () => {
       'A Book Description. It is a long description so as to be able to test the truncation feature of the component. Which is pretty rad.',
     authorString: 'Author 1, Author 2',
     thumbnail: 'http://www.image.com/image/.png',
+    type: BookType.fiction,
     year: '1995',
     tags: [
       {
@@ -59,7 +61,8 @@ describe('SearchResul', () => {
     );
 
     const tags = wrapper.find(Chip);
-    expect(tags).toHaveLength(2);
+    expect(tags).toHaveLength(3);
+    expect(tags.at(0).props().label).toEqual(defaultProps.type);
 
     const expectedMetaData: MetaFlagData = {
       reads: {

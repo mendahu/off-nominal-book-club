@@ -7,10 +7,11 @@ import urlGenerator from '../../../../helpers/urlGenerator';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
 import { ApiTag } from '../../../../types/api/apiTypes';
+import { BookType } from '../../../../types/common';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    margin: theme.spacing(2, 0),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
@@ -28,21 +29,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   title: {
-    fontSize: '1rem',
+    fontSize: '1.1rem',
     [theme.breakpoints.up(450)]: {
-      fontSize: '1.2rem',
+      fontSize: '1.3rem',
     },
     [theme.breakpoints.up('md')]: {
-      fontSize: '1.5rem',
+      fontSize: '1.4rem',
     },
   },
   chip: {
-    margin: theme.spacing(0.5, 0.5),
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   desc: {
     [theme.breakpoints.down(400)]: {
       display: 'none',
     },
+  },
+  typeTag: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -81,6 +87,7 @@ export type SearchResultProps = {
   description: string;
   authorString: string;
   thumbnail: string;
+  type: BookType;
   year: string;
   tags: ApiTag[];
   rating: string;
@@ -95,6 +102,7 @@ export const SearchResult = ({
   description,
   authorString,
   thumbnail,
+  type,
   year,
   tags,
   rating,
@@ -127,9 +135,13 @@ export const SearchResult = ({
             </Typography>
           </MatLink>
         </Link>
-        <Typography variant="body2" paragraph={true} color="textSecondary">
+
+        <Typography variant="body2" color="textSecondary">
           {authorString} - {year}
         </Typography>
+        <div>
+          <Chip size="small" label={type} className={classes.typeTag} />
+        </div>
         <Typography paragraph={true} className={classes.desc}>
           {truncatedDescription}
         </Typography>

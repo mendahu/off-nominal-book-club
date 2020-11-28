@@ -1,4 +1,4 @@
-import { Author } from '../common';
+import { Author, BookType } from '../common';
 
 export type ApiErrorResponse = {
   message?: string;
@@ -16,8 +16,7 @@ export class ApiBook {
   title: string;
   description: string;
   year: string;
-  fiction: boolean;
-  textbook: boolean;
+  type: BookType;
   thumbnail: string;
   favourites: number;
   reads: number;
