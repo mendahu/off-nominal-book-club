@@ -20,14 +20,34 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   searchBarContainer: {
-    flexGrow: 2,
+    flexGrow: 4,
+    [theme.breakpoints.up('lg')]: {
+      order: 2,
+      minWidth: '50%',
+    },
   },
   filterContainer: {
     flexGrow: 1,
-    alignSelf: 'stretch',
+    [theme.breakpoints.up('lg')]: {
+      order: 1,
+      maxWidth: '30%',
+    },
   },
   tagListContainer: {
     width: '100%',
+    [theme.breakpoints.up('lg')]: {
+      order: 3,
+      maxWidth: '30%',
+      flexGrow: 1,
+    },
+  },
+  searchResultsContainer: {
+    width: '100%',
+    [theme.breakpoints.up('lg')]: {
+      order: 4,
+      width: '70%',
+      flexGrow: 4,
+    },
   },
 }));
 
@@ -73,7 +93,7 @@ export const LandingPage = () => {
                 loading={tags.loading}
               />
             </Grid>
-            <Grid item>
+            <Grid item className={classes.searchResultsContainer}>
               <SearchResults
                 results={books.books}
                 loading={books.loading}
