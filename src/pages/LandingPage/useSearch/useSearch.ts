@@ -96,6 +96,7 @@ export const useSearch = () => {
         setBooks({ loading: false, books });
       })
       .catch((err) => {
+        bookSearcher = new Fuse([], fuseConfig.bookOptions);
         setBooks({ loading: false, books: [] });
       });
 
@@ -107,6 +108,7 @@ export const useSearch = () => {
         setTags({ loading: false, tags });
       })
       .catch((err) => {
+        tagSearcher = new Fuse([], fuseConfig.tagOptions);
         setTags({ loading: false, tags: [] });
       });
   }, []);
@@ -153,8 +155,6 @@ export const useSearch = () => {
               return true;
             }
             break;
-          default:
-            return false;
         }
       });
     };

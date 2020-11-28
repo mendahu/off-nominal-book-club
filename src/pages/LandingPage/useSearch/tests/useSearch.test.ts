@@ -143,6 +143,35 @@ const mockApiTagsData: ApiTag[] = [
   },
 ];
 
+describe('useSearch API Error', () => {
+  it('renders initial state and handles API error', async () => {
+    axios.get.mockRejectedValueOnce('womp');
+    axios.get.mockRejectedValueOnce('womp');
+
+    const { result, waitForNextUpdate } = renderHook(() => useSearch());
+
+    expect(result.current.books).toEqual({ books: [], loading: true });
+    expect(result.current.tags).toEqual({ tags: [], loading: true });
+    expect(result.current.input.value).toEqual('');
+    expect(result.current.filters.value).toEqual({
+      showFiction: true,
+      showNonFiction: true,
+      showTextbook: true,
+    });
+
+    await waitForNextUpdate();
+
+    expect(result.current.books).toEqual({
+      books: [],
+      loading: false,
+    });
+    expect(result.current.tags).toEqual({
+      tags: [],
+      loading: false,
+    });
+  });
+});
+
 describe('useSearch', () => {
   beforeEach(() => {
     jest.clearAllMocks();
