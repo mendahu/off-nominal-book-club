@@ -1,9 +1,12 @@
 import { Container, makeStyles } from '@material-ui/core';
 import SearchBar from '../src/components/SearchBar';
-import TagList from '../src/pages/LandingPage/TagList';
-import Carousel from '../src/pages/LandingPage/Carousel';
+import {
+  Carousel,
+  TagList,
+  SearchResults,
+  SearchFilters,
+} from '../src/pages/LandingPage';
 import Layout from '../src/components/LandingLayout';
-import SearchResults from '../src/pages/LandingPage/SearchResults';
 import useSearch from '../src/pages/LandingPage/useSearch/useSearch';
 import SnackbarContext from '../src/contexts/SnackbarContext';
 import {
@@ -20,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export const LandingPage = () => {
   const classes = useStyles();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
-  const { books, input, tags, selectTag } = useSearch();
+  const { books, input, tags, selectTag, filters } = useSearch();
 
   const handleClear = (e) => {
     e.preventDefault();
@@ -42,6 +45,9 @@ export const LandingPage = () => {
               onChange={(e) => input.set(e.target.value)}
               button={{ text: 'Clear', onClick: handleClear }}
             />
+          </div>
+          <div className={classes.container}>
+            <SearchFilters filters={filters.value} setFilter={filters.set} />
           </div>
           <div className={classes.container}>
             <TagList

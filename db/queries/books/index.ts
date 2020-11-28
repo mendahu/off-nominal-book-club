@@ -154,8 +154,7 @@ export const getAllBooks = () => {
         b.title,
         b.description,
         b.year,
-        b.fiction,
-        b.textbook,
+        b.type,
         b.image_url as thumbnail,
 
         max(fav_count.count)::integer as favourites,
