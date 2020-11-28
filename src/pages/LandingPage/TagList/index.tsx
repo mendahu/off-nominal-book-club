@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-start',
     overflow: 'hidden',
-    width: '100%',
   },
   chip: {
     margin: theme.spacing(1),

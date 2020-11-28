@@ -5,12 +5,17 @@ import { BookType } from '../../../types/common.d';
 import { BookFilters } from '../useSearch/useSearch';
 
 const useStyles = makeStyles((theme) => ({
-  filterContainer: {
+  paper: {
+    height: '100%',
+  },
+  container: {
     display: 'flex',
     justifyContent: 'space-evenly',
     flexWrap: 'wrap',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    height: '100%',
+    alignItems: 'center',
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -26,8 +31,8 @@ export const SearchFilters = ({ filters, setFilter }: SearchFiltersProps) => {
   const classes = useStyles();
 
   return (
-    <Paper>
-      <div className={classes.filterContainer}>
+    <Paper className={classes.paper}>
+      <div className={classes.container}>
         <Chip
           size="small"
           label="Fiction"
@@ -64,7 +69,7 @@ export const SearchFilters = ({ filters, setFilter }: SearchFiltersProps) => {
         />
         <Chip
           size="small"
-          label="Textbook/Reference"
+          label="Textbook"
           clickable
           onClick={() => setFilter(BookType.textbook)}
           avatar={

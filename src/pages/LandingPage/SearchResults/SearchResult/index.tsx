@@ -10,7 +10,7 @@ import { ApiTag } from '../../../../types/api/apiTypes';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    margin: theme.spacing(2, 0),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
