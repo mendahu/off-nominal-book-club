@@ -23,7 +23,7 @@ export const updateMarketingUser = async (
   }
 
   if (!body) {
-    return res.status(405).json({
+    return res.status(400).json({
       error: `Query is missing body which is required.`,
     });
   }
@@ -31,7 +31,7 @@ export const updateMarketingUser = async (
   const { subscriberStatus, newStatus } = body;
 
   if (!subscriberStatus || !newStatus) {
-    return res.status(405).json({
+    return res.status(400).json({
       error: `Query is missing body parameters which are required.`,
     });
   }
@@ -57,7 +57,7 @@ export const updateMarketingUser = async (
   }
 
   if (typeof email_address !== 'string') {
-    return res.status(500).json({
+    return res.status(422).json({
       error:
         'Email address returned from Auth0 invalid, unable to update marketing preferences.',
     });

@@ -1,5 +1,11 @@
 import { NextApiRequest } from 'next';
 import { newMarketingUser } from '../../../../../pages/api/marketing/users/new';
+import auth0 from '../../../../../lib/auth0';
+import { getAuth0User } from '../../../../helpers/auth0/auth0User';
+const mailchimp = require('@mailchimp/mailchimp_marketing');
+jest.spyOn(auth0, 'getSession');
+jest.mock('../../../../helpers/auth0/auth0User');
+jest.spyOn(mailchimp.lists, 'addListMember');
 
 describe('api/marketing/users/new', () => {
   const mockRes = () => {
@@ -56,6 +62,68 @@ describe('api/marketing/users/new', () => {
         mockRes()
       );
       expect(response.status).toEqual(405);
+    });
+  });
+
+  describe('User fetching errors', () => {
+    const mockReq = {
+      method: 'POST',
+    } as NextApiRequest;
+
+    it('should return 500 if session fetch fails', async () => {
+      auth0.getSession.mockRejectedValueOnce('womp');
+      const response = await newMarketingUser(mockReq, mockRes());
+      expect(response.status).toEqual(500);
+    });
+
+    it('should return 500 if user fetch fails', async () => {
+      auth0.getSession.mockResolvedValueOnce({
+        user: { sub: 'usersubstring' },
+      });
+      getAuth0User.mockRejectedValueOnce('womp');
+      const response = await newMarketingUser(mockReq, mockRes());
+      expect(response.status).toEqual(500);
+    });
+  });
+
+  describe('marketing API calls', () => {
+    const mockReq = {
+      method: 'POST',
+    } as NextApiRequest;
+
+    beforeEach(() => {
+      auth0.getSession.mockResolvedValueOnce({
+        user: { sub: 'usersubstring' },
+      });
+      getAuth0User.mockResolvedValueOnce({ email: 'email@email.com' });
+    });
+
+    it('should return status 200 and called the marketing api', async () => {
+      mailchimp.lists.addListMember.mockResolvedValueOnce('woo');
+      const response = await newMarketingUser(mockReq, mockRes());
+      expect(response.status).toEqual(200);
+      expect(mailchimp.lists.addListMember).toHaveBeenCalledWith(
+        'mockMailChimpListId',
+        {
+          email_address: 'email@email.com',
+          status: 'subscribed',
+          tags: ['Book Club'],
+        }
+      );
+    });
+
+    it('should return 500 if mailchimp api fails', async () => {
+      mailchimp.lists.addListMember.mockRejectedValueOnce('womp');
+      const response = await newMarketingUser(mockReq, mockRes());
+      expect(response.status).toEqual(500);
+      expect(mailchimp.lists.addListMember).toHaveBeenCalledWith(
+        'mockMailChimpListId',
+        {
+          email_address: 'email@email.com',
+          status: 'subscribed',
+          tags: ['Book Club'],
+        }
+      );
     });
   });
 });
