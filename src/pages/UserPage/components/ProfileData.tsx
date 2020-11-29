@@ -41,10 +41,6 @@ const ProfileData = ({ ...rest }) => {
 
   const patreonConnected = user?.patreon.state === 'connected';
 
-  const pingMailChimp = async () => {
-    //
-  };
-
   const toggleCheckbox = (e) => {
     if (email) {
       handleFormChange(e, { update: true })
@@ -149,9 +145,6 @@ const ProfileData = ({ ...rest }) => {
         >
           Send Password Reset Email
         </Button>
-        <Button variant="contained" color="primary" onClick={pingMailChimp}>
-          Ping Mailchimp
-        </Button>
       </Box>
       <Box className={classes.container}>
         <Typography paragraph component="h2" variant="h5">
@@ -165,7 +158,8 @@ const ProfileData = ({ ...rest }) => {
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <Typography paragraph component="p" variant="subtitle2">
-            Send me occasional updates about the Off-Nominal Book Club via email
+            Send me very occasional updates about the Off-Nominal Book Club and
+            other events from Jake via email
           </Typography>
         </div>
       </Box>
