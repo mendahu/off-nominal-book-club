@@ -1,3 +1,4 @@
+import { UserData } from '../../../src/types/common';
 import knex from '../../knex';
 
 //only called by Auth0 when user registers to get an onbc_id and send to Auth0
@@ -11,14 +12,14 @@ export const updateUser = (userId, fieldsToUpdate) => {
 };
 
 //TODO: used only in Book Page to hydrate user meta data. Used server side.
-export const fetchUser = (userId, bookId) => {
+export const fetchUser = (userId: number, bookId: number) => {
   const params = {
     bookId,
     userId,
   };
 
   return knex
-    .select(
+    .select<UserData[]>(
       knex.raw(
         `
     ( SELECT users.name
@@ -80,7 +81,7 @@ export const fetchUser = (userId, bookId) => {
         userId
       )
     )
-    .from('books')
+    .from<UserData[]>('books')
     .where('books.id', bookId);
 };
 
