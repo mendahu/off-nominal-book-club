@@ -1,4 +1,3 @@
-const userQueries = require('../../db/queries/users');
 import Layout from '../../src/components/DefaultLayout';
 import {
   BookTitleBar,
@@ -24,6 +23,7 @@ import SnackbarContext from '../../src/contexts/SnackbarContext';
 import generateAuthorString from '../../src/helpers/generateAuthorString';
 import { MetaFlagData } from '../../src/components/BookStats/MetaFlags/MetaFlags';
 import { fetchBook } from '../../db/queries/books';
+import { fetchUser } from '../../db/queries/users';
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
   return {
@@ -163,8 +163,6 @@ export async function getServerSideProps(context) {
   // Fetch book data from APIs
   const userProfile = await userProfileFetcher(context.req);
   const userId = userProfile?.onbc_id;
-
-  const fetchUser = userQueries.users.fetch;
 
   //Default user Data
   let userData: UserData = {

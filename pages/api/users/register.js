@@ -1,8 +1,8 @@
-const queries = require('../../../db/queries/users');
+import { register } from '../../../db/queries/users'
 import auth from 'basic-auth';
 import compare from 'tsscmp';
 
-export default function register(req, res) {
+export default (req, res) => {
   const credentials = auth(req);
 
   function check(name, pass) {
@@ -18,8 +18,7 @@ export default function register(req, res) {
   if (!credentials || !check(credentials.name, credentials.pass)) {
     return res.status(401).json({ message: 'Access denied' });
   } else {
-    return queries.users
-      .register()
+    return register()
       .then((onbcIdArray) => res.status(200).json({ onbcId: onbcIdArray[0] }))
       .catch((error) => res.status(500).json({ error }));
   }
