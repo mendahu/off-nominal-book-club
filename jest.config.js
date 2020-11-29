@@ -7,6 +7,9 @@ module.exports = {
     'pages/**/*.{js,jsx,ts,tsx}',
     'knexfile.js',
   ],
+  setupFiles: [
+    '<rootDir>/config/jest/setEnvVars.js'
+  ],
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   transform: {

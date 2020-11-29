@@ -1,3 +1,4 @@
+import { MailchimpSubscriberStatus } from '../types/api/apiTypes.d';
 import { DisplayUser } from '../types/common';
 
 const userDataFormatter = (user): DisplayUser => {
@@ -24,7 +25,7 @@ const userDataFormatter = (user): DisplayUser => {
     patreon: {
       state: patreonStateChecker(patreon),
     },
-    getsMail: true,
+    marketingStatus: MailchimpSubscriberStatus.unknown,
     favourites: [],
     reads: [],
     wishlist: [],

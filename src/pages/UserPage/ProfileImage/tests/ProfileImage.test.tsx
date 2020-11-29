@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import ProfileImage from '../ProfileImage';
 import { Avatar, FormControl, RadioGroup } from '@material-ui/core';
-import * as SnackbarContext from '../../../contexts/SnackbarContext';
-import { AvatarSelect } from '../../../types/enums';
-import { useUser } from '../../../../lib/user';
-jest.mock('../../../../lib/user');
+import * as SnackbarContext from '../../../../contexts/SnackbarContext';
+import { AvatarSelect } from '../../../../types/enums';
+import { useUser } from '../../../../../lib/user';
+jest.mock('../../../../../lib/user');
 
 const mockTriggerSnackbar = jest.fn();
 jest

@@ -2,14 +2,13 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { AvatarSelect } from '../../types/enums';
 
-interface ProfileData {
+export interface ProfileData {
   avatar?: string;
   name?: string;
   bio?: string;
   avatar_select?: AvatarSelect;
   patreon_avatar?: string;
   gravatar_avatar?: string;
-  gets_mail?: boolean;
 }
 
 type HandleFormChangeOptions = {
@@ -27,15 +26,7 @@ export const useProfileUpdater = (profileData: ProfileData) => {
   const handleFormChange = async (e, options?: HandleFormChangeOptions) => {
     const update = options?.update;
 
-    if (e.target.id === 'gets_mail') {
-      setFormData({ ...formData, gets_mail: e.target.checked });
-      if (update) {
-        return await updateProfile({
-          ...formData,
-          gets_mail: e.target.checked,
-        });
-      }
-    } else if (e.target.name === 'avatar_select') {
+    if (e.target.name === 'avatar_select') {
       setFormData({ ...formData, avatar_select: e.target.value });
       if (update) {
         return await updateProfile({

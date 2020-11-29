@@ -4,7 +4,7 @@ import {
   ProfileHeader,
   ProfileData,
   ProfileBookList,
-} from '../../src/components/Userview';
+} from '../../src/pages/UserPage';
 import Layout from '../../src/components/DefaultLayout';
 import Message from '../../src/components/Utility/Message';
 import {

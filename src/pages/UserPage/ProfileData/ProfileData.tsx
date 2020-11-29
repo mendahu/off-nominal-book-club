@@ -1,12 +1,13 @@
-import LayoutComponent from '../General/LayoutComponent';
+import LayoutComponent from '../../../components/General/LayoutComponent';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Checkbox } from '@material-ui/core';
-import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
+import patreonAuthUrlGenerator from '../../../helpers/patreon/authUrlGenerator';
 import axios from 'axios';
-import { useProfileUpdater } from '../../hooks/useProfileUpdater/useProfileUpdater';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
-import sendPasswordReset from '../../helpers/sendPasswordReset';
-import { useUser } from '../../../lib/user';
+import { useSnackbarContext } from '../../../contexts/SnackbarContext';
+import sendPasswordReset from '../../../helpers/sendPasswordReset';
+import { useUser } from '../../../../lib/user';
+import { MailchimpSubscriberStatus } from '../../../types/api/apiTypes.d';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -31,35 +32,57 @@ const ProfileData = ({ ...rest }) => {
   const classes = useStyles();
 
   const { user, resetUserPatreonState } = useUser();
-  const getsMail = user && user.getsMail;
+  const [subscriberStatus, setSubscriberStatus] = useState(
+    user.marketingStatus
+  );
   const email = user && user.email;
-
   const triggerSnackbar = useSnackbarContext();
-  const { formData, handleFormChange } = useProfileUpdater({
-    gets_mail: getsMail,
-  });
-
   const patreonConnected = user?.patreon.state === 'connected';
 
-  const toggleCheckbox = (e) => {
-    if (email) {
-      handleFormChange(e, { update: true })
-        .then(() => {
-          triggerSnackbar({
-            active: true,
-            message: 'Email preference toggled!',
-            severity: 'success',
-          });
-        })
-        .catch(() => {
-          triggerSnackbar({
-            active: true,
-            message: 'Error updating email preferences',
-            severity: 'error',
-          });
+  const toggleCheckbox = async () => {
+    if (subscriberStatus === MailchimpSubscriberStatus.unknown) {
+      triggerSnackbar({
+        active: true,
+        message:
+          'Current email subscription status is unknown. Please refresh the page and try again.',
+        severity: 'error',
+      });
+      return;
+    }
+
+    const oldStatus = subscriberStatus;
+    try {
+      let message: string;
+      if (subscriberStatus === MailchimpSubscriberStatus.notSubscribed) {
+        setSubscriberStatus(MailchimpSubscriberStatus.subscribed);
+        await axios.post('/api/marketing/users/new');
+        message = 'You have successfully subcribed to the mailing list.';
+      } else {
+        const newStatus =
+          oldStatus === MailchimpSubscriberStatus.subscribed
+            ? MailchimpSubscriberStatus.unsubscribed
+            : MailchimpSubscriberStatus.subscribed;
+
+        setSubscriberStatus(newStatus);
+        await axios.patch('/api/marketing/users/update', {
+          subscriberStatus,
+          newStatus,
         });
-    } else {
-      handleFormChange(e);
+        message = 'You have successfully unsubcribed from the mailing list.';
+      }
+
+      triggerSnackbar({
+        active: true,
+        message,
+        severity: 'success',
+      });
+    } catch (err) {
+      setSubscriberStatus(oldStatus);
+      triggerSnackbar({
+        active: true,
+        message: 'Error updating email preferences',
+        severity: 'error',
+      });
     }
   };
 
@@ -152,13 +175,13 @@ const ProfileData = ({ ...rest }) => {
         </Typography>
         <div className={classes.emailContainer}>
           <Checkbox
-            id="gets_mail"
-            checked={formData.gets_mail}
-            onChange={(e) => toggleCheckbox(e)}
+            checked={subscriberStatus === MailchimpSubscriberStatus.subscribed}
+            onChange={toggleCheckbox}
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <Typography paragraph component="p" variant="subtitle2">
-            Send me occasional updates about the Off-Nominal Book Club via email
+            Send me very occasional updates about the Off-Nominal Book Club and
+            other news from Jake via email
           </Typography>
         </div>
       </Box>

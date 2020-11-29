@@ -1,3 +1,5 @@
+import { MailchimpSubscriberStatus } from './api/apiTypes';
+
 export interface BookTag {
   tag_id: number;
   tag_name: string;
@@ -113,5 +115,5 @@ export interface DisplayUser {
   wishlist: Book[];
   ratings: Book[];
   isPatron: boolean;
-  getsMail: boolean;
+  marketingStatus: MailchimpSubscriberStatus;
 }

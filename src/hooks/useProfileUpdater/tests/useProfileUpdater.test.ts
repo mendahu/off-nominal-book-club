@@ -1,11 +1,11 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useProfileUpdater } from '../useProfileUpdater';
+import { AvatarSelect } from '../../../types/enums';
+import { ProfileData, useProfileUpdater } from '../useProfileUpdater';
 
 describe('useProfileUpdater', () => {
-  const testFormData = {
+  const testFormData: ProfileData = {
     name: 'jake',
-    gets_mail: true,
-    avatar_select: 'gravatar',
+    avatar_select: AvatarSelect.Gravatar,
   };
 
   it('Should change the state when handleFormChange is called', () => {
@@ -27,29 +27,12 @@ describe('useProfileUpdater', () => {
     expect(result.current.formData.name).toBe('jb');
   });
 
-  it('Should change the checked state when handleFormChange is called', () => {
-    const { result } = renderHook(() => useProfileUpdater(testFormData));
-
-    const event = {
-      target: {
-        id: 'gets_mail',
-        checked: false,
-      },
-    };
-
-    act(() => {
-      result.current.handleFormChange(event);
-    });
-
-    expect(result.current.formData.gets_mail).toBe(false);
-  });
-
   it('Should change the avatar select state when handleFormChange is called', () => {
     const { result } = renderHook(() => useProfileUpdater(testFormData));
 
     const event = {
       target: {
-        id: 'avatar_select',
+        name: 'avatar_select',
         value: 'patreon',
       },
     };

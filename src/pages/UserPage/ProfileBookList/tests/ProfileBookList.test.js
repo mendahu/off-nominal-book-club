@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import ProfileBookList from '../ProfileBookList';
-import ProfileBookListItem from '../ProfileBookListItem';
+import ProfileBookListItem from '../ProfileBookListItem/ProfileBookListItem';
 import { Typography } from '@material-ui/core';
 
 const testProps = [

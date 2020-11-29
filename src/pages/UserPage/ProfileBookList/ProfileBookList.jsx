@@ -1,7 +1,7 @@
-import LayoutComponent from '../General/LayoutComponent';
+import LayoutComponent from '../../../components/General/LayoutComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import { ProfileBookListItem } from './index';
+import { ProfileBookListItem } from './ProfileBookListItem/ProfileBookListItem';
 
 const useStyles = makeStyles((theme) => ({
   list: {

@@ -71,55 +71,56 @@ describe('tags API', () => {
     jest.clearAllMocks();
   });
 
-  it('should return 405 if DELETE method used', async () => {
-    const mockReq: Partial<NextApiRequest> = {
-      method: 'DELETE',
-    };
+  describe('Method checks', () => {
+    it('should return 405 if DELETE method used', async () => {
+      const mockReq: Partial<NextApiRequest> = {
+        method: 'DELETE',
+      };
 
+      const response = await recommendations(
+        mockReq as NextApiRequest,
+        mockRes()
+      );
+      expect(response.status).toEqual(405);
+    });
 
-    const response = await recommendations(
-      mockReq as NextApiRequest,
-      mockRes()
-    );
-    expect(response.status).toEqual(405);
-  });
+    it('should return 405 if PUT method used', async () => {
+      const mockReq: Partial<NextApiRequest> = {
+        method: 'PUT',
+      };
 
-  it('should return 405 if PUT method used', async () => {
-    const mockReq: Partial<NextApiRequest> = {
-      method: 'PUT',
-    };
+      const response = await recommendations(
+        mockReq as NextApiRequest,
+        mockRes()
+      );
 
-    const response = await recommendations(
-      mockReq as NextApiRequest,
-      mockRes()
-    );
+      expect(response.status).toEqual(405);
+    });
 
-    expect(response.status).toEqual(405);
-  });
+    it('should return 405 if POST method used', async () => {
+      const mockReq: Partial<NextApiRequest> = {
+        method: 'POST',
+      };
 
-  it('should return 405 if POST method used', async () => {
-    const mockReq: Partial<NextApiRequest> = {
-      method: 'POST',
-    };
+      const response = await recommendations(
+        mockReq as NextApiRequest,
+        mockRes()
+      );
+      expect(response.status).toEqual(405);
+    });
 
-    const response = await recommendations(
-      mockReq as NextApiRequest,
-      mockRes()
-    );
-    expect(response.status).toEqual(405);
-  });
+    it('should return 405 if PATCH method used', async () => {
+      const mockReq: Partial<NextApiRequest> = {
+        method: 'PATCH',
+      };
 
-  it('should return 405 if PATCH method used', async () => {
-    const mockReq: Partial<NextApiRequest> = {
-      method: 'PATCH',
-    };
+      const response = await recommendations(
+        mockReq as NextApiRequest,
+        mockRes()
+      );
 
-    const response = await recommendations(
-      mockReq as NextApiRequest,
-      mockRes()
-    );
-
-    expect(response.status).toEqual(405);
+      expect(response.status).toEqual(405);
+    });
   });
 
   it('should return 400 if type query string is not a string', async () => {

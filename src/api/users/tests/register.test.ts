@@ -1,7 +1,7 @@
-import register from '../../../../pages/api/users/register';
+import registerNewUser from '../../../../pages/api/users/register';
 import auth from 'basic-auth';
 import compare from 'tsscmp';
-import { users } from '../../../../db/queries/users';
+import { register } from '../../../../db/queries/users';
 jest.mock('basic-auth');
 jest.mock('tsscmp');
 jest.mock('../../../../db/queries/users');
@@ -33,7 +33,7 @@ describe('users / register', () => {
     compare.mockReturnValueOnce(false);
     compare.mockReturnValueOnce(false);
 
-    const response = await register({}, mockRes());
+    const response = await registerNewUser({}, mockRes());
     expect(response.status).toEqual(401);
     expect(response.response).toEqual({ message: 'Access denied' });
   });
@@ -48,7 +48,7 @@ describe('users / register', () => {
     compare.mockReturnValueOnce(false);
     compare.mockReturnValueOnce(true);
 
-    const response = await register({}, mockRes());
+    const response = await registerNewUser({}, mockRes());
     expect(response.status).toEqual(401);
     expect(response.response).toEqual({ message: 'Access denied' });
   });
@@ -63,7 +63,7 @@ describe('users / register', () => {
     compare.mockReturnValueOnce(true);
     compare.mockReturnValueOnce(false);
 
-    const response = await register({}, mockRes());
+    const response = await registerNewUser({}, mockRes());
     expect(response.status).toEqual(401);
     expect(response.response).toEqual({ message: 'Access denied' });
   });
@@ -77,9 +77,9 @@ describe('users / register', () => {
     });
     compare.mockReturnValueOnce(true);
     compare.mockReturnValueOnce(true);
-    users.register.mockResolvedValueOnce([1]);
+    register.mockResolvedValueOnce([1]);
 
-    const response = await register({}, mockRes());
+    const response = await registerNewUser({}, mockRes());
     expect(response.status).toEqual(200);
     expect(response.response).toEqual({ onbcId: 1 });
   });
@@ -93,9 +93,9 @@ describe('users / register', () => {
     });
     compare.mockReturnValueOnce(true);
     compare.mockReturnValueOnce(true);
-    users.register.mockRejectedValueOnce({ message: 'db call failed' });
+    register.mockRejectedValueOnce({ message: 'db call failed' });
 
-    const response = await register({}, mockRes());
+    const response = await registerNewUser({}, mockRes());
     expect(response.status).toEqual(500);
     expect(response.response).toEqual({ error: { message: 'db call failed' } });
   });

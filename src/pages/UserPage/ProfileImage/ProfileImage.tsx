@@ -1,6 +1,6 @@
 import { Avatar } from '@material-ui/core';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
-import LayoutComponent from '../General/LayoutComponent';
+import { useSnackbarContext } from '../../../contexts/SnackbarContext';
+import LayoutComponent from '../../../components/General/LayoutComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   FormControl,
@@ -8,9 +8,9 @@ import {
   Radio,
   RadioGroup,
 } from '@material-ui/core';
-import { useUser } from '../../../lib/user';
-import { useProfileUpdater } from '../../hooks/useProfileUpdater/useProfileUpdater';
-import { AvatarSelect } from '../../types/enums';
+import { useUser } from '../../../../lib/user';
+import { useProfileUpdater } from '../../../hooks/useProfileUpdater/useProfileUpdater';
+import { AvatarSelect } from '../../../types/enums';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
