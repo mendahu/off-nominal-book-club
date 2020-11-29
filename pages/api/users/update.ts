@@ -4,11 +4,17 @@ import { getAuth0User } from '../../../src/helpers/auth0/auth0User';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export const update = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { method } = req;
+  const { method, body } = req;
 
   if (method !== 'PATCH') {
     return res.status(405).json({
       error: `Method ${method} Not Allowed`,
+    });
+  }
+
+  if (!body) {
+    return res.status(400).json({
+      error: `Query is missing body which is required.`,
     });
   }
 
@@ -32,7 +38,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ error: 'Failed to retrieve Auth0 User Session' });
   }
 
-  return updateUser(onbc_id, req.body)
+  return updateUser(onbc_id, body)
     .then(() => {
       return res.status(200).json({ message: 'user entry update successful' });
     })

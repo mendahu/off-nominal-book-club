@@ -2,6 +2,8 @@ import { update } from '../../../../pages/api/users/update';
 import auth0 from '../../../../lib/auth0';
 import { getAuth0User } from '../../../helpers/auth0/auth0User';
 import { updateUser } from '../../../../db/queries/users';
+import { MailchimpSubscriberStatus } from '../../../types/api/apiTypes.d';
+import { NextApiRequest } from 'next';
 
 jest.mock('../../../../lib/auth0');
 jest.mock('../../../helpers/auth0/auth0User');
@@ -61,6 +63,39 @@ describe('users /update', () => {
         mockRes()
       );
       expect(response.status).toEqual(405);
+    });
+  });
+
+  describe('Data validation', () => {
+    it('should return 400 if missing body', async () => {
+      const mockReq = {
+        method: 'PATCH',
+      } as NextApiRequest;
+
+      const response = await update(mockReq, mockRes());
+      expect(response.status).toEqual(400);
+    });
+  });
+
+  describe('User fetching errors', () => {
+    const mockReq = {
+      method: 'PATCH',
+      body: {},
+    } as NextApiRequest;
+
+    it('should return 500 if session fetch fails', async () => {
+      auth0.getSession.mockRejectedValueOnce('womp');
+      const response = await update(mockReq, mockRes());
+      expect(response.status).toEqual(500);
+    });
+
+    it('should return 500 if user fetch fails', async () => {
+      auth0.getSession.mockResolvedValueOnce({
+        user: { sub: 'usersubstring' },
+      });
+      getAuth0User.mockRejectedValueOnce('womp');
+      const response = await update(mockReq, mockRes());
+      expect(response.status).toEqual(500);
     });
   });
 
