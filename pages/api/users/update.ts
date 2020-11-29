@@ -1,5 +1,5 @@
 import auth0 from '../../../lib/auth0';
-import { users } from '../../../db/queries/users';
+import { updateUser } from '../../../db/queries/users';
 import { getAuth0User } from '../../../src/helpers/auth0/auth0User';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -32,8 +32,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ error: 'Failed to retrieve Auth0 User Session' });
   }
 
-  return users
-    .update(onbc_id, req.body)
+  return updateUser(onbc_id, req.body)
     .then(() => {
       return res.status(200).json({ message: 'user entry update successful' });
     })

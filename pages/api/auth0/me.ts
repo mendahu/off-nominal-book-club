@@ -1,18 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
 
-const me = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const { method } = req;
+
+  if (method !== 'GET') {
+    return res.status(405).json({
+      error: `Method ${method} Not Allowed`,
+    });
+  }
+
   try {
     const userProfile = await userProfileFetcher(req);
     return res.status(200).json(userProfile);
   } catch (error) {
-    const { status, message, name } = error;
-    return res.status(status).json({
-      status,
-      name,
-      message,
+    console.error(error);
+    return res.status(500).json({
+      error: 'Failed to fetch user profile',
     });
   }
 };
-
-export default me;
