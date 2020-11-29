@@ -91,7 +91,7 @@ module.exports = {
       promises.push(
         knex.raw(
           `
-        SELECT name, bio, gravatar_avatar_url, patreon_avatar_url, avatar_select, gets_mail
+        SELECT name, bio, gravatar_avatar_url, patreon_avatar_url, avatar_select
           FROM users
           WHERE id = ?
         `,
@@ -200,7 +200,6 @@ module.exports = {
             gravatar_avatar_url,
             patreon_avatar_url,
             avatar_select,
-            gets_mail,
           } = userData.rows[0];
 
           const onbcData = {
@@ -213,7 +212,6 @@ module.exports = {
             reads: readsData.rows,
             wishlist: wishlistData.rows,
             ratings: ratingsData.rows,
-            getsMail: gets_mail,
           };
           return onbcData;
         })

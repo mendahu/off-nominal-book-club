@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import auth0 from '../../../lib/auth0';
-import { getAuth0User } from '../../../src/helpers/auth0/auth0User';
+import auth0 from '../../../../lib/auth0';
+import { getAuth0User } from '../../../../src/helpers/auth0/auth0User';
+import { MailchimpSubscriberStatus } from '../../../../src/types/api/apiTypes';
 const mailchimp = require('@mailchimp/mailchimp_marketing');
 var md5 = require('md5');
 
@@ -9,16 +10,17 @@ mailchimp.setConfig({
   server: process.env.MAILCHIMP_SERVER,
 });
 
-export enum SubscriberStatus {
-  notSubscribed = 'not subscribed',
-  subscribed = 'subscribed',
-  unsubscribed = 'unsubscribed',
-  pending = 'pending',
-  cleaned = 'cleaned',
-}
-
-export const update = async (req: NextApiRequest, res: NextApiResponse) => {
+export const newMarketingUser = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   const { method } = req;
+
+  if (method !== 'POST') {
+    return res.status(405).json({
+      error: `Method ${method} Not Allowed`,
+    });
+  }
 
   let sub: string;
 
@@ -29,20 +31,18 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ error: 'Failed to retrieve Auth0 Session' });
   }
 
-  let onbc_id: string;
   let email_address: string;
 
   try {
     const response = await getAuth0User(sub);
     email_address = response.email_address;
-    onbc_id = response.app_metadata.onbc_id;
   } catch (err) {
     return res
       .status(500)
       .json({ error: 'Failed to retrieve Auth0 User Session' });
   }
 
-  // Request to Mailchimp to subscribe or unsubscribe user from mailing list
+  // Request to Mailchimp to subscribe
   if (req.body.gets_mail !== undefined && email_address) {
     const subscriberHash = md5(email_address);
     const listId = process.env.MAILCHIMP_AUDIENCE_ID;
@@ -50,8 +50,8 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
     const getListStatus = async (
       listId: string,
       hashedEmail: string
-    ): Promise<SubscriberStatus> => {
-      let status: SubscriberStatus;
+    ): Promise<MailchimpSubscriberStatus> => {
+      let status: MailchimpSubscriberStatus;
 
       try {
         const response = await mailchimp.lists.getListMember(
@@ -61,7 +61,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
         status = response.status;
       } catch (err) {
         if (err.status === 404) {
-          status = SubscriberStatus.notSubscribed;
+          status = MailchimpSubscriberStatus.notSubscribed;
         } else {
           throw 'Error';
         }
@@ -70,7 +70,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       return status;
     };
 
-    let status: SubscriberStatus;
+    let status: MailchimpSubscriberStatus;
 
     try {
       status = await getListStatus(listId, subscriberHash);
@@ -99,4 +99,6 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default auth0.requireAuthentication((req, res) => update(req, res));
+export default auth0.requireAuthentication((req, res) =>
+  newMarketingUser(req, res)
+);

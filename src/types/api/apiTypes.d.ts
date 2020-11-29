@@ -50,3 +50,12 @@ export type ApiConfirmBookObj = {
   isbn13: string | null;
   google_id: string | null;
 };
+
+export enum MailchimpSubscriberStatus {
+  notSubscribed = 'not subscribed',
+  subscribed = 'subscribed',
+  unsubscribed = 'unsubscribed',
+  pending = 'pending',
+  cleaned = 'cleaned',
+  unknown = 'unknown',
+}
