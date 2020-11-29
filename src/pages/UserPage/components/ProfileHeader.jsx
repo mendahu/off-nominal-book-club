@@ -1,4 +1,4 @@
-import LayoutComponent from '../General/LayoutComponent';
+import LayoutComponent from '../../../components/General/LayoutComponent';
 import {
   Typography,
   Link,
@@ -8,8 +8,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
-import { useProfileUpdater } from '../../hooks/useProfileUpdater/useProfileUpdater';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
+import { useProfileUpdater } from '../../../hooks/useProfileUpdater/useProfileUpdater';
+import { useSnackbarContext } from '../../../contexts/SnackbarContext';
 
 const useStyles = makeStyles((theme) => ({
   title: {

@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import ProfileData from '../ProfileData';
+import ProfileData from '../components/ProfileData';
 import { Button, Checkbox } from '@material-ui/core';
 import axios, { AxiosResponse } from 'axios';
 import sendPasswordReset from '../../../helpers/sendPasswordReset';

@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import ProfileImage from '../ProfileImage';
+import ProfileImage from '../components/ProfileImage';
 import { Avatar, FormControl, RadioGroup } from '@material-ui/core';
 import * as SnackbarContext from '../../../contexts/SnackbarContext';
 import { AvatarSelect } from '../../../types/enums';

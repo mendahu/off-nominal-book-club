@@ -1,12 +1,12 @@
-import LayoutComponent from '../General/LayoutComponent';
+import LayoutComponent from '../../../components/General/LayoutComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Checkbox } from '@material-ui/core';
-import patreonAuthUrlGenerator from '../../helpers/patreon/authUrlGenerator';
+import patreonAuthUrlGenerator from '../../../helpers/patreon/authUrlGenerator';
 import axios from 'axios';
-import { useProfileUpdater } from '../../hooks/useProfileUpdater/useProfileUpdater';
-import { useSnackbarContext } from '../../contexts/SnackbarContext';
-import sendPasswordReset from '../../helpers/sendPasswordReset';
-import { useUser } from '../../../lib/user';
+import { useProfileUpdater } from '../../../hooks/useProfileUpdater/useProfileUpdater';
+import { useSnackbarContext } from '../../../contexts/SnackbarContext';
+import sendPasswordReset from '../../../helpers/sendPasswordReset';
+import { useUser } from '../../../../lib/user';
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {
@@ -40,6 +40,10 @@ const ProfileData = ({ ...rest }) => {
   });
 
   const patreonConnected = user?.patreon.state === 'connected';
+
+  const pingMailChimp = async () => {
+    //
+  };
 
   const toggleCheckbox = (e) => {
     if (email) {
@@ -144,6 +148,9 @@ const ProfileData = ({ ...rest }) => {
           onClick={handlePasswordReset}
         >
           Send Password Reset Email
+        </Button>
+        <Button variant="contained" color="primary" onClick={pingMailChimp}>
+          Ping Mailchimp
         </Button>
       </Box>
       <Box className={classes.container}>
