@@ -11,7 +11,7 @@
     "dev:staging": "ENVIRONMENT=staging next dev",
     "dev:production": "ENVIRONMENT=production next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "NODE_ENV=production node server.js",
     "qa": "next start",
     "test": "jest",
     "test:coverage": "jest --coverage",
