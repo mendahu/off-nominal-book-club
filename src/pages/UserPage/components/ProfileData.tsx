@@ -58,10 +58,15 @@ const ProfileData = ({ ...rest }) => {
         await axios.post('/api/marketing/users/new');
         message = 'You have successfully subcribed to the mailing list.';
       } else {
-        setSubscriberStatus(MailchimpSubscriberStatus.unsubscribed);
+        const newStatus =
+          oldStatus === MailchimpSubscriberStatus.subscribed
+            ? MailchimpSubscriberStatus.unsubscribed
+            : MailchimpSubscriberStatus.subscribed;
+
+        setSubscriberStatus(newStatus);
         await axios.patch('/api/marketing/users/update', {
           subscriberStatus,
-          newStatus: MailchimpSubscriberStatus.unsubscribed,
+          newStatus,
         });
         message = 'You have successfully unsubcribed from the mailing list.';
       }
@@ -177,7 +182,7 @@ const ProfileData = ({ ...rest }) => {
           />
           <Typography paragraph component="p" variant="subtitle2">
             Send me very occasional updates about the Off-Nominal Book Club and
-            other events from Jake via email
+            other news from Jake via email
           </Typography>
         </div>
       </Box>

@@ -25,6 +25,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.45",
     "@material-ui/pickers": "^3.2.10",
+    "@types/md5": "^2.2.1",
     "auth0": "^2.27.1",
     "axios": "^0.19.2",
     "basic-auth": "^2.0.1",
