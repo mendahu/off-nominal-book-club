@@ -175,7 +175,6 @@ const ProfileData = ({ ...rest }) => {
         </Typography>
         <div className={classes.emailContainer}>
           <Checkbox
-            id="gets_mail"
             checked={subscriberStatus === MailchimpSubscriberStatus.subscribed}
             onChange={toggleCheckbox}
             inputProps={{ 'aria-label': 'primary checkbox' }}

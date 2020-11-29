@@ -21,14 +21,9 @@ const tick = () => {
   });
 };
 
-const getUser = (
-  isAuthenticated: boolean,
-  isPatron: boolean = false,
-  getsMail: boolean = true
-) => {
+const getUser = (isAuthenticated: boolean, isPatron: boolean = false) => {
   const userObj = {
     isPatron,
-    getsMail,
     patreon: {
       state: isPatron ? 'connected' : 'skipped',
     },
@@ -143,17 +138,17 @@ describe('ProfileData', () => {
     });
   });
 
-  it('Should not have checkbox checked if getsMail is false', () => {
-    useUser.mockReturnValueOnce(getUser(true, true, false));
-    const wrapper = shallow(<ProfileData />);
-    expect(wrapper.find(Checkbox).props().checked).toBe(false);
-  });
+  // it('Should not have checkbox checked if getsMail is false', () => {
+  //   useUser.mockReturnValueOnce(getUser(true, true, false));
+  //   const wrapper = shallow(<ProfileData />);
+  //   expect(wrapper.find(Checkbox).props().checked).toBe(false);
+  // });
 
-  it('Should have checkbox checked if getsMail is true', () => {
-    useUser.mockReturnValueOnce(getUser(true, true, true));
-    const wrapper = shallow(<ProfileData />);
-    expect(wrapper.find(Checkbox).props().checked).toBe(true);
-  });
+  // it('Should have checkbox checked if getsMail is true', () => {
+  //   useUser.mockReturnValueOnce(getUser(true, true, true));
+  //   const wrapper = shallow(<ProfileData />);
+  //   expect(wrapper.find(Checkbox).props().checked).toBe(true);
+  // });
 
   // it('should trigger success snackbar on email preference update', async () => {
   //   useUser.mockReturnValueOnce(getUser(true, true, false));
