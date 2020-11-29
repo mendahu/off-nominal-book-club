@@ -10,6 +10,7 @@ export const updateUser = (userId, fieldsToUpdate) => {
   return knex('users').where('id', '=', userId).update(fieldsToUpdate);
 };
 
+//TODO: used only in Book Page to hydrate user meta data. Used server side.
 export const fetchUser = (userId, bookId) => {
   const params = {
     bookId,
@@ -83,6 +84,9 @@ export const fetchUser = (userId, bookId) => {
     .where('books.id', bookId);
 };
 
+//TODO: conflicts with userdata endpoint function name
+//TODO: used in /api/users endpoint
+//TODO: used in userProfileFetcher for /me endpoint
 export const getUserData = (userId) => {
   const promises = [];
 
