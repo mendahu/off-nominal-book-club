@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import ProfileBookListItem from '../components/ProfileBookListItem';
+import ProfileBookListItem from '../ProfileBookListItem';
 import { Link, Typography } from '@material-ui/core';
 
 const testBook = {

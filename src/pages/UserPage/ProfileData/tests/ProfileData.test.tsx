@@ -1,13 +1,13 @@
 import { shallow } from 'enzyme';
-import ProfileData from '../components/ProfileData';
+import ProfileData from '../ProfileData';
 import { Button, Checkbox } from '@material-ui/core';
 import axios, { AxiosResponse } from 'axios';
-import sendPasswordReset from '../../../helpers/sendPasswordReset';
-import * as SnackbarContext from '../../../contexts/SnackbarContext';
-import { useUser } from '../../../../lib/user';
-jest.mock('../../../../lib/user');
+import sendPasswordReset from '../../../../helpers/sendPasswordReset';
+import * as SnackbarContext from '../../../../contexts/SnackbarContext';
+import { useUser } from '../../../../../lib/user';
+jest.mock('../../../../../lib/user');
 jest.mock('axios');
-jest.mock('../../../helpers/sendPasswordReset');
+jest.mock('../../../../helpers/sendPasswordReset');
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockTriggerSnackbar = jest.fn();

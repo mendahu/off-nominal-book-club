@@ -1,10 +1,11 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useProfileUpdater } from '../useProfileUpdater';
+import { AvatarSelect } from '../../../types/enums';
+import { ProfileData, useProfileUpdater } from '../useProfileUpdater';
 
 describe('useProfileUpdater', () => {
-  const testFormData = {
+  const testFormData: ProfileData = {
     name: 'jake',
-    avatar_select: 'gravatar',
+    avatar_select: AvatarSelect.Gravatar,
   };
 
   it('Should change the state when handleFormChange is called', () => {
@@ -31,7 +32,7 @@ describe('useProfileUpdater', () => {
 
     const event = {
       target: {
-        id: 'avatar_select',
+        name: 'avatar_select',
         value: 'patreon',
       },
     };

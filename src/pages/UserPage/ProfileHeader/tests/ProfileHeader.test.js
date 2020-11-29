@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import ProfileHeader from '../components/ProfileHeader';
+import ProfileHeader from '../ProfileHeader';
 import { Link, Button } from '@material-ui/core';
 
 const testUser = {

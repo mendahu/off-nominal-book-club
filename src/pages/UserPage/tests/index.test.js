@@ -1,12 +1,5 @@
 import { shallow } from 'enzyme';
 import Userview from '../../../../pages/users/[id]';
-import {
-  ProfileImage,
-  ProfileHeader,
-  ProfileData,
-  ProfileWishList,
-  ProfileReadList,
-} from '../';
 
 const testUser = {
   userId: 538,

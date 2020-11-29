@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { AvatarSelect } from '../../types/enums';
 
-interface ProfileData {
+export interface ProfileData {
   avatar?: string;
   name?: string;
   bio?: string;
