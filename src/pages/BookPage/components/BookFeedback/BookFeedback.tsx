@@ -75,14 +75,19 @@ const BookFeedback = ({ userId, userData, book, isPatron }) => {
           user_review,
         });
       } else {
-        const newReviewId = await axios.post(`/api/reviews/new`, {
+        const response = await axios.post(`/api/reviews/new`, {
           bookId,
           userId,
           summary,
           user_review,
         });
-        newReview.id = newReviewId.data[0];
-        setMutableReview({ ...mutableReview, id: newReview.id });
+        newReview.id = response.data[0].id;
+        newReview.date = response.data[0].created_at;
+        setMutableReview({
+          ...mutableReview,
+          id: newReview.id,
+          date: newReview.date,
+        });
       }
     } catch (error) {
       console.error(error);
