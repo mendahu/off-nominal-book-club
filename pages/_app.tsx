@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { UserProvider, useFetchUser } from '../lib/user';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import 'react-datepicker/dist/react-datepicker.css';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 function MyApp({ Component, pageProps }: AppProps) {
