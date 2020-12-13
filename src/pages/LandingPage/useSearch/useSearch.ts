@@ -159,13 +159,9 @@ export const useSearch = () => {
       });
     };
 
-    const limitResults = (results: ApiBook[]): ApiBook[] => {
-      return results.slice(0, 10);
-    };
-
     setFilteredBooks({
       ...books,
-      books: limitResults(filterResults(filters, books.books)),
+      books: filterResults(filters, books.books),
     });
   }, [books, filters]);
 
