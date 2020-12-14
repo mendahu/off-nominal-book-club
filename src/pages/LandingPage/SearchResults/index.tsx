@@ -8,7 +8,7 @@ import SearchResultsSkeleton from './skeletons/SearchResultsSkeleton';
 import { ApiBook } from '../../../types/api/apiTypes';
 import Message from '../../../components/Utility/Message';
 
-const RESULTS_CHUNK_SIZE = 2;
+export const RESULTS_CHUNK_SIZE = 15;
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
@@ -81,7 +81,7 @@ export const SearchResults = ({
             );
           } else if (index === resultsLimit) {
             return (
-              <div className={classes.buttonContainer}>
+              <div key={index} className={classes.buttonContainer}>
                 <Button
                   color="primary"
                   variant="contained"
