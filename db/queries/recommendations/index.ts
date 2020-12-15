@@ -9,7 +9,6 @@ export const getRandom = () => {
         title, 
         description,
         google_id, 
-        image_url as thumbnail, 
         year,
         ( SELECT json_agg(authors) 
           FROM (
@@ -51,7 +50,6 @@ export const getFavourite = () => {
         title, 
         description, 
         google_id, 
-        image_url as thumbnail,
         year,
         count(favourites.id) as favs, 
         ( SELECT json_agg(authors) 
@@ -97,7 +95,6 @@ export const getHighestRated = () => {
         title, 
         description, 
         google_id, 
-        image_url as thumbnail,
         year,
         AVG(ratings.rating) as rating, 
         ( SELECT json_agg(authors) 

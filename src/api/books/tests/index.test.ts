@@ -67,7 +67,6 @@ describe('/pages/api/books', () => {
       description: 'a long description of a book',
       year: '2001',
       google_id: '1234abcd',
-      thumbnail: 'http://www.image.com/picture.png',
       type: BookType.fiction,
       reads: 7,
       wishlist: 5,

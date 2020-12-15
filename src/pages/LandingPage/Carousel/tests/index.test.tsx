@@ -15,7 +15,6 @@ describe('Carousel', () => {
         title: 'Test Book 1',
         description: 'Test Book Description 1',
         google_id: '1234abcd',
-        thumbnail: 'https://www.image.com/image.png',
         year: '2018',
         authors: [
           {
@@ -42,7 +41,6 @@ describe('Carousel', () => {
         title: 'Test Book 2',
         description: 'Test Book Description 2',
         google_id: '1234abcd',
-        thumbnail: 'https://www.image.com/image.png',
         year: '2014',
         authors: [
           {

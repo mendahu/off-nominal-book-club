@@ -62,7 +62,6 @@ export interface BookData {
   isbn13: string;
   description: string;
   year: string;
-  thumbnail: string;
   reads: number;
   favouritess: number;
   wishlist: number;
