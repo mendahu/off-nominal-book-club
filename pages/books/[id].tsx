@@ -119,7 +119,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
               ratingString={generateRatingString(book.rating, book.ratings)}
               authorString={generateAuthorString(book.authors)}
               title={book.title}
-              thumbnail={thumbnail}
+              googleId={book.google_id}
               year={book.year}
               type={book.type}
             />

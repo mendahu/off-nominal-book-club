@@ -97,7 +97,7 @@ export interface DisplayPatreonData {
 export type Book = {
   id: number;
   title: string;
-  image_url: string;
+  google_id: string;
   author: string;
   rating?: number;
 };

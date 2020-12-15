@@ -6,14 +6,14 @@ export const altTextBuilder = (title: string, authorString: string): string => {
 
 export type BookThumbnailProps = {
   id: string;
-  zoom: 1 | 2 | 3 | 4;
+  zoom?: 1 | 2 | 3 | 4;
   title: string;
   authorString: string;
 };
 
 export const BookThumbnail = ({
   id,
-  zoom,
+  zoom = 1,
   title,
   authorString,
 }: BookThumbnailProps) => {

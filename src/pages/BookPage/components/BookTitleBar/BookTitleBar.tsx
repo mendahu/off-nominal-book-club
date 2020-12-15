@@ -2,6 +2,7 @@ import { Paper, Grid, Typography, Chip } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
+import { BookThumbnail } from '../../../../components/BookThumbnail';
 import { BookType } from '../../../../types/common.d';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -32,7 +33,7 @@ export type BookTitleBarProps = {
   bookId: number;
   metaData: MetaFlagData;
   authorString: string;
-  thumbnail: string;
+  googleId: string;
   ratingString: string;
   title: string;
   year: string;
@@ -43,7 +44,7 @@ const BookTitleBar = ({
   metaData,
   bookId,
   authorString,
-  thumbnail,
+  googleId,
   ratingString,
   title,
   year,
@@ -54,7 +55,12 @@ const BookTitleBar = ({
   return (
     <Grid item xs={12}>
       <Paper className={classes.root}>
-        <img src={thumbnail} />
+        <BookThumbnail
+          id={googleId}
+          zoom={1}
+          title={title}
+          authorString={authorString}
+        />
 
         <BookStats
           metaData={metaData}

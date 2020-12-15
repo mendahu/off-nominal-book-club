@@ -24,7 +24,7 @@ describe('BooktitleBar', () => {
       },
     },
     authorString: 'some authors',
-    thumbnail: '/image.png',
+    googleId: '1234abcd',
     ratingString: '3.5 (2 ratings)',
     title: 'a book title',
     year: '1995',
