@@ -1,6 +1,7 @@
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import Link from 'next/link';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
 export type DrawerItemProps = {
   url: string;
@@ -25,7 +26,7 @@ const DrawerItem = ({
 
   return (
     <Link href={url} passHref>
-      <ListItem button className={extraPadding && classes.lowerPadding}>
+      <ListItem button className={clsx(extraPadding && classes.lowerPadding)}>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />
       </ListItem>
