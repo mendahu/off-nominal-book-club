@@ -168,7 +168,7 @@ export const SearchResult = ({
       </div>
 
       <BookStats
-        ratingString={`${rating}` || '-'}
+        ratingString={rating ? `${rating}` : '-'}
         bookId={id}
         metaData={generateMetaData(metaData, userMetaData)}
       />
