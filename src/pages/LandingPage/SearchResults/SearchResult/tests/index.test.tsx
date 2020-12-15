@@ -13,7 +13,7 @@ describe('SearchResul', () => {
     description:
       'A Book Description. It is a long description so as to be able to test the truncation feature of the component. Which is pretty rad.',
     authorString: 'Author 1, Author 2',
-    thumbnail: 'http://www.image.com/image/.png',
+    googleId: `1234abcd`,
     type: BookType.fiction,
     year: '1995',
     tags: [
@@ -28,7 +28,7 @@ describe('SearchResul', () => {
         count: 4,
       },
     ],
-    rating: '3.4',
+    rating: 3.4,
     metaData: {
       reads: 1,
       wishlist: 2,

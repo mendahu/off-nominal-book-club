@@ -13,7 +13,7 @@ export type Recommendation = {
   id: number;
   title: string;
   description: string;
-  thumbnail: string;
+  google_id: string;
   year: string;
   authors: Author[];
   userdata: {

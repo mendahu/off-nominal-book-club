@@ -8,22 +8,19 @@ const testProps = [
     title: 'The Best Book',
     author: 'Jake',
     id: 1,
-    image_url:
-      'http://books.google.com/books/content?id=MQeHAAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+    google_id: '1234abcd'
   },
   {
     title: 'The worst Book',
     author: 'JB',
     id: 2,
-    image_url:
-      'http://books.google.com/books/content?id=MQeHAAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+    google_id: '1234abcd'
   },
   {
     title: 'The mediumest Book',
     author: 'Anthony',
     id: 3,
-    image_url:
-      'http://books.google.com/books/content?id=MQeHAAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+    google_id: '1234abcd'
   },
 ];
 

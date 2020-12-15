@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core/styles';
 import { useCarousel } from './useCarousel';
 import clsx from 'clsx';
+import { generateBookThumbnailUrl } from '../../../helpers/generateBookThumbnailUrl';
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -85,7 +86,7 @@ export const Carousel = () => {
                     >
                       <Grid item>
                         <img
-                          src={item.thumbnail}
+                          src={generateBookThumbnailUrl(item.google_id, 1)}
                           alt={item.title}
                           className={classes.cover}
                         />

@@ -108,7 +108,7 @@ export const getUserData = (userId) => {
       SELECT 
       b.id,
       b.title,
-      b.image_url,
+      b.google_id,
       ( SELECT json_agg(authors) 
           FROM (
             SELECT name 
@@ -131,7 +131,7 @@ export const getUserData = (userId) => {
     SELECT 
       b.id,
       b.title,
-      b.image_url,
+      b.google_id,
       ( SELECT json_agg(authors) 
           FROM (
             SELECT name 
@@ -154,7 +154,7 @@ export const getUserData = (userId) => {
       SELECT 
       b.id,
       b.title,
-      b.image_url,
+      b.google_id,
       ( SELECT json_agg(authors) 
           FROM (
             SELECT name 
@@ -174,7 +174,7 @@ export const getUserData = (userId) => {
   promises.push(
     knex.raw(
       `
-    SELECT b.id, b.title, b.image_url, rating,
+    SELECT b.id, b.title, b.google_id, rating,
     ( SELECT json_agg(authors) 
     FROM (
       SELECT name 

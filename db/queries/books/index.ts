@@ -10,8 +10,8 @@ export const confirmBook = (bookObj: ApiConfirmBookObj) => {
     .select<ApiConfirmBookObj>(
       'description',
       'fiction',
+      'google_id',
       'id',
-      'image_url as thumbnail',
       'title',
       knex.raw(
         `
@@ -76,7 +76,6 @@ export const fetchBook = (bookId: number, userId: number = 0) => {
       'books.isbn13',
       'books.description',
       'books.year',
-      'books.image_url as thumbnail',
       knex.raw(
         `(SELECT COUNT(reads.id) from reads where reads.book_id = books.id) as reads`
       ),
@@ -154,8 +153,8 @@ export const getAllBooks = () => {
         b.title,
         b.description,
         b.year,
+        b.google_id,
         b.type,
-        b.image_url as thumbnail,
 
         max(fav_count.count)::integer as favourites,
         max(read_count.count)::integer as reads,

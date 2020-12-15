@@ -6,8 +6,7 @@ const testBook = {
   title: 'The Best Book',
   authors: [{ name: 'Jake'}],
   id: 1,
-  image_url:
-    'http://books.google.com/books/content?id=MQeHAAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+  google_id: `1234abcde`
 };
 
 describe('ProfileBookListItem', () => {

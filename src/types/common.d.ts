@@ -62,7 +62,6 @@ export interface BookData {
   isbn13: string;
   description: string;
   year: string;
-  thumbnail: string;
   reads: number;
   favouritess: number;
   wishlist: number;
@@ -98,7 +97,7 @@ export interface DisplayPatreonData {
 export type Book = {
   id: number;
   title: string;
-  image_url: string;
+  google_id: string;
   author: string;
   rating?: number;
 };

@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Link } from '@material-ui/core';
 import urlGenerator from '../../../../helpers/urlGenerator'
 import generateAuthorString from '../../../../helpers/generateAuthorString'
+import { generateBookThumbnailUrl } from '../../../../helpers/generateBookThumbnailUrl';
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -39,7 +40,7 @@ export const ProfileBookListItem = ({ book }) => {
           <Link href={`../books/${bookUrl}`}>
             <img
               className={classes.bookImage}
-              src={book.image_url}
+              src={generateBookThumbnailUrl(book.google_id, 1)}
               alt={book.title}
             />
           </Link>
