@@ -84,4 +84,9 @@ describe('SearchResul', () => {
 
     expect(wrapper.find(BookStats).props().metaData).toEqual(expectedMetaData);
   });
+
+  it('should render - for rating if it is null', () => {
+    const wrapper = shallow(<SearchResult {...defaultProps} rating={null} />);
+    expect(wrapper.find(BookStats).props().ratingString).toEqual('-');
+  });
 });
