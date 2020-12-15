@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    flexGrow: 1,
+    flex: '1 0 40%',
     order: 2,
     [theme.breakpoints.down('xs')]: {
       order: 3,
