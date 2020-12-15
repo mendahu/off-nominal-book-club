@@ -83,5 +83,11 @@ describe('SearchResul', () => {
     };
 
     expect(wrapper.find(BookStats).props().metaData).toEqual(expectedMetaData);
+    expect(wrapper.find(BookStats).props().ratingString).toEqual('3.4');
+  });
+
+  it('should render - for rating if it is null', () => {
+    const wrapper = shallow(<SearchResult {...defaultProps} rating={null} />);
+    expect(wrapper.find(BookStats).props().ratingString).toEqual('-');
   });
 });
