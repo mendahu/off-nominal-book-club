@@ -14,6 +14,7 @@ describe('useCarousel', () => {
         id: 8,
         title: 'Test Book 1',
         description: 'Test Book Description 1',
+        google_id: '1234abcd',
         thumbnail: 'https://www.image.com/image.png',
         year: '2018',
         authors: [
@@ -38,6 +39,7 @@ describe('useCarousel', () => {
         id: 46,
         title: 'Test Book 2',
         description: 'Test Book Description 2',
+        google_id: '1234abcd',
         thumbnail: 'https://www.image.com/image.png',
         year: '2014',
         authors: [
@@ -59,6 +61,7 @@ describe('useCarousel', () => {
           },
         },
         authorString: 'Author 2, Author 3',
+        google_id: '1234abcd',
         slug: '46-author-2-author-3-test-book-2',
       },
     ];
@@ -69,6 +72,7 @@ describe('useCarousel', () => {
         id: 8,
         title: 'Test Book 1',
         description: 'Test Book Description 1',
+        google_id: '1234abcd',
         thumbnail: 'https://www.image.com/image.png',
         year: '2018',
         authors: [
@@ -95,6 +99,7 @@ describe('useCarousel', () => {
         id: 46,
         title: 'Test Book 2',
         description: 'Test Book Description 2',
+        google_id: '1234abcd',
         thumbnail: 'https://www.image.com/image.png',
         year: '2014',
         authors: [

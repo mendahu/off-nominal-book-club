@@ -14,6 +14,7 @@ const mockFictionBook: ApiBook = {
   title: 'a title',
   description: 'a long description of a book',
   year: '2001',
+  google_id: `1234abcd`,
   thumbnail: 'http://www.image.com/picture.png',
   type: BookType.fiction,
   reads: 7,
@@ -46,6 +47,7 @@ const mockNonFictionBook: ApiBook = {
   description:
     'a long description of a book. it is much longer than the other one.',
   year: '2009',
+  google_id: `1234abcd`,
   thumbnail: 'http://www.image.com/picture.png',
   type: BookType.nonFiction,
   reads: 2,
@@ -78,6 +80,7 @@ const mockTextbook: ApiBook = {
   description:
     'a long description of a book. it is much longer than the other one. this is a textbook.',
   year: '2011',
+  google_id: `1234abcd`,
   thumbnail: 'http://www.image.com/picture.png',
   type: BookType.textbook,
   reads: 1,

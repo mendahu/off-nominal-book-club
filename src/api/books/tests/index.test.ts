@@ -3,6 +3,7 @@ import { QueryResult } from 'pg';
 import { getAllBooks } from '../../../../db/queries/books';
 import books from '../../../../pages/api/books';
 import { ApiBook } from '../../../types/api/apiTypes';
+import { BookType } from '../../../types/common.d';
 jest.mock('../../../../db/queries/books');
 
 describe('/pages/api/books', () => {
@@ -65,9 +66,9 @@ describe('/pages/api/books', () => {
       title: 'a book',
       description: 'a long description of a book',
       year: '2001',
+      google_id: '1234abcd',
       thumbnail: 'http://www.image.com/picture.png',
-      fiction: true,
-      textbook: false,
+      type: BookType.fiction,
       reads: 7,
       wishlist: 5,
       favourites: 3,

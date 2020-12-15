@@ -10,6 +10,7 @@ export const confirmBook = (bookObj: ApiConfirmBookObj) => {
     .select<ApiConfirmBookObj>(
       'description',
       'fiction',
+      'google_id',
       'id',
       'image_url as thumbnail',
       'title',
@@ -154,6 +155,7 @@ export const getAllBooks = () => {
         b.title,
         b.description,
         b.year,
+        b.google_id,
         b.type,
         b.image_url as thumbnail,
 

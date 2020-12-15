@@ -24,6 +24,7 @@ import generateAuthorString from '../../src/helpers/generateAuthorString';
 import { MetaFlagData } from '../../src/components/BookStats/MetaFlags/MetaFlags';
 import { fetchBook } from '../../db/queries/books';
 import { fetchUser } from '../../db/queries/users';
+import { generateBookThumbnailUrl } from '../../src/helpers/generateBookThumbnailUrl';
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
   return {
@@ -72,6 +73,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
       </Layout>
     );
   } else {
+    const thumbnail = generateBookThumbnailUrl(book.google_id, 1);
     return (
       <Layout>
         <SnackbarContext.Provider value={triggerSnackbar}>
@@ -87,7 +89,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
               content={book.description}
               key="description"
             />
-            <meta property="og:image" content={book.thumbnail} key="image" />
+            <meta property="og:image" content={thumbnail} key="image" />
 
             <meta
               name="twitter:description"
@@ -101,7 +103,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
             />
             <meta
               name="twitter:image"
-              content={book.thumbnail}
+              content={thumbnail}
               key="twitter_image"
             />
             <meta
@@ -117,7 +119,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
               ratingString={generateRatingString(book.rating, book.ratings)}
               authorString={generateAuthorString(book.authors)}
               title={book.title}
-              thumbnail={book.thumbnail}
+              thumbnail={thumbnail}
               year={book.year}
               type={book.type}
             />

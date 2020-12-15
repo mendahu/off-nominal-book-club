@@ -8,6 +8,7 @@ import { BookStats } from '../../../../components/BookStats/BookStats';
 import { MetaFlagData } from '../../../../components/BookStats/MetaFlags/MetaFlags';
 import { ApiTag } from '../../../../types/api/apiTypes';
 import { BookType } from '../../../../types/common';
+import { BookThumbnail } from '../../../../components/BookThumbnail';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -86,14 +87,14 @@ export type SearchResultProps = {
   title: string;
   description: string;
   authorString: string;
-  thumbnail: string;
+  googleId: string;
   type: BookType;
   year: string;
   tags: ApiTag[];
-  rating: string;
+  rating: number;
   metaData: MetaData;
   userMetaData: MetaData | undefined;
-  selectTag: () => void;
+  selectTag: (label: string) => void;
 };
 
 export const SearchResult = ({
@@ -101,7 +102,7 @@ export const SearchResult = ({
   title,
   description,
   authorString,
-  thumbnail,
+  googleId,
   type,
   year,
   tags,
@@ -109,7 +110,7 @@ export const SearchResult = ({
   metaData,
   userMetaData,
   selectTag,
-}) => {
+}: SearchResultProps) => {
   const classes = useStyles();
 
   const truncatedDescription = description.slice(0, 100) + '...';
@@ -119,7 +120,12 @@ export const SearchResult = ({
     <Paper className={classes.root}>
       <Link href={`/books/${id}`} as={`/books/${urlString}`} passHref>
         <a>
-          <img src={thumbnail} alt={title} />
+          <BookThumbnail
+            id={googleId}
+            zoom={1}
+            title={title}
+            authorString={authorString}
+          />
         </a>
       </Link>
 
@@ -162,7 +168,7 @@ export const SearchResult = ({
       </div>
 
       <BookStats
-        ratingString={rating || '-'}
+        ratingString={`${rating}` || '-'}
         bookId={id}
         metaData={generateMetaData(metaData, userMetaData)}
       />

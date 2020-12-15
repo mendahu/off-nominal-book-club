@@ -43,6 +43,7 @@ import {
 import SnackbarContext from '../../src/contexts/SnackbarContext';
 import { ApiConfirmBook } from '../../src/types/api/apiTypes';
 import { BookType } from '../../src/types/common.d';
+import { generateBookThumbnailUrl } from '../../src/helpers/generateBookThumbnailUrl';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -288,7 +289,10 @@ export default function New() {
                       return (
                         <SmallListItem
                           key={index}
-                          imageUrl={match.thumbnail}
+                          imageUrl={generateBookThumbnailUrl(
+                            match.google_id,
+                            1
+                          )}
                           title={match.title}
                           authorString={generateAuthorString(match.authors)}
                           button={{ id: match.id }}

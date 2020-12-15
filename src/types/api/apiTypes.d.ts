@@ -17,6 +17,7 @@ export class ApiBook {
   description: string;
   year: string;
   type: BookType;
+  google_id: string;
   thumbnail: string;
   favourites: number;
   reads: number;
@@ -29,6 +30,7 @@ export class ApiBook {
 export type ApiConfirmBook = {
   id: number;
   description: string;
+  google_id: string;
   fiction: boolean;
   thumbnail: string;
   title: string;

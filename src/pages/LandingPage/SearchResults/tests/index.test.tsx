@@ -18,6 +18,7 @@ const book1: ApiBook = {
   title: 'a book',
   description: 'a short description of a book',
   year: '2001',
+  google_id: '1234abcd',
   thumbnail: 'http://www.image.com/picture.png',
   type: BookType.fiction,
   reads: 7,
@@ -40,6 +41,7 @@ const book2: ApiBook = {
   description:
     'a long description of a book. it is much longer than the other one.',
   year: '2009',
+  google_id: '1234abcd',
   thumbnail: 'http://www.image.com/picture.png',
   type: BookType.nonFiction,
   reads: 2,
