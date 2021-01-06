@@ -17,9 +17,7 @@
 
 # misc
 .DS_Store
-.env
-.env.local
-.env.prod_storage
+.vscode
 dev_config.js
 dev_config.example.js
 
@@ -36,3 +34,8 @@ Vagrantfile
 
 #hide some docs
 /docs/worksheet.md
+
+#env
+.env
+.env.local
+.env.prod_storage

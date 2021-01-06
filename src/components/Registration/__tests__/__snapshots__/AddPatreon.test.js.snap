@@ -48,7 +48,7 @@ exports[`Add Patreon should render and match snapshot 1`] = `
     <WithStyles(ForwardRef(Button))
       className="makeStyles-button-3"
       color="primary"
-      endIcon={<Memo(LaunchIcon) />}
+      endIcon={<Memo />}
       href="https://www.patreon.com/oauth2/authorize?response_type=code&client_id=undefined&redirect_uri=undefined&scope=identity identity.memberships"
       variant="contained"
     >
@@ -81,7 +81,7 @@ exports[`Add Patreon should render and match snapshot 1`] = `
       <WithStyles(ForwardRef(Button))
         className="makeStyles-button-3"
         color="secondary"
-        endIcon={<Memo(LaunchIcon) />}
+        endIcon={<Memo />}
         href="http://www.wemartians.com/support"
         variant="contained"
       >
@@ -97,7 +97,7 @@ exports[`Add Patreon should render and match snapshot 1`] = `
       <WithStyles(ForwardRef(Button))
         className="makeStyles-button-3"
         color="secondary"
-        endIcon={<Memo(LaunchIcon) />}
+        endIcon={<Memo />}
         href="http://www.mainenginecutoff.com/support"
         variant="contained"
       >
@@ -108,7 +108,7 @@ exports[`Add Patreon should render and match snapshot 1`] = `
   <WithStyles(ForwardRef(Button))
     className="makeStyles-button-3 makeStyles-topSpace-5"
     color="default"
-    endIcon={<Memo(ForwardIcon) />}
+    endIcon={<Memo />}
     onClick={[Function]}
     variant="contained"
   >
