@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 exports.up = function (knex) {
   return knex.schema.alterTable("books", (table) => {
     table.string("isbn13").alter().nullable();
