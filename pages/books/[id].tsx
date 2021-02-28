@@ -25,6 +25,7 @@ import { fetchBook } from "../../db/queries/books";
 import { fetchUser } from "../../db/queries/users";
 import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
 import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
+import getAuth0USerSub from "../../src/helpers/auth0/auth0Sub";
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
   return {
@@ -163,7 +164,8 @@ export async function getServerSideProps(context) {
   }
 
   // Fetch book data from APIs
-  const userProfile = await userProfileFetcher(context.req);
+  const sub = await getAuth0USerSub(context.req, context.res);
+  const userProfile = await userProfileFetcher(sub);
   const userId = userProfile?.onbc_id;
 
   //Default user Data

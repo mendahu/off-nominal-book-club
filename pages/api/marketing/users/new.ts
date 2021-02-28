@@ -1,5 +1,6 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
+import getAuth0USerSub from "../../../../src/helpers/auth0/auth0Sub";
 import { getAuth0User } from "../../../../src/helpers/auth0/auth0User";
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 
@@ -23,8 +24,7 @@ export const newMarketingUser = async (
   let sub: string;
 
   try {
-    const { user } = await auth0.getSession(req);
-    sub = user.sub;
+    sub = await getAuth0USerSub(req, res);
   } catch (err) {
     return res.status(500).json({ error: "Failed to retrieve Auth0 Session" });
   }

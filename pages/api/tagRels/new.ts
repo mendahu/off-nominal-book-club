@@ -1,6 +1,7 @@
 const queries = require("../../../db/queries/tagRels");
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
+import getAuth0USerSub from "../../../src/helpers/auth0/auth0Sub";
 import userProfileFetcher from "../../../src/helpers/userProfileFetcher";
 import { DisplayUser } from "../../../src/types/common";
 
@@ -26,10 +27,7 @@ export const newTagRel = async (req: NextApiRequest, res: NextApiResponse) => {
   let userProfile: DisplayUser;
 
   try {
-    const session = await getSession(req, res);
-    const {
-      user: { sub },
-    } = await session;
+    const sub = await getAuth0USerSub(req, res);
     userProfile = await userProfileFetcher(sub);
   } catch (err) {
     return res.status(500).json({

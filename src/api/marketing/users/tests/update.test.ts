@@ -1,16 +1,15 @@
-import { NextApiRequest } from 'next';
-import { updateMarketingUser } from '../../../../../pages/api/marketing/users/update';
-import auth0 from '../../../../../lib/auth0';
-import { MailchimpSubscriberStatus } from '../../../../types/api/apiTypes.d';
-import { getAuth0User } from '../../../../helpers/auth0/auth0User';
-import md5 from 'md5';
-const mailchimp = require('@mailchimp/mailchimp_marketing');
-jest.spyOn(auth0, 'getSession');
-jest.mock('../../../../helpers/auth0/auth0User');
-jest.spyOn(mailchimp.lists, 'setListMember');
-jest.spyOn(mailchimp.lists, 'updateListMemberTags');
+import { NextApiRequest } from "next";
+import { updateMarketingUser } from "../../../../../pages/api/marketing/users/update";
+import { MailchimpSubscriberStatus } from "../../../../types/api/apiTypes.d";
+import { getAuth0User } from "../../../../helpers/auth0/auth0User";
+import md5 from "md5";
+import { getSession } from "@auth0/nextjs-auth0";
+const mailchimp = require("@mailchimp/mailchimp_marketing");
+jest.mock("../../../../helpers/auth0/auth0User");
+jest.spyOn(mailchimp.lists, "setListMember");
+jest.spyOn(mailchimp.lists, "updateListMemberTags");
 
-describe('api/marketing/users/update', () => {
+describe("api/marketing/users/update", () => {
   const mockRes = () => {
     const res: any = {};
     res.status = (code) => {
@@ -28,59 +27,59 @@ describe('api/marketing/users/update', () => {
     jest.clearAllMocks();
   });
 
-  describe('Method Checks', () => {
+  describe("Method Checks", () => {
     const generateMockReqWithMethod = (method: string): NextApiRequest => {
       return {
         method,
       } as NextApiRequest;
     };
 
-    it('should return 405 if DELETE method used', async () => {
+    it("should return 405 if DELETE method used", async () => {
       const response = await updateMarketingUser(
-        generateMockReqWithMethod('DELETE'),
+        generateMockReqWithMethod("DELETE"),
         mockRes()
       );
       expect(response.status).toEqual(405);
     });
 
-    it('should return 405 if PUT method used', async () => {
+    it("should return 405 if PUT method used", async () => {
       const response = await updateMarketingUser(
-        generateMockReqWithMethod('PUT'),
+        generateMockReqWithMethod("PUT"),
         mockRes()
       );
       expect(response.status).toEqual(405);
     });
 
-    it('should return 405 if GET method used', async () => {
+    it("should return 405 if GET method used", async () => {
       const response = await updateMarketingUser(
-        generateMockReqWithMethod('GET'),
+        generateMockReqWithMethod("GET"),
         mockRes()
       );
       expect(response.status).toEqual(405);
     });
 
-    it('should return 405 if POST method used', async () => {
+    it("should return 405 if POST method used", async () => {
       const response = await updateMarketingUser(
-        generateMockReqWithMethod('POST'),
+        generateMockReqWithMethod("POST"),
         mockRes()
       );
       expect(response.status).toEqual(405);
     });
   });
 
-  describe('Data validation', () => {
-    it('should return 400 if missing body', async () => {
+  describe("Data validation", () => {
+    it("should return 400 if missing body", async () => {
       const mockReq = {
-        method: 'PATCH',
+        method: "PATCH",
       } as NextApiRequest;
 
       const response = await updateMarketingUser(mockReq, mockRes());
       expect(response.status).toEqual(400);
     });
 
-    it('should return 400 if missing body parameter 1', async () => {
+    it("should return 400 if missing body parameter 1", async () => {
       const mockReq = {
-        method: 'PATCH',
+        method: "PATCH",
         body: {
           newStatus: MailchimpSubscriberStatus.subscribed,
         },
@@ -90,9 +89,9 @@ describe('api/marketing/users/update', () => {
       expect(response.status).toEqual(400);
     });
 
-    it('should return 400 if missing body parameter 2', async () => {
+    it("should return 400 if missing body parameter 2", async () => {
       const mockReq = {
-        method: 'PATCH',
+        method: "PATCH",
         body: {
           subscriberStatus: MailchimpSubscriberStatus.unsubscribed,
         },
@@ -102,16 +101,16 @@ describe('api/marketing/users/update', () => {
       expect(response.status).toEqual(400);
     });
 
-    it('should return 422 if email returned is not a string', async () => {
+    it("should return 422 if email returned is not a string", async () => {
       const mockReq = {
-        method: 'PATCH',
+        method: "PATCH",
         body: {
           newStatus: MailchimpSubscriberStatus.subscribed,
           subscriberStatus: MailchimpSubscriberStatus.unsubscribed,
         },
       } as NextApiRequest;
-      auth0.getSession.mockResolvedValueOnce({
-        user: { sub: 'usersubstring' },
+      getSession.mockResolvedValueOnce({
+        user: { sub: "usersubstring" },
       });
       getAuth0User.mockResolvedValueOnce({ email: false });
 
@@ -120,34 +119,34 @@ describe('api/marketing/users/update', () => {
     });
   });
 
-  describe('User fetching errors', () => {
+  describe("User fetching errors", () => {
     const mockReq = {
-      method: 'PATCH',
+      method: "PATCH",
       body: {
         subscriberStatus: MailchimpSubscriberStatus.unsubscribed,
         newStatus: MailchimpSubscriberStatus.subscribed,
       },
     } as NextApiRequest;
 
-    it('should return 500 if session fetch fails', async () => {
-      auth0.getSession.mockRejectedValueOnce('womp');
+    it("should return 500 if session fetch fails", async () => {
+      getSession.mockRejectedValueOnce("womp");
       const response = await updateMarketingUser(mockReq, mockRes());
       expect(response.status).toEqual(500);
     });
 
-    it('should return 500 if user fetch fails', async () => {
-      auth0.getSession.mockResolvedValueOnce({
-        user: { sub: 'usersubstring' },
+    it("should return 500 if user fetch fails", async () => {
+      getSession.mockResolvedValueOnce({
+        user: { sub: "usersubstring" },
       });
-      getAuth0User.mockRejectedValueOnce('womp');
+      getAuth0User.mockRejectedValueOnce("womp");
       const response = await updateMarketingUser(mockReq, mockRes());
       expect(response.status).toEqual(500);
     });
   });
 
-  describe('marketing API calls', () => {
+  describe("marketing API calls", () => {
     const mockReq = {
-      method: 'PATCH',
+      method: "PATCH",
       body: {
         subscriberStatus: MailchimpSubscriberStatus.unsubscribed,
         newStatus: MailchimpSubscriberStatus.subscribed,
@@ -155,37 +154,37 @@ describe('api/marketing/users/update', () => {
     } as NextApiRequest;
 
     beforeEach(() => {
-      auth0.getSession.mockResolvedValueOnce({
-        user: { sub: 'usersubstring' },
+      getSession.mockResolvedValueOnce({
+        user: { sub: "usersubstring" },
       });
-      getAuth0User.mockResolvedValueOnce({ email: 'email@email.com' });
+      getAuth0User.mockResolvedValueOnce({ email: "email@email.com" });
     });
 
-    it('should return status 200 and called the marketing api', async () => {
-      mailchimp.lists.setListMember.mockResolvedValueOnce('woo');
-      mailchimp.lists.updateListMemberTags.mockResolvedValueOnce('woo');
+    it("should return status 200 and called the marketing api", async () => {
+      mailchimp.lists.setListMember.mockResolvedValueOnce("woo");
+      mailchimp.lists.updateListMemberTags.mockResolvedValueOnce("woo");
 
       const response = await updateMarketingUser(mockReq, mockRes());
 
       expect(response.status).toEqual(200);
       expect(mailchimp.lists.setListMember).toHaveBeenCalledWith(
-        'mockMailChimpListId',
-        md5('email@email.com'),
+        "mockMailChimpListId",
+        md5("email@email.com"),
         {
-          email_address: 'email@email.com',
+          email_address: "email@email.com",
           status_if_new: MailchimpSubscriberStatus.subscribed,
           status: MailchimpSubscriberStatus.subscribed,
         }
       );
       expect(mailchimp.lists.updateListMemberTags).toHaveBeenCalledWith(
-        'mockMailChimpListId',
-        md5('email@email.com'),
+        "mockMailChimpListId",
+        md5("email@email.com"),
         {
           body: {
             tags: [
               {
-                name: 'Book Club',
-                status: 'active',
+                name: "Book Club",
+                status: "active",
               },
             ],
           },
@@ -193,31 +192,31 @@ describe('api/marketing/users/update', () => {
       );
     });
 
-    it('should return 500 if mailchimp update tags api fails', async () => {
-      mailchimp.lists.setListMember.mockResolvedValueOnce('woo');
-      mailchimp.lists.updateListMemberTags.mockRejectedValueOnce('womp');
+    it("should return 500 if mailchimp update tags api fails", async () => {
+      mailchimp.lists.setListMember.mockResolvedValueOnce("woo");
+      mailchimp.lists.updateListMemberTags.mockRejectedValueOnce("womp");
 
       const response = await updateMarketingUser(mockReq, mockRes());
 
       expect(response.status).toEqual(500);
       expect(mailchimp.lists.setListMember).toHaveBeenCalledWith(
-        'mockMailChimpListId',
-        md5('email@email.com'),
+        "mockMailChimpListId",
+        md5("email@email.com"),
         {
-          email_address: 'email@email.com',
+          email_address: "email@email.com",
           status_if_new: MailchimpSubscriberStatus.subscribed,
           status: MailchimpSubscriberStatus.subscribed,
         }
       );
       expect(mailchimp.lists.updateListMemberTags).toHaveBeenCalledWith(
-        'mockMailChimpListId',
-        md5('email@email.com'),
+        "mockMailChimpListId",
+        md5("email@email.com"),
         {
           body: {
             tags: [
               {
-                name: 'Book Club',
-                status: 'active',
+                name: "Book Club",
+                status: "active",
               },
             ],
           },
@@ -225,17 +224,17 @@ describe('api/marketing/users/update', () => {
       );
     });
 
-    it('should return 500 if mailchimp set user api fails', async () => {
-      mailchimp.lists.setListMember.mockRejectedValueOnce('womp');
+    it("should return 500 if mailchimp set user api fails", async () => {
+      mailchimp.lists.setListMember.mockRejectedValueOnce("womp");
 
       const response = await updateMarketingUser(mockReq, mockRes());
 
       expect(response.status).toEqual(500);
       expect(mailchimp.lists.setListMember).toHaveBeenCalledWith(
-        'mockMailChimpListId',
-        md5('email@email.com'),
+        "mockMailChimpListId",
+        md5("email@email.com"),
         {
-          email_address: 'email@email.com',
+          email_address: "email@email.com",
           status_if_new: MailchimpSubscriberStatus.subscribed,
           status: MailchimpSubscriberStatus.subscribed,
         }

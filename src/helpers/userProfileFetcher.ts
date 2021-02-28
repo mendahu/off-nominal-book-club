@@ -2,12 +2,10 @@ import profileFormatter from "./patreon/profileFormatter";
 import userDataFormatter from "./userDataFormatter";
 import { getAuth0User } from "./auth0/auth0User";
 import patreonProfileFetcher from "./patreon/profileFetcher";
-import getAuth0UserSub from "./auth0/auth0Sub";
 import { updateUser, getUserData } from "../../db/queries/users";
 import { DisplayUser, PatreonTokenData } from "../types/common";
 import { AvatarSelect } from "../types/enums";
 import { MailchimpSubscriberStatus } from "../types/api/apiTypes.d";
-import { UserProfile } from "@auth0/nextjs-auth0";
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 var md5 = require("md5");
 

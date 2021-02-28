@@ -3,7 +3,8 @@ import { getAuth0User } from "../../../../src/helpers/auth0/auth0User";
 import { MailchimpSubscriberStatus } from "../../../../src/types/api/apiTypes.d";
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 import md5 from "md5";
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+import getAuth0USerSub from "../../../../src/helpers/auth0/auth0Sub";
 
 mailchimp.setConfig({
   apiKey: process.env.MAILCHIMP_API_KEY,
@@ -39,8 +40,7 @@ export const updateMarketingUser = async (
   let sub: string;
 
   try {
-    const { user } = await getSession(req, res);
-    sub = user.sub;
+    sub = await getAuth0USerSub(req, res);
   } catch (err) {
     return res.status(500).json({ error: "Failed to retrieve Auth0 Session" });
   }

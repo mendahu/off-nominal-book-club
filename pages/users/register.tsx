@@ -50,7 +50,7 @@ export async function getServerSideProps(context) {
   let justConnectedPatreon = false;
 
   if (code) {
-    const sub = await getAuth0USerSub(context.req);
+    const sub = await getAuth0USerSub(context.req, context.res);
     const token = await patreonTokenFetcher(code, sub);
     justConnectedPatreon = typeof token !== "string";
   }
