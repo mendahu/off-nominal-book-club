@@ -7,7 +7,7 @@ import { JoinedTag } from "../../../../../types/common";
 import BookTagInput from "../BookTagInput/BookTagInput";
 import { useBookClubUser } from "../../../../../../lib/bookClubUser";
 
-jest.mock("../../../../../hooks/useBookClubUser/useBookClubUser");
+jest.mock("../../../../../../lib/bookClubUser");
 jest.mock("../../../../../contexts/SnackbarContext");
 
 const test_maxUserTags: JoinedTag[] = [

@@ -4,7 +4,7 @@ import New from "../../../../pages/books/new";
 import Message from "../../Utility/Message";
 import SearchBar from "../../SearchBar";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
-jest.mock("../../../hooks/useBookClubUser/useBookClubUser");
+jest.mock("../../../../lib/bookClubUser");
 
 useBookClubUser.mockImplementation(() => ({
   user: {

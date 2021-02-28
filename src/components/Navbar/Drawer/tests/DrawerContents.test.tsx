@@ -3,7 +3,7 @@ import DrawerContents, { DrawerContentsProps } from "../DrawerContents";
 import DrawerItem from "../DrawerItem";
 import { Avatar, Typography } from "@material-ui/core";
 import { useBookClubUser } from "../../../../../lib/bookClubUser";
-jest.mock("../../../../hooks/useBookClubUser/useBookClubUser");
+jest.mock("../../../../../lib/bookClubUser");
 
 const testToggle = jest.fn();
 

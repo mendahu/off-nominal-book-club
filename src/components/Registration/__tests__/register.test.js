@@ -5,9 +5,9 @@ import Router from "next/router";
 import AddPatreon from "../AddPatreon";
 import getAuth0USerSub from "../../../helpers/auth0/auth0Sub";
 import patreonTokenFetcher from "../../../helpers/patreon/tokenFetcher";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
-jest.mock("../../../../lib/user");
+jest.mock("../../../../lib/bookClubUser");
 jest.mock("next/router");
 jest.mock("../../../helpers/auth0/auth0Sub");
 jest.mock("../../../helpers/patreon/tokenFetcher");

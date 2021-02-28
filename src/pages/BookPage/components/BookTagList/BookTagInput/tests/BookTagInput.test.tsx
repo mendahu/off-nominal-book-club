@@ -6,7 +6,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import { useSnackbarContext } from "../../../../../../contexts/SnackbarContext";
 import { useBookClubUser } from "../../../../../../../lib/bookClubUser";
 
-jest.mock("../../../../../../hooks/useBookClubUser/useBookClubUser");
+jest.mock("../../../../../../../lib/bookClubUser");
 jest.mock("../../../../../../contexts/SnackbarContext");
 
 const mockAddTag = jest.fn();

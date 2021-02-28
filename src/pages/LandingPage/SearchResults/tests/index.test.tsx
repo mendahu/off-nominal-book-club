@@ -8,7 +8,7 @@ import { BookType } from "../../../../types/common.d";
 import SearchResult from "../SearchResult";
 import SearchResultsSkeleton from "../skeletons/SearchResultsSkeleton";
 
-jest.mock("../../../../hooks/useBookClubUser/useBookClubUser");
+jest.mock("../../../../../lib/bookClubUser");
 useBookClubUser.mockResolvedValue({ loading: false, user: { onbc_id: 1 } });
 
 const mockTagClickHandler = jest.fn();

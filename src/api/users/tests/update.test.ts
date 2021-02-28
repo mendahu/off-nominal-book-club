@@ -4,7 +4,6 @@ import { updateUser } from "../../../../db/queries/users";
 import { NextApiRequest } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 
-jest.mock("../../../../lib/auth0");
 jest.mock("../../../helpers/auth0/auth0User");
 jest.mock("../../../../db/queries/users");
 
