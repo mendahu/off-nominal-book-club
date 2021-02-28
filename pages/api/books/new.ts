@@ -7,6 +7,7 @@ import {
   ApiErrorResponse,
 } from "../../../src/types/api/apiTypes";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+import getAuth0USerSub from "../../../src/helpers/auth0/auth0Sub";
 
 export const newBook = async (
   req: NextApiRequest,
@@ -17,7 +18,8 @@ export const newBook = async (
   let userProfile: DisplayUser;
 
   try {
-    userProfile = await userProfileFetcher(req);
+    const sub = await getAuth0USerSub(res, res);
+    userProfile = await userProfileFetcher(sub);
   } catch (error) {
     return res.status(500).json({
       error: "Server error",
