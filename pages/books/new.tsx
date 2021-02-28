@@ -43,7 +43,7 @@ import SnackbarContext from "../../src/contexts/SnackbarContext";
 import { ApiConfirmBook } from "../../src/types/api/apiTypes";
 import { BookType } from "../../src/types/common.d";
 import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
-import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   container: {

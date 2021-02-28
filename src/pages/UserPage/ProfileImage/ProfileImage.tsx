@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { useProfileUpdater } from "../../../hooks/useProfileUpdater/useProfileUpdater";
 import { AvatarSelect } from "../../../types/enums";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {

@@ -7,7 +7,7 @@ import axios from "axios";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import sendPasswordReset from "../../../helpers/sendPasswordReset";
 import { MailchimpSubscriberStatus } from "../../../types/api/apiTypes.d";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   patreonMark: {

@@ -6,7 +6,7 @@ import axios from "axios";
 import SearchResultsSkeleton from "./skeletons/SearchResultsSkeleton";
 import { ApiBook } from "../../../types/api/apiTypes";
 import Message from "../../../components/Utility/Message";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 export const RESULTS_CHUNK_SIZE = 15;
 

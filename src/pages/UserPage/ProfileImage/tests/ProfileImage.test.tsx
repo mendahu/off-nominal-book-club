@@ -3,7 +3,7 @@ import ProfileImage from '../ProfileImage';
 import { Avatar, FormControl, RadioGroup } from '@material-ui/core';
 import * as SnackbarContext from '../../../../contexts/SnackbarContext';
 import { AvatarSelect } from '../../../../types/enums';
-import { useBookClubUser } from '../../../../hooks/useBookClubUser/useBookClubUser';
+import { useBookClubUser } from '../../../../../lib/bookClubUser';
 jest.mock('../../../../hooks/useBookClubUser/useBookClubUser';
 
 const mockTriggerSnackbar = jest.fn();

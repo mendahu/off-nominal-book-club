@@ -16,7 +16,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
 import DrawerItem from "./DrawerItem";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme: Theme) => ({
   list: {

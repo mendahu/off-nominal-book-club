@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Link as MatLink } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DrawerContents from "./Drawer/DrawerContents";
-import { useBookClubUser } from "../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {

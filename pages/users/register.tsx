@@ -4,7 +4,7 @@ import Layout from "../../src/components/DefaultLayout";
 import AddPatreon from "../../src/components/Registration/AddPatreon";
 import getAuth0USerSub from "../../src/helpers/auth0/auth0Sub";
 import patreonTokenFetcher from "../../src/helpers/patreon/tokenFetcher";
-import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../lib/bookClubUser";
 
 type RegisterProps = {
   justConnectedPatreon: Boolean;

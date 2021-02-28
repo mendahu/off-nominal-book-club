@@ -9,7 +9,7 @@ import { tooltip } from "./config.json";
 import { useMetaFlags } from "./useMetaFlags/useMetaFlags";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 export type MetaFlagDatum = {
   count: number;

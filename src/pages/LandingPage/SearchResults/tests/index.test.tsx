@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import { shallow } from "enzyme";
 import SearchResults, { SearchResultsProps } from "../";
 import Message from "../../../../components/Utility/Message";
-import { useBookClubUser } from "../../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../../lib/bookClubUser";
 import { ApiBook } from "../../../../types/api/apiTypes";
 import { BookType } from "../../../../types/common.d";
 import SearchResult from "../SearchResult";

@@ -2,7 +2,7 @@ import { shallow } from "enzyme";
 import Navbar, { keyDownGate } from "../Navbar";
 import { Button, Box } from "@material-ui/core";
 import DrawerContents from "../Drawer/DrawerContents";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 jest.mock("../../../hooks/useBookClubUser/useBookClubUser");
 
 useBookClubUser.mockImplementation(() => ({ user: undefined, loading: false }));

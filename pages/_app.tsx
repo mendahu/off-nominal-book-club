@@ -1,10 +1,9 @@
 import App from "next/app";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useFetchUser } from "../lib/user";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { UserProvider } from "@auth0/nextjs-auth0";
+import { BookClubUserProvider, useFetchUser } from "../lib/bookClubUser";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const theme = createMuiTheme({
@@ -19,10 +18,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     },
   });
 
-  const { user } = pageProps;
-
   return (
-    <UserProvider user={user}>
+    <BookClubUserProvider value={useFetchUser()}>
       <ThemeProvider theme={theme}>
         <Head>
           <meta
@@ -133,7 +130,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>
-    </UserProvider>
+    </BookClubUserProvider>
   );
 }
 

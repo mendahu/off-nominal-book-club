@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import New from "../../../../pages/books/new";
 import Message from "../../Utility/Message";
 import SearchBar from "../../SearchBar";
-import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 jest.mock("../../../hooks/useBookClubUser/useBookClubUser");
 
 useBookClubUser.mockImplementation(() => ({

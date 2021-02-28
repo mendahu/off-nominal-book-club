@@ -5,7 +5,7 @@ import { Chip } from "@material-ui/core";
 import { useSnackbarContext } from "../../../../../contexts/SnackbarContext";
 import { JoinedTag } from "../../../../../types/common";
 import BookTagInput from "../BookTagInput/BookTagInput";
-import { useBookClubUser } from "../../../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../../../lib/bookClubUser";
 
 jest.mock("../../../../../hooks/useBookClubUser/useBookClubUser");
 jest.mock("../../../../../contexts/SnackbarContext");

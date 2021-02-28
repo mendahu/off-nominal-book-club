@@ -2,7 +2,7 @@ import { shallow } from "enzyme";
 import DrawerContents, { DrawerContentsProps } from "../DrawerContents";
 import DrawerItem from "../DrawerItem";
 import { Avatar, Typography } from "@material-ui/core";
-import { useBookClubUser } from "../../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../../lib/bookClubUser";
 jest.mock("../../../../hooks/useBookClubUser/useBookClubUser");
 
 const testToggle = jest.fn();

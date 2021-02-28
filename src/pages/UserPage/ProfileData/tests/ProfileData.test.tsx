@@ -4,7 +4,7 @@ import { Button } from "@material-ui/core";
 import axios, { AxiosResponse } from "axios";
 import sendPasswordReset from "../../../../helpers/sendPasswordReset";
 import * as SnackbarContext from "../../../../contexts/SnackbarContext";
-import { useBookClubUser } from "../../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../../lib/bookClubUser";
 jest.mock("../../../../hooks/useBookClubUser/useBookClubUser");
 jest.mock("axios");
 jest.mock("../../../../helpers/sendPasswordReset");

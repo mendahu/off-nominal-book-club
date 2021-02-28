@@ -4,7 +4,7 @@ import BookTagInput, { BookTagInputProps } from "../BookTagInput";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import DoneIcon from "@material-ui/icons/Done";
 import { useSnackbarContext } from "../../../../../../contexts/SnackbarContext";
-import { useBookClubUser } from "../../../../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../../../../lib/bookClubUser";
 
 jest.mock("../../../../../../hooks/useBookClubUser/useBookClubUser");
 jest.mock("../../../../../../contexts/SnackbarContext");

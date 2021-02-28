@@ -7,7 +7,7 @@ import clsx from "clsx";
 import { useSnackbarContext } from "../../../../../contexts/SnackbarContext";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { ApiTag } from "../../../../../types/api/apiTypes";
-import { useBookClubUser } from "../../../../../hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../../../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme: Theme) => ({
   chip: {

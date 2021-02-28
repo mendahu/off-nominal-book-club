@@ -24,7 +24,7 @@ import { MetaFlagData } from "../../src/components/BookStats/MetaFlags/MetaFlags
 import { fetchBook } from "../../db/queries/books";
 import { fetchUser } from "../../db/queries/users";
 import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
-import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../lib/bookClubUser";
 import getAuth0USerSub from "../../src/helpers/auth0/auth0Sub";
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
