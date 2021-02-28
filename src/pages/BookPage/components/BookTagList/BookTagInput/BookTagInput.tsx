@@ -1,13 +1,13 @@
-import { ButtonBase, CircularProgress, Theme } from '@material-ui/core';
-import { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import DoneIcon from '@material-ui/icons/Done';
-import clsx from 'clsx';
-import { useSnackbarContext } from '../../../../../contexts/SnackbarContext';
-import { useUser } from '../../../../../../lib/user';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { ApiTag } from '../../../../../types/api/apiTypes';
+import { ButtonBase, CircularProgress, Theme } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import DoneIcon from "@material-ui/icons/Done";
+import clsx from "clsx";
+import { useSnackbarContext } from "../../../../../contexts/SnackbarContext";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { ApiTag } from "../../../../../types/api/apiTypes";
+import { useBookClubUser } from "../../../../../hooks/useBookClubUser/useBookClubUser";
 
 const useStyles = makeStyles((theme: Theme) => ({
   chip: {
@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   input: {
     backgroundColor: theme.palette.grey[700],
-    border: 'none',
+    border: "none",
     color: theme.palette.text.primary,
     marginRight: theme.spacing(1),
     marginLeft: theme.spacing(1),
-    outline: '#fff auto 0px',
-    '&::placeholder': {
+    outline: "#fff auto 0px",
+    "&::placeholder": {
       color: theme.palette.text.hint,
     },
   },
@@ -42,9 +42,9 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
   const classes = useStyles();
 
   const [tagValue, setTagValue] = useState<TagOption>(null);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [addMode, setAddMode] = useState(false);
-  const { user } = useUser();
+  const { user } = useBookClubUser();
   const triggerSnackbar = useSnackbarContext();
   const userId = user?.onbc_id;
 
@@ -57,8 +57,8 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
         : triggerSnackbar({
             active: true,
             message:
-              'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!',
-            severity: 'warning',
+              "Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!",
+            severity: "warning",
           });
     }
   };
@@ -66,7 +66,7 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
   const submitTag = () => {
     setAddMode(false);
     addTag(input, userId);
-    setInput('');
+    setInput("");
     setTagValue(null);
   };
 
@@ -78,7 +78,7 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
 
   return (
     <ButtonBase
-      className={clsx(classes.chip, 'MuiChip-root', 'MuiChip-clickable')}
+      className={clsx(classes.chip, "MuiChip-root", "MuiChip-clickable")}
       onClick={() => {
         if (!addMode) {
           toggleAddMode();
@@ -87,12 +87,12 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
     >
       {addMode ? (
         <>
-          <DoneIcon className={'MuiChip-icon'} onClick={toggleAddMode} />
+          <DoneIcon className={"MuiChip-icon"} onClick={toggleAddMode} />
           <Autocomplete
             value={tagValue}
             options={tagList}
             onChange={(event, newValue: string | TagOption) => {
-              if (typeof newValue === 'string') {
+              if (typeof newValue === "string") {
                 setTagValue({
                   label: newValue,
                 });
@@ -106,7 +106,7 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
             }}
             id="new-tag-input"
             getOptionLabel={(option) => {
-              if (typeof option === 'string') {
+              if (typeof option === "string") {
                 return option;
               }
               return option.label;
@@ -137,15 +137,15 @@ const BookTagInput = ({ addTag, loading, tagList = [] }: BookTagInputProps) => {
         <>
           {loading ? (
             <CircularProgress
-              className={'MuiChip-icon'}
+              className={"MuiChip-icon"}
               size={18}
               color="inherit"
             />
           ) : (
-            <AddCircleIcon className={'MuiChip-icon'} onClick={toggleAddMode} />
+            <AddCircleIcon className={"MuiChip-icon"} onClick={toggleAddMode} />
           )}
-          <span className={'MuiChip-label'}>
-            {loading ? 'Adding Tag...' : 'Add Tag'}
+          <span className={"MuiChip-label"}>
+            {loading ? "Adding Tag..." : "Add Tag"}
           </span>
         </>
       )}

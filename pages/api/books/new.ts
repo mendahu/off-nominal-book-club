@@ -1,12 +1,12 @@
-import { addBook, confirmBook } from '../../../db/queries/books';
-import auth0 from '../../../lib/auth0';
-import userProfileFetcher from '../../../src/helpers/userProfileFetcher';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { DisplayUser } from '../../../src/types/common';
+import { addBook, confirmBook } from "../../../db/queries/books";
+import userProfileFetcher from "../../../src/helpers/userProfileFetcher";
+import { NextApiRequest, NextApiResponse } from "next";
+import { DisplayUser } from "../../../src/types/common";
 import {
   ApiConfirmBookObj,
   ApiErrorResponse,
-} from '../../../src/types/api/apiTypes';
+} from "../../../src/types/api/apiTypes";
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 export const newBook = async (
   req: NextApiRequest,
@@ -20,15 +20,15 @@ export const newBook = async (
     userProfile = await userProfileFetcher(req);
   } catch (error) {
     return res.status(500).json({
-      error: 'Server error',
-      message: 'Something went wrong authenticating your request.',
+      error: "Server error",
+      message: "Something went wrong authenticating your request.",
     });
   }
 
   if (!userProfile.isPatron) {
     return res.status(403).json({
-      error: 'Not Authenticated',
-      message: 'Access restricted to logged in patrons only.',
+      error: "Not Authenticated",
+      message: "Access restricted to logged in patrons only.",
     });
   }
 
@@ -36,42 +36,42 @@ export const newBook = async (
   let bookObj: ApiConfirmBookObj;
 
   switch (method) {
-    case 'GET':
+    case "GET":
       if (!req.query) {
         return res.status(400).json({
-          error: 'Bad request',
+          error: "Bad request",
           message:
-            'You are missing required query string parameters for this request',
+            "You are missing required query string parameters for this request",
         });
       }
 
       const { query } = req;
 
       if (
-        typeof query.google_id !== 'string' &&
-        typeof query.google_id !== 'undefined'
+        typeof query.google_id !== "string" &&
+        typeof query.google_id !== "undefined"
       ) {
         return res.status(400).json({
-          error: 'Bad request',
-          message: 'Query parameters must be strings.',
+          error: "Bad request",
+          message: "Query parameters must be strings.",
         });
       }
       if (
-        typeof query.isbn13 !== 'string' &&
-        typeof query.isbn13 !== 'undefined'
+        typeof query.isbn13 !== "string" &&
+        typeof query.isbn13 !== "undefined"
       ) {
         return res.status(400).json({
-          error: 'Bad request',
-          message: 'Query parameters must be strings.',
+          error: "Bad request",
+          message: "Query parameters must be strings.",
         });
       }
       if (
-        typeof query.title !== 'string' &&
-        typeof query.title !== 'undefined'
+        typeof query.title !== "string" &&
+        typeof query.title !== "undefined"
       ) {
         return res.status(400).json({
-          error: 'Bad request',
-          message: 'Query parameters must be strings.',
+          error: "Bad request",
+          message: "Query parameters must be strings.",
         });
       }
 
@@ -88,11 +88,11 @@ export const newBook = async (
         return res.status(500).json(error);
       }
 
-    case 'POST':
+    case "POST":
       if (!req.body) {
         return res.status(400).json({
-          error: 'Bad request',
-          message: 'You are missing required body for this request',
+          error: "Bad request",
+          message: "You are missing required body for this request",
         });
       }
 
@@ -110,4 +110,4 @@ export const newBook = async (
   }
 };
 
-export default auth0.requireAuthentication((req, res) => newBook(req, res));
+export default withApiAuthRequired((req, res) => newBook(req, res));

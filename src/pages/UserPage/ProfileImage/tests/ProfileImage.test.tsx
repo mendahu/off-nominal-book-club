@@ -3,8 +3,8 @@ import ProfileImage from '../ProfileImage';
 import { Avatar, FormControl, RadioGroup } from '@material-ui/core';
 import * as SnackbarContext from '../../../../contexts/SnackbarContext';
 import { AvatarSelect } from '../../../../types/enums';
-import { useUser } from '../../../../../lib/user';
-jest.mock('../../../../../lib/user');
+import { useBookClubUser } from '../../../../hooks/useBookClubUser/useBookClubUser';
+jest.mock('../../../../hooks/useBookClubUser/useBookClubUser';
 
 const mockTriggerSnackbar = jest.fn();
 jest
@@ -41,7 +41,7 @@ describe('ProfileImage', () => {
   });
 
   it('Should render an Avatar for unauthenticated user', () => {
-    useUser.mockReturnValueOnce(getUser(false));
+    useBookClubUser.mockReturnValueOnce(getUser(false));
     const wrapper = shallow(
       <ProfileImage {...testUser} isUserAuthorized={false} />
     );
@@ -50,7 +50,7 @@ describe('ProfileImage', () => {
   });
 
   it('Should render an Avatar for authenticated Users who have not connect a Patreon account', () => {
-    useUser.mockReturnValueOnce(getUser(true, false));
+    useBookClubUser.mockReturnValueOnce(getUser(true, false));
     const wrapper = shallow(
       <ProfileImage {...testUser} isUserAuthorized={true} />
     );
@@ -59,7 +59,7 @@ describe('ProfileImage', () => {
   });
 
   it('Should render an Avatar and a Form Control for authenticated Users with Patreon', () => {
-    useUser.mockReturnValueOnce(getUser(true, true));
+    useBookClubUser.mockReturnValueOnce(getUser(true, true));
     const wrapper = shallow(
       <ProfileImage {...testUser} isUserAuthorized={true} />
     );
@@ -68,7 +68,7 @@ describe('ProfileImage', () => {
   });
 
   it('should trigger a snackbar when the avatar is toggled', async () => {
-    useUser.mockReturnValueOnce(getUser(true, true));
+    useBookClubUser.mockReturnValueOnce(getUser(true, true));
     const wrapper = shallow(
       <ProfileImage {...testUser} isUserAuthorized={true} />
     );

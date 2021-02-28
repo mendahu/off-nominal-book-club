@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import auth0 from '../../../../lib/auth0';
-import { getAuth0User } from '../../../../src/helpers/auth0/auth0User';
-const mailchimp = require('@mailchimp/mailchimp_marketing');
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getAuth0User } from "../../../../src/helpers/auth0/auth0User";
+const mailchimp = require("@mailchimp/mailchimp_marketing");
 
 mailchimp.setConfig({
   apiKey: process.env.MAILCHIMP_API_KEY,
@@ -14,7 +14,7 @@ export const newMarketingUser = async (
 ) => {
   const { method } = req;
 
-  if (method !== 'POST') {
+  if (method !== "POST") {
     return res.status(405).json({
       error: `Method ${method} Not Allowed`,
     });
@@ -26,7 +26,7 @@ export const newMarketingUser = async (
     const { user } = await auth0.getSession(req);
     sub = user.sub;
   } catch (err) {
-    return res.status(500).json({ error: 'Failed to retrieve Auth0 Session' });
+    return res.status(500).json({ error: "Failed to retrieve Auth0 Session" });
   }
 
   let email_address: string;
@@ -37,7 +37,7 @@ export const newMarketingUser = async (
   } catch (err) {
     return res
       .status(500)
-      .json({ error: 'Failed to retrieve Auth0 User Session' });
+      .json({ error: "Failed to retrieve Auth0 User Session" });
   }
 
   const listId = process.env.MAILCHIMP_AUDIENCE_ID;
@@ -45,22 +45,20 @@ export const newMarketingUser = async (
   try {
     await mailchimp.lists.addListMember(listId, {
       email_address,
-      status: 'subscribed',
-      tags: ['Book Club'],
+      status: "subscribed",
+      tags: ["Book Club"],
     });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
       error:
-        'Failed to subscribe user to marketing list. Third party API returned error.',
+        "Failed to subscribe user to marketing list. Third party API returned error.",
     });
   }
 
   return res
     .status(200)
-    .json({ message: 'Email preferences updated. User is now subscribed.' });
+    .json({ message: "Email preferences updated. User is now subscribed." });
 };
 
-export default auth0.requireAuthentication((req, res) =>
-  newMarketingUser(req, res)
-);
+export default withApiAuthRequired((req, res) => newMarketingUser(req, res));

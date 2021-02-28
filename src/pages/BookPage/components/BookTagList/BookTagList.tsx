@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Chip, CircularProgress, Grid, Paper } from '@material-ui/core';
-import { useSnackbarContext } from '../../../../contexts/SnackbarContext';
-import BookTagInput from './BookTagInput/BookTagInput';
-import { useUser } from '../../../../../lib/user';
-import { JoinedTag } from '../../../../types/common';
-import { useTags } from '../../../../hooks/useTags/useTags';
+import { makeStyles } from "@material-ui/core/styles";
+import { Avatar, Chip, CircularProgress, Grid, Paper } from "@material-ui/core";
+import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
+import BookTagInput from "./BookTagInput/BookTagInput";
+import { JoinedTag } from "../../../../types/common";
+import { useTags } from "../../../../hooks/useTags/useTags";
+import { useBookClubUser } from "../../../../hooks/useBookClubUser/useBookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +23,7 @@ export type BookTagListProps = {
 const BookTagList = ({ bookId, tags }: BookTagListProps) => {
   const classes = useStyles();
 
-  const { user } = useUser();
+  const { user } = useBookClubUser();
   const userId = user?.onbc_id;
   const triggerSnackbar = useSnackbarContext();
   const {
@@ -38,16 +38,16 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
   const triggerTooManyTagsSnackbar = () => {
     triggerSnackbar({
       active: true,
-      message: 'You may only add up to 5 tags per book.',
-      severity: 'warning',
+      message: "You may only add up to 5 tags per book.",
+      severity: "warning",
     });
   };
 
   const triggerAPIErrorSnackbar = () => {
     triggerSnackbar({
       active: true,
-      message: 'Something went wrong saving your book tag change.',
-      severity: 'warning',
+      message: "Something went wrong saving your book tag change.",
+      severity: "warning",
     });
   };
 
@@ -55,7 +55,7 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
     triggerSnackbar({
       active: true,
       message: "You've already added this tag.",
-      severity: 'warning',
+      severity: "warning",
     });
   };
 
@@ -63,8 +63,8 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
     triggerSnackbar({
       active: true,
       message:
-        'Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!',
-      severity: 'warning',
+        "Only logged in patrons may change tags on books. Consider supporting us for as little as $1/month!",
+      severity: "warning",
     });
   };
 
@@ -102,7 +102,7 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
       await addTag(tagName, userId);
     } catch (err) {
       console.error(err);
-      if (err === 'already-added') {
+      if (err === "already-added") {
         triggerAlreadyAddedSnackbar();
       } else {
         triggerAPIErrorSnackbar();
@@ -132,7 +132,7 @@ const BookTagList = ({ bookId, tags }: BookTagListProps) => {
                 label={tag.tag_name}
                 avatar={avatar}
                 onClick={() => handleClick(tag, isSelected)}
-                color={isSelected ? 'primary' : 'default'}
+                color={isSelected ? "primary" : "default"}
               />
             );
           })}

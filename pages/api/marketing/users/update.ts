@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import auth0 from '../../../../lib/auth0';
-import { getAuth0User } from '../../../../src/helpers/auth0/auth0User';
-import { MailchimpSubscriberStatus } from '../../../../src/types/api/apiTypes.d';
-const mailchimp = require('@mailchimp/mailchimp_marketing');
-import md5 from 'md5';
+import { NextApiRequest, NextApiResponse } from "next";
+import { getAuth0User } from "../../../../src/helpers/auth0/auth0User";
+import { MailchimpSubscriberStatus } from "../../../../src/types/api/apiTypes.d";
+const mailchimp = require("@mailchimp/mailchimp_marketing");
+import md5 from "md5";
+import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 mailchimp.setConfig({
   apiKey: process.env.MAILCHIMP_API_KEY,
@@ -16,7 +16,7 @@ export const updateMarketingUser = async (
 ) => {
   const { method, body } = req;
 
-  if (method !== 'PATCH') {
+  if (method !== "PATCH") {
     return res.status(405).json({
       error: `Method ${method} Not Allowed`,
     });
@@ -39,10 +39,10 @@ export const updateMarketingUser = async (
   let sub: string;
 
   try {
-    const { user } = await auth0.getSession(req);
+    const { user } = await getSession(req, res);
     sub = user.sub;
   } catch (err) {
-    return res.status(500).json({ error: 'Failed to retrieve Auth0 Session' });
+    return res.status(500).json({ error: "Failed to retrieve Auth0 Session" });
   }
 
   let email_address: string;
@@ -53,13 +53,13 @@ export const updateMarketingUser = async (
   } catch (err) {
     return res
       .status(500)
-      .json({ error: 'Failed to retrieve Auth0 User Session' });
+      .json({ error: "Failed to retrieve Auth0 User Session" });
   }
 
-  if (typeof email_address !== 'string') {
+  if (typeof email_address !== "string") {
     return res.status(422).json({
       error:
-        'Email address returned from Auth0 invalid, unable to update marketing preferences.',
+        "Email address returned from Auth0 invalid, unable to update marketing preferences.",
     });
   }
 
@@ -77,8 +77,8 @@ export const updateMarketingUser = async (
         body: {
           tags: [
             {
-              name: 'Book Club',
-              status: 'active',
+              name: "Book Club",
+              status: "active",
             },
           ],
         },
@@ -88,7 +88,7 @@ export const updateMarketingUser = async (
     console.error(err);
     return res.status(500).json({
       error:
-        'Failed to subscribe user to marketing list. Third party API returned error.',
+        "Failed to subscribe user to marketing list. Third party API returned error.",
     });
   }
 
@@ -97,6 +97,4 @@ export const updateMarketingUser = async (
   });
 };
 
-export default auth0.requireAuthentication((req, res) =>
-  updateMarketingUser(req, res)
-);
+export default withApiAuthRequired((req, res) => updateMarketingUser(req, res));

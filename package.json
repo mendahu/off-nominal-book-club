@@ -1,10 +1,10 @@
 {
-  "name": "book-people",
-  "version": "0.1.0",
+  "name": "space-book-club",
+  "version": "1.0",
   "private": true,
   "engines": {
-    "node": "12.x",
-    "npm": "6.x"
+    "node": "15.x",
+    "npm": "7.x"
   },
   "scripts": {
     "dev": "next dev",
@@ -18,14 +18,14 @@
     "ngrok": "ngrok http --subdomain onbc 3000"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^0.11.0",
+    "@auth0/nextjs-auth0": "^1.1.0",
     "@date-io/date-fns": "^2.5.0",
     "@mailchimp/mailchimp_marketing": "^3.0.24",
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.45",
     "@material-ui/pickers": "^3.2.10",
-    "auth0": "^2.27.1",
+    "auth0": "^2.33.0",
     "axios": "^0.21.1",
     "basic-auth": "^2.0.1",
     "date-fns": "^2.11.0",

@@ -1,21 +1,21 @@
-const queries = require('../../../../db/queries/favs')
-import auth0 from '../../../../lib/auth0'
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+const queries = require("../../../../db/queries/favs");
 
-export default auth0.requireAuthentication((req, res) => {
-  
-  const { query: { id }} = req
-  
-  return queries
-    .favourites
+export default withApiAuthRequired((req, res) => {
+  const {
+    query: { id },
+  } = req;
+
+  return queries.favourites
     .delete(id)
     .then(() => {
       res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json')
-      return res.end(JSON.stringify({"success": true}))
+      res.setHeader("Content-Type", "application/json");
+      return res.end(JSON.stringify({ success: true }));
     })
-    .catch(err => {
-      console.error(err)
+    .catch((err) => {
+      console.error(err);
       res.statusCode = 500;
-      return res.end(JSON.stringify({"success": false}))
-    })
+      return res.end(JSON.stringify({ success: false }));
+    });
 });

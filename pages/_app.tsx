@@ -1,25 +1,28 @@
-import App from 'next/app';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
-import { UserProvider, useFetchUser } from '../lib/user';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import App from "next/app";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { useFetchUser } from "../lib/user";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { UserProvider } from "@auth0/nextjs-auth0";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: '#3e7493',
+        main: "#3e7493",
       },
       secondary: {
-        main: '#bf5e56',
+        main: "#bf5e56",
       },
-      type: 'dark',
+      type: "dark",
     },
   });
 
+  const { user } = pageProps;
+
   return (
-    <UserProvider value={useFetchUser()}>
+    <UserProvider user={user}>
       <ThemeProvider theme={theme}>
         <Head>
           <meta

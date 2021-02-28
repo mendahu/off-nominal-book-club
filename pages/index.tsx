@@ -1,19 +1,19 @@
-import { Container, Grid, makeStyles } from '@material-ui/core';
-import SearchBar from '../src/components/SearchBar';
+import { Container, Grid, makeStyles } from "@material-ui/core";
+import SearchBar from "../src/components/SearchBar";
 import {
   Carousel,
   TagList,
   SearchResults,
   SearchFilters,
-} from '../src/pages/LandingPage';
-import Layout from '../src/components/LandingLayout';
-import useSearch from '../src/pages/LandingPage/useSearch/useSearch';
-import SnackbarContext from '../src/contexts/SnackbarContext';
+} from "../src/pages/LandingPage";
+import Layout from "../src/components/LandingLayout";
+import useSearch from "../src/pages/LandingPage/useSearch/useSearch";
+import SnackbarContext from "../src/contexts/SnackbarContext";
 import {
   OnbcSnackbar,
   useSnackbar,
-} from '../src/hooks/useSnackbar/useSnackbar';
-import clsx from 'clsx';
+} from "../src/hooks/useSnackbar/useSnackbar";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
@@ -21,31 +21,31 @@ const useStyles = makeStyles((theme) => ({
   },
   searchBarContainer: {
     flexGrow: 4,
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up("lg")]: {
       order: 2,
-      minWidth: '50%',
+      minWidth: "50%",
     },
   },
   filterContainer: {
     flexGrow: 1,
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up("lg")]: {
       order: 1,
-      maxWidth: '30%',
+      maxWidth: "30%",
     },
   },
   tagListContainer: {
-    width: '100%',
-    [theme.breakpoints.up('lg')]: {
+    width: "100%",
+    [theme.breakpoints.up("lg")]: {
       order: 3,
-      maxWidth: '30%',
+      maxWidth: "30%",
       flexGrow: 1,
     },
   },
   searchResultsContainer: {
-    width: '100%',
-    [theme.breakpoints.up('lg')]: {
+    width: "100%",
+    [theme.breakpoints.up("lg")]: {
       order: 4,
-      width: '70%',
+      width: "70%",
       flexGrow: 4,
     },
   },
@@ -58,8 +58,8 @@ export const LandingPage = () => {
 
   const handleClear = (e) => {
     e.preventDefault();
-    input.set('');
-    selectTag('');
+    input.set("");
+    selectTag("");
   };
 
   return (
@@ -77,10 +77,10 @@ export const LandingPage = () => {
           >
             <Grid item className={clsx(classes.searchBarContainer)}>
               <SearchBar
-                placeholderText={'Search the Book Club'}
+                placeholderText={"Search the Book Club"}
                 text={input.value}
                 onChange={(e) => input.set(e.target.value)}
-                button={{ text: 'Clear', onClick: handleClear }}
+                button={{ text: "Clear", onClick: handleClear }}
               />
             </Grid>
             <Grid item className={clsx(classes.filterContainer)}>

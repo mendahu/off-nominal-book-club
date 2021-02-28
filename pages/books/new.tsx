@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useUser } from '../../lib/user';
-import Layout from '../../src/components/DefaultLayout';
-import Message from '../../src/components/Utility/Message';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Layout from "../../src/components/DefaultLayout";
+import Message from "../../src/components/Utility/Message";
 import {
   Paper,
   Grid,
@@ -13,12 +12,12 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import SearchBar from '../../src/components/SearchBar';
-import { useDebounce } from '../../src/hooks/useDebounce/useDebounce';
-import SearchResult from '../../src/components/New/SearchResult';
-import SmallListItem from '../../src/components/New/SmallListItem';
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import SearchBar from "../../src/components/SearchBar";
+import { useDebounce } from "../../src/hooks/useDebounce/useDebounce";
+import SearchResult from "../../src/components/New/SearchResult";
+import SmallListItem from "../../src/components/New/SmallListItem";
 import {
   getAuthorString,
   getThumbnail,
@@ -29,21 +28,22 @@ import {
   getIsbn10,
   getIsbn13,
   getAuthors,
-} from '../../src/components/New/utils/newUtils';
-import generateAuthorString from '../../src/helpers/generateAuthorString';
-import Router from 'next/router';
-import urlGenerator from '../../src/helpers/urlGenerator';
-import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
-import clsx from 'clsx';
-import CircularProgress from '@material-ui/core/CircularProgress';
+} from "../../src/components/New/utils/newUtils";
+import generateAuthorString from "../../src/helpers/generateAuthorString";
+import Router from "next/router";
+import urlGenerator from "../../src/helpers/urlGenerator";
+import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
+import clsx from "clsx";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import {
   useSnackbar,
   OnbcSnackbar,
-} from '../../src/hooks/useSnackbar/useSnackbar';
-import SnackbarContext from '../../src/contexts/SnackbarContext';
-import { ApiConfirmBook } from '../../src/types/api/apiTypes';
-import { BookType } from '../../src/types/common.d';
-import { generateBookThumbnailUrl } from '../../src/helpers/generateBookThumbnailUrl';
+} from "../../src/hooks/useSnackbar/useSnackbar";
+import SnackbarContext from "../../src/contexts/SnackbarContext";
+import { ApiConfirmBook } from "../../src/types/api/apiTypes";
+import { BookType } from "../../src/types/common.d";
+import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
+import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,19 +56,19 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   metaDataContainer: {
-    width: '100%',
+    width: "100%",
   },
   submitButtonContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
+    display: "flex",
+    justifyContent: "flex-end",
   },
   flexContainer: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   warningIcon: {
     marginRight: theme.spacing(1),
-    height: '100%',
+    height: "100%",
   },
   formLegend: {
     marginBottom: theme.spacing(1),
@@ -78,10 +78,10 @@ const useStyles = makeStyles((theme) => ({
 export default function New() {
   const classes = useStyles();
 
-  const { user, loading } = useUser();
+  const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [isSearchError, setIsSearchError] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -153,7 +153,7 @@ export default function New() {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
     setCurrentSelection(book);
   };
@@ -191,8 +191,8 @@ export default function New() {
       triggerSnackbar({
         active: true,
         message:
-          'Something went wrong adding your book. Please try again later.',
-        severity: 'error',
+          "Something went wrong adding your book. Please try again later.",
+        severity: "error",
       });
     }
   };
@@ -206,13 +206,13 @@ export default function New() {
   };
 
   if (loading) {
-    return renderLoadingMessage('loading', 'Validating credentials...');
+    return renderLoadingMessage("loading", "Validating credentials...");
   }
 
   if ((!user && !loading) || (!user?.isPatron && !loading)) {
     return renderLoadingMessage(
-      'warning',
-      'You must be logged in and a Patron to add books.'
+      "warning",
+      "You must be logged in and a Patron to add books."
     );
   }
 
@@ -266,13 +266,13 @@ export default function New() {
               )}
               {isMatching && (
                 <Typography component="p" variant="subtitle1">
-                  {'Checking our database if this book already exists...'}
+                  {"Checking our database if this book already exists..."}
                 </Typography>
               )}
               {isMatchError && (
                 <Message
                   variant="warning"
-                  message={'Error checking the book club database'}
+                  message={"Error checking the book club database"}
                 />
               )}
               {matchedResults && (
@@ -280,7 +280,7 @@ export default function New() {
                   <div className={classes.flexContainer}>
                     <WarningRoundedIcon className={classes.warningIcon} />
                     <Typography component="h2" variant="h6">
-                      {'Your book may already be in the book club...'}
+                      {"Your book may already be in the book club..."}
                     </Typography>
                   </div>
 
@@ -352,9 +352,9 @@ export default function New() {
                         )
                       }
                     >
-                      {isSubmitting && 'Submitting...'}
-                      {isRedirecting && 'Redirecting...'}
-                      {!(isSubmitting || isRedirecting) && 'Add book'}
+                      {isSubmitting && "Submitting..."}
+                      {isRedirecting && "Redirecting..."}
+                      {!(isSubmitting || isRedirecting) && "Add book"}
                     </Button>
                   </div>
                 </>
@@ -371,14 +371,14 @@ export default function New() {
             <div>
               {isSearching && (
                 <Message
-                  variant={'loading'}
-                  message={'Searching Google Books...'}
+                  variant={"loading"}
+                  message={"Searching Google Books..."}
                 />
               )}
               {isSearchError && (
                 <Message
-                  variant={'warning'}
-                  message={'Error reaching Google Books'}
+                  variant={"warning"}
+                  message={"Error reaching Google Books"}
                 />
               )}
               {!isSearching &&

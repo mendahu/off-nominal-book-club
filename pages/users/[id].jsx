@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   ProfileImage,
   ProfileHeader,
   ProfileData,
   ProfileBookList,
-} from '../../src/pages/UserPage';
-import Layout from '../../src/components/DefaultLayout';
-import Message from '../../src/components/Utility/Message';
+} from "../../src/pages/UserPage";
+import Layout from "../../src/components/DefaultLayout";
+import Message from "../../src/components/Utility/Message";
 import {
   Typography,
   Grid,
@@ -17,15 +17,18 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-} from '@material-ui/core';
-import { useUser } from '../../lib/user';
-import axios from 'axios';
-import { useSnackbar, OnbcSnackbar } from '../../src/hooks/useSnackbar/useSnackbar';
-import SnackbarContext from '../../src/contexts/SnackbarContext';
-import WarningIcon from '@material-ui/icons/Warning';
+} from "@material-ui/core";
+import axios from "axios";
+import {
+  useSnackbar,
+  OnbcSnackbar,
+} from "../../src/hooks/useSnackbar/useSnackbar";
+import SnackbarContext from "../../src/contexts/SnackbarContext";
+import WarningIcon from "@material-ui/icons/Warning";
+import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
 
 const Userview = ({ userId, showModal }) => {
-  const { user, loading } = useUser();
+  const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const [modalOpen, setModalOpen] = useState(showModal);
   const [profileData, setProfileData] = useState({
@@ -45,20 +48,20 @@ const Userview = ({ userId, showModal }) => {
             <li>Update your name and bio at the top!</li>
             {isPatron ? (
               <li>
-                Choose between your{' '}
+                Choose between your{" "}
                 <Link
                   href="https://www.gravatar.com"
                   target="_blank"
                   rel="noopener"
                 >
                   Gravatar
-                </Link>{' '}
+                </Link>{" "}
                 or the Avatar from Patreon to display here and next to your
                 reviews.
               </li>
             ) : (
               <li>
-                Your profile picture comes from{' '}
+                Your profile picture comes from{" "}
                 <Link
                   href="https://www.gravatar.com"
                   target="_blank"
@@ -167,7 +170,7 @@ const Userview = ({ userId, showModal }) => {
             />
           </Grid>
           {isUserAuthorized ? (
-            <ProfileData xs={12} md={3}/>
+            <ProfileData xs={12} md={3} />
           ) : (
             <Grid item xs={12} md={3} />
           )}
@@ -197,7 +200,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       userId: context.params.id,
-      showModal: context.query.tutorial === 'true',
+      showModal: context.query.tutorial === "true",
     },
   };
 }

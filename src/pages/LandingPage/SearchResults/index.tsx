@@ -1,19 +1,19 @@
-import SearchResult from './SearchResult';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import { Box, Button } from '@material-ui/core';
-import { useUser } from '../../../../lib/user';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import SearchResultsSkeleton from './skeletons/SearchResultsSkeleton';
-import { ApiBook } from '../../../types/api/apiTypes';
-import Message from '../../../components/Utility/Message';
+import SearchResult from "./SearchResult";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Box, Button } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import SearchResultsSkeleton from "./skeletons/SearchResultsSkeleton";
+import { ApiBook } from "../../../types/api/apiTypes";
+import Message from "../../../components/Utility/Message";
+import { useBookClubUser } from "../../../hooks/useBookClubUser/useBookClubUser";
 
 export const RESULTS_CHUNK_SIZE = 15;
 
 const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -29,7 +29,7 @@ export const SearchResults = ({
   tagClickHandler,
 }: SearchResultsProps) => {
   const classes = useStyles();
-  const { user } = useUser();
+  const { user } = useBookClubUser();
   const [userMetaData, setUserMetaData] = useState({});
   const [resultsLimit, setResultsLimit] = useState(RESULTS_CHUNK_SIZE);
 
