@@ -25,7 +25,7 @@ import {
 } from "../../src/hooks/useSnackbar/useSnackbar";
 import SnackbarContext from "../../src/contexts/SnackbarContext";
 import WarningIcon from "@material-ui/icons/Warning";
-import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
+import { useBookClubUser } from "../../lib/bookClubUser";
 
 const Userview = ({ userId, showModal }) => {
   console.log(userId);
