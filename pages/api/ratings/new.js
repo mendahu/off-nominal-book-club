@@ -4,7 +4,7 @@ import getAuth0USerSub from "../../../src/helpers/auth0/auth0Sub";
 import userProfileFetcher from "../../../src/helpers/userProfileFetcher";
 
 export default withApiAuthRequired(async (req, res) => {
-  const sub = getAuth0USerSub(req, res);
+  const sub = await getAuth0USerSub(req, res);
   const userProfile = await userProfileFetcher(sub);
   if (!userProfile.isPatron)
     return res.status(403).end(

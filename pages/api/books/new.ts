@@ -18,7 +18,7 @@ export const newBook = async (
   let userProfile: DisplayUser;
 
   try {
-    const sub = await getAuth0USerSub(res, res);
+    const sub = await getAuth0USerSub(req, res);
     userProfile = await userProfileFetcher(sub);
   } catch (error) {
     return res.status(500).json({
