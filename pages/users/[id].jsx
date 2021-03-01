@@ -28,6 +28,7 @@ import WarningIcon from "@material-ui/icons/Warning";
 import { useBookClubUser } from "../../src/hooks/useBookClubUser/useBookClubUser";
 
 const Userview = ({ userId, showModal }) => {
+  console.log(userId);
   const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const [modalOpen, setModalOpen] = useState(showModal);

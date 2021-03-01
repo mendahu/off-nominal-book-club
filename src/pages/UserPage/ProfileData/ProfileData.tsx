@@ -105,7 +105,7 @@ const ProfileData = ({ ...rest }) => {
 
   const disconnectPatreon = async () => {
     try {
-      await axios.post("/api/auth0/update", { result: "skipped" });
+      await axios.post("/api/auth/update", { result: "skipped" });
       resetUserPatreonState();
       triggerSnackbar({
         active: true,

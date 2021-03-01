@@ -1,16 +1,16 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { newBook } from '../../../../pages/api/books/new';
-import userProfileFetcher from '../../../../src/helpers/userProfileFetcher';
-import { confirmBook, addBook } from '../../../../db/queries/books';
+import { NextApiRequest, NextApiResponse } from "next";
+import { newBook } from "../../../../pages/api/books/new";
+import userProfileFetcher from "../../../../src/helpers/userProfileFetcher";
+import { confirmBook, addBook } from "../../../../db/queries/books";
 
-jest.mock('../../../../db/queries/books');
-jest.mock('../../../../src/helpers/userProfileFetcher');
+jest.mock("../../../../db/queries/books");
+jest.mock("../../../../src/helpers/userProfileFetcher");
 
 (userProfileFetcher as jest.Mock).mockImplementation(() => ({
   isPatron: true,
 }));
 
-describe('users /update', () => {
+describe("users /update", () => {
   const mockRes = () => {
     const res: any = {};
     res.status = (code) => {
@@ -28,29 +28,29 @@ describe('users /update', () => {
     jest.clearAllMocks();
   });
 
-  it('should return server error if user authentication has error', async () => {
+  it("should return server error if user authentication has error", async () => {
     const mockReq: Partial<NextApiRequest> = {
       query: {
-        googleid: '12345678',
-        isbn13: 'abc123def456g',
-        title: 'A book about space',
+        googleid: "12345678",
+        isbn13: "abc123def456g",
+        title: "A book about space",
       },
     };
 
-    (userProfileFetcher as jest.Mock).mockRejectedValueOnce('error');
+    (userProfileFetcher as jest.Mock).mockRejectedValueOnce("error");
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(500);
-    expect(response.response).toHaveProperty('error');
-    expect(response.response).toHaveProperty('message');
+    expect(response.response).toHaveProperty("error");
+    expect(response.response).toHaveProperty("message");
   });
 
-  it('should return server error is user authentication fails', async () => {
+  it("should return server error is user authentication fails", async () => {
     const mockReq: Partial<NextApiRequest> = {
       query: {
-        googleid: '12345678',
-        isbn13: 'abc123def456g',
-        title: 'A book about space',
+        googleid: "12345678",
+        isbn13: "abc123def456g",
+        title: "A book about space",
       },
     };
 
@@ -60,78 +60,78 @@ describe('users /update', () => {
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(403);
-    expect(response.response).toHaveProperty('error');
-    expect(response.response).toHaveProperty('message');
+    expect(response.response).toHaveProperty("error");
+    expect(response.response).toHaveProperty("message");
   });
 
-  it('should return bad request if no query string provided', async () => {
+  it("should return bad request if no query string provided", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'GET',
+      method: "GET",
     };
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(400);
-    expect(response.response).toHaveProperty('error');
-    expect(response.response).toHaveProperty('message');
+    expect(response.response).toHaveProperty("error");
+    expect(response.response).toHaveProperty("message");
   });
 
-  it('should return success if GET call succeeds', async () => {
+  it("should return success if GET call succeeds", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'GET',
+      method: "GET",
       query: {
-        googleid: '12345678',
-        isbn13: 'abc123def456g',
-        title: 'A book about space',
+        googleid: "12345678",
+        isbn13: "abc123def456g",
+        title: "A book about space",
       },
     };
 
-    const mockResponse = { message: 'success' };
+    const mockResponse = { message: "success" };
 
     (confirmBook as jest.Mock).mockImplementationOnce(() => mockResponse);
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(200);
-    expect(response.response).toHaveProperty('message');
+    expect(response.response).toHaveProperty("message");
     expect(response.response).toEqual(mockResponse);
   });
 
-  it('should return failure if GET call fails', async () => {
+  it("should return failure if GET call fails", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'GET',
+      method: "GET",
       query: {
-        googleid: '12345678',
-        isbn13: 'abc123def456g',
-        title: 'A book about space',
+        googleid: "12345678",
+        isbn13: "abc123def456g",
+        title: "A book about space",
       },
     };
 
-    (confirmBook as jest.Mock).mockRejectedValueOnce('error');
+    (confirmBook as jest.Mock).mockRejectedValueOnce("error");
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(500);
-    expect(response.response).toEqual('error');
+    expect(response.response).toEqual("error");
   });
 
-  it('should return bad request if no body provided', async () => {
+  it("should return bad request if no body provided", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'POST',
+      method: "POST",
     };
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(400);
-    expect(response.response).toHaveProperty('error');
-    expect(response.response).toHaveProperty('message');
+    expect(response.response).toHaveProperty("error");
+    expect(response.response).toHaveProperty("message");
   });
 
-  it('should return success if POST call succeeds', async () => {
+  it("should return success if POST call succeeds", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'POST',
+      method: "POST",
       body: {
-        title: 'A book about space',
+        title: "A book about space",
       },
     };
 
-    const mockResponse = { message: 'success' };
+    const mockResponse = { message: "success" };
 
     (addBook as jest.Mock).mockImplementationOnce(() => mockResponse);
 
@@ -140,44 +140,44 @@ describe('users /update', () => {
       mockRes()
     );
     expect(response.status).toEqual(200);
-    expect(response.response).toHaveProperty('message');
+    expect(response.response).toHaveProperty("message");
     expect(response.response).toEqual(mockResponse);
   });
 
-  it('should return failure if POST call fails', async () => {
+  it("should return failure if POST call fails", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'POST',
+      method: "POST",
       body: {
-        title: 'A book about space',
+        title: "A book about space",
       },
     };
 
-    (addBook as jest.Mock).mockRejectedValueOnce('error');
+    (addBook as jest.Mock).mockRejectedValueOnce("error");
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(500);
-    expect(response.response).toEqual('error');
+    expect(response.response).toEqual("error");
   });
 
-  it('should return 405 if PUT method used', async () => {
+  it("should return 405 if PUT method used", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'PUT',
+      method: "PUT",
     };
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
-  it('should return 405 if PATCH method used', async () => {
+  it("should return 405 if PATCH method used", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'PATCH',
+      method: "PATCH",
     };
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
     expect(response.status).toEqual(405);
   });
-  it('should return 405 if DELETE method used', async () => {
+  it("should return 405 if DELETE method used", async () => {
     const mockReq: Partial<NextApiRequest> = {
-      method: 'DELETE',
+      method: "DELETE",
     };
 
     const response = await newBook(mockReq as NextApiRequest, mockRes());
