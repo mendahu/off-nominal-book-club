@@ -1,25 +1,33 @@
-const queries = require('../../../../db/queries/tagRels')
-import auth0 from '../../../../lib/auth0'
-import userProfileFetcher from '../../../../src/helpers/userProfileFetcher'
+const queries = require("../../../../db/queries/tagRels");
+import { withApiAuthRequired } from "@auth0/nextjs-auth0";
+import userProfileFetcher from "../../../../src/helpers/userProfileFetcher";
+import getAuth0USerSub from "../../../../src/helpers/auth0/auth0Sub";
 
-export default auth0.requireAuthentication(async (req, res) => {
+export default withApiAuthRequired(async (req, res) => {
+  const sub = await getAuth0USerSub(req, res);
+  const userProfile = await userProfileFetcher(sub);
+  if (!userProfile.isPatron)
+    return res.status(403).end(
+      JSON.stringify({
+        error: "not_authenticated",
+        message: "Access restricted to logged in patrons only.",
+      })
+    );
 
-  const userProfile = await userProfileFetcher(req)
-  if (!userProfile.isPatron) return res.status(403).end(JSON.stringify({error: "not_authenticated", message: "Access restricted to logged in patrons only."}))
+  const {
+    query: { id },
+  } = req;
 
-  const { query: { id }} = req
-  
-  return queries
-    .tagRels
+  return queries.tagRels
     .delete(id)
     .then(() => {
       res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json')
-      return res.end(JSON.stringify({"success": true}))
+      res.setHeader("Content-Type", "application/json");
+      return res.end(JSON.stringify({ success: true }));
     })
-    .catch(err => {
-      console.error(err)
+    .catch((err) => {
+      console.error(err);
       res.statusCode = 500;
-      return res.end(JSON.stringify({"success": false}))
-    })
+      return res.end(JSON.stringify({ success: false }));
+    });
 });

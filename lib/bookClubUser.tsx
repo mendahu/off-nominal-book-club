@@ -1,10 +1,11 @@
-import React from 'react';
-import axios from 'axios';
+import { useUser } from "@auth0/nextjs-auth0";
+import React from "react";
+import axios from "axios";
 
 // Use a global to save the user, so we don't have to fetch it again after page navigations
 let userState;
 
-const User = React.createContext({
+const BookClubUser = React.createContext({
   user: null,
   loading: false,
   resetUserPatreonState: () => {},
@@ -18,7 +19,7 @@ export const fetchUser = async () => {
   let userData;
 
   try {
-    userData = await axios.get(`/api/auth0/me`);
+    userData = await axios.get(`/api/users/me`);
     userState = userData.status === 200 ? userData.data : null;
   } catch (error) {
     console.error(error);
@@ -27,7 +28,7 @@ export const fetchUser = async () => {
   return userState;
 };
 
-export const UserProvider = ({ value, children }) => {
+export const BookClubUserProvider = ({ value, children }) => {
   const { user } = value;
 
   // If the user was fetched in SSR add it to userState so we don't fetch it again
@@ -37,10 +38,12 @@ export const UserProvider = ({ value, children }) => {
     }
   }, []);
 
-  return <User.Provider value={value}>{children}</User.Provider>;
+  return (
+    <BookClubUser.Provider value={value}>{children}</BookClubUser.Provider>
+  );
 };
 
-export const useUser = () => React.useContext(User);
+export const useBookClubUser = () => React.useContext(BookClubUser);
 
 export const useFetchUser = () => {
   const [data, setUser] = React.useState({
@@ -70,7 +73,7 @@ export const useFetchUser = () => {
   const resetUserPatreonState = () => {
     //sets user state to match removal of Patreon for page render where user is
     setUser({
-      user: { ...data.user, patreon: { state: 'skipped' }, isPatron: false },
+      user: { ...data.user, patreon: { state: "skipped" }, isPatron: false },
       loading: false,
     });
 

@@ -1,25 +1,25 @@
-import App from 'next/app';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
-import { UserProvider, useFetchUser } from '../lib/user';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import App from "next/app";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { BookClubUserProvider, useFetchUser } from "../lib/bookClubUser";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: '#3e7493',
+        main: "#3e7493",
       },
       secondary: {
-        main: '#bf5e56',
+        main: "#bf5e56",
       },
-      type: 'dark',
+      type: "dark",
     },
   });
 
   return (
-    <UserProvider value={useFetchUser()}>
+    <BookClubUserProvider value={useFetchUser()}>
       <ThemeProvider theme={theme}>
         <Head>
           <meta
@@ -130,7 +130,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>
-    </UserProvider>
+    </BookClubUserProvider>
   );
 }
 

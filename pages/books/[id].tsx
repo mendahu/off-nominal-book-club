@@ -1,4 +1,4 @@
-import Layout from '../../src/components/DefaultLayout';
+import Layout from "../../src/components/DefaultLayout";
 import {
   BookTitleBar,
   BookDesc,
@@ -7,24 +7,25 @@ import {
   LoginPromote,
   DataPromote,
   BookTagList,
-} from '../../src/pages/BookPage/components';
-import userProfileFetcher from '../../src/helpers/userProfileFetcher';
-import { Grid } from '@material-ui/core';
-import { useUser } from '../../lib/user';
-import Head from 'next/head';
-import Message from '../../src/components/Utility/Message';
-import { buildInitialTagState } from '../../src/reducers/bookTagReducer/bookTagReducer';
-import { UserData, BookData } from '../../src/types/common';
+} from "../../src/pages/BookPage/components";
+import userProfileFetcher from "../../src/helpers/userProfileFetcher";
+import { Grid } from "@material-ui/core";
+import Head from "next/head";
+import Message from "../../src/components/Utility/Message";
+import { buildInitialTagState } from "../../src/reducers/bookTagReducer/bookTagReducer";
+import { UserData, BookData } from "../../src/types/common";
 import {
   useSnackbar,
   OnbcSnackbar,
-} from '../../src/hooks/useSnackbar/useSnackbar';
-import SnackbarContext from '../../src/contexts/SnackbarContext';
-import generateAuthorString from '../../src/helpers/generateAuthorString';
-import { MetaFlagData } from '../../src/components/BookStats/MetaFlags/MetaFlags';
-import { fetchBook } from '../../db/queries/books';
-import { fetchUser } from '../../db/queries/users';
-import { generateBookThumbnailUrl } from '../../src/helpers/generateBookThumbnailUrl';
+} from "../../src/hooks/useSnackbar/useSnackbar";
+import SnackbarContext from "../../src/contexts/SnackbarContext";
+import generateAuthorString from "../../src/helpers/generateAuthorString";
+import { MetaFlagData } from "../../src/components/BookStats/MetaFlags/MetaFlags";
+import { fetchBook } from "../../db/queries/books";
+import { fetchUser } from "../../db/queries/users";
+import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
+import { useBookClubUser } from "../../lib/bookClubUser";
+import getAuth0USerSub from "../../src/helpers/auth0/auth0Sub";
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
   return {
@@ -47,8 +48,8 @@ export const generateMetaData = (bookData, userData): MetaFlagData => {
 };
 
 export const generateRatingString = (rating, count) => {
-  const score = rating || '-';
-  return `${score} (${count} rating${Number(count) === 1 ? '' : 's'})`;
+  const score = rating || "-";
+  return `${score} (${count} rating${Number(count) === 1 ? "" : "s"})`;
 };
 
 export type BookPageProps = {
@@ -59,7 +60,7 @@ export type BookPageProps = {
 
 const BookPage = ({ slug, book, userData }: BookPageProps) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
-  const { user, loading } = useUser();
+  const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const userId = user?.onbc_id;
 
@@ -81,7 +82,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
             <meta property="og:url" content={bookUrl} key="url" />
             <meta
               property="og:title"
-              content={book.title + ' - The Off-Nominal Book Club'}
+              content={book.title + " - The Off-Nominal Book Club"}
               key="title"
             />
             <meta
@@ -93,12 +94,12 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
 
             <meta
               name="twitter:description"
-              content={book.description.slice(0, 196) + '...'}
+              content={book.description.slice(0, 196) + "..."}
               key="twitter_description"
             />
             <meta
               name="twitter:title"
-              content={book.title + ' - The Off-Nominal Book Club'}
+              content={book.title + " - The Off-Nominal Book Club"}
               key="twitter_title"
             />
             <meta
@@ -108,7 +109,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
             />
             <meta
               name="twitter:image:alt"
-              content={'Book cover for ' + book.title}
+              content={"Book cover for " + book.title}
               key="twitter_image_alt"
             />
           </Head>
@@ -156,14 +157,15 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
 
 export async function getServerSideProps(context) {
   const slug: string = context.params.id;
-  const bookId: number = Number(slug.split('-')[0]);
+  const bookId: number = Number(slug.split("-")[0]);
 
   if (!bookId) {
     return { props: { slug, book: null, userData: null } };
   }
 
   // Fetch book data from APIs
-  const userProfile = await userProfileFetcher(context.req);
+  const sub = await getAuth0USerSub(context.req, context.res);
+  const userProfile = await userProfileFetcher(sub);
   const userId = userProfile?.onbc_id;
 
   //Default user Data
@@ -174,7 +176,7 @@ export async function getServerSideProps(context) {
     fav: null,
     rating: null,
     review: null,
-    name: '',
+    name: "",
   };
 
   const bookResults = await fetchBook(bookId, userId);

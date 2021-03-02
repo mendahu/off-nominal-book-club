@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -6,27 +6,27 @@ import {
   Box,
   Drawer,
   Button,
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import Link from 'next/link';
-import { Link as MatLink } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { useUser } from '../../../lib/user';
-import DrawerContents from './Drawer/DrawerContents';
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import Link from "next/link";
+import { Link as MatLink } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import DrawerContents from "./Drawer/DrawerContents";
+import { useBookClubUser } from "../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginLeft: theme.spacing(-2),
   },
   brand: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   brandText: {
     marginLeft: theme.spacing(1),
     [theme.breakpoints.down(415)]: {
-      display: 'none',
+      display: "none",
     },
   },
   title: {
@@ -36,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const keyDownGate = (callback) => (open: boolean) => (event) => {
   if (
-    event.type === 'keydown' &&
-    (event.key === 'Tab' || event.key === 'Shift')
+    event.type === "keydown" &&
+    (event.key === "Tab" || event.key === "Shift")
   ) {
     return;
   }
@@ -48,8 +48,8 @@ export const keyDownGate = (callback) => (open: boolean) => (event) => {
 const Navbar = () => {
   const classes = useStyles();
 
-  const { user, loading } = useUser();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { user, loading } = useBookClubUser();
 
   const toggleDrawer = keyDownGate(setDrawerOpen);
 
@@ -59,10 +59,10 @@ const Navbar = () => {
         <Button onClick={toggleDrawer(true)} className={classes.menuButton}>
           <MenuIcon onClick={toggleDrawer(true)} />
         </Button>
-        <Drawer anchor={'left'} open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Drawer anchor={"left"} open={drawerOpen} onClose={toggleDrawer(false)}>
           <DrawerContents
-            logInUrl="/api/auth0/login"
-            logOutUrl="/api/auth0/logout"
+            logInUrl="/api/auth/login"
+            logOutUrl="/api/auth/logout"
             toggleDrawer={toggleDrawer}
           />
         </Drawer>

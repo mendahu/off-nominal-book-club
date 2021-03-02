@@ -1,27 +1,27 @@
-import { Typography, Button, Grid, Paper } from '@material-ui/core';
-import patreonAuthUrlGenerator from '../../../src/helpers/patreon/authUrlGenerator';
-import ForwardIcon from '@material-ui/icons/Forward';
-import Launch from '@material-ui/icons/Launch';
-import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { Typography, Button, Grid, Paper } from "@material-ui/core";
+import patreonAuthUrlGenerator from "../../../src/helpers/patreon/authUrlGenerator";
+import ForwardIcon from "@material-ui/icons/Forward";
+import Launch from "@material-ui/icons/Launch";
+import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   centred: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   root: {
     padding: theme.spacing(4),
     marginTop: theme.spacing(4),
-    maxWidth: '640px',
+    maxWidth: "640px",
   },
   button: {
     margin: theme.spacing(2, 0, 0, 0),
   },
   patreonWordMark: {
-    display: 'block',
-    width: '100%',
+    display: "block",
+    width: "100%",
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   centredText: {
-    textAlign: 'center',
+    textAlign: "center",
   },
 }));
 
@@ -40,7 +40,7 @@ export default function AddPatreon({ skipProfile }) {
   const classes = useStyles();
 
   const handleSkip = () => {
-    axios.post('/api/auth0/update', { result: 'skipped' });
+    axios.post("/api/auth/update", { result: "skipped" });
     skipProfile();
   };
 
@@ -104,7 +104,7 @@ export default function AddPatreon({ skipProfile }) {
             className={classes.button}
             variant="contained"
             color="secondary"
-            href={'http://www.wemartians.com/support'}
+            href={"http://www.wemartians.com/support"}
             endIcon={<Launch />}
           >
             Support WeMartians
@@ -115,7 +115,7 @@ export default function AddPatreon({ skipProfile }) {
             className={classes.button}
             variant="contained"
             color="secondary"
-            href={'http://www.mainenginecutoff.com/support'}
+            href={"http://www.mainenginecutoff.com/support"}
             endIcon={<Launch />}
           >
             Support MECO

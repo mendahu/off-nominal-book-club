@@ -1,22 +1,22 @@
-import { Avatar } from '@material-ui/core';
-import { useSnackbarContext } from '../../../contexts/SnackbarContext';
-import LayoutComponent from '../../../components/General/LayoutComponent';
-import { makeStyles } from '@material-ui/core/styles';
+import { Avatar } from "@material-ui/core";
+import { useSnackbarContext } from "../../../contexts/SnackbarContext";
+import LayoutComponent from "../../../components/General/LayoutComponent";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
-} from '@material-ui/core';
-import { useUser } from '../../../../lib/user';
-import { useProfileUpdater } from '../../../hooks/useProfileUpdater/useProfileUpdater';
-import { AvatarSelect } from '../../../types/enums';
+} from "@material-ui/core";
+import { useProfileUpdater } from "../../../hooks/useProfileUpdater/useProfileUpdater";
+import { AvatarSelect } from "../../../types/enums";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
-    width: '10vh',
-    height: '10vh',
-    margin: 'auto',
+    width: "10vh",
+    height: "10vh",
+    margin: "auto",
   },
   button: {
     marginTop: theme.spacing(2),
@@ -44,7 +44,7 @@ const ProfileImage = ({
 }: ProfileImageProps) => {
   const classes = useStyles();
 
-  const { user } = useUser();
+  const { user } = useBookClubUser();
   const isPatron = user && user.isPatron;
 
   const triggerSnackbar = useSnackbarContext();
@@ -52,7 +52,7 @@ const ProfileImage = ({
     avatar_select,
   });
 
-  const isGravatar = formData.avatar_select === 'gravatar';
+  const isGravatar = formData.avatar_select === "gravatar";
 
   const toggleProfilePicture = (e) => {
     if (isUserAuthorized) {
@@ -60,15 +60,15 @@ const ProfileImage = ({
         .then(() => {
           triggerSnackbar({
             active: true,
-            message: 'Profile Picture updated',
-            severity: 'success',
+            message: "Profile Picture updated",
+            severity: "success",
           });
         })
         .catch(() => {
           triggerSnackbar({
             active: true,
-            message: 'Error updating profile picture',
-            severity: 'error',
+            message: "Error updating profile picture",
+            severity: "error",
           });
         });
     }

@@ -1,1 +1,1 @@
-process.env.MAILCHIMP_AUDIENCE_ID = 'mockMailChimpListId';
+process.env.MAILCHIMP_AUDIENCE_ID = "mockMailChimpListId";

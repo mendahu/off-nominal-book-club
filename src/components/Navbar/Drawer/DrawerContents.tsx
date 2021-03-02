@@ -4,19 +4,19 @@ import {
   Typography,
   Link as MatLink,
   Avatar,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 //Material Icons
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PersonIcon from '@material-ui/icons/Person';
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import PersonIcon from "@material-ui/icons/Person";
+import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import ContactSupportIcon from "@material-ui/icons/ContactSupport";
+import HomeIcon from "@material-ui/icons/Home";
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import Link from 'next/link';
-import DrawerItem from './DrawerItem';
-import { useUser } from '../../../../lib/user';
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import Link from "next/link";
+import DrawerItem from "./DrawerItem";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 const useStyles = makeStyles((theme: Theme) => ({
   list: {
@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingInlineStart: 0,
   },
   avatar: {
-    width: '10vh',
-    height: '10vh',
-    margin: '1em auto 1em auto',
+    width: "10vh",
+    height: "10vh",
+    margin: "1em auto 1em auto",
   },
   lowerPadding: {
     paddingBottom: theme.spacing(1),
@@ -42,9 +42,9 @@ export type DrawerContentsProps = {
 };
 
 const profileItems = [
-  { display: 'READS', query: 'reads' },
-  { display: 'FAVOURITES', query: 'favourites' },
-  { display: 'WISHLIST', query: 'wishlist' },
+  { display: "READS", query: "reads" },
+  { display: "FAVOURITES", query: "favourites" },
+  { display: "WISHLIST", query: "wishlist" },
 ];
 
 const DrawerContents = ({
@@ -53,7 +53,7 @@ const DrawerContents = ({
   toggleDrawer,
 }: DrawerContentsProps) => {
   const classes = useStyles();
-  const { user, loading } = useUser();
+  const { user, loading } = useBookClubUser();
 
   const profileLink = `/users/${user?.onbc_id}`;
 

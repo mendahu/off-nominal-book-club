@@ -1,15 +1,15 @@
-import { Tooltip, Chip, CircularProgress } from '@material-ui/core';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import { tooltip } from './config.json';
-import { useMetaFlags } from './useMetaFlags/useMetaFlags';
-import { makeStyles } from '@material-ui/core/styles';
-import { useUser } from '../../../../lib/user';
-import { useSnackbarContext } from '../../../contexts/SnackbarContext';
+import { Tooltip, Chip, CircularProgress } from "@material-ui/core";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import { tooltip } from "./config.json";
+import { useMetaFlags } from "./useMetaFlags/useMetaFlags";
+import { makeStyles } from "@material-ui/core/styles";
+import { useSnackbarContext } from "../../../contexts/SnackbarContext";
+import { useBookClubUser } from "../../../../lib/bookClubUser";
 
 export type MetaFlagDatum = {
   count: number;
@@ -24,9 +24,9 @@ export type MetaFlagData = {
 };
 
 export enum Flag {
-  reads = 'reads',
-  wishlist = 'wishlist',
-  favourites = 'favourites',
+  reads = "reads",
+  wishlist = "wishlist",
+  favourites = "favourites",
 }
 
 export type MetaFlagsProps = {
@@ -62,7 +62,7 @@ export const determineIcon = (
 export const MetaFlags = ({ metaData, bookId }: MetaFlagsProps) => {
   const classes = useStyles();
 
-  const { user, loading } = useUser();
+  const { user, loading } = useBookClubUser();
   const userId = user?.onbc_id;
   const triggerSnackbar = useSnackbarContext();
 
@@ -81,7 +81,7 @@ export const MetaFlags = ({ metaData, bookId }: MetaFlagsProps) => {
           onClick={clickHandler(Flag.reads)}
           label={reads.count}
           icon={determineIcon(Flag.reads, reads.id, reads.loading)}
-          color={reads.id ? 'primary' : 'default'}
+          color={reads.id ? "primary" : "default"}
         />
       </Tooltip>
       <Tooltip title={tooltip.wishlist} placement="left">
@@ -90,7 +90,7 @@ export const MetaFlags = ({ metaData, bookId }: MetaFlagsProps) => {
           onClick={clickHandler(Flag.wishlist)}
           label={wishlist.count}
           icon={determineIcon(Flag.wishlist, wishlist.id, wishlist.loading)}
-          color={wishlist.id ? 'primary' : 'default'}
+          color={wishlist.id ? "primary" : "default"}
         />
       </Tooltip>
       <Tooltip title={tooltip.favourites} placement="left">
@@ -103,7 +103,7 @@ export const MetaFlags = ({ metaData, bookId }: MetaFlagsProps) => {
             favourites.id,
             favourites.loading
           )}
-          color={favourites.id ? 'primary' : 'default'}
+          color={favourites.id ? "primary" : "default"}
         />
       </Tooltip>
     </>

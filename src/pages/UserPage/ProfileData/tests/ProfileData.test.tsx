@@ -1,18 +1,18 @@
-import { shallow } from 'enzyme';
-import ProfileData from '../ProfileData';
-import { Button, Checkbox } from '@material-ui/core';
-import axios, { AxiosResponse } from 'axios';
-import sendPasswordReset from '../../../../helpers/sendPasswordReset';
-import * as SnackbarContext from '../../../../contexts/SnackbarContext';
-import { useUser } from '../../../../../lib/user';
-jest.mock('../../../../../lib/user');
-jest.mock('axios');
-jest.mock('../../../../helpers/sendPasswordReset');
+import { shallow } from "enzyme";
+import ProfileData from "../ProfileData";
+import { Button } from "@material-ui/core";
+import axios, { AxiosResponse } from "axios";
+import sendPasswordReset from "../../../../helpers/sendPasswordReset";
+import * as SnackbarContext from "../../../../contexts/SnackbarContext";
+import { useBookClubUser } from "../../../../../lib/bookClubUser";
+jest.mock("../../../../../lib/bookClubUser");
+jest.mock("axios");
+jest.mock("../../../../helpers/sendPasswordReset");
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockTriggerSnackbar = jest.fn();
 jest
-  .spyOn(SnackbarContext, 'useSnackbarContext')
+  .spyOn(SnackbarContext, "useSnackbarContext")
   .mockImplementation(() => mockTriggerSnackbar);
 
 const tick = () => {
@@ -25,7 +25,7 @@ const getUser = (isAuthenticated: boolean, isPatron: boolean = false) => {
   const userObj = {
     isPatron,
     patreon: {
-      state: isPatron ? 'connected' : 'skipped',
+      state: isPatron ? "connected" : "skipped",
     },
   };
 
@@ -35,124 +35,124 @@ const getUser = (isAuthenticated: boolean, isPatron: boolean = false) => {
   };
 };
 
-describe('ProfileData', () => {
+describe("ProfileData", () => {
   beforeEach(() => {
     mockTriggerSnackbar.mockClear();
   });
 
-  it('Should show connect button if Patreon is not connected', () => {
-    useUser.mockReturnValueOnce(getUser(true, false));
+  it("Should show connect button if Patreon is not connected", () => {
+    useBookClubUser.mockReturnValueOnce(getUser(true, false));
     const wrapper = shallow(<ProfileData />);
-    expect(wrapper.find(Button).first().text()).toEqual('Connect');
+    expect(wrapper.find(Button).first().text()).toEqual("Connect");
   });
 
-  it('Should show disconnect button if Patreon is connected', () => {
-    useUser.mockReturnValueOnce(getUser(true, true));
+  it("Should show disconnect button if Patreon is connected", () => {
+    useBookClubUser.mockReturnValueOnce(getUser(true, true));
     const wrapper = shallow(<ProfileData />);
-    expect(wrapper.find(Button).first().text()).toEqual('Disconnect');
+    expect(wrapper.find(Button).first().text()).toEqual("Disconnect");
   });
 
-  it('should trigger successful snackbar when Patreon disconnect is clicked and API succeeds', async () => {
+  it("should trigger successful snackbar when Patreon disconnect is clicked and API succeeds", async () => {
     mockedAxios.post.mockClear();
-    useUser.mockReturnValueOnce(getUser(true, true));
+    useBookClubUser.mockReturnValueOnce(getUser(true, true));
 
     const wrapper = shallow(<ProfileData />);
 
     mockedAxios.post.mockResolvedValueOnce({});
-    wrapper.find(Button).first().simulate('click');
+    wrapper.find(Button).first().simulate("click");
     await tick();
 
     expect(mockedAxios.post).toHaveBeenCalledTimes(1);
     expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
     expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
-      message: 'Patreon Account Disconnected!',
-      severity: 'success',
+      message: "Patreon Account Disconnected!",
+      severity: "success",
     });
   });
 
-  it('should trigger unsuccessful snackbar when Patreon disconnect is clicked and API fails', async () => {
+  it("should trigger unsuccessful snackbar when Patreon disconnect is clicked and API fails", async () => {
     mockedAxios.post.mockClear();
-    useUser.mockReturnValueOnce(getUser(true, true));
+    useBookClubUser.mockReturnValueOnce(getUser(true, true));
 
     const wrapper = shallow(<ProfileData />);
 
     mockedAxios.post.mockRejectedValueOnce({});
-    wrapper.find(Button).first().simulate('click');
+    wrapper.find(Button).first().simulate("click");
     await tick();
 
     expect(mockedAxios.post).toHaveBeenCalledTimes(1);
     expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
     expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
-      message: 'Something went wrong!',
-      severity: 'error',
+      message: "Something went wrong!",
+      severity: "error",
     });
   });
 
-  it('should trigger successful snackbar when password reset button is clicked and API succeeds', async () => {
-    useUser.mockReturnValueOnce(getUser(true, true));
+  it("should trigger successful snackbar when password reset button is clicked and API succeeds", async () => {
+    useBookClubUser.mockReturnValueOnce(getUser(true, true));
     const wrapper = shallow(<ProfileData />);
 
     const mockResponse: AxiosResponse = {
       data: {},
       status: 200,
-      statusText: 'success',
+      statusText: "success",
       headers: {},
       config: {},
     };
 
     sendPasswordReset.mockResolvedValueOnce();
-    wrapper.find(Button).at(1).simulate('click');
+    wrapper.find(Button).at(1).simulate("click");
     await tick();
 
     expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
     expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
-      message: 'Password Reset Email Sent!',
-      severity: 'success',
+      message: "Password Reset Email Sent!",
+      severity: "success",
     });
   });
 
-  it('should trigger unsuccessful snackbar when password reset button is clicked and API fails', async () => {
-    useUser.mockReturnValueOnce(getUser(true, true));
+  it("should trigger unsuccessful snackbar when password reset button is clicked and API fails", async () => {
+    useBookClubUser.mockReturnValueOnce(getUser(true, true));
     const wrapper = shallow(<ProfileData />);
 
     const mockResponse: AxiosResponse = {
       data: {},
       status: 500,
-      statusText: 'error',
+      statusText: "error",
       headers: {},
       config: {},
     };
 
     sendPasswordReset.mockRejectedValueOnce();
-    wrapper.find(Button).at(1).simulate('click');
+    wrapper.find(Button).at(1).simulate("click");
     await tick();
 
     expect(mockTriggerSnackbar).toHaveBeenCalledTimes(1);
     expect(mockTriggerSnackbar).toHaveBeenCalledWith({
       active: true,
-      message: 'Something went wrong!',
-      severity: 'error',
+      message: "Something went wrong!",
+      severity: "error",
     });
   });
 
   // it('Should not have checkbox checked if getsMail is false', () => {
-  //   useUser.mockReturnValueOnce(getUser(true, true, false));
+  //   useBookClubUser.mockReturnValueOnce(getUser(true, true, false));
   //   const wrapper = shallow(<ProfileData />);
   //   expect(wrapper.find(Checkbox).props().checked).toBe(false);
   // });
 
   // it('Should have checkbox checked if getsMail is true', () => {
-  //   useUser.mockReturnValueOnce(getUser(true, true, true));
+  //   useBookClubUser.mockReturnValueOnce(getUser(true, true, true));
   //   const wrapper = shallow(<ProfileData />);
   //   expect(wrapper.find(Checkbox).props().checked).toBe(true);
   // });
 
   // it('should trigger success snackbar on email preference update', async () => {
-  //   useUser.mockReturnValueOnce(getUser(true, true, false));
-  //   //useUser.mockReturnValueOnce(getUser(true, true, true));
+  //   useBookClubUser.mockReturnValueOnce(getUser(true, true, false));
+  //   //useBookClubUser.mockReturnValueOnce(getUser(true, true, true));
   //   const wrapper = shallow(<ProfileData />);
 
   //   wrapper.find(Checkbox).simulate('change', { target: { checked: true } });
