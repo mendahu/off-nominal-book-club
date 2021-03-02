@@ -1,13 +1,13 @@
-import { ManagementClient } from 'auth0';
+import { ManagementClient } from "auth0";
 
 const authOptions = {
-  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
+  domain: process.env.AUTH0_ISSUER_BASE_URL,
   clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
 };
 
 const getAuth0User = (sub) => {
-  authOptions.scope = 'read:users read:user_idp_tokens';
+  authOptions.scope = "read:users read:user_idp_tokens";
   const auth0client = new ManagementClient(authOptions);
   const params = { id: sub };
 
@@ -15,7 +15,7 @@ const getAuth0User = (sub) => {
 };
 
 const updatePatreonData = async (sub, newData) => {
-  authOptions.scope = 'update:users update:users_app_metadata';
+  authOptions.scope = "update:users update:users_app_metadata";
   const auth0client = new ManagementClient(authOptions);
   const params = { id: sub };
 
