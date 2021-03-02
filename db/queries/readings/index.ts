@@ -1,9 +1,9 @@
 import knex from "../../knex";
 
-export const createReading = (bookId: string, userId: string) => {
+export const createReading = (bookId: string, userId: number) => {
   type ReadingData = {
     book_id: string;
-    user_id: string;
+    user_id: number;
   };
   const readingData: ReadingData = {
     book_id: bookId,
@@ -13,4 +13,15 @@ export const createReading = (bookId: string, userId: string) => {
   return knex<ReadingData, string>("readings")
     .insert<string>(readingData)
     .returning<string>("id");
+};
+
+export const deleteReading = (readingId: string) => {
+  return knex<string, string>("readings").where("id", readingId).del<string>();
+};
+
+export const validateReadingOwner = (readingId: string, userId: number) => {
+  return knex("readings").where({
+    id: readingId,
+    user_id: userId,
+  });
 };
