@@ -1,7 +1,7 @@
 import { ManagementClient } from "auth0";
 
 const authOptions = {
-  domain: process.env.AUTH0_ISSUER_BASE_URL,
+  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
   clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
 };
