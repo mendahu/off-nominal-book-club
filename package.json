@@ -15,7 +15,8 @@
     "qa": "next start",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "ngrok": "ngrok http --subdomain onbc 3000"
+    "ngrok": "ngrok http --subdomain onbc 3000",
+    "logs": "heroku logs --source app --app=off-nominal-book-club --tail"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^1.1.0",
