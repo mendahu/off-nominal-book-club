@@ -1,4 +1,4 @@
-import { Author, BookType } from '../common';
+import { Author, BookType } from "../common";
 
 export type ApiErrorResponse = {
   message?: string;
@@ -52,10 +52,43 @@ export type ApiConfirmBookObj = {
 };
 
 export enum MailchimpSubscriberStatus {
-  notSubscribed = 'not subscribed',
-  subscribed = 'subscribed',
-  unsubscribed = 'unsubscribed',
-  pending = 'pending',
-  cleaned = 'cleaned',
-  unknown = 'unknown',
+  notSubscribed = "not subscribed",
+  subscribed = "subscribed",
+  unsubscribed = "unsubscribed",
+  pending = "pending",
+  cleaned = "cleaned",
+  unknown = "unknown",
 }
+
+export type ApiReadingMember = {
+  id: string;
+  name: string;
+  avatar: string;
+};
+
+export type ApiReadingMilestone = {
+  id: string;
+  label: string;
+  date: string;
+};
+
+export type ApiReadingBook = {
+  id: string;
+  title: string;
+  google_id: string;
+  authors: Author[];
+};
+
+export type ApiReadingHost = {
+  id: string;
+  name: string;
+  avatar: string;
+};
+
+export type ApiReading = {
+  id: string;
+  book: ApiReadingBook;
+  host: ApiReadingHost;
+  members: ApiReadingMember[];
+  milestones: ApiReadingMilestone[];
+};

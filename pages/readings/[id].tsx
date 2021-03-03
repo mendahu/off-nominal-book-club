@@ -5,25 +5,24 @@ import {
 } from "../../src/hooks/useSnackbar/useSnackbar";
 import SnackbarContext from "../../src/contexts/SnackbarContext";
 import { useBookClubUser } from "../../lib/bookClubUser";
-import { fetchBook } from "../../db/queries/books";
-import { BookData } from "../../src/types/common";
 import Message from "../../src/components/Utility/Message";
 import { fetchReading } from "../../db/queries/readings";
+import { ApiReading } from "../../src/types/api/apiTypes";
+import { Paper } from "@material-ui/core";
+import ReadingHeader from "../../src/pages/ReadingPage/ReadingHeader";
+import ReadingMilestones from "../../src/pages/ReadingPage/ReadingMilestones";
 
 export type ReadingPageProps = {
-  reading: {
-    readingId: string;
-    userId: string;
-    bookId: string;
-  };
-  book: BookData;
+  reading: ApiReading;
 };
 
-const ReadingPage = (props: ReadingPageProps) => {
+const ReadingPage = ({ reading }: ReadingPageProps) => {
   const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
-  if (!props.reading) {
+  const { id, book, host, members, milestones } = reading;
+
+  if (!reading) {
     return (
       <Layout>
         <Message variant="warning" message="No reading found with this id." />
@@ -41,8 +40,9 @@ const ReadingPage = (props: ReadingPageProps) => {
 
   return (
     <Layout>
-      <h1>{props.reading.readingId}</h1>
-      <h1>{props.book.title}</h1>
+      <ReadingHeader book={book} host={host} />
+      <ReadingMilestones />
+      <Paper></Paper>
       <SnackbarContext.Provider value={triggerSnackbar}>
         <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
       </SnackbarContext.Provider>
@@ -55,32 +55,25 @@ export default ReadingPage;
 export async function getServerSideProps(context) {
   const readingId = context.params.id;
 
-  let reading;
+  let reading: ApiReading;
 
   try {
     const response = await fetchReading(readingId);
-    reading = {
-      bookId: response[0].book_id,
-      userId: response[0].user_id,
-      readingId,
-    };
-  } catch (error) {
-    console.error("Problem querying reading data");
-  }
 
-  let book;
+    console.log(response.rows);
 
-  try {
-    const bookResults = await fetchBook(reading.bookId);
-    book = bookResults.length ? bookResults[0] : null;
+    if (!response.rows.length) {
+      throw "No Reading found with that ID.";
+    }
+
+    reading = await response.rows[0];
   } catch (error) {
-    console.error("Problem querying book data");
+    console.error(error);
   }
 
   return {
     props: {
       reading,
-      book,
     },
   };
 }
