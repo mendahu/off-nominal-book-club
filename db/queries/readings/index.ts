@@ -29,3 +29,7 @@ export const validateReadingOwner = (readingId: string, userId: number) => {
 export const fetchReading = (readingId: string) => {
   return knex("readings").select("user_id", "book_id").where("id", readingId);
 };
+
+export const fetchAllReadings = () => {
+  return knex("readings").select("id", "user_id", "book_id");
+};
