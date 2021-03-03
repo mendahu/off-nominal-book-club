@@ -1,15 +1,24 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import React from "react";
 import axios from "axios";
+import { DisplayUser } from "../src/types/common";
 
 // Use a global to save the user, so we don't have to fetch it again after page navigations
 let userState;
 
-const BookClubUser = React.createContext({
+export type BookClubUser = {
+  user: DisplayUser;
+  loading: boolean;
+  resetUserPatreonState: () => void;
+};
+
+const defaultUser: BookClubUser = {
   user: null,
   loading: false,
   resetUserPatreonState: () => {},
-});
+};
+
+const BookClubUser = React.createContext(defaultUser);
 
 export const fetchUser = async () => {
   if (userState !== undefined) {
