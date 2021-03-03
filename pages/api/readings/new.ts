@@ -47,8 +47,7 @@ export const newReading = async (
   }
 
   try {
-    // const response = await createReading(body.bookId, userProfile.onbc_id);
-    throw "bloop";
+    const response = await createReading(body.bookId, userProfile.onbc_id);
     return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json(error);
