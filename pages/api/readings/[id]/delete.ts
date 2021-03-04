@@ -1,13 +1,13 @@
-import userProfileFetcher from "../../../src/helpers/userProfileFetcher";
+import userProfileFetcher from "../../../../src/helpers/userProfileFetcher";
 import { NextApiRequest, NextApiResponse } from "next";
-import { DisplayUser } from "../../../src/types/common";
-import { ApiErrorResponse } from "../../../src/types/api/apiTypes";
+import { DisplayUser } from "../../../../src/types/common";
+import { ApiErrorResponse } from "../../../../src/types/api/apiTypes";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import getAuth0USerSub from "../../../src/helpers/auth0/auth0Sub";
+import getAuth0USerSub from "../../../../src/helpers/auth0/auth0Sub";
 import {
   deleteReading,
   validateReadingOwner,
-} from "../../../db/queries/readings";
+} from "../../../../db/queries/readings";
 
 export const delReading = async (
   req: NextApiRequest,
@@ -63,13 +63,6 @@ export const delReading = async (
       error: `Method ${method} Not Allowed`,
     });
   }
-
-  // if (!body) {
-  //   return res.status(400).json({
-  //     error: "Bad request",
-  //     message: "You are missing required body for this request",
-  //   });
-  // }
 
   try {
     const response = await deleteReading(id as string);

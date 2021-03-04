@@ -69,7 +69,7 @@ const ReadingPage = ({ reading }: ReadingPageProps) => {
 export default ReadingPage;
 
 export async function getServerSideProps(context) {
-  const readingId = context.params.id;
+  const readingId = context.params?.id;
 
   let reading: ApiReading;
 

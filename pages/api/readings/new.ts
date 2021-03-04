@@ -39,7 +39,7 @@ export const newReading = async (
     });
   }
 
-  if (!body) {
+  if (!body.bookId) {
     return res.status(400).json({
       error: "Bad request",
       message: "You are missing required body for this request",

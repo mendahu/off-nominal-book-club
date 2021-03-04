@@ -7,6 +7,7 @@ import {
   LoginPromote,
   DataPromote,
   BookTagList,
+  ReadingButton,
 } from "../../src/pages/BookPage/components";
 import userProfileFetcher from "../../src/helpers/userProfileFetcher";
 import { Grid } from "@material-ui/core";
@@ -132,7 +133,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
             {!user && <LoginPromote />}
             {user &&
               (user?.isPatron ? (
-                <DataPromote />
+                <ReadingButton bookId={book.id} />
               ) : (
                 <PatronPromote userId={userId} />
               ))}
