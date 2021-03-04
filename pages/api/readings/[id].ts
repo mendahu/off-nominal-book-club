@@ -36,9 +36,13 @@ export const delReading = async (
 
   const { method, body } = req;
 
+  const {
+    query: { id },
+  } = req;
+
   try {
     const response = await validateReadingOwner(
-      body.readingId,
+      id as string,
       userProfile.onbc_id
     );
     if (!response) {
@@ -60,15 +64,15 @@ export const delReading = async (
     });
   }
 
-  if (!body) {
-    return res.status(400).json({
-      error: "Bad request",
-      message: "You are missing required body for this request",
-    });
-  }
+  // if (!body) {
+  //   return res.status(400).json({
+  //     error: "Bad request",
+  //     message: "You are missing required body for this request",
+  //   });
+  // }
 
   try {
-    const response = await deleteReading(body.readingId);
+    const response = await deleteReading(id as string);
     const message: ApiErrorResponse = {
       message: response
         ? "Reading successfully deleted."

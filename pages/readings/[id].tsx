@@ -8,9 +8,11 @@ import { useBookClubUser } from "../../lib/bookClubUser";
 import Message from "../../src/components/Utility/Message";
 import { fetchReading } from "../../db/queries/readings";
 import { ApiReading } from "../../src/types/api/apiTypes";
-import { Paper } from "@material-ui/core";
 import ReadingHeader from "../../src/pages/ReadingPage/ReadingHeader";
 import ReadingMilestones from "../../src/pages/ReadingPage/ReadingMilestones";
+import ReadingMembers from "../../src/pages/ReadingPage/ReadingMembers";
+import { Grid } from "@material-ui/core";
+import { useReading } from "../../src/hooks/useReading/useReading";
 
 export type ReadingPageProps = {
   reading: ApiReading;
@@ -20,8 +22,6 @@ const ReadingPage = ({ reading }: ReadingPageProps) => {
   const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
-  const { id, book, host, members, milestones } = reading;
-
   if (!reading) {
     return (
       <Layout>
@@ -29,6 +29,10 @@ const ReadingPage = ({ reading }: ReadingPageProps) => {
       </Layout>
     );
   }
+
+  const { book, host, members, milestones, deleteReading } = useReading(
+    reading
+  );
 
   if (loading) {
     return (
@@ -40,9 +44,21 @@ const ReadingPage = ({ reading }: ReadingPageProps) => {
 
   return (
     <Layout>
-      <ReadingHeader book={book} host={host} />
-      <ReadingMilestones />
-      <Paper></Paper>
+      <Grid container>
+        <Grid item xs={12}>
+          <ReadingHeader
+            book={book}
+            host={host}
+            deleteReading={deleteReading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={7}>
+          <ReadingMilestones milestones={milestones} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={5}>
+          <ReadingMembers members={members} />
+        </Grid>
+      </Grid>
       <SnackbarContext.Provider value={triggerSnackbar}>
         <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
       </SnackbarContext.Provider>
@@ -60,14 +76,13 @@ export async function getServerSideProps(context) {
   try {
     const response = await fetchReading(readingId);
 
-    console.log(response.rows);
-
     if (!response.rows.length) {
       throw "No Reading found with that ID.";
     }
 
     reading = await response.rows[0];
   } catch (error) {
+    reading = null;
     console.error(error);
   }
 

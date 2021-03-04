@@ -1,6 +1,6 @@
-import { Grid, Paper, Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { Grid, Paper, Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,13 +10,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   fullHeight: {
-    height: '100%',
+    height: "100%",
   },
   flex: {
-    display: 'flex',
+    display: "flex",
   },
   flexCol: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
 }));
 
@@ -31,7 +31,7 @@ const LayoutComponent = (props) => {
         className={clsx(classes.child, {
           [classes.fullHeight]: fullHeight,
           [classes.flex]: flexbox,
-          [classes.flexCol]: flexbox === 'col',
+          [classes.flexCol]: flexbox === "col",
         })}
       >
         {props.children}

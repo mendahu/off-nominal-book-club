@@ -1,12 +1,13 @@
 import {
   Avatar,
+  Button,
   Link,
   makeStyles,
-  Paper,
   Theme,
   Typography,
 } from "@material-ui/core";
 import { BookThumbnail } from "../../../components/BookThumbnail";
+import LayoutComponent from "../../../components/General/LayoutComponent";
 import generateAuthorString from "../../../helpers/generateAuthorString";
 import { ApiReadingBook, ApiReadingHost } from "../../../types/api/apiTypes";
 
@@ -14,16 +15,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   headlineContainer: {
     padding: theme.spacing(1),
   },
-  headerContainer: {
-    marginTop: theme.spacing(2),
-  },
   headerContentContainer: {
     display: "flex",
     alignItems: "stretch",
+    flexWrap: "wrap",
   },
   headerTextContainer: {
-    paddingLeft: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
   },
@@ -39,16 +37,17 @@ const useStyles = makeStyles((theme: Theme) => ({
 export type ReadingHeaderProps = {
   book: ApiReadingBook;
   host: ApiReadingHost;
+  deleteReading: () => void;
 };
 
 export default function ReadingHeader(props: ReadingHeaderProps) {
   const classes = useStyles();
-  const { book, host } = props;
+  const { book, host, ...rest } = props;
 
   const authorString = generateAuthorString(book.authors);
 
   return (
-    <Paper className={classes.headerContainer}>
+    <LayoutComponent {...rest}>
       <div className={classes.headlineContainer}>
         <Typography variant="h6" component="h1">
           Reading for...
@@ -57,9 +56,10 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
       <div className={classes.headerContentContainer}>
         <BookThumbnail
           id={book.google_id}
-          zoom={1}
+          zoom={2}
           title={book.title}
           authorString={authorString}
+          width="100%"
         />
         <div className={classes.headerTextContainer}>
           <div className={classes.bookTextContainer}>
@@ -80,9 +80,16 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
               </Link>
               <Link href={`/users/${host.id}`}>{host.name}</Link>
             </div>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={props.deleteReading}
+            >
+              Cancel Reading
+            </Button>
           </div>
         </div>
       </div>
-    </Paper>
+    </LayoutComponent>
   );
 }
