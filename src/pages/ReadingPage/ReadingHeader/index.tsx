@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   CircularProgress,
+  Grid,
   Link,
   makeStyles,
   Theme,
@@ -16,25 +17,11 @@ import generateAuthorString from "../../../helpers/generateAuthorString";
 import { ApiReadingBook, ApiReadingHost } from "../../../types/api/apiTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  headlineContainer: {
-    padding: theme.spacing(1),
-  },
-  headerContentContainer: {
-    display: "flex",
-    alignItems: "stretch",
-    flexWrap: "wrap",
-  },
-  headerTextContainer: {
-    paddingTop: theme.spacing(2),
-    display: "flex",
-    flexDirection: "column",
-  },
-  bookTextContainer: {
-    flexGrow: 1,
-  },
   hostContainer: {
-    paddingTop: theme.spacing(1),
     display: "flex",
+  },
+  hostName: {
+    marginLeft: theme.spacing(1),
   },
 }));
 
@@ -68,38 +55,51 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
 
   return (
     <LayoutComponent {...rest}>
-      <div className={classes.headlineContainer}>
-        <Typography variant="h6" component="h1">
-          Reading for...
-        </Typography>
-      </div>
-      <div className={classes.headerContentContainer}>
-        <BookThumbnail
-          id={book.google_id}
-          zoom={2}
-          title={book.title}
-          authorString={authorString}
-          width="100%"
-        />
-        <div className={classes.headerTextContainer}>
-          <div className={classes.bookTextContainer}>
-            <Typography variant="h5" component="h1">
-              {book.title}
-            </Typography>
-            <Typography variant="body2" component="h2">
-              By {authorString}
-            </Typography>
-          </div>
-          <div>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h6" component="h1">
+            Reading for...
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={4} md={3}>
+          <BookThumbnail
+            id={book.google_id}
+            zoom={3}
+            title={book.title}
+            authorString={authorString}
+            width={"100%"}
+          />
+        </Grid>
+        <Grid item xs={12} sm={8} md={9}>
+          <Typography variant="h5" component="h1">
+            {book.title}
+          </Typography>
+          <Typography variant="body2" component="h2">
+            By {authorString}
+          </Typography>
+        </Grid>
+        <Grid container item xs={12} spacing={1}>
+          <Grid item xs={12}>
             <Typography variant="body1" component="h2">
               Hosted by
             </Typography>
+          </Grid>
+          <Grid item xs={12}>
             <div className={classes.hostContainer}>
               <Link href={`/users/${host.id}`}>
                 <Avatar alt={host.name} src={host.avatar} />
               </Link>
-              <Link href={`/users/${host.id}`}>{host.name}</Link>
+
+              <Typography
+                variant="h6"
+                component="h2"
+                className={classes.hostName}
+              >
+                <Link href={`/users/${host.id}`}>{host.name}</Link>
+              </Typography>
             </div>
+          </Grid>
+          <Grid item xs={12}>
             {isOwner && (
               <Button
                 variant="contained"
@@ -112,9 +112,9 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
                 Cancel Reading
               </Button>
             )}
-          </div>
-        </div>
-      </div>
+          </Grid>
+        </Grid>
+      </Grid>
     </LayoutComponent>
   );
 }

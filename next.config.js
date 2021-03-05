@@ -1,10 +1,10 @@
-require('dotenv').config();
+require("dotenv").config();
 
 module.exports = {
   webpack: (config) => {
     return {
       ...config,
-      node: { fs: 'empty' },
+      node: { fs: "empty" },
     };
   },
 };
