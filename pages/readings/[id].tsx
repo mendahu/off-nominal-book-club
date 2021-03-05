@@ -17,7 +17,6 @@ export type ReadingPageProps = {
 };
 
 const ReadingPage = (props: ReadingPageProps) => {
-  const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
   const {
@@ -45,14 +44,6 @@ const ReadingPage = (props: ReadingPageProps) => {
     return (
       <Layout>
         <Message variant="loading" message="Loading reading..." />
-      </Layout>
-    );
-  }
-
-  if (loading) {
-    return (
-      <Layout>
-        <Message variant="loading" message="Validating credentials..." />
       </Layout>
     );
   }

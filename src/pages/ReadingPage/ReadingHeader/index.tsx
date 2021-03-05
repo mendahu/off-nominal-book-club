@@ -35,7 +35,7 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
   const classes = useStyles();
   const { user, loading } = useBookClubUser();
   const { book, host, deleteReading, ...rest } = props;
-  const isOwner = Number(host.id) === user.onbc_id;
+  let isOwner = false;
   const [isDeleting, setIsDeleting] = useState(false);
   const triggerSnackbar = useSnackbarContext();
 
@@ -52,6 +52,10 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
       });
     });
   };
+
+  if (!loading) {
+    isOwner = Number(host.id) === user.onbc_id;
+  }
 
   return (
     <LayoutComponent {...rest}>
