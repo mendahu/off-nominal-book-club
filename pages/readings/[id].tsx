@@ -6,8 +6,6 @@ import {
 import SnackbarContext from "../../src/contexts/SnackbarContext";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import Message from "../../src/components/Utility/Message";
-import { fetchReading } from "../../db/queries/readings";
-import { ApiReading } from "../../src/types/api/apiTypes";
 import ReadingHeader from "../../src/pages/ReadingPage/ReadingHeader";
 import ReadingMilestones from "../../src/pages/ReadingPage/ReadingMilestones";
 import ReadingMembers from "../../src/pages/ReadingPage/ReadingMembers";
@@ -15,24 +13,41 @@ import { Grid } from "@material-ui/core";
 import { useReading } from "../../src/hooks/useReading/useReading";
 
 export type ReadingPageProps = {
-  reading: ApiReading;
+  readingId: string;
 };
 
-const ReadingPage = ({ reading }: ReadingPageProps) => {
+const ReadingPage = (props: ReadingPageProps) => {
   const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
-  if (!reading) {
+  const {
+    loadingReading,
+    error,
+    book,
+    host,
+    members,
+    milestones,
+    deleteReading,
+  } = useReading(props.readingId);
+
+  if (error) {
     return (
       <Layout>
-        <Message variant="warning" message="No reading found with this id." />
+        <Message
+          variant="error"
+          message="Failed to load reading. This reading id may not exist or there was a server error."
+        />
       </Layout>
     );
   }
 
-  const { book, host, members, milestones, deleteReading } = useReading(
-    reading
-  );
+  if (loadingReading) {
+    return (
+      <Layout>
+        <Message variant="loading" message="Loading reading..." />
+      </Layout>
+    );
+  }
 
   if (loading) {
     return (
@@ -71,24 +86,9 @@ export default ReadingPage;
 export async function getServerSideProps(context) {
   const readingId = context.params?.id;
 
-  let reading: ApiReading;
-
-  try {
-    const response = await fetchReading(readingId);
-
-    if (!response.rows.length) {
-      throw "No Reading found with that ID.";
-    }
-
-    reading = await response.rows[0];
-  } catch (error) {
-    reading = null;
-    console.error(error);
-  }
-
   return {
     props: {
-      reading,
+      readingId,
     },
   };
 }
