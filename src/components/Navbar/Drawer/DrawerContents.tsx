@@ -12,6 +12,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import HomeIcon from "@material-ui/icons/Home";
+import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
@@ -36,22 +37,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export type DrawerContentsProps = {
-  logInUrl: string;
-  logOutUrl: string;
   toggleDrawer: (open: boolean) => (event) => void;
 };
 
-const profileItems = [
-  { display: "READS", query: "reads" },
-  { display: "FAVOURITES", query: "favourites" },
-  { display: "WISHLIST", query: "wishlist" },
-];
+const createProfileItem = (
+  profileLink: string,
+  display: string,
+  count: number
+) => {
+  return (
+    <Typography align="center" variant="overline" component="li">
+      <Link href={profileLink} passHref>
+        <MatLink color="inherit" underline="none">
+          {display}: {count}
+        </MatLink>
+      </Link>
+    </Typography>
+  );
+};
 
-const DrawerContents = ({
-  logInUrl,
-  logOutUrl,
-  toggleDrawer,
-}: DrawerContentsProps) => {
+const DrawerContents = (props: DrawerContentsProps) => {
   const classes = useStyles();
   const { user, loading } = useBookClubUser();
 
@@ -61,8 +66,8 @@ const DrawerContents = ({
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onClick={props.toggleDrawer(false)}
+      onKeyDown={props.toggleDrawer(false)}
     >
       {user?.onbc_id && (
         <>
@@ -83,15 +88,13 @@ const DrawerContents = ({
             </MatLink>
           </Link>
           <ul className={classes.bulletList}>
-            {profileItems.map((item, index) => (
-              <Link href={profileLink} passHref key={index}>
-                <MatLink color="inherit" underline="none">
-                  <Typography align="center" variant="overline" component="li">
-                    {item.display}: {user[item.query].length}
-                  </Typography>
-                </MatLink>
-              </Link>
-            ))}
+            {createProfileItem(profileLink, "READS", user.reads.length)}
+            {createProfileItem(
+              profileLink,
+              "FAVOURITES",
+              user.favourites.length
+            )}
+            {createProfileItem(profileLink, "WISHLIST", user.wishlist.length)}
           </ul>
           <Divider />
         </>
@@ -110,11 +113,24 @@ const DrawerContents = ({
           </>
         )}
         <DrawerItem url="/" text="Home" icon={<HomeIcon />} />
+        <DrawerItem
+          url="/readings"
+          text="Readings"
+          icon={<LocalLibraryIcon />}
+        />
         <DrawerItem url="/about" text="About" icon={<ContactSupportIcon />} />
         {user?.onbc_id ? (
-          <DrawerItem url={logOutUrl} text="Log out" icon={<ExitToAppIcon />} />
+          <DrawerItem
+            url={"/api/auth/logout"}
+            text="Log out"
+            icon={<ExitToAppIcon />}
+          />
         ) : (
-          <DrawerItem url={logInUrl} text="Log in" icon={<PersonIcon />} />
+          <DrawerItem
+            url={"/api/auth/login"}
+            text="Log in"
+            icon={<PersonIcon />}
+          />
         )}
       </List>
     </div>
