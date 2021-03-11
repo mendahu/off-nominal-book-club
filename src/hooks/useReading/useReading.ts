@@ -15,6 +15,7 @@ export const useReading = (readingId: string) => {
     buildDefaultReadingsState(readingId)
   );
   const [error, setError] = useState(false);
+  const [membershipLoading, setMembershipLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -44,6 +45,44 @@ export const useReading = (readingId: string) => {
       });
   };
 
+  const joinReading = async () => {
+    setMembershipLoading(true);
+    axios
+      .post(`/api/readings/${readingId}/join`)
+      .then((res) => {
+        return dispatch({
+          type: ReadingsActionType.JOIN_READING,
+          payload: { joinPayload: res.data },
+        });
+      })
+      .catch((err) => {
+        throw err;
+      })
+      .finally(() => {
+        return setMembershipLoading(false);
+      });
+  };
+
+  const leaveReading = async () => {
+    setMembershipLoading(true);
+    axios
+      .delete(`/api/readings/${readingId}/leave`)
+      .then((res) => {
+        return dispatch({
+          type: ReadingsActionType.LEAVE_READING,
+          payload: {
+            userId: res.data.user_id,
+          },
+        });
+      })
+      .catch((err) => {
+        throw err;
+      })
+      .finally(() => {
+        return setMembershipLoading(false);
+      });
+  };
+
   const { book, host, members, milestones } = state;
 
   return {
@@ -51,8 +90,15 @@ export const useReading = (readingId: string) => {
     error,
     book,
     host,
-    members,
+    membership: {
+      list: members,
+      join: joinReading,
+      leave: leaveReading,
+      loading: membershipLoading,
+    },
     milestones,
     deleteReading,
+    joinReading,
+    leaveReading,
   };
 };

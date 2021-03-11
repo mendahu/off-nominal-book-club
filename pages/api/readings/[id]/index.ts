@@ -19,6 +19,9 @@ export const getReading = async (
 
   try {
     const response = await fetchReading(id as string);
+    if (!response.rows.length) {
+      throw "No Reading Found with that Id.";
+    }
     return res.status(200).json(response.rows[0]);
   } catch (error) {
     return res.status(500).json(error);

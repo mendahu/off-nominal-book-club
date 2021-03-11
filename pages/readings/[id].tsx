@@ -23,7 +23,7 @@ const ReadingPage = (props: ReadingPageProps) => {
     error,
     book,
     host,
-    members,
+    membership,
     milestones,
     deleteReading,
   } = useReading(props.readingId);
@@ -32,7 +32,7 @@ const ReadingPage = (props: ReadingPageProps) => {
     return (
       <Layout>
         <Message
-          variant="error"
+          variant="warning"
           message="Failed to load reading. This reading id may not exist or there was a server error."
         />
       </Layout>
@@ -61,7 +61,13 @@ const ReadingPage = (props: ReadingPageProps) => {
           <ReadingMilestones milestones={milestones} />
         </Grid>
         <Grid item xs={12} sm={6} md={5}>
-          <ReadingMembers members={members} />
+          <ReadingMembers
+            members={membership.list}
+            hostId={host.id}
+            joinReading={membership.join}
+            leaveReading={membership.leave}
+            membershipLoading={membership.loading}
+          />
         </Grid>
       </Grid>
       <SnackbarContext.Provider value={triggerSnackbar}>

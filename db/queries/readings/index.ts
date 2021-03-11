@@ -1,5 +1,4 @@
 import knex from "../../knex";
-import { addDays, formatISO } from "date-fns";
 
 export const createReading = async (bookId: string, userId: number) => {
   type ReadingData = {
@@ -80,6 +79,22 @@ export const validateReadingOwner = (readingId: string, userId: number) => {
     id: readingId,
     user_id: userId,
   });
+};
+
+export const joinReading = (reading_id: string, user_id: number) => {
+  type ReadingData = { reading_id: string; user_id: number };
+  const readingData: ReadingData = { reading_id, user_id };
+
+  return knex<ReadingData, string>("users_readings")
+    .insert(readingData)
+    .returning<string>("user_id");
+};
+
+export const leaveReading = (reading_id: string, user_id: number) => {
+  return knex<string, string>("users_readings")
+    .where("reading_id", reading_id)
+    .andWhere("user_id", user_id)
+    .del(["user_id"]);
 };
 
 export const fetchReading = (readingId: string) => {

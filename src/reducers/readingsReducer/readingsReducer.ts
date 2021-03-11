@@ -1,4 +1,4 @@
-import { ApiReading } from "../../types/api/apiTypes";
+import { ApiReading, ApiReadingMember } from "../../types/api/apiTypes";
 
 export enum ReadingsActionType {
   LOAD_STATE = "LOAD_STATE",
@@ -16,31 +16,53 @@ export type ReadingsAction = {
     milestoneId?: string;
     milestoneLabel?: string;
     milestoneDate?: string;
+    joinPayload?: ApiReadingMember;
     userId?: string;
   };
 };
 
 export const buildDefaultReadingsState = (id: string) => {
-  return {
+  const defaultState: ApiReading = {
     id,
-    host: {},
+    host: {
+      id: null,
+      name: null,
+      avatar: null,
+    },
     book: {
+      id: null,
+      title: null,
+      google_id: null,
       authors: [],
     },
     milestones: null,
     members: null,
   };
+
+  return defaultState;
 };
 
-export const readingsReducer = (state, action: ReadingsAction) => {
+export const readingsReducer = (
+  state: ApiReading,
+  action: ReadingsAction
+): ApiReading => {
   switch (action.type) {
     case ReadingsActionType.LOAD_STATE:
       return action?.payload?.state || state;
     case ReadingsActionType.ADD_MILESTONE:
     case ReadingsActionType.REMOVE_MILESTONE:
     case ReadingsActionType.UPDATE_MILESTONE:
-    case ReadingsActionType.LEAVE_READING:
-    case ReadingsActionType.JOIN_READING:
+    case ReadingsActionType.LEAVE_READING: {
+      const newMembers = state.members.filter(
+        (member) => member.id !== action.payload.userId
+      );
+      return { ...state, members: newMembers };
+    }
+    case ReadingsActionType.JOIN_READING: {
+      const newMembers = [...state.members];
+      newMembers.push(action.payload.joinPayload);
+      return { ...state, members: newMembers };
+    }
     default:
       return state;
   }
