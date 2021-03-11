@@ -1,18 +1,45 @@
 import knex from "../../knex";
 
-export const createReading = (bookId: string, userId: number) => {
+export const createReading = async (bookId: string, userId: number) => {
   type ReadingData = {
     book_id: string;
     user_id: number;
   };
+
   const readingData: ReadingData = {
     book_id: bookId,
     user_id: userId,
   };
 
-  return knex<ReadingData, string>("readings")
-    .insert<string>(readingData)
-    .returning<string>("id");
+  let readingId: string;
+
+  try {
+    readingId = await knex<ReadingData, string>("readings")
+      .insert<string>(readingData)
+      .returning<string>("id");
+  } catch (err) {
+    throw err;
+  }
+
+  type MembershipData = {
+    reading_id: string;
+    user_id: number;
+  };
+
+  const membershipData = {
+    reading_id: readingId[0],
+    user_id: userId,
+  };
+
+  try {
+    return await knex<MembershipData, string>("users_readings")
+      .insert<string>(membershipData)
+      .returning<string>("reading_id");
+  } catch (err) {
+    console.error(err);
+    await knex("readings").where("id", readingId).del();
+    throw err;
+  }
 };
 
 export const deleteReading = (readingId: string) => {
@@ -58,8 +85,9 @@ export const fetchReading = (readingId: string) => {
     ) AS host,
     ( SELECT json_agg(member) 
       FROM (
-        SELECT users_readings.user_id
-        FROM users_readings
+        SELECT users.id, name, CASE WHEN avatar_select='patreon' THEN patreon_avatar_url ELSE gravatar_avatar_url END as avatar
+        FROM users
+        JOIN users_readings ON users.id = users_readings.user_id
         WHERE users_readings.reading_id = readings.id
       ) AS member 
     ) AS members,
