@@ -20,14 +20,16 @@ export default function index(props: ReadingMilestonesProps) {
 
       {milestones &&
         milestones.map((milestone) => (
-          <LayoutComponent {...rest}>
+          <LayoutComponent {...rest} key={milestone.id}>
             <Grid container>
-              <Grid item xs={8}>
-                <Typography>{milestone.label}</Typography>
+              <Grid item xs={12} md={8}>
+                <Typography component="p" variant="h6">
+                  {milestone.label}
+                </Typography>
               </Grid>
-              <Grid item xs={4}>
-                <Typography>
-                  🗓 {format(new Date(milestone.date), "E, LLL wo")}
+              <Grid item xs={12} md={4}>
+                <Typography component="p" variant="h6">
+                  🗓 {format(new Date(milestone.date), "EEE, MMM do")}
                 </Typography>
               </Grid>
             </Grid>

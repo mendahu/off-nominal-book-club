@@ -35,7 +35,8 @@ const ReadingButton = (props) => {
     axios
       .post("/api/readings/new", { bookId: props.bookId })
       .then((res) => {
-        router.push(`/readings/${res.data[0]}`);
+        console.log(res);
+        router.push(`/readings/${res.data}`);
       })
       .catch((err) => {
         triggerSnackbar({

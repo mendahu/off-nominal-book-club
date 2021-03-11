@@ -1,5 +1,5 @@
 import knex from "../../knex";
-import { add, formatISO } from "date-fns";
+import { addDays, formatISO } from "date-fns";
 
 export const createReading = async (bookId: string, userId: number) => {
   type ReadingData = {
@@ -12,15 +12,17 @@ export const createReading = async (bookId: string, userId: number) => {
     user_id: userId,
   };
 
-  let readingId: string;
+  let readings: string[];
 
   try {
-    readingId = await knex<ReadingData, string>("readings")
+    readings = await knex<ReadingData, string>("readings")
       .insert<string>(readingData)
-      .returning<string>("id");
+      .returning<string[]>("id");
   } catch (err) {
     throw err;
   }
+
+  const [readingId] = readings;
 
   type MembershipData = {
     reading_id: string;
@@ -34,32 +36,9 @@ export const createReading = async (bookId: string, userId: number) => {
   };
 
   const membershipData = {
-    reading_id: readingId[0],
+    reading_id: readingId,
     user_id: userId,
   };
-
-  const today = new Date();
-  const milestoneStart = add(today, { days: 7 });
-  const milestoneChapter = add(today, { days: 14 });
-  const milestoneEnd = add(today, { days: 21 });
-
-  const milestonesData: MilestoneData[] = [
-    {
-      readings_id: readingId[0],
-      date: formatISO(milestoneStart),
-      label: "Start Reading!",
-    },
-    {
-      readings_id: readingId[0],
-      date: formatISO(milestoneChapter),
-      label: "Discuss Chapter 1.",
-    },
-    {
-      readings_id: readingId[0],
-      date: formatISO(milestoneEnd),
-      label: "Reading finished.",
-    },
-  ];
 
   const promises = [];
 
@@ -69,13 +48,17 @@ export const createReading = async (bookId: string, userId: number) => {
       .returning<string>("reading_id")
   );
 
-  milestonesData.forEach((milestone) => {
-    promises.push(
-      knex<MilestoneData, string>("readings_milestones").insert<string>(
-        milestone
-      )
-    );
-  });
+  promises.push(
+    knex.raw(
+      `
+      INSERT INTO readings_milestones (readings_id, date, label) VALUES 
+        (?, now() + interval '7 day', 'Start Reading!'),
+        (?, now() + interval '14 day', 'Discuss Chapter 1.'),
+        (?, now() + interval '21 day', 'Reading finished.')
+    `,
+      [readingId, readingId, readingId]
+    )
+  );
 
   return Promise.all(promises)
     .then(() => {

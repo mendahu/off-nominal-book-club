@@ -15,23 +15,24 @@ export default function index(props: ReadingMembersProps) {
           Members
         </Typography>
       </LayoutComponent>
-      {props.members.map((member) => (
-        <LayoutComponent {...rest}>
-          <Grid container>
-            <Grid item xs={2}>
-              <Avatar src={member.avatar} />
+      {props.members &&
+        props.members.map((member) => (
+          <LayoutComponent {...rest} key={member.id}>
+            <Grid container>
+              <Grid item xs={2}>
+                <Avatar src={member.avatar} />
+              </Grid>
+              <Grid item xs={7}>
+                <Typography component="p" variant="h6">
+                  {member.name}
+                </Typography>
+              </Grid>
+              <Grid item xs={3}>
+                Leave
+              </Grid>
             </Grid>
-            <Grid item xs={7}>
-              <Typography component="p" variant="h6">
-                {member.name}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              Leave
-            </Grid>
-          </Grid>
-        </LayoutComponent>
-      ))}
+          </LayoutComponent>
+        ))}
     </>
   );
 }
