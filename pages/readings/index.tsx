@@ -7,7 +7,7 @@ import SnackbarContext from "../../src/contexts/SnackbarContext";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Grid, Link, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import LayoutComponent from "../../src/components/General/LayoutComponent";
 import { makeStyles } from "@material-ui/core/styles";
 import ReadingListItem from "../../src/pages/ReadingsPage/ReadingListItem/ReadingListItem";
@@ -38,20 +38,16 @@ const ReadingsPage = () => {
     return (
       <>
         {readings.map((reading) => (
-          <Link
-            href={`/readings/${reading.reading_id}`}
+          <ReadingListItem
             key={reading.reading_id}
-          >
-            <ReadingListItem
-              bookId={reading.book.id}
-              bookTitle={reading.book.title}
-              googleId={reading.book.google_id}
-              readingId={reading.reading_id}
-              authorString={generateAuthorString(reading.book.authors)}
-              hostName={reading.host.name}
-              hostAvatar={reading.host.avatar}
-            />
-          </Link>
+            bookId={reading.book.id}
+            bookTitle={reading.book.title}
+            googleId={reading.book.google_id}
+            readingId={reading.reading_id}
+            authorString={generateAuthorString(reading.book.authors)}
+            hostName={reading.host.name}
+            hostAvatar={reading.host.avatar}
+          />
         ))}
       </>
     );

@@ -4,7 +4,6 @@ import {
   OnbcSnackbar,
 } from "../../src/hooks/useSnackbar/useSnackbar";
 import SnackbarContext from "../../src/contexts/SnackbarContext";
-import { useBookClubUser } from "../../lib/bookClubUser";
 import Message from "../../src/components/Utility/Message";
 import ReadingHeader from "../../src/pages/ReadingPage/ReadingHeader";
 import ReadingMilestones from "../../src/pages/ReadingPage/ReadingMilestones";
