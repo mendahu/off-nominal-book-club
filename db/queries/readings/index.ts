@@ -78,5 +78,38 @@ export const fetchReading = (readingId: string) => {
 };
 
 export const fetchAllReadings = () => {
-  return knex("readings").select("id", "user_id", "book_id");
+  return knex.raw(
+    `
+      SELECT 
+        readings.id as reading_id,
+        (
+          SELECT row_to_json(users)
+          FROM (
+            SELECT id, name, CASE WHEN avatar_select='patreon' THEN patreon_avatar_url ELSE gravatar_avatar_url END as avatar
+            FROM users
+            WHERE id = readings.user_id
+          ) users
+        ) as host,
+        (
+          SELECT row_to_json(book)
+          FROM (
+            SELECT
+              books.id,
+              books.title,
+              books.google_id,
+              ( SELECT json_agg(authors) 
+              FROM (
+                SELECT name 
+                FROM authors
+                JOIN books_authors ON authors.id = books_authors.author_id
+                WHERE books_authors.book_id = books.id
+              ) authors
+            ) AS authors
+            FROM books
+            WHERE books.id = readings.book_id
+          ) as book
+        ) as book
+      FROM readings
+    `
+  );
 };

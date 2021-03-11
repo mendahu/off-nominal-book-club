@@ -7,9 +7,11 @@ import SnackbarContext from "../../src/contexts/SnackbarContext";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Link, Typography } from "@material-ui/core";
 import LayoutComponent from "../../src/components/General/LayoutComponent";
 import { makeStyles } from "@material-ui/core/styles";
+import ReadingListItem from "../../src/pages/ReadingsPage/ReadingListItem/ReadingListItem";
+import generateAuthorString from "../../src/helpers/generateAuthorString";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,15 +31,27 @@ const ReadingsPage = () => {
       setReadings(res.data);
       setReadingsLoading(false);
     });
-  });
+  }, []);
 
   const generateReadingsList = (readings) => {
+    console.log(readings);
     return (
       <>
         {readings.map((reading) => (
-          <LayoutComponent xs={12} key={reading.id}>
-            <h1>{reading.book_id}</h1>
-          </LayoutComponent>
+          <Link
+            href={`/readings/${reading.reading_id}`}
+            key={reading.reading_id}
+          >
+            <ReadingListItem
+              bookId={reading.book.id}
+              bookTitle={reading.book.title}
+              googleId={reading.book.google_id}
+              readingId={reading.reading_id}
+              authorString={generateAuthorString(reading.book.authors)}
+              hostName={reading.host.name}
+              hostAvatar={reading.host.avatar}
+            />
+          </Link>
         ))}
       </>
     );
