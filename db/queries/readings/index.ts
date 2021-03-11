@@ -1,4 +1,5 @@
 import knex from "../../knex";
+import { add, formatISO } from "date-fns";
 
 export const createReading = async (bookId: string, userId: number) => {
   type ReadingData = {
@@ -26,20 +27,65 @@ export const createReading = async (bookId: string, userId: number) => {
     user_id: number;
   };
 
+  type MilestoneData = {
+    readings_id: string;
+    date: string;
+    label: string;
+  };
+
   const membershipData = {
     reading_id: readingId[0],
     user_id: userId,
   };
 
-  try {
-    return await knex<MembershipData, string>("users_readings")
+  const today = new Date();
+  const milestoneStart = add(today, { days: 7 });
+  const milestoneChapter = add(today, { days: 14 });
+  const milestoneEnd = add(today, { days: 21 });
+
+  const milestonesData: MilestoneData[] = [
+    {
+      readings_id: readingId[0],
+      date: formatISO(milestoneStart),
+      label: "Start Reading!",
+    },
+    {
+      readings_id: readingId[0],
+      date: formatISO(milestoneChapter),
+      label: "Discuss Chapter 1.",
+    },
+    {
+      readings_id: readingId[0],
+      date: formatISO(milestoneEnd),
+      label: "Reading finished.",
+    },
+  ];
+
+  const promises = [];
+
+  promises.push(
+    knex<MembershipData, string>("users_readings")
       .insert<string>(membershipData)
-      .returning<string>("reading_id");
-  } catch (err) {
-    console.error(err);
-    await knex("readings").where("id", readingId).del();
-    throw err;
-  }
+      .returning<string>("reading_id")
+  );
+
+  milestonesData.forEach((milestone) => {
+    promises.push(
+      knex<MilestoneData, string>("readings_milestones").insert<string>(
+        milestone
+      )
+    );
+  });
+
+  return Promise.all(promises)
+    .then(() => {
+      return readingId;
+    })
+    .catch((err) => {
+      console.error(err);
+      knex("readings").where("id", readingId).del();
+      throw err;
+    });
 };
 
 export const deleteReading = (readingId: string) => {
