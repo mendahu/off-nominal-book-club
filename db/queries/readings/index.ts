@@ -81,7 +81,7 @@ export const fetchAllReadings = () => {
   return knex.raw(
     `
       SELECT 
-        readings.id as reading_id,
+        readings.id,
         (
           SELECT row_to_json(users)
           FROM (

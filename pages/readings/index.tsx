@@ -12,6 +12,7 @@ import LayoutComponent from "../../src/components/General/LayoutComponent";
 import { makeStyles } from "@material-ui/core/styles";
 import ReadingListItem from "../../src/pages/ReadingsPage/ReadingListItem/ReadingListItem";
 import generateAuthorString from "../../src/helpers/generateAuthorString";
+import { ApiReading } from "../../src/types/api/apiTypes";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,27 +24,27 @@ const ReadingsPage = () => {
   const { user, loading } = useBookClubUser();
   const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const [readingsLoading, setReadingsLoading] = useState(true);
-  const [readings, setReadings] = useState([]);
+  const [readings, setReadings] = useState<ApiReading[]>([]);
   const classes = useStyles();
 
   useEffect(() => {
-    axios.get("api/readings/").then((res) => {
+    axios.get<ApiReading[]>("api/readings/").then((res) => {
       setReadings(res.data);
       setReadingsLoading(false);
     });
   }, []);
 
-  const generateReadingsList = (readings) => {
+  const generateReadingsList = (readings: ApiReading[]) => {
     console.log(readings);
     return (
       <>
         {readings.map((reading) => (
           <ReadingListItem
-            key={reading.reading_id}
+            key={reading.id}
             bookId={reading.book.id}
             bookTitle={reading.book.title}
             googleId={reading.book.google_id}
-            readingId={reading.reading_id}
+            readingId={reading.id}
             authorString={generateAuthorString(reading.book.authors)}
             hostName={reading.host.name}
             hostAvatar={reading.host.avatar}

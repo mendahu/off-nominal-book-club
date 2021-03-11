@@ -89,6 +89,6 @@ export type ApiReading = {
   id: string;
   book: ApiReadingBook;
   host: ApiReadingHost;
-  members: ApiReadingMember[];
-  milestones: ApiReadingMilestone[];
+  members?: ApiReadingMember[];
+  milestones?: ApiReadingMilestone[];
 };
