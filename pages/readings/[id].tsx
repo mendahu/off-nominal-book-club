@@ -49,28 +49,29 @@ const ReadingPage = (props: ReadingPageProps) => {
 
   return (
     <Layout>
-      <Grid container>
-        <Grid item xs={12}>
-          <ReadingHeader
-            book={book}
-            host={host}
-            deleteReading={deleteReading}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={7}>
-          <ReadingMilestones milestones={milestones} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={5}>
-          <ReadingMembers
-            members={membership.list}
-            hostId={host.id}
-            joinReading={membership.join}
-            leaveReading={membership.leave}
-            membershipLoading={membership.loading}
-          />
-        </Grid>
-      </Grid>
       <SnackbarContext.Provider value={triggerSnackbar}>
+        <Grid container>
+          <Grid item xs={12}>
+            <ReadingHeader
+              book={book}
+              host={host}
+              deleteReading={deleteReading}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={7}>
+            <ReadingMilestones milestones={milestones} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={5}>
+            <ReadingMembers
+              members={membership.list}
+              hostId={host.id}
+              joinReading={membership.join}
+              leaveReading={membership.leave}
+              membershipLoading={membership.loading}
+            />
+          </Grid>
+        </Grid>
+
         <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
       </SnackbarContext.Provider>
     </Layout>

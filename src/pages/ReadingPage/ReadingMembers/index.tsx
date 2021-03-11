@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
 import LayoutComponent from "../../../components/General/LayoutComponent";
+import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { ApiReadingMember } from "../../../types/api/apiTypes";
 
 export type ReadingMembersProps = {
@@ -20,6 +21,7 @@ export type ReadingMembersProps = {
 
 export default function ReadingMembers(props: ReadingMembersProps) {
   const { user, loading } = useBookClubUser();
+  const triggerSnackbar = useSnackbarContext();
 
   const {
     hostId,
@@ -34,6 +36,18 @@ export default function ReadingMembers(props: ReadingMembersProps) {
   const isMember = members.find(
     (member) => Number(member.id) === user?.onbc_id
   );
+
+  const validatePatreon = (callback: () => void) => {
+    if (!user.isPatron) {
+      triggerSnackbar({
+        active: true,
+        message: "Only premium Book Club members may join readings.",
+        severity: "error",
+      });
+    } else {
+      callback();
+    }
+  };
 
   const ParticipantButton = () => {
     let color: "primary" | "secondary";
@@ -60,7 +74,7 @@ export default function ReadingMembers(props: ReadingMembersProps) {
         <Button
           variant="contained"
           color={color}
-          onClick={clickHandler}
+          onClick={() => validatePatreon(clickHandler)}
           startIcon={
             membershipLoading && <CircularProgress size={20} color="inherit" />
           }
