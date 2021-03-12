@@ -1,6 +1,16 @@
-import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
-import { DeleteOutline } from "@material-ui/icons";
+import {
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 import { format, formatISO } from "date-fns";
+import { useState } from "react";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
 import LayoutComponent from "../../../components/General/LayoutComponent";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
@@ -18,6 +28,8 @@ export type ReadingMilestonesProps = {
 export default function index(props: ReadingMilestonesProps) {
   const { user, loading } = useBookClubUser();
   const triggerSnackbar = useSnackbarContext();
+  const [isOpen, setIsOpen] = useState(false);
+
   const {
     milestones,
     hostId,
@@ -29,6 +41,44 @@ export default function index(props: ReadingMilestonesProps) {
 
   const isHost = user?.onbc_id === Number(hostId);
 
+  const handleAdd = () => {
+    setIsOpen(false);
+    addMilestone("Chapter 2", formatISO(new Date()));
+  };
+
+  const Dialogue = () => {
+    return (
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(!isOpen)}
+        aria-labelledby="form-dialogue-title"
+      >
+        <DialogTitle id="form-dialogue-title">
+          Add a Reading Milestone
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Milestones help mark points in a Reading that participants should
+            try to reach! They are great places to start, stop and discuss parts
+            of the book.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setIsOpen(!isOpen)}
+            color="default"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleAdd} color="primary" variant="contained">
+            Add Milestone
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
   const AddButton = () => {
     if (!isHost) {
       return null;
@@ -38,7 +88,7 @@ export default function index(props: ReadingMilestonesProps) {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => addMilestone("Chapter 2", formatISO(new Date()))}
+            onClick={() => setIsOpen(!isOpen)}
             startIcon={
               milestoneLoading && <CircularProgress color="inherit" size={20} />
             }
@@ -85,6 +135,7 @@ export default function index(props: ReadingMilestonesProps) {
             </Grid>
           </LayoutComponent>
         ))}
+      <Dialogue />
     </>
   );
 }
