@@ -5,6 +5,7 @@ import { useBookClubUser } from "../../../../lib/bookClubUser";
 import LayoutComponent from "../../../components/General/LayoutComponent";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { ApiReadingMilestone } from "../../../types/api/apiTypes";
+import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
 
 export type ReadingMilestonesProps = {
   milestones: ApiReadingMilestone[];
@@ -77,8 +78,7 @@ export default function index(props: ReadingMilestonesProps) {
                 </Typography>
               </Grid>
               <Grid item xs={1}>
-                <DeleteOutline
-                  color="secondary"
+                <ReadingMilestoneIcon
                   onClick={() => removeMilestone(milestone.id)}
                 />
               </Grid>
