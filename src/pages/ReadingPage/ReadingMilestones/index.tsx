@@ -32,6 +32,7 @@ export default function index(props: ReadingMilestonesProps) {
   const triggerSnackbar = useSnackbarContext();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [milestoneLabel, setMilestoneLabel] = useState("");
 
   const {
     milestones,
@@ -46,7 +47,7 @@ export default function index(props: ReadingMilestonesProps) {
 
   const handleAdd = () => {
     setIsOpen(false);
-    addMilestone("Chapter 2", formatISO(new Date()));
+    addMilestone(milestoneLabel, formatISO(selectedDate));
   };
 
   const Dialogue = () => {
@@ -72,6 +73,8 @@ export default function index(props: ReadingMilestonesProps) {
             label="Label"
             type="text"
             fullWidth
+            onChange={(event) => setMilestoneLabel(event.target.value)}
+            value={milestoneLabel}
           />
 
           <KeyboardDatePicker

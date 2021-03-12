@@ -4,6 +4,8 @@ import Head from "next/head";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { BookClubUserProvider, useFetchUser } from "../lib/bookClubUser";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const theme = createMuiTheme({
@@ -128,7 +130,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <title>The Off-Nominal Book Club</title>
         </Head>
         <CssBaseline />
-        <Component {...pageProps} />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Component {...pageProps} />
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
     </BookClubUserProvider>
   );
