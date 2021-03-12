@@ -140,6 +140,7 @@ export const fetchReading = (readingId: string) => {
         SELECT readings_milestones.id, readings_milestones.date, readings_milestones.label
         FROM readings_milestones
         WHERE readings_milestones.readings_id = readings.id
+        ORDER BY readings_milestones.date
       ) AS milestone 
     ) AS milestones
   FROM readings

@@ -5,10 +5,7 @@ import { ApiErrorResponse } from "../../../../../src/types/api/apiTypes";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 import getAuth0USerSub from "../../../../../src/helpers/auth0/auth0Sub";
 import { validateReadingOwner } from "../../../../../db/queries/readings";
-import {
-  addMilestone,
-  deleteMilestone,
-} from "../../../../../db/queries/readingsMilestones";
+import { deleteMilestone } from "../../../../../db/queries/readingsMilestones";
 
 export const newMilestone = async (
   req: NextApiRequest,
@@ -17,11 +14,19 @@ export const newMilestone = async (
   const {
     method,
     query: { id },
+    body: { milestoneId },
   } = req;
 
   if (method !== "DELETE") {
     return res.status(405).json({
       error: `Method ${method} Not Allowed`,
+    });
+  }
+
+  if (!req.body || !milestoneId) {
+    return res.status(400).json({
+      error: "Bad request",
+      message: "You are missing required body paramaters for this request",
     });
   }
 
@@ -67,7 +72,7 @@ export const newMilestone = async (
   }
 
   try {
-    const response = await deleteMilestone(id as string);
+    const response = await deleteMilestone(milestoneId);
     return res.status(200).json(response[0]);
   } catch (error) {
     return res.status(500).json(error);

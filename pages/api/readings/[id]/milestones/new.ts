@@ -23,6 +23,13 @@ export const newMilestone = async (
     });
   }
 
+  if (!req.body || !label || !date) {
+    return res.status(400).json({
+      error: "Bad request",
+      message: "You are missing required body paramaters for this request",
+    });
+  }
+
   // verify Patreon status
 
   let userProfile: DisplayUser;
@@ -62,13 +69,6 @@ export const newMilestone = async (
       message: "Error validating ownership of this reading.",
     };
     return res.status(403).json(message);
-  }
-
-  if (!req.body || !label || !date) {
-    return res.status(400).json({
-      error: "Bad request",
-      message: "You are missing required body paramaters for this request",
-    });
   }
 
   try {

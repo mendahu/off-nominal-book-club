@@ -1,4 +1,9 @@
-import { ApiReading, ApiReadingMember } from "../../types/api/apiTypes";
+import { compareAsc } from "date-fns";
+import {
+  ApiReading,
+  ApiReadingMember,
+  ApiReadingMilestone,
+} from "../../types/api/apiTypes";
 
 export enum ReadingsActionType {
   LOAD_STATE = "LOAD_STATE",
@@ -13,10 +18,9 @@ export type ReadingsAction = {
   type: ReadingsActionType;
   payload: {
     state?: ApiReading;
-    milestoneId?: string;
-    milestoneLabel?: string;
-    milestoneDate?: string;
+    milestonePayload?: ApiReadingMilestone;
     joinPayload?: ApiReadingMember;
+    milestoneId?: string;
     userId?: string;
   };
 };
@@ -49,8 +53,20 @@ export const readingsReducer = (
   switch (action.type) {
     case ReadingsActionType.LOAD_STATE:
       return action?.payload?.state || state;
-    case ReadingsActionType.ADD_MILESTONE:
-    case ReadingsActionType.REMOVE_MILESTONE:
+    case ReadingsActionType.ADD_MILESTONE: {
+      const newMilestones = [...state.milestones];
+      newMilestones.push(action.payload.milestonePayload);
+      const sortedMilestones = newMilestones.sort((a, b) => {
+        return compareAsc(new Date(a.date), new Date(b.date));
+      });
+      return { ...state, milestones: sortedMilestones };
+    }
+    case ReadingsActionType.REMOVE_MILESTONE: {
+      const newMilestones = state.milestones.filter(
+        (milestone) => milestone.id !== action.payload.milestoneId
+      );
+      return { ...state, milestones: newMilestones };
+    }
     case ReadingsActionType.UPDATE_MILESTONE:
     case ReadingsActionType.LEAVE_READING: {
       const newMembers = state.members.filter(

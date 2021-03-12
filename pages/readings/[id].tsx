@@ -59,7 +59,13 @@ const ReadingPage = (props: ReadingPageProps) => {
             />
           </Grid>
           <Grid item xs={12} sm={6} md={7}>
-            <ReadingMilestones milestones={milestones} />
+            <ReadingMilestones
+              milestones={milestones.list}
+              hostId={host.id}
+              addMilestone={milestones.add}
+              removeMilestone={milestones.remove}
+              milestoneLoading={milestones.loading}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={5}>
             <ReadingMembers

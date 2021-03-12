@@ -25,5 +25,5 @@ export const addMilestone = (
 export const deleteMilestone = (milestoneId: string) => {
   return knex<string, string>("readings_milestones")
     .where("id", milestoneId)
-    .del<string>();
+    .del<string>("id");
 };

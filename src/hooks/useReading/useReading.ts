@@ -16,6 +16,7 @@ export const useReading = (readingId: string) => {
   );
   const [error, setError] = useState(false);
   const [membershipLoading, setMembershipLoading] = useState(false);
+  const [milestoneLoading, setMilestoneLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -83,6 +84,46 @@ export const useReading = (readingId: string) => {
       });
   };
 
+  const addMilestone = (label: string, date: string) => {
+    setMilestoneLoading(true);
+    axios
+      .post(`/api/readings/${readingId}/milestones/new`, { label, date })
+      .then((res) => {
+        const data = {
+          label,
+          date,
+          id: res.data,
+        };
+        return dispatch({
+          type: ReadingsActionType.ADD_MILESTONE,
+          payload: {
+            milestonePayload: data,
+          },
+        });
+      })
+      .catch((err) => {
+        throw err;
+      })
+      .finally(() => {
+        setMilestoneLoading(false);
+      });
+  };
+
+  const removeMilestone = (milestoneId: string) => {
+    axios
+      .delete(`/api/readings/${readingId}/milestones/delete`, {
+        data: { milestoneId },
+      })
+      .then((res) => {
+        return dispatch({
+          type: ReadingsActionType.REMOVE_MILESTONE,
+          payload: {
+            milestoneId: res.data,
+          },
+        });
+      });
+  };
+
   const { book, host, members, milestones } = state;
 
   return {
@@ -96,7 +137,12 @@ export const useReading = (readingId: string) => {
       leave: leaveReading,
       loading: membershipLoading,
     },
-    milestones,
+    milestones: {
+      list: milestones,
+      add: addMilestone,
+      remove: removeMilestone,
+      loading: milestoneLoading,
+    },
     deleteReading,
     joinReading,
     leaveReading,
