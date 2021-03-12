@@ -7,8 +7,10 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  TextField,
   Typography,
 } from "@material-ui/core";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 import { format, formatISO } from "date-fns";
 import { useState } from "react";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
@@ -29,6 +31,7 @@ export default function index(props: ReadingMilestonesProps) {
   const { user, loading } = useBookClubUser();
   const triggerSnackbar = useSnackbarContext();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const {
     milestones,
@@ -62,6 +65,28 @@ export default function index(props: ReadingMilestonesProps) {
             try to reach! They are great places to start, stop and discuss parts
             of the book.
           </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="label"
+            label="Label"
+            type="text"
+            fullWidth
+          />
+
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Date picker inline"
+            value={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+          />
         </DialogContent>
         <DialogActions>
           <Button
