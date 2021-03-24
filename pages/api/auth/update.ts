@@ -9,7 +9,7 @@ export default withApiAuthRequired(
       const sub = await getAuth0USerSub(req, res);
       const newData = req.body.result;
       const result = await updatePatreonData(sub, newData);
-      return res.json(result);
+      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: err });
