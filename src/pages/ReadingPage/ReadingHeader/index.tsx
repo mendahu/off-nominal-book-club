@@ -3,7 +3,6 @@ import {
   Button,
   CircularProgress,
   Grid,
-  Link,
   makeStyles,
   Theme,
   Typography,
@@ -15,6 +14,8 @@ import LayoutComponent from "../../../components/General/LayoutComponent";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import generateAuthorString from "../../../helpers/generateAuthorString";
 import { ApiReadingBook, ApiReadingHost } from "../../../types/api/apiTypes";
+import Link from "next/link";
+import urlGenerator from "../../../helpers/urlGenerator";
 
 const useStyles = makeStyles((theme: Theme) => ({
   hostContainer: {
@@ -41,7 +42,7 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
 
   const authorString = generateAuthorString(book.authors);
 
-  const delReading = () => {
+  const handleDelete = () => {
     setIsDeleting(true);
     deleteReading().catch((err) => {
       setIsDeleting(false);
@@ -66,13 +67,19 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
-          <BookThumbnail
-            id={book.google_id}
-            zoom={3}
-            title={book.title}
-            authorString={authorString}
-            width={"100%"}
-          />
+          <Link
+            href={`/books/${urlGenerator(book.id, authorString, book.title)}`}
+          >
+            <a>
+              <BookThumbnail
+                id={book.google_id}
+                zoom={3}
+                title={book.title}
+                authorString={authorString}
+                width={"100%"}
+              />
+            </a>
+          </Link>
         </Grid>
         <Grid item xs={12} sm={8} md={9}>
           <Typography variant="h5" component="h1">
@@ -108,7 +115,7 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={delReading}
+                onClick={handleDelete}
                 startIcon={
                   isDeleting && <CircularProgress color="inherit" size={20} />
                 }
