@@ -44,10 +44,6 @@ const ReadingButton = (props) => {
           severity: "error",
           message: "Failed to create Reading",
         });
-      })
-      .finally(() => {
-        setIsOpen(false);
-        setLoading(false);
       });
   };
 
