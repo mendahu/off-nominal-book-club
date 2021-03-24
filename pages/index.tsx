@@ -8,11 +8,6 @@ import {
 } from "../src/pages/LandingPage";
 import Layout from "../src/components/LandingLayout";
 import useSearch from "../src/pages/LandingPage/useSearch/useSearch";
-import SnackbarContext from "../src/contexts/SnackbarContext";
-import {
-  OnbcSnackbar,
-  useSnackbar,
-} from "../src/hooks/useSnackbar/useSnackbar";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const LandingPage = () => {
   const classes = useStyles();
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const { books, input, tags, selectTag, filters } = useSearch();
 
   const handleClear = (e) => {
@@ -64,46 +58,43 @@ export const LandingPage = () => {
 
   return (
     <Layout>
-      <SnackbarContext.Provider value={triggerSnackbar}>
-        <Container component="section" disableGutters={true} maxWidth={false}>
-          <Carousel />
-        </Container>
-        <Container>
-          <Grid
-            container
-            spacing={2}
-            component="main"
-            className={classes.searchContainer}
-          >
-            <Grid item className={clsx(classes.searchBarContainer)}>
-              <SearchBar
-                placeholderText={"Search the Book Club"}
-                text={input.value}
-                onChange={(e) => input.set(e.target.value)}
-                button={{ text: "Clear", onClick: handleClear }}
-              />
-            </Grid>
-            <Grid item className={clsx(classes.filterContainer)}>
-              <SearchFilters filters={filters.value} setFilter={filters.set} />
-            </Grid>
-            <Grid item className={classes.tagListContainer}>
-              <TagList
-                tags={tags.tags}
-                clickHandler={selectTag}
-                loading={tags.loading}
-              />
-            </Grid>
-            <Grid item className={classes.searchResultsContainer}>
-              <SearchResults
-                results={books.books}
-                loading={books.loading}
-                tagClickHandler={selectTag}
-              />
-            </Grid>
+      <Container component="section" disableGutters={true} maxWidth={false}>
+        <Carousel />
+      </Container>
+      <Container>
+        <Grid
+          container
+          spacing={2}
+          component="main"
+          className={classes.searchContainer}
+        >
+          <Grid item className={clsx(classes.searchBarContainer)}>
+            <SearchBar
+              placeholderText={"Search the Book Club"}
+              text={input.value}
+              onChange={(e) => input.set(e.target.value)}
+              button={{ text: "Clear", onClick: handleClear }}
+            />
           </Grid>
-        </Container>
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      </SnackbarContext.Provider>
+          <Grid item className={clsx(classes.filterContainer)}>
+            <SearchFilters filters={filters.value} setFilter={filters.set} />
+          </Grid>
+          <Grid item className={classes.tagListContainer}>
+            <TagList
+              tags={tags.tags}
+              clickHandler={selectTag}
+              loading={tags.loading}
+            />
+          </Grid>
+          <Grid item className={classes.searchResultsContainer}>
+            <SearchResults
+              results={books.books}
+              loading={books.loading}
+              tagClickHandler={selectTag}
+            />
+          </Grid>
+        </Grid>
+      </Container>
     </Layout>
   );
 };

@@ -1,9 +1,4 @@
 import Layout from "../../src/components/DefaultLayout";
-import {
-  useSnackbar,
-  OnbcSnackbar,
-} from "../../src/hooks/useSnackbar/useSnackbar";
-import SnackbarContext from "../../src/contexts/SnackbarContext";
 import Message from "../../src/components/Utility/Message";
 import ReadingHeader from "../../src/pages/ReadingPage/ReadingHeader";
 import ReadingMilestones from "../../src/pages/ReadingPage/ReadingMilestones";
@@ -16,8 +11,6 @@ export type ReadingPageProps = {
 };
 
 const ReadingPage = (props: ReadingPageProps) => {
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
-
   const {
     loadingReading,
     error,
@@ -49,37 +42,33 @@ const ReadingPage = (props: ReadingPageProps) => {
 
   return (
     <Layout>
-      <SnackbarContext.Provider value={triggerSnackbar}>
-        <Grid container>
-          <Grid item xs={12}>
-            <ReadingHeader
-              book={book}
-              host={host}
-              deleteReading={deleteReading}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={7}>
-            <ReadingMilestones
-              milestones={milestones.list}
-              hostId={host.id}
-              addMilestone={milestones.add}
-              removeMilestone={milestones.remove}
-              milestoneLoading={milestones.loading}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={5}>
-            <ReadingMembers
-              members={membership.list}
-              hostId={host.id}
-              joinReading={membership.join}
-              leaveReading={membership.leave}
-              membershipLoading={membership.loading}
-            />
-          </Grid>
+      <Grid container>
+        <Grid item xs={12}>
+          <ReadingHeader
+            book={book}
+            host={host}
+            deleteReading={deleteReading}
+          />
         </Grid>
-
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      </SnackbarContext.Provider>
+        <Grid item xs={12} sm={6} md={7}>
+          <ReadingMilestones
+            milestones={milestones.list}
+            hostId={host.id}
+            addMilestone={milestones.add}
+            removeMilestone={milestones.remove}
+            milestoneLoading={milestones.loading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={5}>
+          <ReadingMembers
+            members={membership.list}
+            hostId={host.id}
+            joinReading={membership.join}
+            leaveReading={membership.leave}
+            membershipLoading={membership.loading}
+          />
+        </Grid>
+      </Grid>
     </Layout>
   );
 };

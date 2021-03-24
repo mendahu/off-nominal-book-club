@@ -1,17 +1,5 @@
-import {
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { format, formatISO } from "date-fns";
+import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
+import { format } from "date-fns";
 import { useState } from "react";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
 import LayoutComponent from "../../../components/General/LayoutComponent";
@@ -23,15 +11,15 @@ import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
 export type ReadingMilestonesProps = {
   milestones: ApiReadingMilestone[];
   hostId: string;
-  addMilestone: (label: string, date: string) => void;
-  removeMilestone: (milestoneId: string) => void;
+  addMilestone: (label: string, date: string) => Promise<void>;
+  removeMilestone: (milestoneId: string) => Promise<void>;
   milestoneLoading: boolean;
 };
 
 export default function index(props: ReadingMilestonesProps) {
   const { user, loading } = useBookClubUser();
-  const triggerSnackbar = useSnackbarContext();
   const [isOpen, setIsOpen] = useState(false);
+  const triggerSnackbar = useSnackbarContext();
 
   const {
     milestones,
@@ -65,6 +53,17 @@ export default function index(props: ReadingMilestonesProps) {
     }
   };
 
+  const handleRemove = (id) => {
+    return removeMilestone(id).catch((err) => {
+      triggerSnackbar({
+        active: true,
+        message: "Error Deleteing your Milestone",
+        severity: "error",
+      });
+      throw err;
+    });
+  };
+
   return (
     <>
       <LayoutComponent {...rest}>
@@ -94,7 +93,7 @@ export default function index(props: ReadingMilestonesProps) {
               </Grid>
               <Grid item xs={1}>
                 <ReadingMilestoneIcon
-                  onClick={() => removeMilestone(milestone.id)}
+                  onClick={() => handleRemove(milestone.id)}
                 />
               </Grid>
             </Grid>

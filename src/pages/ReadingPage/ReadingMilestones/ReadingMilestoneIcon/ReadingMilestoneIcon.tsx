@@ -3,7 +3,7 @@ import { DeleteOutline } from "@material-ui/icons";
 import { useState } from "react";
 
 export type ReadingMilestoneIconProps = {
-  onClick: () => void;
+  onClick: () => Promise<void>;
 };
 
 export default function ReadingMilestoneIcon(props: ReadingMilestoneIconProps) {
@@ -11,7 +11,11 @@ export default function ReadingMilestoneIcon(props: ReadingMilestoneIconProps) {
 
   const clickHandler = () => {
     setLoading(true);
-    props.onClick();
+    return props.onClick().catch((err) => {
+      setLoading(false);
+      console.log("yerp");
+      throw err;
+    });
   };
 
   return (

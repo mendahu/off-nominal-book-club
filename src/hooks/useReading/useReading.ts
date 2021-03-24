@@ -86,7 +86,7 @@ export const useReading = (readingId: string) => {
 
   const addMilestone = (label: string, date: string) => {
     setMilestoneLoading(true);
-    axios
+    return axios
       .post(`/api/readings/${readingId}/milestones/new`, { label, date })
       .then((res) => {
         const data = {
@@ -105,12 +105,12 @@ export const useReading = (readingId: string) => {
         throw err;
       })
       .finally(() => {
-        setMilestoneLoading(false);
+        return setMilestoneLoading(false);
       });
   };
 
   const removeMilestone = (milestoneId: string) => {
-    axios
+    return axios
       .delete(`/api/readings/${readingId}/milestones/delete`, {
         data: { milestoneId },
       })
@@ -121,6 +121,9 @@ export const useReading = (readingId: string) => {
             milestoneId: res.data,
           },
         });
+      })
+      .catch((err) => {
+        throw err;
       });
   };
 

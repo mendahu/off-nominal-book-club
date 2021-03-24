@@ -5,7 +5,6 @@ import {
   BookFeedback,
   PatronPromote,
   LoginPromote,
-  DataPromote,
   BookTagList,
   ReadingButton,
 } from "../../src/pages/BookPage/components";
@@ -15,11 +14,6 @@ import Head from "next/head";
 import Message from "../../src/components/Utility/Message";
 import { buildInitialTagState } from "../../src/reducers/bookTagReducer/bookTagReducer";
 import { UserData, BookData } from "../../src/types/common";
-import {
-  useSnackbar,
-  OnbcSnackbar,
-} from "../../src/hooks/useSnackbar/useSnackbar";
-import SnackbarContext from "../../src/contexts/SnackbarContext";
 import generateAuthorString from "../../src/helpers/generateAuthorString";
 import { MetaFlagData } from "../../src/components/BookStats/MetaFlags/MetaFlags";
 import { fetchBook } from "../../db/queries/books";
@@ -62,7 +56,6 @@ export type BookPageProps = {
 const BookPage = ({ slug, book, userData }: BookPageProps) => {
   const bookUrl = `https://books.offnominal.space/${slug}`;
   const { user, loading } = useBookClubUser();
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const userId = user?.onbc_id;
 
   if (!book) {
@@ -78,79 +71,69 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
     const thumbnail = generateBookThumbnailUrl(book.google_id, 1);
     return (
       <Layout>
-        <SnackbarContext.Provider value={triggerSnackbar}>
-          <Head>
-            <meta property="og:url" content={bookUrl} key="url" />
-            <meta
-              property="og:title"
-              content={book.title + " - The Off-Nominal Book Club"}
-              key="title"
-            />
-            <meta
-              property="og:description"
-              content={book.description}
-              key="description"
-            />
-            <meta property="og:image" content={thumbnail} key="image" />
-
-            <meta
-              name="twitter:description"
-              content={book.description.slice(0, 196) + "..."}
-              key="twitter_description"
-            />
-            <meta
-              name="twitter:title"
-              content={book.title + " - The Off-Nominal Book Club"}
-              key="twitter_title"
-            />
-            <meta
-              name="twitter:image"
-              content={thumbnail}
-              key="twitter_image"
-            />
-            <meta
-              name="twitter:image:alt"
-              content={"Book cover for " + book.title}
-              key="twitter_image_alt"
-            />
-          </Head>
-          <Grid container spacing={2}>
-            <BookTitleBar
-              bookId={book.id}
-              metaData={generateMetaData(book, userData)}
-              ratingString={generateRatingString(book.rating, book.ratings)}
-              authorString={generateAuthorString(book.authors)}
-              title={book.title}
-              googleId={book.google_id}
-              year={book.year}
-              type={book.type}
-            />
-            <BookTagList
-              bookId={book.id}
-              tags={buildInitialTagState(book.tags, userData.user_tags)}
-            />
-
-            {!user && <LoginPromote />}
-            {user &&
-              (user?.isPatron ? (
-                <ReadingButton bookId={book.id} />
-              ) : (
-                <PatronPromote userId={userId} />
-              ))}
-
-            <BookDesc desc={book.description} />
-            <BookFeedback
-              userId={userId}
-              isPatron={user?.isPatron}
-              userData={userData}
-              book={book}
-            />
-          </Grid>
-          <OnbcSnackbar
-            content={snackBarContent}
-            closeSnackbar={closeSnackbar}
+        <Head>
+          <meta property="og:url" content={bookUrl} key="url" />
+          <meta
+            property="og:title"
+            content={book.title + " - The Off-Nominal Book Club"}
+            key="title"
           />
-        </SnackbarContext.Provider>
+          <meta
+            property="og:description"
+            content={book.description}
+            key="description"
+          />
+          <meta property="og:image" content={thumbnail} key="image" />
+
+          <meta
+            name="twitter:description"
+            content={book.description.slice(0, 196) + "..."}
+            key="twitter_description"
+          />
+          <meta
+            name="twitter:title"
+            content={book.title + " - The Off-Nominal Book Club"}
+            key="twitter_title"
+          />
+          <meta name="twitter:image" content={thumbnail} key="twitter_image" />
+          <meta
+            name="twitter:image:alt"
+            content={"Book cover for " + book.title}
+            key="twitter_image_alt"
+          />
+        </Head>
+        <Grid container spacing={2}>
+          <BookTitleBar
+            bookId={book.id}
+            metaData={generateMetaData(book, userData)}
+            ratingString={generateRatingString(book.rating, book.ratings)}
+            authorString={generateAuthorString(book.authors)}
+            title={book.title}
+            googleId={book.google_id}
+            year={book.year}
+            type={book.type}
+          />
+          <BookTagList
+            bookId={book.id}
+            tags={buildInitialTagState(book.tags, userData.user_tags)}
+          />
+
+          {!user && <LoginPromote />}
+          {user &&
+            (user?.isPatron ? (
+              <ReadingButton bookId={book.id} />
+            ) : (
+              <PatronPromote userId={userId} />
+            ))}
+
+          <BookDesc desc={book.description} />
+          <BookFeedback
+            userId={userId}
+            isPatron={user?.isPatron}
+            userData={userData}
+            book={book}
+          />
+        </Grid>
       </Layout>
     );
   }

@@ -35,11 +35,7 @@ import urlGenerator from "../../src/helpers/urlGenerator";
 import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
 import clsx from "clsx";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {
-  useSnackbar,
-  OnbcSnackbar,
-} from "../../src/hooks/useSnackbar/useSnackbar";
-import SnackbarContext from "../../src/contexts/SnackbarContext";
+import { useSnackbarContext } from "../../src/contexts/SnackbarContext";
 import { ApiConfirmBook } from "../../src/types/api/apiTypes";
 import { BookType } from "../../src/types/common.d";
 import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
@@ -79,7 +75,7 @@ export default function New() {
   const classes = useStyles();
 
   const { user, loading } = useBookClubUser();
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
+  const triggerSnackbar = useSnackbarContext();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -236,159 +232,150 @@ export default function New() {
 
   return (
     <Layout>
-      <SnackbarContext.Provider value={triggerSnackbar}>
-        <Grid container spacing={2} className={classes.container}>
-          <Grid item xs={12} sm={12} md={6} lg={5}>
-            {currentSelection && (
-              <Paper className={clsx(classes.item, classes.selectedContainer)}>
-                <Typography component="h1" variant="h6">
-                  Adding...
-                </Typography>
-                <SmallListItem
-                  imageUrl={getThumbnail(currentSelection)}
-                  title={getTitle(currentSelection)}
-                  authorString={getAuthorString(currentSelection)}
-                />
-              </Paper>
-            )}
-            <Paper className={clsx(classes.item)}>
-              {!currentSelection && (
-                <>
-                  <Typography component="h1" variant="h6">
-                    Help grow the Off-Nominal Book Club
-                  </Typography>
-                  <hr />
-                  <Typography component="p" variant="subtitle1">
-                    Search Google Books for great space books that should be in
-                    our collection.
-                  </Typography>
-                </>
-              )}
-              {isMatching && (
-                <Typography component="p" variant="subtitle1">
-                  {"Checking our database if this book already exists..."}
-                </Typography>
-              )}
-              {isMatchError && (
-                <Message
-                  variant="warning"
-                  message={"Error checking the book club database"}
-                />
-              )}
-              {matchedResults && (
-                <>
-                  <div className={classes.flexContainer}>
-                    <WarningRoundedIcon className={classes.warningIcon} />
-                    <Typography component="h2" variant="h6">
-                      {"Your book may already be in the book club..."}
-                    </Typography>
-                  </div>
-
-                  {matchedResults.map((match, index) => {
-                    if (index < 3) {
-                      return (
-                        <SmallListItem
-                          key={index}
-                          imageUrl={generateBookThumbnailUrl(
-                            match.google_id,
-                            1
-                          )}
-                          title={match.title}
-                          authorString={generateAuthorString(match.authors)}
-                          button={{ id: match.id }}
-                        />
-                      );
-                    }
-                  })}
-                  <hr />
-                </>
-              )}
-              {!isMatching && currentSelection && (
-                <>
-                  {matchedResults && (
-                    <Typography component="h1" variant="h6" paragraph>
-                      Nope, the book I have is new.
-                    </Typography>
-                  )}
-                  <FormControl
-                    component="fieldset"
-                    className={classes.metaDataContainer}
-                  >
-                    <FormLabel
-                      component="legend"
-                      className={classes.formLegend}
-                    >
-                      This book is best described as:
-                    </FormLabel>
-                    <RadioGroup
-                      value={newBookMetaData}
-                      onChange={handleMetaDataFormChange}
-                    >
-                      <FormControlLabel
-                        value={BookType.fiction}
-                        control={<Radio />}
-                        label="This book is fiction"
-                      />
-                      <FormControlLabel
-                        value={BookType.nonFiction}
-                        control={<Radio />}
-                        label="This book is non-fiction"
-                      />
-                      <FormControlLabel
-                        value={BookType.textbook}
-                        control={<Radio />}
-                        label="This is a reference book or textbook"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                  <div className={classes.submitButtonContainer}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => submitBook(currentSelection)}
-                      endIcon={
-                        (isSubmitting || isRedirecting) && (
-                          <CircularProgress color="inherit" size={20} />
-                        )
-                      }
-                    >
-                      {isSubmitting && "Submitting..."}
-                      {isRedirecting && "Redirecting..."}
-                      {!(isSubmitting || isRedirecting) && "Add book"}
-                    </Button>
-                  </div>
-                </>
-              )}
+      <Grid container spacing={2} className={classes.container}>
+        <Grid item xs={12} sm={12} md={6} lg={5}>
+          {currentSelection && (
+            <Paper className={clsx(classes.item, classes.selectedContainer)}>
+              <Typography component="h1" variant="h6">
+                Adding...
+              </Typography>
+              <SmallListItem
+                imageUrl={getThumbnail(currentSelection)}
+                title={getTitle(currentSelection)}
+                authorString={getAuthorString(currentSelection)}
+              />
             </Paper>
-          </Grid>
+          )}
+          <Paper className={clsx(classes.item)}>
+            {!currentSelection && (
+              <>
+                <Typography component="h1" variant="h6">
+                  Help grow the Off-Nominal Book Club
+                </Typography>
+                <hr />
+                <Typography component="p" variant="subtitle1">
+                  Search Google Books for great space books that should be in
+                  our collection.
+                </Typography>
+              </>
+            )}
+            {isMatching && (
+              <Typography component="p" variant="subtitle1">
+                {"Checking our database if this book already exists..."}
+              </Typography>
+            )}
+            {isMatchError && (
+              <Message
+                variant="warning"
+                message={"Error checking the book club database"}
+              />
+            )}
+            {matchedResults && (
+              <>
+                <div className={classes.flexContainer}>
+                  <WarningRoundedIcon className={classes.warningIcon} />
+                  <Typography component="h2" variant="h6">
+                    {"Your book may already be in the book club..."}
+                  </Typography>
+                </div>
 
-          <Grid item xs={12} sm={12} md={6} lg={7}>
-            <SearchBar
-              placeholderText="Search here"
-              onChange={(event) => setSearchTerm(event.target.value)}
-              text={searchTerm}
-            />
-            <div>
-              {isSearching && (
-                <Message
-                  variant={"loading"}
-                  message={"Searching Google Books..."}
-                />
-              )}
-              {isSearchError && (
-                <Message
-                  variant={"warning"}
-                  message={"Error reaching Google Books"}
-                />
-              )}
-              {!isSearching &&
-                searchResults &&
-                searchResults.map((result) => renderSearchResult(result))}
-            </div>
-          </Grid>
+                {matchedResults.map((match, index) => {
+                  if (index < 3) {
+                    return (
+                      <SmallListItem
+                        key={index}
+                        imageUrl={generateBookThumbnailUrl(match.google_id, 1)}
+                        title={match.title}
+                        authorString={generateAuthorString(match.authors)}
+                        button={{ id: match.id }}
+                      />
+                    );
+                  }
+                })}
+                <hr />
+              </>
+            )}
+            {!isMatching && currentSelection && (
+              <>
+                {matchedResults && (
+                  <Typography component="h1" variant="h6" paragraph>
+                    Nope, the book I have is new.
+                  </Typography>
+                )}
+                <FormControl
+                  component="fieldset"
+                  className={classes.metaDataContainer}
+                >
+                  <FormLabel component="legend" className={classes.formLegend}>
+                    This book is best described as:
+                  </FormLabel>
+                  <RadioGroup
+                    value={newBookMetaData}
+                    onChange={handleMetaDataFormChange}
+                  >
+                    <FormControlLabel
+                      value={BookType.fiction}
+                      control={<Radio />}
+                      label="This book is fiction"
+                    />
+                    <FormControlLabel
+                      value={BookType.nonFiction}
+                      control={<Radio />}
+                      label="This book is non-fiction"
+                    />
+                    <FormControlLabel
+                      value={BookType.textbook}
+                      control={<Radio />}
+                      label="This is a reference book or textbook"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <div className={classes.submitButtonContainer}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => submitBook(currentSelection)}
+                    endIcon={
+                      (isSubmitting || isRedirecting) && (
+                        <CircularProgress color="inherit" size={20} />
+                      )
+                    }
+                  >
+                    {isSubmitting && "Submitting..."}
+                    {isRedirecting && "Redirecting..."}
+                    {!(isSubmitting || isRedirecting) && "Add book"}
+                  </Button>
+                </div>
+              </>
+            )}
+          </Paper>
         </Grid>
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      </SnackbarContext.Provider>
+
+        <Grid item xs={12} sm={12} md={6} lg={7}>
+          <SearchBar
+            placeholderText="Search here"
+            onChange={(event) => setSearchTerm(event.target.value)}
+            text={searchTerm}
+          />
+          <div>
+            {isSearching && (
+              <Message
+                variant={"loading"}
+                message={"Searching Google Books..."}
+              />
+            )}
+            {isSearchError && (
+              <Message
+                variant={"warning"}
+                message={"Error reaching Google Books"}
+              />
+            )}
+            {!isSearching &&
+              searchResults &&
+              searchResults.map((result) => renderSearchResult(result))}
+          </div>
+        </Grid>
+      </Grid>
     </Layout>
   );
 }

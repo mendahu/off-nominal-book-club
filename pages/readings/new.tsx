@@ -1,9 +1,5 @@
 import Layout from "../../src/components/DefaultLayout";
-import {
-  useSnackbar,
-  OnbcSnackbar,
-} from "../../src/hooks/useSnackbar/useSnackbar";
-import SnackbarContext from "../../src/contexts/SnackbarContext";
+import { useSnackbarContext } from "../../src/contexts/SnackbarContext";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import { fetchBook } from "../../db/queries/books";
 import { BookData } from "../../src/types/common";
@@ -21,7 +17,7 @@ export type NewReadingProps = {
 
 const NewReading = (props: NewReadingProps) => {
   const { user, loading } = useBookClubUser();
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
+  const triggerSnackbar = useSnackbarContext();
   const router = useRouter();
 
   const createReading = async (bookId: number) => {
@@ -74,47 +70,44 @@ const NewReading = (props: NewReadingProps) => {
 
   return (
     <Layout>
-      <SnackbarContext.Provider value={triggerSnackbar}>
-        <Paper>
-          <h1>Creating a reading for...</h1>
-          <BookThumbnail
-            id={props.book.google_id}
-            zoom={1}
-            title={props.book.title}
-            authorString={authorString}
-          ></BookThumbnail>
-        </Paper>
-        <Paper>
-          <h1>What is a reading?</h1>
-          <p>
-            A reading is when users come together and read a book as a group. A
-            reading admin can set milestones like when the reading starts, ends,
-            as well as milestones along the way for discussions.
-          </p>
-          <p>Sound like something you want to try?</p>
-        </Paper>
-        <Paper>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => createReading(props.book.id)}
-          >
-            Yes, create a reading for {props.book.title}
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            href={`/books/${urlGenerator(
-              props.book.id,
-              authorString,
-              props.book.title
-            )}`}
-          >
-            No, take me back!
-          </Button>
-        </Paper>
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      </SnackbarContext.Provider>
+      <Paper>
+        <h1>Creating a reading for...</h1>
+        <BookThumbnail
+          id={props.book.google_id}
+          zoom={1}
+          title={props.book.title}
+          authorString={authorString}
+        ></BookThumbnail>
+      </Paper>
+      <Paper>
+        <h1>What is a reading?</h1>
+        <p>
+          A reading is when users come together and read a book as a group. A
+          reading admin can set milestones like when the reading starts, ends,
+          as well as milestones along the way for discussions.
+        </p>
+        <p>Sound like something you want to try?</p>
+      </Paper>
+      <Paper>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => createReading(props.book.id)}
+        >
+          Yes, create a reading for {props.book.title}
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          href={`/books/${urlGenerator(
+            props.book.id,
+            authorString,
+            props.book.title
+          )}`}
+        >
+          No, take me back!
+        </Button>
+      </Paper>
     </Layout>
   );
 };

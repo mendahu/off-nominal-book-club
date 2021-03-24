@@ -1,9 +1,5 @@
 import Layout from "../../src/components/DefaultLayout";
-import {
-  useSnackbar,
-  OnbcSnackbar,
-} from "../../src/hooks/useSnackbar/useSnackbar";
-import SnackbarContext from "../../src/contexts/SnackbarContext";
+import { useSnackbarContext } from "../../src/contexts/SnackbarContext";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -22,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ReadingsPage = () => {
   const { user, loading } = useBookClubUser();
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
+  const triggerSnackbar = useSnackbarContext();
   const [readingsLoading, setReadingsLoading] = useState(true);
   const [readings, setReadings] = useState<ApiReading[]>([]);
   const classes = useStyles();
@@ -56,17 +52,14 @@ const ReadingsPage = () => {
 
   return (
     <Layout>
-      <SnackbarContext.Provider value={triggerSnackbar}>
-        <Grid container spacing={2} className={classes.container}>
-          <LayoutComponent xs={12}>
-            <Typography component="h1" variant="h4">
-              Readings
-            </Typography>
-          </LayoutComponent>
-          {generateReadingsList(readings)}
-        </Grid>
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      </SnackbarContext.Provider>
+      <Grid container spacing={2} className={classes.container}>
+        <LayoutComponent xs={12}>
+          <Typography component="h1" variant="h4">
+            Readings
+          </Typography>
+        </LayoutComponent>
+        {generateReadingsList(readings)}
+      </Grid>
     </Layout>
   );
 };
