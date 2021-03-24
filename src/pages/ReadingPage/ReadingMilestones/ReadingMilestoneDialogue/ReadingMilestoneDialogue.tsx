@@ -10,7 +10,6 @@ import {
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { formatISO } from "date-fns";
 import { useState } from "react";
-import styles from "./styles/ReadingMilestoneDialogue.module.css";
 
 export type ReadingMilestoneDialogueProps = {
   isOpen: boolean;

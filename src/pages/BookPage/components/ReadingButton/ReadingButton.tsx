@@ -4,13 +4,13 @@ import {
   Button,
   Typography,
   CardContent,
-  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
+import NewReadingDialog from "./NewReadingDialog/NewReadingDialog";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -29,13 +29,13 @@ const ReadingButton = (props) => {
   const classes = useStyles();
   const triggerSnackbar = useSnackbarContext();
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const createReading = () => {
     setLoading(true);
     axios
       .post("/api/readings/new", { bookId: props.bookId })
       .then((res) => {
-        console.log(res);
         router.push(`/readings/${res.data}`);
       })
       .catch((err) => {
@@ -69,14 +69,17 @@ const ReadingButton = (props) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={createReading}
-            startIcon={
-              loading && <CircularProgress color="inherit" size={20} />
-            }
+            onClick={() => setIsOpen(true)}
           >
             Start a Reading
           </Button>
         </CardContent>
+        <NewReadingDialog
+          isOpen={isOpen}
+          close={() => setIsOpen(false)}
+          createReading={createReading}
+          loading={loading}
+        />
       </Paper>
     </Grid>
   );

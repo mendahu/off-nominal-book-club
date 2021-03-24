@@ -1,6 +1,4 @@
 import Layout from "../../src/components/DefaultLayout";
-import { useSnackbarContext } from "../../src/contexts/SnackbarContext";
-import { useBookClubUser } from "../../lib/bookClubUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Grid, Typography } from "@material-ui/core";
