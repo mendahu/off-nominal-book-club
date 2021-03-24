@@ -1,4 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import React from "react";
 import axios from "axios";
 import { DisplayUser } from "../src/types/common";
