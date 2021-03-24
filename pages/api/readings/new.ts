@@ -1,48 +1,20 @@
-import userProfileFetcher from "../../../src/helpers/userProfileFetcher";
-import { NextApiRequest, NextApiResponse } from "next";
-import { DisplayUser } from "../../../src/types/common";
-import { ApiErrorResponse } from "../../../src/types/api/apiTypes";
+import { NextApiResponse } from "next";
+import { ApiErrorResponse, BookClubReq } from "../../../src/types/api/apiTypes";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import getAuth0USerSub from "../../../src/helpers/auth0/auth0Sub";
 import { createReading } from "../../../db/queries/readings";
+import { allowMethod } from "../../../src/api/middleware/allowMethod";
+import { allowPatron } from "../../../src/api/middleware/allowPatron";
 
 export const newReading = async (
-  req: NextApiRequest,
+  req: BookClubReq,
   res: NextApiResponse<string | ApiErrorResponse>
 ) => {
-  // verify Patreon status
-
-  let userProfile: DisplayUser;
-
-  try {
-    const sub = await getAuth0USerSub(req, res);
-    userProfile = await userProfileFetcher(sub);
-  } catch (error) {
-    return res.status(500).json({
-      error: "Server error",
-      message: "Something went wrong authenticating your request.",
-    });
-  }
-
-  if (!userProfile.isPatron) {
-    return res.status(403).json({
-      error: "Not Authenticated",
-      message: "Access restricted to logged in patrons only.",
-    });
-  }
-
-  const { method, body } = req;
-
-  if (method !== "POST") {
-    return res.status(405).json({
-      error: `Method ${method} Not Allowed`,
-    });
-  }
+  const { userProfile, body } = req;
 
   if (!body.bookId) {
     return res.status(400).json({
       error: "Bad request",
-      message: "You are missing required body for this request",
+      message: "You are missing required body parameters for this request",
     });
   }
 
@@ -54,4 +26,7 @@ export const newReading = async (
   }
 };
 
-export default withApiAuthRequired((req, res) => newReading(req, res));
+export default allowMethod(
+  withApiAuthRequired(allowPatron((req, res) => newReading(req, res))),
+  ["POST"]
+);

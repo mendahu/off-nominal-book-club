@@ -1,53 +1,28 @@
-import userProfileFetcher from "../../../../../src/helpers/userProfileFetcher";
-import { NextApiRequest, NextApiResponse } from "next";
-import { DisplayUser } from "../../../../../src/types/common";
-import { ApiErrorResponse } from "../../../../../src/types/api/apiTypes";
+import { NextApiResponse } from "next";
+import {
+  ApiErrorResponse,
+  BookClubReq,
+} from "../../../../../src/types/api/apiTypes";
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import getAuth0USerSub from "../../../../../src/helpers/auth0/auth0Sub";
 import { validateReadingOwner } from "../../../../../db/queries/readings";
 import { addMilestone } from "../../../../../db/queries/readingsMilestones";
+import { allowMethod } from "../../../../../src/api/middleware/allowMethod";
+import { allowPatron } from "../../../../../src/api/middleware/allowPatron";
 
 export const newMilestone = async (
-  req: NextApiRequest,
+  req: BookClubReq,
   res: NextApiResponse<string | ApiErrorResponse>
 ) => {
   const {
-    method,
+    userProfile,
     query: { id },
     body: { label, date },
   } = req;
-
-  if (method !== "POST") {
-    return res.status(405).json({
-      error: `Method ${method} Not Allowed`,
-    });
-  }
 
   if (!req.body || !label || !date) {
     return res.status(400).json({
       error: "Bad request",
       message: "You are missing required body paramaters for this request",
-    });
-  }
-
-  // verify Patreon status
-
-  let userProfile: DisplayUser;
-
-  try {
-    const sub = await getAuth0USerSub(req, res);
-    userProfile = await userProfileFetcher(sub);
-  } catch (error) {
-    return res.status(500).json({
-      error: "Server error",
-      message: "Something went wrong authenticating your request.",
-    });
-  }
-
-  if (!userProfile.isPatron) {
-    return res.status(403).json({
-      error: "Not Authenticated",
-      message: "Access restricted to logged in patrons only.",
     });
   }
 
@@ -79,4 +54,7 @@ export const newMilestone = async (
   }
 };
 
-export default withApiAuthRequired((req, res) => newMilestone(req, res));
+export default allowMethod(
+  withApiAuthRequired(allowPatron((req, res) => newMilestone(req, res))),
+  ["POST"]
+);

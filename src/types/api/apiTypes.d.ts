@@ -1,9 +1,14 @@
-import { Author, BookType } from "../common";
+import { NextApiRequest } from "next";
+import { Author, BookType, DisplayUser } from "../common";
 
 export type ApiErrorResponse = {
   message?: string;
   error?: string;
 };
+
+export interface BookClubReq extends NextApiRequest {
+  userProfile: DisplayUser;
+}
 
 export type ApiTag = {
   id: number;
