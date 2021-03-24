@@ -17,6 +17,7 @@ import { useBookClubUser } from "../../../../lib/bookClubUser";
 import LayoutComponent from "../../../components/General/LayoutComponent";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { ApiReadingMilestone } from "../../../types/api/apiTypes";
+import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
 import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
 
 export type ReadingMilestonesProps = {
@@ -31,8 +32,6 @@ export default function index(props: ReadingMilestonesProps) {
   const { user, loading } = useBookClubUser();
   const triggerSnackbar = useSnackbarContext();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [milestoneLabel, setMilestoneLabel] = useState("");
 
   const {
     milestones,
@@ -44,68 +43,6 @@ export default function index(props: ReadingMilestonesProps) {
   } = props;
 
   const isHost = user?.onbc_id === Number(hostId);
-
-  const handleAdd = () => {
-    setIsOpen(false);
-    addMilestone(milestoneLabel, formatISO(selectedDate));
-  };
-
-  const Dialogue = () => {
-    return (
-      <Dialog
-        open={isOpen}
-        onClose={() => setIsOpen(!isOpen)}
-        aria-labelledby="form-dialogue-title"
-      >
-        <DialogTitle id="form-dialogue-title">
-          Add a Reading Milestone
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Milestones help mark points in a Reading that participants should
-            try to reach! They are great places to start, stop and discuss parts
-            of the book.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="label"
-            label="Label"
-            type="text"
-            fullWidth
-            onChange={(event) => setMilestoneLabel(event.target.value)}
-            value={milestoneLabel}
-          />
-
-          <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            format="MM/dd/yyyy"
-            margin="normal"
-            id="date-picker-inline"
-            label="Date picker inline"
-            value={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => setIsOpen(!isOpen)}
-            color="default"
-            variant="contained"
-          >
-            Cancel
-          </Button>
-          <Button onClick={handleAdd} color="primary" variant="contained">
-            Add Milestone
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
 
   const AddButton = () => {
     if (!isHost) {
@@ -163,7 +100,11 @@ export default function index(props: ReadingMilestonesProps) {
             </Grid>
           </LayoutComponent>
         ))}
-      <Dialogue />
+      <ReadingMilestoneDialogue
+        isOpen={isOpen}
+        close={() => setIsOpen(false)}
+        addMilestone={props.addMilestone}
+      />
     </>
   );
 }
