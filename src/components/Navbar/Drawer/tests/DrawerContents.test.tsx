@@ -28,15 +28,6 @@ describe("Drawer Contents", () => {
     testToggle.mockClear();
   });
 
-  it("should render a home page link, an about page link and a log out link for unauthenticated users", () => {
-    useBookClubUser.mockImplementationOnce(() => ({
-      user: undefined,
-      loading: false,
-    }));
-    const wrapper = shallow(<DrawerContents {...defaultProps} />);
-    expect(wrapper.find(DrawerItem)).toHaveLength(3);
-  });
-
   it("should not render an avatar for unauthenticated users", () => {
     useBookClubUser.mockImplementationOnce(() => ({
       user: undefined,
@@ -73,17 +64,5 @@ describe("Drawer Contents", () => {
     const text = wrapper.find(Typography);
     expect(text).toHaveLength(4);
     expect(text.at(0).text()).toEqual("Jake");
-    expect(text.at(1).text()).toEqual("READS: 0");
-    expect(text.at(2).text()).toEqual("FAVOURITES: 0");
-    expect(text.at(3).text()).toEqual("WISHLIST: 0");
-  });
-
-  it("should render an add book icon for patrons", () => {
-    useBookClubUser.mockImplementationOnce(() => ({
-      user: { ...defaultUser, isPatron: true },
-      loading: false,
-    }));
-    const wrapper = shallow(<DrawerContents {...defaultProps} />);
-    expect(wrapper.find(DrawerItem)).toHaveLength(4);
   });
 });
