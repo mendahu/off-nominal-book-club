@@ -19,17 +19,11 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import axios from "axios";
-import {
-  useSnackbar,
-  OnbcSnackbar,
-} from "../../src/hooks/useSnackbar/useSnackbar";
-import SnackbarContext from "../../src/contexts/SnackbarContext";
 import WarningIcon from "@material-ui/icons/Warning";
 import { useBookClubUser } from "../../lib/bookClubUser";
 
 const Userview = ({ userId, showModal }) => {
   const { user, loading } = useBookClubUser();
-  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
   const [modalOpen, setModalOpen] = useState(showModal);
   const [profileData, setProfileData] = useState({
     loading: true,
@@ -149,47 +143,44 @@ const Userview = ({ userId, showModal }) => {
 
   return (
     <Layout>
-      <SnackbarContext.Provider value={triggerSnackbar}>
-        <Grid container space={2}>
-          <Grid item container xs={12}>
-            <ProfileImage
-              name={name}
-              gravatar_avatar_url={gravatar_avatar_url}
-              patreon_avatar_url={patreon_avatar_url}
-              avatar_select={avatar_select}
-              isUserAuthorized={isUserAuthorized}
-              xs={12}
-              md={3}
-            />
-            <ProfileHeader
-              name={name}
-              bio={bio}
-              xs={12}
-              md={9}
-              isUserAuthorized={isUserAuthorized}
-            />
-          </Grid>
-          {isUserAuthorized ? (
-            <ProfileData xs={12} md={3} />
-          ) : (
-            <Grid item xs={12} md={3} />
-          )}
-          <ProfileBookList
-            listTitle="Wishlist"
-            books={profileData.wishlist}
+      <Grid container space={2}>
+        <Grid item container xs={12}>
+          <ProfileImage
+            name={name}
+            gravatar_avatar_url={gravatar_avatar_url}
+            patreon_avatar_url={patreon_avatar_url}
+            avatar_select={avatar_select}
+            isUserAuthorized={isUserAuthorized}
             xs={12}
-            md
+            md={3}
           />
-          <ProfileBookList
-            listTitle="Read List"
-            books={profileData.reads}
+          <ProfileHeader
+            name={name}
+            bio={bio}
             xs={12}
-            md
+            md={9}
+            isUserAuthorized={isUserAuthorized}
           />
         </Grid>
-        {renderModal(user?.isPatron)}
-        <OnbcSnackbar content={snackBarContent} closeSnackbar={closeSnackbar} />
-      </SnackbarContext.Provider>
+        {isUserAuthorized ? (
+          <ProfileData xs={12} md={3} />
+        ) : (
+          <Grid item xs={12} md={3} />
+        )}
+        <ProfileBookList
+          listTitle="Wishlist"
+          books={profileData.wishlist}
+          xs={12}
+          md
+        />
+        <ProfileBookList
+          listTitle="Read List"
+          books={profileData.reads}
+          xs={12}
+          md
+        />
+      </Grid>
+      {renderModal(user?.isPatron)}
     </Layout>
   );
 };

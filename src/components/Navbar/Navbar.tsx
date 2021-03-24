@@ -60,11 +60,7 @@ const Navbar = () => {
           <MenuIcon onClick={toggleDrawer(true)} />
         </Button>
         <Drawer anchor={"left"} open={drawerOpen} onClose={toggleDrawer(false)}>
-          <DrawerContents
-            logInUrl="/api/auth/login"
-            logOutUrl="/api/auth/logout"
-            toggleDrawer={toggleDrawer}
-          />
+          <DrawerContents toggleDrawer={toggleDrawer} />
         </Drawer>
 
         <Typography variant="h6" className={classes.title}>

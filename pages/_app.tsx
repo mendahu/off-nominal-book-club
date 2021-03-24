@@ -4,6 +4,13 @@ import Head from "next/head";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { BookClubUserProvider, useFetchUser } from "../lib/bookClubUser";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import SnackbarContext from "../src/contexts/SnackbarContext";
+import {
+  OnbcSnackbar,
+  useSnackbar,
+} from "../src/hooks/useSnackbar/useSnackbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const theme = createMuiTheme({
@@ -17,6 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       type: "dark",
     },
   });
+
+  const { snackBarContent, triggerSnackbar, closeSnackbar } = useSnackbar();
 
   return (
     <BookClubUserProvider value={useFetchUser()}>
@@ -128,7 +137,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           <title>The Off-Nominal Book Club</title>
         </Head>
         <CssBaseline />
-        <Component {...pageProps} />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <SnackbarContext.Provider value={triggerSnackbar}>
+            <Component {...pageProps} />
+            <OnbcSnackbar
+              content={snackBarContent}
+              closeSnackbar={closeSnackbar}
+            />
+          </SnackbarContext.Provider>
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
     </BookClubUserProvider>
   );
