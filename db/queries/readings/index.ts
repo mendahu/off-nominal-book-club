@@ -13,6 +13,7 @@ export const createReading = async (bookId: string, userId: number) => {
 
   let readings: string[];
 
+  // Create empty reading in db, return reading ID for subsequent functions
   try {
     readings = await knex<ReadingData, string>("readings")
       .insert<string>(readingData)
@@ -28,12 +29,6 @@ export const createReading = async (bookId: string, userId: number) => {
     user_id: number;
   };
 
-  type MilestoneData = {
-    readings_id: string;
-    date: string;
-    label: string;
-  };
-
   const membershipData = {
     reading_id: readingId,
     user_id: userId,
@@ -41,12 +36,14 @@ export const createReading = async (bookId: string, userId: number) => {
 
   const promises = [];
 
+  // Adds creator as a member of a reading
   promises.push(
     knex<MembershipData, string>("users_readings")
       .insert<string>(membershipData)
       .returning<string>("reading_id")
   );
 
+  // Adds default milestones to a reading
   promises.push(
     knex.raw(
       `
@@ -64,7 +61,7 @@ export const createReading = async (bookId: string, userId: number) => {
       return readingId;
     })
     .catch((err) => {
-      console.error(err);
+      //Delete the reading in case of an error. Cascade rules should clear any milestones and memberships.
       knex("readings").where("id", readingId).del();
       throw err;
     });
