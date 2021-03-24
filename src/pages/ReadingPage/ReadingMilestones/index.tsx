@@ -86,16 +86,18 @@ export default function index(props: ReadingMilestonesProps) {
                   {milestone.label}
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={isHost ? 10 : 12} md={3}>
                 <Typography component="p" variant="h6">
                   🗓 {format(new Date(milestone.date), "EEE, MMM do")}
                 </Typography>
               </Grid>
-              <Grid item xs={1}>
-                <ReadingMilestoneIcon
-                  onClick={() => handleRemove(milestone.id)}
-                />
-              </Grid>
+              {isHost && (
+                <Grid item xs={2}>
+                  <ReadingMilestoneIcon
+                    onClick={() => handleRemove(milestone.id)}
+                  />
+                </Grid>
+              )}
             </Grid>
           </LayoutComponent>
         ))}
