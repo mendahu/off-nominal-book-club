@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { useState } from "react";
+import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
 
 export type ReadingMilestoneDialogueProps = {
   isOpen: boolean;
@@ -18,11 +19,7 @@ export type ReadingMilestoneDialogueProps = {
   date: string;
   setDate: (date: string) => void;
   addMilestone: () => Promise<any>;
-  // editMilestone: (
-  //   milestoneId: string,
-  //   label: string,
-  //   date: string
-  // ) => Promise<void>;
+  editMilestone: () => Promise<void>;
   mode: "add" | "edit";
 };
 
@@ -30,6 +27,7 @@ export default function ReadingMilestoneDialogue(
   props: ReadingMilestoneDialogueProps
 ) {
   const [labelError, setLabelError] = useState(false);
+  const triggerSnackbar = useSnackbarContext();
 
   const handleAdd = () => {
     if (props.label === "") {
@@ -37,7 +35,28 @@ export default function ReadingMilestoneDialogue(
     }
     setLabelError(false);
     props.close();
-    props.addMilestone();
+    props.addMilestone().catch((err) => {
+      triggerSnackbar({
+        active: true,
+        variant: "error",
+        message: "Error creating milestone.",
+      });
+    });
+  };
+
+  const handleEdit = () => {
+    if (props.label === "") {
+      return setLabelError(true);
+    }
+    setLabelError(false);
+    props.close();
+    props.editMilestone().catch((err) => {
+      triggerSnackbar({
+        active: true,
+        variant: "error",
+        message: "Error editing milestone.",
+      });
+    });
   };
 
   return (
@@ -77,7 +96,6 @@ export default function ReadingMilestoneDialogue(
         />
 
         <KeyboardDateTimePicker
-          disablePast
           variant="inline"
           format="MM/dd/yyyy HH:mm"
           margin="normal"
@@ -94,8 +112,12 @@ export default function ReadingMilestoneDialogue(
         <Button onClick={props.close} color="default" variant="contained">
           Cancel
         </Button>
-        <Button onClick={handleAdd} color="primary" variant="contained">
-          Add Milestone
+        <Button
+          onClick={props.mode === "edit" ? handleEdit : handleAdd}
+          color="primary"
+          variant="contained"
+        >
+          {props.mode === "edit" ? "Update Milestone" : "Add Milestone"}
         </Button>
       </DialogActions>
     </Dialog>

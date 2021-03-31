@@ -9,6 +9,8 @@ export enum ReadingsActionType {
   LOAD_STATE = "LOAD_STATE",
   ADD_MILESTONE = "ADD_MILESTONE",
   REMOVE_MILESTONE = "REMOVE_MILESTONE",
+  MILESTONE_LOADING = "MILESTONE_LOADING",
+  MILESTONE_STOP_LOADING = "MILESTONE_STOP_LOADING",
   UPDATE_MILESTONE = "UPDATE_MILESTONE",
   LEAVE_READING = "LEAVE_READING",
   JOIN_READING = "JOIN_READING",
@@ -67,7 +69,53 @@ export const readingsReducer = (
       );
       return { ...state, milestones: newMilestones };
     }
-    case ReadingsActionType.UPDATE_MILESTONE:
+    case ReadingsActionType.MILESTONE_LOADING: {
+      const newMilestones = state.milestones.map((milestone) => {
+        if (milestone.id === action.payload.milestoneId) {
+          const updatedMilestone = {
+            ...milestone,
+            loading: true,
+          };
+
+          return updatedMilestone;
+        } else {
+          return milestone;
+        }
+      });
+      return { ...state, milestones: newMilestones };
+    }
+    case ReadingsActionType.MILESTONE_STOP_LOADING: {
+      const newMilestones = state.milestones.map((milestone) => {
+        if (milestone.id === action.payload.milestoneId) {
+          const updatedMilestone = {
+            ...milestone,
+            loading: false,
+          };
+
+          return updatedMilestone;
+        } else {
+          return milestone;
+        }
+      });
+      return { ...state, milestones: newMilestones };
+    }
+    case ReadingsActionType.UPDATE_MILESTONE: {
+      const newMilestones = state.milestones.map((milestone) => {
+        if (milestone.id === action.payload.milestoneId) {
+          const updatedMilestone = {
+            ...milestone,
+            label: action.payload.milestonePayload.label,
+            date: action.payload.milestonePayload.date,
+            loading: false,
+          };
+
+          return updatedMilestone;
+        } else {
+          return milestone;
+        }
+      });
+      return { ...state, milestones: newMilestones };
+    }
     case ReadingsActionType.LEAVE_READING: {
       const newMembers = state.members.filter(
         (member) => member.id !== action.payload.userId

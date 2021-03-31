@@ -110,6 +110,12 @@ export const useReading = (readingId: string) => {
   };
 
   const removeMilestone = (milestoneId: string) => {
+    dispatch({
+      type: ReadingsActionType.MILESTONE_LOADING,
+      payload: {
+        milestoneId: milestoneId,
+      },
+    });
     return axios
       .delete(`/api/readings/${readingId}/milestones/delete`, {
         data: { milestoneId },
@@ -123,15 +129,47 @@ export const useReading = (readingId: string) => {
         });
       })
       .catch((err) => {
+        dispatch({
+          type: ReadingsActionType.MILESTONE_STOP_LOADING,
+          payload: {
+            milestoneId: milestoneId,
+          },
+        });
         throw err;
       });
   };
 
   const editMilestone = (milestoneId: string, label: string, date: string) => {
+    dispatch({
+      type: ReadingsActionType.MILESTONE_LOADING,
+      payload: {
+        milestoneId: milestoneId,
+      },
+    });
     return axios
-      .put(`/api/readings/${readingId}/milestones/${milestoneId}`)
-      .then(() => {})
+      .put(`/api/readings/${readingId}/milestones/${milestoneId}`, {
+        label,
+        date,
+      })
+      .then(() => {
+        return dispatch({
+          type: ReadingsActionType.UPDATE_MILESTONE,
+          payload: {
+            milestoneId: milestoneId,
+            milestonePayload: {
+              label,
+              date,
+            },
+          },
+        });
+      })
       .catch((err) => {
+        dispatch({
+          type: ReadingsActionType.MILESTONE_STOP_LOADING,
+          payload: {
+            milestoneId: milestoneId,
+          },
+        });
         throw err;
       })
       .finally(() => {});

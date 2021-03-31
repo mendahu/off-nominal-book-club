@@ -13,7 +13,6 @@ import { ApiReadingMilestone } from "../../../types/api/apiTypes";
 import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
 
 import ReadingMilestone from "./ReadingMilestone/ReadingMilestone";
-import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { formatISO } from "date-fns";
 
 export type ReadingMilestonesProps = {
@@ -39,12 +38,11 @@ export default function index(props: ReadingMilestonesProps) {
   const classes = useStyles();
   const { user, loading } = useBookClubUser();
 
-  const triggerSnackbar = useSnackbarContext();
-
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState("add");
   const [date, setDate] = useState<Date | null>(new Date());
   const [label, setLabel] = useState("");
+  const [milestoneId, setMilestoneId] = useState<null | string>(null);
 
   const {
     milestones,
@@ -57,6 +55,14 @@ export default function index(props: ReadingMilestonesProps) {
 
   const isHost = user?.onbc_id === Number(hostId);
 
+  const handleEdit = (id: string, label: string, date: string) => {
+    setMode("edit");
+    setLabel(label);
+    setDate(date);
+    setMilestoneId(id);
+    setIsOpen(true);
+  };
+
   const handleAdd = () => {
     setIsOpen(false);
     return addMilestone(label, formatISO(date))
@@ -65,11 +71,7 @@ export default function index(props: ReadingMilestonesProps) {
         setLabel("");
       })
       .catch((err) => {
-        triggerSnackbar({
-          active: true,
-          variant: "error",
-          message: "Error creating milestone.",
-        });
+        throw err;
       });
   };
 
@@ -118,7 +120,8 @@ export default function index(props: ReadingMilestonesProps) {
                 date={milestone.date}
                 showMenu={isHost}
                 deleteMilestone={removeMilestone}
-                editMilestone={editMilestone}
+                editMilestone={handleEdit}
+                loading={milestone.loading}
               />
             ))}
           </List>
@@ -133,7 +136,7 @@ export default function index(props: ReadingMilestonesProps) {
         setDate={setDate}
         close={() => setIsOpen(false)}
         addMilestone={handleAdd}
-        // editMilestone={editMilestone}
+        editMilestone={() => editMilestone(milestoneId, label, date)}
         mode={mode}
       />
     </>

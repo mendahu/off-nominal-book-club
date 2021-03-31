@@ -20,33 +20,28 @@ export type ReadingMilestoneProps = {
   date: string;
   showMenu: boolean;
   deleteMilestone: (id: string) => Promise<void>;
-  editMilestone: (id: string, label: string, date: string) => Promise<void>;
+  editMilestone: (id: string, label: string, date: string) => void;
+  loading: boolean;
 };
 
 export default function ReadingMilestone(props: ReadingMilestoneProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [loading, setIsLoading] = useState(false);
   const triggerSnackbar = useSnackbarContext();
 
   const handleEdit = () => {
     setAnchorEl(null);
+    props.editMilestone(props.id, props.label, props.date);
   };
 
   const handleDelete = () => {
     setAnchorEl(null);
-    setIsLoading(true);
-    props
-      .deleteMilestone(props.id)
-      .catch((err) => {
-        triggerSnackbar({
-          active: true,
-          variant: "error",
-          message: "Error deleting milestone.",
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
+    props.deleteMilestone(props.id).catch((err) => {
+      triggerSnackbar({
+        active: true,
+        variant: "error",
+        message: "Error deleting milestone.",
       });
+    });
   };
 
   return (
@@ -62,7 +57,7 @@ export default function ReadingMilestone(props: ReadingMilestoneProps) {
         {props.showMenu && (
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="edit">
-              {loading ? (
+              {props.loading ? (
                 <CircularProgress color="inherit" size={20} />
               ) : (
                 <MoreVertIcon
