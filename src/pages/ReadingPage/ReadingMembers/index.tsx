@@ -30,10 +30,6 @@ const useStyles = makeStyles((theme) => ({
   header: {
     padding: theme.spacing(2),
   },
-  list: {
-    marginTop: theme.spacing(3),
-    paddingLeft: 0,
-  },
 }));
 
 export default function ReadingMembers(props: ReadingMembersProps) {
@@ -121,7 +117,7 @@ export default function ReadingMembers(props: ReadingMembersProps) {
         </Grid>
 
         {members && (
-          <List className={classes.list}>
+          <List>
             {members.map((member) => (
               <ListItem button onClick={() => handleClick(member.id)}>
                 <ListItemAvatar>

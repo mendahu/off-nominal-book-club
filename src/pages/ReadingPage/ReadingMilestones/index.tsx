@@ -3,6 +3,12 @@ import {
   Button,
   CircularProgress,
   Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
   Paper,
   Typography,
 } from "@material-ui/core";
@@ -14,6 +20,8 @@ import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { ApiReadingMilestone } from "../../../types/api/apiTypes";
 import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
 import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
+import EventIcon from "@material-ui/icons/Event";
+import { Delete, DeleteOutline } from "@material-ui/icons";
 
 export type ReadingMilestonesProps = {
   milestones: ApiReadingMilestone[];
@@ -26,20 +34,6 @@ export type ReadingMilestonesProps = {
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-  },
-  list: {
-    marginTop: theme.spacing(3),
-    paddingLeft: 0,
-  },
-  milestone: {
-    marginTop: theme.spacing(3),
-    listStyle: "none",
-  },
-  deleteContainer: {
-    textAlign: "right",
-    [theme.breakpoints.only("xs")]: {
-      paddingTop: theme.spacing(1),
-    },
   },
 }));
 
@@ -100,38 +94,28 @@ export default function index(props: ReadingMilestonesProps) {
         </Grid>
 
         {milestones && (
-          <ul className={classes.list}>
+          <List>
             {milestones.map((milestone) => (
-              <Grid
-                container
-                key={milestone.id}
-                justify="space-between"
-                component="li"
-                className={classes.milestone}
-                spacing={0}
-              >
-                <Grid container item xs={isHost ? 10 : 12}>
-                  <Grid item xs={12} md={8}>
-                    <Typography component="span" variant="body1">
-                      {milestone.label}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography component="span" variant="body2">
-                      🗓 {format(new Date(milestone.date), "EEE, MMM do")}
-                    </Typography>
-                  </Grid>
-                </Grid>
+              <ListItem>
+                <ListItemIcon>
+                  <EventIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={milestone.label}
+                  secondary={format(new Date(milestone.date), "EEE, MMM do")}
+                />
                 {isHost && (
-                  <Grid item xs={2} className={classes.deleteContainer}>
-                    <ReadingMilestoneIcon
-                      onClick={() => handleRemove(milestone.id)}
-                    />
-                  </Grid>
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                      <ReadingMilestoneIcon
+                        onClick={() => handleRemove(milestone.id)}
+                      />
+                    </IconButton>
+                  </ListItemSecondaryAction>
                 )}
-              </Grid>
+              </ListItem>
             ))}
-          </ul>
+          </List>
         )}
       </Paper>
 

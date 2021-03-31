@@ -1,5 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
-import { DeleteOutline } from "@material-ui/icons";
+import { Delete } from "@material-ui/icons";
 import { useState } from "react";
 
 export type ReadingMilestoneIconProps = {
@@ -23,7 +23,7 @@ export default function ReadingMilestoneIcon(props: ReadingMilestoneIconProps) {
       {loading ? (
         <CircularProgress color="inherit" size={20} />
       ) : (
-        <DeleteOutline color="secondary" onClick={clickHandler} />
+        <Delete onClick={clickHandler} />
       )}
     </>
   );
