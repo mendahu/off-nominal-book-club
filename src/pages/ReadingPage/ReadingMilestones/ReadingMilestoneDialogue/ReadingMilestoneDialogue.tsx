@@ -10,11 +10,12 @@ import {
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { formatISO } from "date-fns";
 import { useState } from "react";
+import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
 
 export type ReadingMilestoneDialogueProps = {
   isOpen: boolean;
   close: () => void;
-  addMilestone: (label: string, date: string) => void;
+  addMilestone: (label: string, date: string) => Promise<any>;
 };
 
 export default function ReadingMilestoneDialogue(
@@ -22,10 +23,23 @@ export default function ReadingMilestoneDialogue(
 ) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [milestoneLabel, setMilestoneLabel] = useState("");
+  const triggerSnackbar = useSnackbarContext();
 
   const handleAdd = () => {
     props.close();
-    props.addMilestone(milestoneLabel, formatISO(selectedDate));
+    props
+      .addMilestone(milestoneLabel, formatISO(selectedDate))
+      .then(() => {
+        setSelectedDate(null);
+        setMilestoneLabel("");
+      })
+      .catch((err) => {
+        triggerSnackbar({
+          active: true,
+          variant: "error",
+          message: "Error creating milestone.",
+        });
+      });
   };
 
   return (

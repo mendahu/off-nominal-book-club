@@ -71,7 +71,7 @@ export default function ReadingListItem(props: ReadingListItemProps) {
                 <CardMedia
                   className={classes.media}
                   image={generateBookThumbnailUrl(props.googleId, 1)}
-                  title={"Test"}
+                  title={props.bookTitle}
                 />
                 <div className={classes.details}>
                   <div className={classes.titleContainer}>

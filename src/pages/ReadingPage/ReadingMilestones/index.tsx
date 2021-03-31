@@ -1,12 +1,24 @@
-import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
-import LayoutComponent from "../../../components/General/LayoutComponent";
-import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { ApiReadingMilestone } from "../../../types/api/apiTypes";
 import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
 import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
+import EventIcon from "@material-ui/icons/Event";
 
 export type ReadingMilestonesProps = {
   milestones: ApiReadingMilestone[];
@@ -16,10 +28,16 @@ export type ReadingMilestonesProps = {
   milestoneLoading: boolean;
 };
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}));
+
 export default function index(props: ReadingMilestonesProps) {
+  const classes = useStyles();
   const { user, loading } = useBookClubUser();
   const [isOpen, setIsOpen] = useState(false);
-  const triggerSnackbar = useSnackbarContext();
 
   const {
     milestones,
@@ -27,84 +45,69 @@ export default function index(props: ReadingMilestonesProps) {
     addMilestone,
     removeMilestone,
     milestoneLoading,
-    ...rest
   } = props;
 
   const isHost = user?.onbc_id === Number(hostId);
 
   const AddButton = () => {
-    if (!isHost) {
-      return null;
-    } else {
-      return (
-        <Grid item xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setIsOpen(!isOpen)}
-            startIcon={
-              milestoneLoading && <CircularProgress color="inherit" size={20} />
-            }
-          >
-            {milestoneLoading ? "Adding..." : "Add Milestone"}
-          </Button>
-        </Grid>
-      );
-    }
-  };
-
-  const handleRemove = (id) => {
-    return removeMilestone(id).catch((err) => {
-      triggerSnackbar({
-        active: true,
-        message: "Error Deleteing your Milestone",
-        severity: "error",
-      });
-      throw err;
-    });
+    return (
+      <Grid item>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setIsOpen(!isOpen)}
+          startIcon={
+            milestoneLoading && <CircularProgress color="inherit" size={20} />
+          }
+        >
+          {milestoneLoading ? "Adding..." : "Add"}
+        </Button>
+      </Grid>
+    );
   };
 
   return (
     <>
-      <LayoutComponent {...rest}>
-        <Grid container>
-          <Grid item xs={isHost ? 8 : 12}>
+      <Paper className={classes.root}>
+        <Grid container justify="space-between">
+          <Grid item>
             <Typography variant="h5" component="h1">
-              Reading Schedule
+              Schedule
             </Typography>
           </Grid>
-          <AddButton />
+          {isHost && <AddButton />}
         </Grid>
-      </LayoutComponent>
 
-      {milestones &&
-        milestones.map((milestone) => (
-          <LayoutComponent {...rest} key={milestone.id}>
-            <Grid container>
-              <Grid item xs={12} md={7}>
-                <Typography component="p" variant="h6">
-                  {milestone.label}
-                </Typography>
-              </Grid>
-              <Grid item xs={isHost ? 10 : 12} md={3}>
-                <Typography component="p" variant="h6">
-                  🗓 {format(new Date(milestone.date), "EEE, MMM do")}
-                </Typography>
-              </Grid>
-              {isHost && (
-                <Grid item xs={2}>
-                  <ReadingMilestoneIcon
-                    onClick={() => handleRemove(milestone.id)}
-                  />
-                </Grid>
-              )}
-            </Grid>
-          </LayoutComponent>
-        ))}
+        {milestones && (
+          <List>
+            {milestones.map((milestone) => (
+              <ListItem>
+                <ListItemIcon>
+                  <EventIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={milestone.label}
+                  secondary={format(new Date(milestone.date), "EEE, MMM do")}
+                />
+                {isHost && (
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete">
+                      <ReadingMilestoneIcon
+                        onClick={() => removeMilestone(milestone.id)}
+                      />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                )}
+              </ListItem>
+            ))}
+          </List>
+        )}
+      </Paper>
+
       <ReadingMilestoneDialogue
         isOpen={isOpen}
         close={() => setIsOpen(false)}
-        addMilestone={props.addMilestone}
+        addMilestone={addMilestone}
       />
     </>
   );
