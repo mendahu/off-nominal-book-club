@@ -127,6 +127,16 @@ export const useReading = (readingId: string) => {
       });
   };
 
+  const editMilestone = (milestoneId: string, label: string, date: string) => {
+    return axios
+      .put(`/api/readings/${readingId}/milestones/${milestoneId}`)
+      .then(() => {})
+      .catch((err) => {
+        throw err;
+      })
+      .finally(() => {});
+  };
+
   const { book, host, members, milestones } = state;
 
   return {
@@ -144,6 +154,7 @@ export const useReading = (readingId: string) => {
       list: milestones,
       add: addMilestone,
       remove: removeMilestone,
+      edit: editMilestone,
       loading: milestoneLoading,
     },
     deleteReading,
