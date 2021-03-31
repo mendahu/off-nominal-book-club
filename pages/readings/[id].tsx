@@ -106,7 +106,7 @@ const ReadingPage = (props: ReadingPageProps) => {
             <ReadingHeader book={book} host={host} />
           </Grid>
           <Hidden xsDown={menu === "members"}>
-            <Grid item xs={12} sm={7}>
+            <Grid item xs={12} sm={6} md={7}>
               <ReadingMilestones
                 milestones={milestones.list}
                 hostId={host.id}
@@ -117,7 +117,7 @@ const ReadingPage = (props: ReadingPageProps) => {
             </Grid>
           </Hidden>
           <Hidden xsDown={menu === "milestones"}>
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={6} md={5}>
               <ReadingMembers
                 members={membership.list}
                 hostId={host.id}
