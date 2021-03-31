@@ -1,4 +1,3 @@
-import classes from "*.module.css";
 import {
   Button,
   CircularProgress,
@@ -21,7 +20,6 @@ import { ApiReadingMilestone } from "../../../types/api/apiTypes";
 import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
 import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
 import EventIcon from "@material-ui/icons/Event";
-import { Delete, DeleteOutline } from "@material-ui/icons";
 
 export type ReadingMilestonesProps = {
   milestones: ApiReadingMilestone[];
