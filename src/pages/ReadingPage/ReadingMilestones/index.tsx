@@ -2,27 +2,19 @@ import {
   Button,
   CircularProgress,
   Grid,
-  IconButton,
   List,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-  Menu,
-  MenuItem,
   Paper,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { format } from "date-fns";
 import { useState } from "react";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
 import { ApiReadingMilestone } from "../../../types/api/apiTypes";
 import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
-import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import EventIcon from "@material-ui/icons/Event";
+
 import ReadingMilestone from "./ReadingMilestone/ReadingMilestone";
+import { useSnackbarContext } from "../../../contexts/SnackbarContext";
+import { formatISO } from "date-fns";
 
 export type ReadingMilestonesProps = {
   milestones: ApiReadingMilestone[];
@@ -46,8 +38,13 @@ const useStyles = makeStyles((theme) => ({
 export default function index(props: ReadingMilestonesProps) {
   const classes = useStyles();
   const { user, loading } = useBookClubUser();
+
+  const triggerSnackbar = useSnackbarContext();
+
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState("add");
+  const [date, setDate] = useState<Date | null>(new Date());
+  const [label, setLabel] = useState("");
 
   const {
     milestones,
@@ -61,13 +58,26 @@ export default function index(props: ReadingMilestonesProps) {
   const isHost = user?.onbc_id === Number(hostId);
 
   const handleAdd = () => {
-    setMode("add");
-    setIsOpen(true);
+    setIsOpen(false);
+    return addMilestone(label, formatISO(date))
+      .then(() => {
+        setDate(null);
+        setLabel("");
+      })
+      .catch((err) => {
+        triggerSnackbar({
+          active: true,
+          variant: "error",
+          message: "Error creating milestone.",
+        });
+      });
   };
 
-  const handleEdit = () => {
-    setMode("edit");
+  const toggleAddMode = () => {
+    setMode("add");
     setIsOpen(true);
+    setLabel("");
+    setDate(new Date());
   };
 
   const AddButton = () => {
@@ -76,7 +86,7 @@ export default function index(props: ReadingMilestonesProps) {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleAdd}
+          onClick={toggleAddMode}
           startIcon={
             milestoneLoading && <CircularProgress color="inherit" size={20} />
           }
@@ -108,6 +118,7 @@ export default function index(props: ReadingMilestonesProps) {
                 date={milestone.date}
                 showMenu={isHost}
                 deleteMilestone={removeMilestone}
+                editMilestone={editMilestone}
               />
             ))}
           </List>
@@ -116,9 +127,13 @@ export default function index(props: ReadingMilestonesProps) {
 
       <ReadingMilestoneDialogue
         isOpen={isOpen}
+        label={label}
+        date={date}
+        setLabel={setLabel}
+        setDate={setDate}
         close={() => setIsOpen(false)}
-        addMilestone={addMilestone}
-        editMilestone={editMilestone}
+        addMilestone={handleAdd}
+        // editMilestone={editMilestone}
         mode={mode}
       />
     </>

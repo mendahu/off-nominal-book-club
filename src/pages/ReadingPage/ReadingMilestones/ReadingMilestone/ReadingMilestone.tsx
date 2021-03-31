@@ -20,6 +20,7 @@ export type ReadingMilestoneProps = {
   date: string;
   showMenu: boolean;
   deleteMilestone: (id: string) => Promise<void>;
+  editMilestone: (id: string, label: string, date: string) => Promise<void>;
 };
 
 export default function ReadingMilestone(props: ReadingMilestoneProps) {
@@ -27,7 +28,9 @@ export default function ReadingMilestone(props: ReadingMilestoneProps) {
   const [loading, setIsLoading] = useState(false);
   const triggerSnackbar = useSnackbarContext();
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    setAnchorEl(null);
+  };
 
   const handleDelete = () => {
     setAnchorEl(null);

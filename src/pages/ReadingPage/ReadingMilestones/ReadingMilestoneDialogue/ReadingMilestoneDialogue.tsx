@@ -8,43 +8,36 @@ import {
   TextField,
 } from "@material-ui/core";
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { formatISO } from "date-fns";
 import { useState } from "react";
-import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
 
 export type ReadingMilestoneDialogueProps = {
   isOpen: boolean;
   close: () => void;
-  addMilestone: (label: string, date: string) => Promise<any>;
+  label: string;
+  setLabel: (label: string) => void;
+  date: string;
+  setDate: (date: string) => void;
+  addMilestone: () => Promise<any>;
+  // editMilestone: (
+  //   milestoneId: string,
+  //   label: string,
+  //   date: string
+  // ) => Promise<void>;
+  mode: "add" | "edit";
 };
 
 export default function ReadingMilestoneDialogue(
   props: ReadingMilestoneDialogueProps
 ) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [milestoneLabel, setMilestoneLabel] = useState("");
   const [labelError, setLabelError] = useState(false);
-  const triggerSnackbar = useSnackbarContext();
 
   const handleAdd = () => {
-    if (milestoneLabel === "") {
+    if (props.label === "") {
       return setLabelError(true);
     }
     setLabelError(false);
     props.close();
-    props
-      .addMilestone(milestoneLabel, formatISO(selectedDate))
-      .then(() => {
-        setSelectedDate(null);
-        setMilestoneLabel("");
-      })
-      .catch((err) => {
-        triggerSnackbar({
-          active: true,
-          variant: "error",
-          message: "Error creating milestone.",
-        });
-      });
+    props.addMilestone();
   };
 
   return (
@@ -78,9 +71,9 @@ export default function ReadingMilestoneDialogue(
             } else {
               setLabelError(true);
             }
-            setMilestoneLabel(newLabel);
+            props.setLabel(newLabel);
           }}
-          value={milestoneLabel}
+          value={props.label}
         />
 
         <KeyboardDateTimePicker
@@ -90,8 +83,8 @@ export default function ReadingMilestoneDialogue(
           margin="normal"
           id="date-picker-inline"
           label="Milestone date"
-          value={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
+          value={props.date}
+          onChange={(date) => props.setDate(date)}
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}
