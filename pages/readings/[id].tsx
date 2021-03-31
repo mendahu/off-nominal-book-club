@@ -3,6 +3,7 @@ import Message from "../../src/components/Utility/Message";
 import ReadingHeader from "../../src/pages/ReadingPage/ReadingHeader";
 import ReadingMilestones from "../../src/pages/ReadingPage/ReadingMilestones";
 import ReadingMembers from "../../src/pages/ReadingPage/ReadingMembers";
+import DeleteReadingDialog from "../../src/pages/ReadingPage/DeleteReadingDialog/DeleteReadingDialog";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -16,7 +17,6 @@ import { AccountBox, CalendarToday } from "@material-ui/icons";
 import { useState } from "react";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import { useSnackbarContext } from "../../src/contexts/SnackbarContext";
-import DeleteReadingDialog from "../../src/pages/ReadingPage/DeleteReadingDialog/DeleteReadingDialog";
 import { useDeleteReading } from "../../src/pages/ReadingPage/useDeleteReading/useDeleteReading";
 
 export type ReadingPageProps = {
@@ -101,10 +101,8 @@ const ReadingPage = (props: ReadingPageProps) => {
   return (
     <>
       <Layout>
+        <ReadingHeader book={book} host={host} />
         <Grid container className={classes.root} spacing={2}>
-          <Grid item xs={12}>
-            <ReadingHeader book={book} host={host} />
-          </Grid>
           <Hidden xsDown={menu === "members"}>
             <Grid item xs={12} sm={6} md={7}>
               <ReadingMilestones

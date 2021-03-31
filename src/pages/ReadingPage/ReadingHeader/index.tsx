@@ -1,47 +1,50 @@
 import {
   Avatar,
   Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
   CardMedia,
-  Grid,
   makeStyles,
   Theme,
   Typography,
 } from "@material-ui/core";
 import generateAuthorString from "../../../helpers/generateAuthorString";
 import { ApiReadingBook, ApiReadingHost } from "../../../types/api/apiTypes";
-import Link from "next/link";
 import urlGenerator from "../../../helpers/urlGenerator";
-import MatLink from "@material-ui/core/Link";
 import { generateBookThumbnailUrl } from "../../../helpers/generateBookThumbnailUrl";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    height: 200,
-  },
-  card: {
+    marginTop: theme.spacing(2),
     display: "flex",
-    alignItems: "stretch",
+    flexWrap: "wrap",
   },
   media: {
     height: 200,
-    width: 130,
-    flex: "0 0 auto",
   },
-  details: {
+  cardContent: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    flexGrow: 1,
-    padding: theme.spacing(2),
   },
-  hostContainer: {
-    display: "flex",
-    alignItems: "center",
-    marginTop: theme.spacing(1),
+  [theme.breakpoints.up(400)]: {
+    media: {
+      height: 300,
+    },
   },
-  titleContainer: {},
-  hostName: {
-    marginLeft: theme.spacing(1),
+  [theme.breakpoints.up(500)]: {
+    root: {
+      flexWrap: "nowrap",
+    },
+    media: {
+      height: 300,
+      width: 220,
+    },
+    mediaContainer: {
+      width: 220,
+    },
   },
 }));
 
@@ -52,48 +55,43 @@ export type ReadingHeaderProps = {
 
 export default function ReadingHeader(props: ReadingHeaderProps) {
   const classes = useStyles();
+  const router = useRouter();
 
   const { book, host } = props;
   const authorString = generateAuthorString(book.authors);
 
+  const handleClick = () => {
+    router.push(`/books/${urlGenerator(book.id, authorString, book.title)}`);
+  };
+
   return (
-    <Grid item xs={12}>
-      <Card className={classes.root}>
-        <Link
-          href={`/books/${urlGenerator(book.id, authorString, book.title)}`}
-          passHref
-        >
-          <MatLink color="inherit" underline="none" className={classes.card}>
-            <CardMedia
-              className={classes.media}
-              image={generateBookThumbnailUrl(book.google_id, 1)}
-              title={"Test"}
-            />
-            <div className={classes.details}>
-              <div className={classes.titleContainer}>
-                <Typography component="p" variant="h5">
-                  {book.title}
-                </Typography>
-                <Typography component="p" variant="subtitle1">
-                  by {authorString}
-                </Typography>
-              </div>
-              <div>
-                <div className={classes.hostContainer}>
-                  <Avatar alt={host.name} src={host.avatar} />
-                  <Typography
-                    component="p"
-                    variant="body2"
-                    className={classes.hostName}
-                  >
-                    {host.name}
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          </MatLink>
-        </Link>
-      </Card>
-    </Grid>
+    <Card className={classes.root}>
+      <CardActionArea onClick={handleClick} className={classes.mediaContainer}>
+        <CardMedia
+          component="img"
+          className={classes.media}
+          image={generateBookThumbnailUrl(book.google_id, 2)}
+          title={book.title}
+        />
+      </CardActionArea>
+      <div className={classes.cardContent}>
+        <CardContent>
+          <Typography component="p" variant="body2">
+            Reading...
+          </Typography>
+          <Typography component="p" variant="h5">
+            {book.title}
+          </Typography>
+          <Typography component="p" variant="subtitle1">
+            by {authorString}
+          </Typography>
+        </CardContent>
+        <CardHeader
+          avatar={<Avatar alt={host.name} src={host.avatar} />}
+          title={host.name}
+          subheader="Host"
+        ></CardHeader>
+      </div>
+    </Card>
   );
 }
