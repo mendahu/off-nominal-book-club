@@ -87,7 +87,10 @@ export default function index(props: ReadingMilestonesProps) {
                 </ListItemIcon>
                 <ListItemText
                   primary={milestone.label}
-                  secondary={format(new Date(milestone.date), "EEE, MMM do")}
+                  secondary={format(
+                    new Date(milestone.date),
+                    "EEE, MMM do h:mm a"
+                  )}
                 />
                 {isHost && (
                   <ListItemSecondaryAction>
