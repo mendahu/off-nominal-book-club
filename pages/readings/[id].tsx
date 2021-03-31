@@ -8,6 +8,7 @@ import {
   BottomNavigationAction,
   Button,
   Grid,
+  Hidden,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useReading } from "../../src/hooks/useReading/useReading";
@@ -101,8 +102,8 @@ const ReadingPage = (props: ReadingPageProps) => {
           <Grid item xs={12}>
             <ReadingHeader book={book} host={host} />
           </Grid>
-          {menu === "milestones" && (
-            <Grid item xs={12}>
+          <Hidden smDown={menu === "members"}>
+            <Grid item xs={12} md={7}>
               <ReadingMilestones
                 milestones={milestones.list}
                 hostId={host.id}
@@ -111,9 +112,9 @@ const ReadingPage = (props: ReadingPageProps) => {
                 milestoneLoading={milestones.loading}
               />
             </Grid>
-          )}
-          {menu === "members" && (
-            <Grid item xs={12}>
+          </Hidden>
+          <Hidden smDown={menu === "milestones"}>
+            <Grid item xs={12} md={5}>
               <ReadingMembers
                 members={membership.list}
                 hostId={host.id}
@@ -122,7 +123,7 @@ const ReadingPage = (props: ReadingPageProps) => {
                 membershipLoading={membership.loading}
               />
             </Grid>
-          )}
+          </Hidden>
         </Grid>
         <Grid item xs={12} container justify="center">
           <Button color="secondary" variant="contained" onClick={openDialog}>
@@ -136,23 +137,25 @@ const ReadingPage = (props: ReadingPageProps) => {
         deleteReading={handleDelete}
         loading={isDeleting}
       />
-      <BottomNavigation
-        value={menu}
-        showLabels
-        onChange={(event, newValue) => setMenu(newValue)}
-        className={classes.menu}
-      >
-        <BottomNavigationAction
-          value="milestones"
-          label={"Milestones"}
-          icon={<CalendarToday />}
-        />
-        <BottomNavigationAction
-          value="members"
-          label={"Members"}
-          icon={<AccountBox />}
-        />
-      </BottomNavigation>
+      <Hidden mdUp>
+        <BottomNavigation
+          value={menu}
+          showLabels
+          onChange={(event, newValue) => setMenu(newValue)}
+          className={classes.menu}
+        >
+          <BottomNavigationAction
+            value="milestones"
+            label={"Milestones"}
+            icon={<CalendarToday />}
+          />
+          <BottomNavigationAction
+            value="members"
+            label={"Members"}
+            icon={<AccountBox />}
+          />
+        </BottomNavigation>
+      </Hidden>
     </>
   );
 };
