@@ -7,7 +7,7 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { formatISO } from "date-fns";
 import { useState } from "react";
 import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
@@ -23,9 +23,14 @@ export default function ReadingMilestoneDialogue(
 ) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [milestoneLabel, setMilestoneLabel] = useState("");
+  const [labelError, setLabelError] = useState(false);
   const triggerSnackbar = useSnackbarContext();
 
   const handleAdd = () => {
+    if (milestoneLabel === "") {
+      return setLabelError(true);
+    }
+    setLabelError(false);
     props.close();
     props
       .addMilestone(milestoneLabel, formatISO(selectedDate))
@@ -58,20 +63,30 @@ export default function ReadingMilestoneDialogue(
           the book.
         </DialogContentText>
         <TextField
+          error={labelError}
+          helperText={labelError && "Please enter a label"}
           autoFocus
           margin="dense"
           id="label"
           label="Label your milestone"
           type="text"
           fullWidth
-          onChange={(event) => setMilestoneLabel(event.target.value)}
+          onChange={(event) => {
+            const newLabel = event.target.value;
+            if (newLabel !== "") {
+              setLabelError(false);
+            } else {
+              setLabelError(true);
+            }
+            setMilestoneLabel(newLabel);
+          }}
           value={milestoneLabel}
         />
 
-        <KeyboardDatePicker
-          disableToolbar
+        <KeyboardDateTimePicker
+          disablePast
           variant="inline"
-          format="MM/dd/yyyy"
+          format="MM/dd/yyyy HH:mm"
           margin="normal"
           id="date-picker-inline"
           label="Milestone date"
