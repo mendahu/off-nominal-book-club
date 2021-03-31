@@ -114,7 +114,10 @@ export const readingsReducer = (
           return milestone;
         }
       });
-      return { ...state, milestones: newMilestones };
+      const sortedMilestones = newMilestones.sort((a, b) => {
+        return compareAsc(new Date(a.date), new Date(b.date));
+      });
+      return { ...state, milestones: sortedMilestones };
     }
     case ReadingsActionType.LEAVE_READING: {
       const newMembers = state.members.filter(
