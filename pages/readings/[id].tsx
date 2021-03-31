@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     width: "100%",
   },
+  deleteButton: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const ReadingPage = (props: ReadingPageProps) => {
@@ -102,8 +105,8 @@ const ReadingPage = (props: ReadingPageProps) => {
           <Grid item xs={12}>
             <ReadingHeader book={book} host={host} />
           </Grid>
-          <Hidden smDown={menu === "members"}>
-            <Grid item xs={12} md={7}>
+          <Hidden xsDown={menu === "members"}>
+            <Grid item xs={12} sm={7}>
               <ReadingMilestones
                 milestones={milestones.list}
                 hostId={host.id}
@@ -113,8 +116,8 @@ const ReadingPage = (props: ReadingPageProps) => {
               />
             </Grid>
           </Hidden>
-          <Hidden smDown={menu === "milestones"}>
-            <Grid item xs={12} md={5}>
+          <Hidden xsDown={menu === "milestones"}>
+            <Grid item xs={12} sm={5}>
               <ReadingMembers
                 members={membership.list}
                 hostId={host.id}
@@ -125,11 +128,18 @@ const ReadingPage = (props: ReadingPageProps) => {
             </Grid>
           </Hidden>
         </Grid>
-        <Grid item xs={12} container justify="center">
-          <Button color="secondary" variant="contained" onClick={openDialog}>
-            Delete Reading
-          </Button>
-        </Grid>
+        {isOwner && (
+          <Grid item xs={12} container justify="center">
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={openDialog}
+              className={classes.deleteButton}
+            >
+              Delete Reading
+            </Button>
+          </Grid>
+        )}
       </Layout>
       <DeleteReadingDialog
         isOpen={isDialogOpen}
@@ -137,7 +147,7 @@ const ReadingPage = (props: ReadingPageProps) => {
         deleteReading={handleDelete}
         loading={isDeleting}
       />
-      <Hidden mdUp>
+      <Hidden smUp>
         <BottomNavigation
           value={menu}
           showLabels

@@ -4,10 +4,17 @@ import {
   Chip,
   CircularProgress,
   Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
+  Paper,
   Typography,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useRouter } from "next/router";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
-import LayoutComponent from "../../../components/General/LayoutComponent";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { ApiReadingMember } from "../../../types/api/apiTypes";
 
@@ -19,9 +26,21 @@ export type ReadingMembersProps = {
   membershipLoading: boolean;
 };
 
+const useStyles = makeStyles((theme) => ({
+  header: {
+    padding: theme.spacing(2),
+  },
+  list: {
+    marginTop: theme.spacing(3),
+    paddingLeft: 0,
+  },
+}));
+
 export default function ReadingMembers(props: ReadingMembersProps) {
+  const classes = useStyles();
   const { user, loading } = useBookClubUser();
   const triggerSnackbar = useSnackbarContext();
+  const router = useRouter();
 
   const {
     hostId,
@@ -49,6 +68,10 @@ export default function ReadingMembers(props: ReadingMembersProps) {
     }
   };
 
+  const handleClick = (id: string) => {
+    router.push(`/users/${id}`);
+  };
+
   const ParticipantButton = () => {
     let color: "primary" | "secondary";
     let label: "Join" | "Leave";
@@ -70,7 +93,7 @@ export default function ReadingMembers(props: ReadingMembersProps) {
     }
 
     return (
-      <Grid item xs={3}>
+      <Grid item>
         <Button
           variant="contained"
           color={color}
@@ -87,34 +110,35 @@ export default function ReadingMembers(props: ReadingMembersProps) {
 
   return (
     <>
-      <LayoutComponent {...rest}>
-        <Grid container justify="space-between">
-          <Grid item xs={isHost ? 12 : 8}>
+      <Paper>
+        <Grid container justify="space-between" className={classes.header}>
+          <Grid item>
             <Typography component="h2" variant="h5">
-              Participants
+              Members
             </Typography>
           </Grid>
           <ParticipantButton />
         </Grid>
-      </LayoutComponent>
-      {members &&
-        members.map((member) => (
-          <LayoutComponent {...rest} key={member.id}>
-            <Grid container>
-              <Grid item xs={2}>
-                <Avatar src={member.avatar} />
-              </Grid>
-              <Grid item xs={8}>
-                <Typography component="p" variant="h6">
-                  {member.name}
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                {hostId === member.id && <Chip label="Host" color="primary" />}
-              </Grid>
-            </Grid>
-          </LayoutComponent>
-        ))}
+
+        {members && (
+          <List className={classes.list}>
+            {members.map((member) => (
+              <ListItem button onClick={() => handleClick(member.id)}>
+                <ListItemAvatar>
+                  <Avatar src={member.avatar} />
+                </ListItemAvatar>
+                <ListItemText primary={member.name} />
+
+                {hostId === member.id && (
+                  <ListItemIcon>
+                    <Chip label="Host" color="primary" size="small" />
+                  </ListItemIcon>
+                )}
+              </ListItem>
+            ))}
+          </List>
+        )}
+      </Paper>
     </>
   );
 }

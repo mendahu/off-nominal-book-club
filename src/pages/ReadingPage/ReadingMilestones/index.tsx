@@ -99,9 +99,9 @@ export default function index(props: ReadingMilestonesProps) {
           {isHost && <AddButton />}
         </Grid>
 
-        <ul className={classes.list}>
-          {milestones &&
-            milestones.map((milestone) => (
+        {milestones && (
+          <ul className={classes.list}>
+            {milestones.map((milestone) => (
               <Grid
                 container
                 key={milestone.id}
@@ -110,9 +110,9 @@ export default function index(props: ReadingMilestonesProps) {
                 className={classes.milestone}
                 spacing={0}
               >
-                <Grid container item xs={10}>
-                  <Grid item xs={12} sm={8}>
-                    <Typography component="span" variant="h6">
+                <Grid container item xs={isHost ? 10 : 12}>
+                  <Grid item xs={12} md={8}>
+                    <Typography component="span" variant="body1">
                       {milestone.label}
                     </Typography>
                   </Grid>
@@ -131,7 +131,8 @@ export default function index(props: ReadingMilestonesProps) {
                 )}
               </Grid>
             ))}
-        </ul>
+          </ul>
+        )}
       </Paper>
 
       <ReadingMilestoneDialogue
