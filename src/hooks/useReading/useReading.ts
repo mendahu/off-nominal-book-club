@@ -157,6 +157,7 @@ export const useReading = (readingId: string) => {
           payload: {
             milestoneId: milestoneId,
             milestonePayload: {
+              id: milestoneId,
               label,
               date,
             },
