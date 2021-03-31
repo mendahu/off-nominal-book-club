@@ -109,6 +109,7 @@ const ReadingPage = (props: ReadingPageProps) => {
                 milestones={milestones.list}
                 hostId={host.id}
                 addMilestone={milestones.add}
+                editMilestone={milestones.edit}
                 removeMilestone={milestones.remove}
                 milestoneLoading={milestones.loading}
               />

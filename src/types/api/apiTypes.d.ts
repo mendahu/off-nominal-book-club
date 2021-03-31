@@ -75,6 +75,7 @@ export type ApiReadingMilestone = {
   id: string;
   label: string;
   date: string;
+  loading?: boolean;
 };
 
 export type ApiReadingBook = {

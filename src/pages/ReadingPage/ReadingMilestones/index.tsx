@@ -2,29 +2,29 @@ import {
   Button,
   CircularProgress,
   Grid,
-  IconButton,
   List,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
   Paper,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { format } from "date-fns";
 import { useState } from "react";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
 import { ApiReadingMilestone } from "../../../types/api/apiTypes";
 import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
-import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
-import EventIcon from "@material-ui/icons/Event";
+
+import ReadingMilestone from "./ReadingMilestone/ReadingMilestone";
+import { formatISO } from "date-fns";
 
 export type ReadingMilestonesProps = {
   milestones: ApiReadingMilestone[];
   hostId: string;
   addMilestone: (label: string, date: string) => Promise<void>;
   removeMilestone: (milestoneId: string) => Promise<void>;
+  editMilestone: (
+    milestoneId: string,
+    label: string,
+    date: string
+  ) => Promise<void>;
   milestoneLoading: boolean;
 };
 
@@ -37,17 +37,50 @@ const useStyles = makeStyles((theme) => ({
 export default function index(props: ReadingMilestonesProps) {
   const classes = useStyles();
   const { user, loading } = useBookClubUser();
+
   const [isOpen, setIsOpen] = useState(false);
+  const [mode, setMode] = useState("add");
+  const [date, setDate] = useState<Date | null>(new Date());
+  const [label, setLabel] = useState("");
+  const [milestoneId, setMilestoneId] = useState<null | string>(null);
 
   const {
     milestones,
     hostId,
     addMilestone,
+    editMilestone,
     removeMilestone,
     milestoneLoading,
   } = props;
 
   const isHost = user?.onbc_id === Number(hostId);
+
+  const handleEdit = (id: string, label: string, date: string) => {
+    setMode("edit");
+    setLabel(label);
+    setDate(date);
+    setMilestoneId(id);
+    setIsOpen(true);
+  };
+
+  const handleAdd = () => {
+    setIsOpen(false);
+    return addMilestone(label, formatISO(date))
+      .then(() => {
+        setDate(null);
+        setLabel("");
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
+
+  const toggleAddMode = () => {
+    setMode("add");
+    setIsOpen(true);
+    setLabel("");
+    setDate(new Date());
+  };
 
   const AddButton = () => {
     return (
@@ -55,7 +88,7 @@ export default function index(props: ReadingMilestonesProps) {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={toggleAddMode}
           startIcon={
             milestoneLoading && <CircularProgress color="inherit" size={20} />
           }
@@ -81,24 +114,15 @@ export default function index(props: ReadingMilestonesProps) {
         {milestones && (
           <List>
             {milestones.map((milestone) => (
-              <ListItem>
-                <ListItemIcon>
-                  <EventIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={milestone.label}
-                  secondary={format(new Date(milestone.date), "EEE, MMM do")}
-                />
-                {isHost && (
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <ReadingMilestoneIcon
-                        onClick={() => removeMilestone(milestone.id)}
-                      />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                )}
-              </ListItem>
+              <ReadingMilestone
+                id={milestone.id}
+                label={milestone.label}
+                date={milestone.date}
+                showMenu={isHost}
+                deleteMilestone={removeMilestone}
+                editMilestone={handleEdit}
+                loading={milestone.loading}
+              />
             ))}
           </List>
         )}
@@ -106,8 +130,14 @@ export default function index(props: ReadingMilestonesProps) {
 
       <ReadingMilestoneDialogue
         isOpen={isOpen}
+        label={label}
+        date={date}
+        setLabel={setLabel}
+        setDate={setDate}
         close={() => setIsOpen(false)}
-        addMilestone={addMilestone}
+        addMilestone={handleAdd}
+        editMilestone={() => editMilestone(milestoneId, label, date)}
+        mode={mode}
       />
     </>
   );

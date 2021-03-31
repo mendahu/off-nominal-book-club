@@ -7,39 +7,56 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { formatISO } from "date-fns";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { useState } from "react";
 import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
 
 export type ReadingMilestoneDialogueProps = {
   isOpen: boolean;
   close: () => void;
-  addMilestone: (label: string, date: string) => Promise<any>;
+  label: string;
+  setLabel: (label: string) => void;
+  date: string;
+  setDate: (date: string) => void;
+  addMilestone: () => Promise<any>;
+  editMilestone: () => Promise<void>;
+  mode: "add" | "edit";
 };
 
 export default function ReadingMilestoneDialogue(
   props: ReadingMilestoneDialogueProps
 ) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [milestoneLabel, setMilestoneLabel] = useState("");
+  const [labelError, setLabelError] = useState(false);
   const triggerSnackbar = useSnackbarContext();
 
   const handleAdd = () => {
+    if (props.label === "") {
+      return setLabelError(true);
+    }
+    setLabelError(false);
     props.close();
-    props
-      .addMilestone(milestoneLabel, formatISO(selectedDate))
-      .then(() => {
-        setSelectedDate(null);
-        setMilestoneLabel("");
-      })
-      .catch((err) => {
-        triggerSnackbar({
-          active: true,
-          variant: "error",
-          message: "Error creating milestone.",
-        });
+    props.addMilestone().catch((err) => {
+      triggerSnackbar({
+        active: true,
+        variant: "error",
+        message: "Error creating milestone.",
       });
+    });
+  };
+
+  const handleEdit = () => {
+    if (props.label === "") {
+      return setLabelError(true);
+    }
+    setLabelError(false);
+    props.close();
+    props.editMilestone().catch((err) => {
+      triggerSnackbar({
+        active: true,
+        variant: "error",
+        message: "Error editing milestone.",
+      });
+    });
   };
 
   return (
@@ -58,25 +75,34 @@ export default function ReadingMilestoneDialogue(
           the book.
         </DialogContentText>
         <TextField
+          error={labelError}
+          helperText={labelError && "Please enter a label"}
           autoFocus
           margin="dense"
           id="label"
           label="Label your milestone"
           type="text"
           fullWidth
-          onChange={(event) => setMilestoneLabel(event.target.value)}
-          value={milestoneLabel}
+          onChange={(event) => {
+            const newLabel = event.target.value;
+            if (newLabel !== "") {
+              setLabelError(false);
+            } else {
+              setLabelError(true);
+            }
+            props.setLabel(newLabel);
+          }}
+          value={props.label}
         />
 
-        <KeyboardDatePicker
-          disableToolbar
+        <KeyboardDateTimePicker
           variant="inline"
-          format="MM/dd/yyyy"
+          format="MM/dd/yyyy HH:mm"
           margin="normal"
           id="date-picker-inline"
           label="Milestone date"
-          value={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
+          value={props.date}
+          onChange={(date) => props.setDate(date)}
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}
@@ -86,8 +112,12 @@ export default function ReadingMilestoneDialogue(
         <Button onClick={props.close} color="default" variant="contained">
           Cancel
         </Button>
-        <Button onClick={handleAdd} color="primary" variant="contained">
-          Add Milestone
+        <Button
+          onClick={props.mode === "edit" ? handleEdit : handleAdd}
+          color="primary"
+          variant="contained"
+        >
+          {props.mode === "edit" ? "Update Milestone" : "Add Milestone"}
         </Button>
       </DialogActions>
     </Dialog>
