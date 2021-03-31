@@ -15,7 +15,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useBookClubUser } from "../../../../lib/bookClubUser";
-import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 import { ApiReadingMilestone } from "../../../types/api/apiTypes";
 import ReadingMilestoneDialogue from "./ReadingMilestoneDialogue/ReadingMilestoneDialogue";
 import ReadingMilestoneIcon from "./ReadingMilestoneIcon/ReadingMilestoneIcon";
@@ -39,7 +38,6 @@ export default function index(props: ReadingMilestonesProps) {
   const classes = useStyles();
   const { user, loading } = useBookClubUser();
   const [isOpen, setIsOpen] = useState(false);
-  const triggerSnackbar = useSnackbarContext();
 
   const {
     milestones,
@@ -66,17 +64,6 @@ export default function index(props: ReadingMilestonesProps) {
         </Button>
       </Grid>
     );
-  };
-
-  const handleRemove = (id) => {
-    return removeMilestone(id).catch((err) => {
-      triggerSnackbar({
-        active: true,
-        message: "Error Deleteing your Milestone",
-        severity: "error",
-      });
-      throw err;
-    });
   };
 
   return (
@@ -106,7 +93,7 @@ export default function index(props: ReadingMilestonesProps) {
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
                       <ReadingMilestoneIcon
-                        onClick={() => handleRemove(milestone.id)}
+                        onClick={() => removeMilestone(milestone.id)}
                       />
                     </IconButton>
                   </ListItemSecondaryAction>

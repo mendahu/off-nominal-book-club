@@ -1,6 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { useState } from "react";
+import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
 
 export type ReadingMilestoneIconProps = {
   onClick: () => Promise<void>;
@@ -8,13 +9,17 @@ export type ReadingMilestoneIconProps = {
 
 export default function ReadingMilestoneIcon(props: ReadingMilestoneIconProps) {
   const [loading, setLoading] = useState(false);
+  const triggerSnackbar = useSnackbarContext();
 
   const clickHandler = () => {
     setLoading(true);
-    return props.onClick().catch((err) => {
+    props.onClick().catch((err) => {
       setLoading(false);
-      console.log("yerp");
-      throw err;
+      triggerSnackbar({
+        active: true,
+        message: "Error Deleteing your Milestone",
+        severity: "error",
+      });
     });
   };
 
