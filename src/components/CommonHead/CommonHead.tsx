@@ -1,8 +1,47 @@
 import Head from "next/head";
 
-export type CommonHeadProps = {};
+export type CommonHeadProps = {
+  title?: string;
+  desc?: string;
+  url?: string;
+  ogImage?: {
+    url: string;
+    alt: string;
+    height: string;
+    width: string;
+    contentType: string;
+  };
+  twitterImage?: {
+    url: string;
+    alt: string;
+  };
+};
+
+const defaultProps: CommonHeadProps = {
+  title: "The Space Book Club",
+  desc:
+    "Find the best recommendations for space-themed books, lovingly curated by the patrons of Jake Robins.",
+  url: "https://books.offnominal.space",
+  twitterImage: {
+    url: "https://books.offnominal.space/onbc_social.png",
+    alt: "The Space Book Club Logo with space-themed book icons",
+  },
+  ogImage: {
+    url: "https://books.offnominal.space/onbc_social.png",
+    alt: "The Space Book Club Logo with space-themed book icons",
+    height: "1147",
+    width: "2000",
+    contentType: "image/png",
+  },
+};
 
 export default function CommonHead(props: CommonHeadProps) {
+  const title = props.title || defaultProps.title;
+  const desc = props.desc || defaultProps.desc;
+  const url = props.url || defaultProps.url;
+  const twitterImage = props.twitterImage || defaultProps.twitterImage;
+  const ogImage = props.ogImage || defaultProps.ogImage;
+
   return (
     <Head>
       <meta
@@ -53,34 +92,18 @@ export default function CommonHead(props: CommonHeadProps) {
 
       <meta name="msapplication-config" content="/favicons/browserconfig.xml" />
 
-      <meta
-        property="og:url"
-        content="https://books.offnominal.space"
-        key="url"
-      />
+      <meta property="og:url" content={url} key="url" />
       <meta property="og:type" content="website" key="type" />
-      <meta
-        property="og:title"
-        content="The Off-Nominal Book Club"
-        key="title"
-      />
-      <meta
-        property="og:description"
-        content="Find the best recommendations for space-themed books, built by the space-loving Off-Nominal community."
-        key="description"
-      />
-      <meta
-        property="og:image"
-        content="https://books.offnominal.space/onbc_social.png"
-        key="image"
-      />
+      <meta property="og:title" content={title} key="title" />
+      <meta property="og:description" content={desc} key="description" />
+      <meta property="og:image" content={ogImage.url} key="og_image" />
 
       <meta
         name="twitter:card"
         content="summary_large_image"
         key="twitter_card"
       />
-      <meta name="twitter:site" content="@offnom" key="site_handle" />
+      <meta name="twitter:site" content="@JakeOnOrbit" key="site_handle" />
       <meta
         name="twitter:creator"
         content="@JakeOnOrbit"
@@ -88,26 +111,22 @@ export default function CommonHead(props: CommonHeadProps) {
       />
       <meta
         name="twitter:description"
-        content="Find the best recommendations for space-themed books, built by the space-loving Off-Nominal community."
+        content={desc}
         key="twitter_description"
       />
-      <meta
-        name="twitter:title"
-        content="The Off-Nominal Book Club"
-        key="twitter_title"
-      />
+      <meta name="twitter:title" content={title} key="twitter_title" />
       <meta
         name="twitter:image"
-        content="https://books.offnominal.space/onbc_social.png"
+        content={twitterImage.url}
         key="twitter_image"
       />
       <meta
         name="twitter:image:alt"
-        content="Off-Nominal Book Club Logo with space-themed book icons"
+        content={twitterImage.alt}
         key="twitter_image_alt"
       />
 
-      <title>The Off-Nominal Book Club</title>
+      <title>{title}</title>
     </Head>
   );
 }
