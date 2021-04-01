@@ -1,5 +1,7 @@
 import Head from "next/head";
 
+const BASEURL = "https://books.offnominal.space";
+
 export type CommonHeadProps = {
   title?: string;
   desc?: string;
@@ -21,13 +23,13 @@ const defaultProps: CommonHeadProps = {
   title: "The Space Book Club",
   desc:
     "Find the best recommendations for space-themed books, lovingly curated by the patrons of Jake Robins.",
-  url: "https://books.offnominal.space",
+  url: BASEURL,
   twitterImage: {
-    url: "https://books.offnominal.space/onbc_social.png",
+    url: `${BASEURL}/onbc_social.png`,
     alt: "The Space Book Club Logo with space-themed book icons",
   },
   ogImage: {
-    url: "https://books.offnominal.space/onbc_social.png",
+    url: `${BASEURL}/onbc_social.png`,
     alt: "The Space Book Club Logo with space-themed book icons",
     height: "1147",
     width: "2000",
