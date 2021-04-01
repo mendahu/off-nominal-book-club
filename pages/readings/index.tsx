@@ -8,6 +8,7 @@ import ReadingListItem from "../../src/pages/ReadingsPage/ReadingListItem/Readin
 import generateAuthorString from "../../src/helpers/generateAuthorString";
 import { ApiReading } from "../../src/types/api/apiTypes";
 import Message from "../../src/components/Utility/Message";
+import CommonHead from "../../src/components/CommonHead/CommonHead";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -73,8 +74,15 @@ const ReadingsPage = () => {
     );
   };
 
+  const pageUrl = `https://books.offnominal.space/readings/`;
+
   return (
     <Layout>
+      <CommonHead
+        title={`Readings - The Space Book Club`}
+        desc={`Read a space book with the Space Book Club community!`}
+        url={pageUrl}
+      />
       <Grid container spacing={2} className={classes.container}>
         <LayoutComponent xs={12}>
           <Typography component="h1" variant="h4">

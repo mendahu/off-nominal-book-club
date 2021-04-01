@@ -106,7 +106,7 @@ const ReadingPage = (props: ReadingPageProps) => {
   return (
     <>
       <CommonHead
-        title={`Reading of ${book.title}`}
+        title={`Reading of ${book.title} - The Space Book Club`}
         desc={`Read ${book.title} with the Space Book Club community!`}
         url={readingUrl}
         ogImage={{
