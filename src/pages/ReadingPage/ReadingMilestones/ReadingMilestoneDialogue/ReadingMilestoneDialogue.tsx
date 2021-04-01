@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useSnackbarContext } from "../../../../contexts/SnackbarContext";
 
 export type ReadingMilestoneDialogueProps = {
@@ -16,8 +16,8 @@ export type ReadingMilestoneDialogueProps = {
   close: () => void;
   label: string;
   setLabel: (label: string) => void;
-  date: string;
-  setDate: (date: string) => void;
+  date: Date;
+  setDate: Dispatch<SetStateAction<Date>>;
   addMilestone: () => Promise<any>;
   editMilestone: () => Promise<void>;
   mode: "add" | "edit";

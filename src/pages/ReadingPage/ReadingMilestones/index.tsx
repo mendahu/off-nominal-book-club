@@ -39,7 +39,7 @@ export default function index(props: ReadingMilestonesProps) {
   const { user, loading } = useBookClubUser();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState("add");
+  const [mode, setMode] = useState<"add" | "edit">("add");
   const [date, setDate] = useState<Date | null>(new Date());
   const [label, setLabel] = useState("");
   const [milestoneId, setMilestoneId] = useState<null | string>(null);
@@ -55,7 +55,7 @@ export default function index(props: ReadingMilestonesProps) {
 
   const isHost = user?.onbc_id === Number(hostId);
 
-  const handleEdit = (id: string, label: string, date: string) => {
+  const handleEdit = (id: string, label: string, date: Date) => {
     setMode("edit");
     setLabel(label);
     setDate(date);
@@ -136,7 +136,7 @@ export default function index(props: ReadingMilestonesProps) {
         setDate={setDate}
         close={() => setIsOpen(false)}
         addMilestone={handleAdd}
-        editMilestone={() => editMilestone(milestoneId, label, date)}
+        editMilestone={() => editMilestone(milestoneId, label, formatISO(date))}
         mode={mode}
       />
     </>

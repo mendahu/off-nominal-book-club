@@ -20,7 +20,7 @@ export type ReadingMilestoneProps = {
   date: string;
   showMenu: boolean;
   deleteMilestone: (id: string) => Promise<void>;
-  editMilestone: (id: string, label: string, date: string) => void;
+  editMilestone: (id: string, label: string, date: Date) => void;
   loading: boolean;
 };
 
@@ -30,7 +30,7 @@ export default function ReadingMilestone(props: ReadingMilestoneProps) {
 
   const handleEdit = () => {
     setAnchorEl(null);
-    props.editMilestone(props.id, props.label, props.date);
+    props.editMilestone(props.id, props.label, new Date(props.date));
   };
 
   const handleDelete = () => {
@@ -61,6 +61,7 @@ export default function ReadingMilestone(props: ReadingMilestoneProps) {
                 <CircularProgress color="inherit" size={20} />
               ) : (
                 <MoreVertIcon
+                  component="svg"
                   aria-controls="edit-menu"
                   aria-haspopup="true"
                   onClick={(event) => setAnchorEl(event.currentTarget)}
