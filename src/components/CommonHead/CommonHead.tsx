@@ -7,8 +7,8 @@ export type CommonHeadProps = {
   ogImage?: {
     url: string;
     alt: string;
-    height: string;
-    width: string;
+    height?: string;
+    width?: string;
     contentType: string;
   };
   twitterImage?: {

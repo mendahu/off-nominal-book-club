@@ -10,7 +10,6 @@ import {
 } from "../../src/pages/BookPage/components";
 import userProfileFetcher from "../../src/helpers/userProfileFetcher";
 import { Grid } from "@material-ui/core";
-import Head from "next/head";
 import Message from "../../src/components/Utility/Message";
 import { buildInitialTagState } from "../../src/reducers/bookTagReducer/bookTagReducer";
 import { UserData, BookData } from "../../src/types/common";
@@ -21,6 +20,7 @@ import { fetchUser } from "../../db/queries/users";
 import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import getAuth0USerSub from "../../src/helpers/auth0/auth0Sub";
+import CommonHead from "../../src/components/CommonHead/CommonHead";
 
 export const generateMetaData = (bookData, userData): MetaFlagData => {
   return {
@@ -71,37 +71,20 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
     const thumbnail = generateBookThumbnailUrl(book.google_id, 1);
     return (
       <Layout>
-        <Head>
-          <meta property="og:url" content={bookUrl} key="url" />
-          <meta
-            property="og:title"
-            content={book.title + " - The Off-Nominal Book Club"}
-            key="title"
-          />
-          <meta
-            property="og:description"
-            content={book.description}
-            key="description"
-          />
-          <meta property="og:image" content={thumbnail} key="image" />
-
-          <meta
-            name="twitter:description"
-            content={book.description.slice(0, 196) + "..."}
-            key="twitter_description"
-          />
-          <meta
-            name="twitter:title"
-            content={book.title + " - The Off-Nominal Book Club"}
-            key="twitter_title"
-          />
-          <meta name="twitter:image" content={thumbnail} key="twitter_image" />
-          <meta
-            name="twitter:image:alt"
-            content={"Book cover for " + book.title}
-            key="twitter_image_alt"
-          />
-        </Head>
+        <CommonHead
+          title={book.title + " - The Space Book Club"}
+          desc={book.description.slice(0, 196) + "..."}
+          url={bookUrl}
+          ogImage={{
+            url: thumbnail,
+            alt: book.title,
+            contentType: "image/jpeg",
+          }}
+          twitterImage={{
+            url: thumbnail,
+            alt: book.title,
+          }}
+        />
         <Grid container spacing={2}>
           <BookTitleBar
             bookId={book.id}
