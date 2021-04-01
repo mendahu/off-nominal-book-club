@@ -56,7 +56,15 @@ export default function ReadingMilestone(props: ReadingMilestoneProps) {
         />
         {props.showMenu && (
           <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="edit">
+            <IconButton
+              edge="end"
+              aria-label="edit"
+              onClick={
+                props.loading
+                  ? null
+                  : (event) => setAnchorEl(event.currentTarget)
+              }
+            >
               {props.loading ? (
                 <CircularProgress color="inherit" size={20} />
               ) : (
@@ -64,7 +72,6 @@ export default function ReadingMilestone(props: ReadingMilestoneProps) {
                   component="svg"
                   aria-controls="edit-menu"
                   aria-haspopup="true"
-                  onClick={(event) => setAnchorEl(event.currentTarget)}
                 />
               )}
             </IconButton>
