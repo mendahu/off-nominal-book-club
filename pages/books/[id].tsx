@@ -68,7 +68,7 @@ const BookPage = ({ slug, book, userData }: BookPageProps) => {
       </Layout>
     );
   } else {
-    const thumbnail = generateBookThumbnailUrl(book.google_id, 1);
+    const thumbnail = generateBookThumbnailUrl(book.google_id, 2);
     return (
       <Layout>
         <CommonHead

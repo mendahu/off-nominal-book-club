@@ -22,7 +22,7 @@ export type CommonHeadProps = {
 const defaultProps: CommonHeadProps = {
   title: "The Space Book Club",
   desc:
-    "Find the best recommendations for space-themed books, lovingly curated by the patrons of Jake Robins.",
+    "Find the best recommendations for space-themed books, lovingly curated by a passionate space community.",
   url: BASEURL,
   twitterImage: {
     url: `${BASEURL}/onbc_social.png`,
