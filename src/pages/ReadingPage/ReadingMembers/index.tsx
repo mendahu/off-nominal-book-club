@@ -119,7 +119,11 @@ export default function ReadingMembers(props: ReadingMembersProps) {
         {members && (
           <List>
             {members.map((member) => (
-              <ListItem button onClick={() => handleClick(member.id)}>
+              <ListItem
+                button
+                onClick={() => handleClick(member.id)}
+                key={member.id}
+              >
                 <ListItemAvatar>
                   <Avatar src={member.avatar} />
                 </ListItemAvatar>

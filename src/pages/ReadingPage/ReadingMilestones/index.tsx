@@ -115,6 +115,7 @@ export default function index(props: ReadingMilestonesProps) {
           <List>
             {milestones.map((milestone) => (
               <ReadingMilestone
+                key={milestone.id}
                 id={milestone.id}
                 label={milestone.label}
                 date={milestone.date}
