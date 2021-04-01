@@ -18,6 +18,8 @@ import { useState } from "react";
 import { useBookClubUser } from "../../lib/bookClubUser";
 import { useSnackbarContext } from "../../src/contexts/SnackbarContext";
 import { useDeleteReading } from "../../src/pages/ReadingPage/useDeleteReading/useDeleteReading";
+import CommonHead from "../../src/components/CommonHead/CommonHead";
+import { generateBookThumbnailUrl } from "../../src/helpers/generateBookThumbnailUrl";
 
 export type ReadingPageProps = {
   readingId: string;
@@ -98,8 +100,25 @@ const ReadingPage = (props: ReadingPageProps) => {
     );
   }
 
+  const readingUrl = `https://books.offnominal.space/readings/${props.readingId}`;
+  const thumbUrl = generateBookThumbnailUrl(book.google_id, 2);
+
   return (
     <>
+      <CommonHead
+        title={`Reading of ${book.title} - The Space Book Club`}
+        desc={`Read ${book.title} with the Space Book Club community!`}
+        url={readingUrl}
+        ogImage={{
+          url: thumbUrl,
+          alt: book.title,
+          contentType: "image/jpeg",
+        }}
+        twitterImage={{
+          url: thumbUrl,
+          alt: book.title,
+        }}
+      />
       <Layout>
         <ReadingHeader book={book} host={host} />
         <Grid container className={classes.root} spacing={2}>
