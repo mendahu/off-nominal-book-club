@@ -23,7 +23,7 @@ import { useSnackbarContext } from "../../../contexts/SnackbarContext";
 
 const useStyles = makeStyles((theme: Theme) => ({
   mediaContainer: {
-    display: 'inline-flex'
+    display: "inline-flex",
   },
   root: {
     marginTop: theme.spacing(2),
@@ -77,7 +77,12 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
 
-  const [description, setDescription] = useState(props.description.text);
+  const [serverDescription, setServerDescription] = useState(
+    props.description.text
+  );
+  const [descriptionField, setDescriptionField] = useState(
+    serverDescription || "No description for this reading."
+  );
   const { book, host, updateReading, isOwner } = props;
   const authorString = generateAuthorString(book.authors);
   const triggerSnackbar = useSnackbarContext();
@@ -87,10 +92,15 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
   };
 
   const handleEdit = () => {
-    if (editMode && description !== props.description.text) {
-      updateReading({ description })
+    if (
+      editMode &&
+      descriptionField !== serverDescription &&
+      descriptionField.length
+    ) {
+      updateReading({ description: descriptionField })
         .then((res) => {
           setEditMode(false);
+          setServerDescription(descriptionField);
         })
         .catch((err) => {
           triggerSnackbar({
@@ -98,9 +108,11 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
             variant: "error",
             message: "Error updating the Reading description.",
           });
+          setDescriptionField(serverDescription);
         });
     } else {
       setEditMode(!editMode);
+      setDescriptionField(serverDescription);
     }
   };
 
@@ -131,10 +143,10 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
                 id="description"
                 label="Description"
                 multiline
-                defaultValue={description}
-                value={description}
+                defaultValue={descriptionField}
+                value={descriptionField}
                 fullWidth
-                onChange={(event) => setDescription(event.target.value)}
+                onChange={(event) => setDescriptionField(event.target.value)}
               />
               <Button
                 variant="contained"
@@ -152,7 +164,7 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
             </>
           ) : (
             <Typography component="p" variant="body2">
-              {description}
+              {descriptionField}
               {isOwner && <Link onClick={handleEdit}> [edit]</Link>}
             </Typography>
           )}
