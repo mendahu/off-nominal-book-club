@@ -71,6 +71,15 @@ export const deleteReading = (readingId: string) => {
   return knex<string, string>("readings").where("id", readingId).del<string>();
 };
 
+export const updateReading = (
+  readingId: string,
+  readingOptions: { description: string }
+) => {
+  return knex<{ description: string }, string>("readings")
+    .where("id", readingId)
+    .update(readingOptions);
+};
+
 export const validateReadingOwner = (readingId: string, userId: number) => {
   return knex("readings").where({
     id: readingId,
@@ -99,6 +108,7 @@ export const fetchReading = (readingId: string) => {
     `
     SELECT 
     readings.id, 
+    readings.description,
     ( SELECT row_to_json(books) 
       FROM (
         SELECT 
@@ -152,6 +162,7 @@ export const fetchAllReadings = () => {
     `
       SELECT 
         readings.id,
+        readings.description,
         (
           SELECT row_to_json(users)
           FROM (

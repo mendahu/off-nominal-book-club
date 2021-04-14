@@ -17,6 +17,7 @@ export const useReading = (readingId: string) => {
   const [error, setError] = useState(false);
   const [membershipLoading, setMembershipLoading] = useState(false);
   const [milestoneLoading, setMilestoneLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -34,6 +35,25 @@ export const useReading = (readingId: string) => {
         setLoadingReading(false);
       });
   }, []);
+
+  const updateReading = async (body) => {
+    setUpdateLoading(true);
+    const { description } = body;
+    return axios
+      .patch(`/api/readdings/${readingId}/update`, body)
+      .then((res) => {
+        return dispatch({
+          type: ReadingsActionType.UPDATE_READING,
+          payload: { description },
+        });
+      })
+      .catch((err) => {
+        throw err;
+      })
+      .finally(() => {
+        setUpdateLoading(false);
+      });
+  };
 
   const deleteReading = async () => {
     return axios
@@ -176,13 +196,18 @@ export const useReading = (readingId: string) => {
       .finally(() => {});
   };
 
-  const { book, host, members, milestones } = state;
+  const { book, host, members, milestones, description } = state;
 
   return {
     loadingReading,
     error,
     book,
     host,
+    description: {
+      text: description,
+      loading: updateLoading,
+    },
+    updateReading,
     membership: {
       list: members,
       join: joinReading,
