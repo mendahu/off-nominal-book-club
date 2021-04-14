@@ -72,10 +72,10 @@ export const deleteReading = (readingId: string) => {
 };
 
 export const updateReading = (
-  readingId: { description: string },
-  readingOptions: string
+  readingId: string,
+  readingOptions: { description: string }
 ) => {
-  return knex<string, { description: string }>("readings")
+  return knex<{ description: string }, string>("readings")
     .where("id", readingId)
     .update(readingOptions);
 };
