@@ -20,6 +20,8 @@ import { generateBookThumbnailUrl } from "../../../helpers/generateBookThumbnail
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSnackbarContext } from "../../../contexts/SnackbarContext";
+import { useUpdateDescription } from "./useUpdateDescription";
+import { update } from "../../../../db/knex";
 
 const useStyles = makeStyles((theme: Theme) => ({
   mediaContainer: {
@@ -78,14 +80,12 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
   const triggerSnackbar = useSnackbarContext();
 
   const { book, host, updateReading, isOwner } = props;
-
-  const [editMode, setEditMode] = useState(false);
-  const [serverDescription, setServerDescription] = useState(
-    props.description.text
-  );
-  const [descriptionField, setDescriptionField] = useState(
-    serverDescription || "No description for this reading."
-  );
+  const {
+    editModeActive,
+    description,
+    setDescription,
+    update,
+  } = useUpdateDescription(props.description.text, updateReading);
 
   const authorString = generateAuthorString(book.authors);
 
@@ -94,28 +94,13 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
   };
 
   const handleEdit = () => {
-    if (
-      editMode &&
-      descriptionField !== serverDescription &&
-      descriptionField.length
-    ) {
-      updateReading({ description: descriptionField })
-        .then((res) => {
-          setEditMode(false);
-          setServerDescription(descriptionField);
-        })
-        .catch((err) => {
-          triggerSnackbar({
-            active: true,
-            variant: "error",
-            message: "Error updating the Reading description.",
-          });
-          setDescriptionField(serverDescription);
-        });
-    } else {
-      setEditMode(!editMode);
-      setDescriptionField(serverDescription);
-    }
+    update().catch((err) => {
+      triggerSnackbar({
+        active: true,
+        variant: "error",
+        message: "Error updating the Reading description.",
+      });
+    });
   };
 
   return (
@@ -139,16 +124,16 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
           <Typography component="p" variant="subtitle1" paragraph>
             by {authorString}
           </Typography>
-          {editMode ? (
+          {editModeActive ? (
             <>
               <TextField
                 id="description"
                 label="Description"
                 multiline
-                defaultValue={descriptionField}
-                value={descriptionField}
+                defaultValue={description}
+                value={description}
                 fullWidth
-                onChange={(event) => setDescriptionField(event.target.value)}
+                onChange={setDescription}
               />
               <Button
                 variant="contained"
@@ -166,7 +151,7 @@ export default function ReadingHeader(props: ReadingHeaderProps) {
             </>
           ) : (
             <Typography component="p" variant="body2">
-              {descriptionField}
+              {description}
               {isOwner && <Link onClick={handleEdit}> [edit]</Link>}
             </Typography>
           )}

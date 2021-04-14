@@ -40,7 +40,7 @@ export const useReading = (readingId: string) => {
     setUpdateLoading(true);
     const { description } = body;
     return axios
-      .patch(`/api/readings/${readingId}/update`, body)
+      .patch(`/api/readdings/${readingId}/update`, body)
       .then((res) => {
         return dispatch({
           type: ReadingsActionType.UPDATE_READING,
