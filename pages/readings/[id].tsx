@@ -47,6 +47,8 @@ const ReadingPage = (props: ReadingPageProps) => {
     error,
     book,
     host,
+    description,
+    updateReading,
     membership,
     milestones,
     deleteReading,
@@ -120,7 +122,13 @@ const ReadingPage = (props: ReadingPageProps) => {
         }}
       />
       <Layout>
-        <ReadingHeader book={book} host={host} />
+        <ReadingHeader
+          book={book}
+          host={host}
+          description={description}
+          updateReading={updateReading}
+          isOwner={isOwner}
+        />
         <Grid container className={classes.root} spacing={2}>
           <Hidden xsDown={menu === "members"}>
             <Grid item xs={12} sm={6} md={7}>

@@ -93,6 +93,7 @@ export type ApiReadingHost = {
 
 export type ApiReading = {
   id: string;
+  description: string;
   book: ApiReadingBook;
   host: ApiReadingHost;
   members?: ApiReadingMember[];

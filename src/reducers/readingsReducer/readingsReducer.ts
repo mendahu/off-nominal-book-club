@@ -14,11 +14,13 @@ export enum ReadingsActionType {
   UPDATE_MILESTONE = "UPDATE_MILESTONE",
   LEAVE_READING = "LEAVE_READING",
   JOIN_READING = "JOIN_READING",
+  UPDATE_READING = "UPDATE_READING",
 }
 
 export type ReadingsAction = {
   type: ReadingsActionType;
   payload: {
+    description?: string;
     state?: ApiReading;
     milestonePayload?: ApiReadingMilestone;
     joinPayload?: ApiReadingMember;
@@ -30,6 +32,7 @@ export type ReadingsAction = {
 export const buildDefaultReadingsState = (id: string) => {
   const defaultState: ApiReading = {
     id,
+    description: "",
     host: {
       id: null,
       name: null,
@@ -129,6 +132,9 @@ export const readingsReducer = (
       const newMembers = [...state.members];
       newMembers.push(action.payload.joinPayload);
       return { ...state, members: newMembers };
+    }
+    case ReadingsActionType.UPDATE_READING: {
+      return { ...state, description: action.payload.description };
     }
     default:
       return state;
