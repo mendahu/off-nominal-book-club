@@ -75,17 +75,19 @@ export type ReadingHeaderProps = {
 export default function ReadingHeader(props: ReadingHeaderProps) {
   const classes = useStyles();
   const router = useRouter();
-  const [editMode, setEditMode] = useState(false);
+  const triggerSnackbar = useSnackbarContext();
 
+  const { book, host, updateReading, isOwner } = props;
+
+  const [editMode, setEditMode] = useState(false);
   const [serverDescription, setServerDescription] = useState(
     props.description.text
   );
   const [descriptionField, setDescriptionField] = useState(
     serverDescription || "No description for this reading."
   );
-  const { book, host, updateReading, isOwner } = props;
+
   const authorString = generateAuthorString(book.authors);
-  const triggerSnackbar = useSnackbarContext();
 
   const handleClick = () => {
     router.push(`/books/${urlGenerator(book.id, authorString, book.title)}`);
